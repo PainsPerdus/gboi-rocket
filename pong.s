@@ -21,6 +21,7 @@ SLOT 1 $4000
 /*$C000 is the start of the RAM*/
 .ENUM $C000 ;Declare variables
 PaddleY DB //The paddle Y position
+Paddle2Y DB //The second paddle Y position
 BallX DB //The ball X position
 BallY DB //The ball Y position
 SpeedX DB //The ball X speed
@@ -114,7 +115,7 @@ ldh ($43),a ;($FF42)=A
 //The 4 paddle sprite are all Tile 1, but Y position in incremented by 8 each times
 ld hl,$FE00 ;HL=$FE00
 ld b,4 ;B=4
-xor a ;A=0 //Y Position (minus 16)
+ld a,$F ;A=16 //Y Position (minus 16)
 ldspr: ;LOOP : for(b=4; b>0; b--)
 ld (hl),a ;(HL)=A (OAM Sprite Y) //Set Y position
 add 8 ;A=A+8 //Next Y position
@@ -128,6 +129,7 @@ inc l ;Increments L
 dec b ;Decrements B
 jr nz,ldspr ;Jump to ldspr if B not 0
 
+
 //Then we prepare the ball sprite
 ld (hl),$80 ;(HL)=$80 (OAM Sprite Y) //Ball starts at Y=$80-16
 inc l ;Increments L
@@ -137,16 +139,35 @@ ld (hl),$02 ;(HL)=2 (OAM sprite tile
 inc l ;Increments L
 ld (hl),$00 ;(HL)=0 (OAM sprite attribut)
 
+//Prepare the second paddle's sprite (same but on X=144 (160-8)
+inc l
+ld b,4 ;B=4
+ld a,$F ;A=16 //Y Position (minus 16)
+ldspr2: ;LOOP : for(b=4; b>0; b--)
+ld (hl),a ;(HL)=A (OAM Sprite Y) //Set Y position
+add 8 ;A=A+8 //Next Y position
+inc l ;Increments L (we cannot use hdi because we're writing in the OAM)
+ld (hl),152 ;(HL)=$152 (OAM sprite X) //Set X position to 152 
+inc l ;Increments L
+ld (hl),$01 ;(HL)=1 (OAM sprite tile) //We use tile 1
+inc l ;Increments L
+ld (hl),%00100000 ;(HL)=0 (OAM sprite attribut) //Object Above BG, X flipped, number 0 palette
+inc l ;Increments L
+dec b ;Decrements B
+jr nz,ldspr2 ;Jump to ldspr if B not 0
+
+
 //Init variables
 //Paddle starts at $20 (32 px) (top to bottom)
 //Ball starts at X = 80$, Y=80$
 //Speeds are all positive (going diagonally to bottom right)
 ld a,$20
 ld (PaddleY),a
+ld (Paddle2Y),a
 ld a,$80
 ld (BallX),a
 ld (BallY),a
-ld a,2
+ld a,1 //Start at slow speed (diagonally bottom right)
 ld (SpeedX),a
 ld (SpeedY),a
 
@@ -236,6 +257,53 @@ ld hl,$FE0C
 add $8 ;8 pixels lower
 ld (hl),a
 
+//Same for paddle 2
+//DOWN (RIGHT)
+ldh a,($00) ;B=($FF00) ;Read key state (pressed key = 0, unpressed = 1)
+ld b,a ;B=A
+bit $0,b ;test bit 0 of B
+jr nz,nol ;jump to nol if B not 0 //Jumps if RIGHT unpressed
+//We lower the paddle by 2
+ld a,(Paddle2Y) 
+inc a
+inc a
+ld (Paddle2Y),a
+//Check if the paddle off screen
+cp 144+16-32 ;Low Screen Limit + 16 Hardware offset - sprite size
+jr c,nol ;Jump to nol if carry (so if a<144+16-32) //Jump unless paddle too far down
+ld a,144+16-32 //Set paddle Y to down screen limit
+ld (Paddle2Y),a
+nol:
+//UP (LEFT)
+bit $1,b ;test bit 1 of B
+jr nz,nor ;jump to nor if B not 0 //Jumps if LEFT unpressed
+//We raise  the paddle by 2
+ld a,(Paddle2Y) 
+dec a
+dec a
+ld (Paddle2Y),a
+//Check if the paddle off screen
+cp 16 ;High screen limit (0) + Hardware 16 offset
+jr nc,nor ;Jump to nor if not carry (a>=16) //Jump unless paddle too far up
+ld a,16 //Set paddle Y to up screen limit
+ld (Paddle2Y),a
+nor:
+
+//Update the paddle's sprite position in OAM
+ld hl,$FE14 ;OAM sprite 4 Y
+ld a,(Paddle2Y)
+ld (hl),a
+ld hl,$FE18 ;OAM sprite 5 Y
+add $8 ;8 pixels lower
+ld (hl),a
+ld hl,$FE1C ;OAM sprite 6 Y
+add $8 ;8 pixels lower
+ld (hl),a
+ld hl,$FE20 ;OAM sprite 7 Y
+add $8 ;8 pixels lower
+ld (hl),a
+
+
 
 //Update ball position
 /* On X */
@@ -246,7 +314,9 @@ add (hl) ;A=(BallX)+SpeedX
 cp 160 ;border = 160+8-ball size (8)
 jr c,nocxr ;Jump if BallX < 160 no right side collision
 call lowbeep ;Collision, play sound
-ld a,$FE ;Ball speed X to -2
+ld a,(SpeedX) //Invert ball X speed (Speed X = - Speed X)
+cpl ;two complement (A = A xor $FF)
+inc A ;because -A = two complement of A + 1
 ld (SpeedX),a
 ld a,160 ;Place back the ball at the border in case it overshooted
 nocxr:
@@ -254,7 +324,9 @@ nocxr:
 cp 2 ;left border + max speed //This is weird, shouldn't we do cp 8 (left border + offset)?
 jr nc,nocxl ;BallX > 2 : no left border collision
 call lowbeep ;Collision, play sound
-ld a,2 ;Ball speed X to 2
+ld a,(SpeedX) //Invert ball X speed
+cpl
+inc A
 ld (SpeedX),a
 ld a,8 ;Reset ball position to left screen edge (border at 0+8)
 nocxl:
@@ -268,7 +340,9 @@ add (hl)
 cp 144+8 ;bottom border = 144-ball height(8) + 16 (hardware shift)
 jr c,nocyr ;BallY < 152 : no collision
 call lowbeep ;collision : play sound
-ld a,$FE ;SpeedX = -2
+ld a,(SpeedY) ;Invert ball Y speed
+cpl
+inc A
 ld (SpeedY),a
 ld a,144+8 ;Put back the ball at the border
 nocyr:
@@ -276,14 +350,16 @@ nocyr:
 cp 16 ;top border (0 + 16)
 jr nc,nocyl ;BallY > 16, no top collision
 call lowbeep ;Collision, play sound
-ld a,2 ;SpeedY = 2
+ld a,(SpeedY) ;Invert ball Y speed 
+cpl
+inc A
 ld (SpeedY),a
 ld a,8+8 ;16? Put back the ball at the border
 nocyl:
 //Update ball position according to collisions
 ld (hl),a ;fix Y pos
 
-//Paddle Collisions
+//Paddle Collisions first paddle
 //We check if the ball if between 10 and 16 (in front of the paddle)
 ld a,(BallX)
 cp 8+16 ;HW offset + 16
@@ -292,8 +368,8 @@ cp 8+10 ;HW offset + 10
 jr c,nopaddle ;BallX < 8+16 : no collision with paddle possible
 //We check if speed is negative (ball going towards the paddle)
 ld a,(SpeedX)
-cp 2
-jr z,nopaddle ;SpeedX = 2 (positive) : no paddle collision possible
+bit 7,a
+jr z,nopaddle ;SpeedX (positive) : no paddle collision possible
 //We need to test if the ball is aligned with the paddle
 //So if ball's bottom position is higher as the top position of the paddle
 //And ball's top position is higher than the paddle's bottom position
@@ -311,10 +387,82 @@ add 32 ;Bottom of paddle = Paddle Y + paddle height (4 sprites of height 8)
 cp (hl) ;compare paddle Y+32 to ballY
 jr c,nopaddle ;PaddleY+32 < BallY ;no paddle collision possible
 //If all the above test didn't jump, it means we have a collision!
+//Now we define 3 zones for collision, to have 3 different bounce
+ld hl,BallY
+ld a,(PaddleY)
+add 8 ;quarter of the paddle
+cp (hl) ;compare quarter of the paddle to ballY
+jr c,nofirst ;Not in first sector if PaddleY+10 < BallY
+ld b,$2 ;B=2 //First sector is fast bounce
+jp endsectors
+nofirst:
+ld a,(PaddleY)
+add 32-8 ;3/4 of the paddle
+cp (hl) ;compare 3/4 of the paddle to ballY
+jr nc,nothird ;Not in third sector if PaddleY+22 > BallY
+ld b,$2 ;B=2 //Third sector is fast bounce
+jp endsectors
+nothird:
+ld b,$1 ;B=1 //Middle sector is slow bounce
+endsectors:
 call hibeep ;Paddle collision, play high sound
-ld a,2 ;Set SpeedX to 2 (positive)
+ld a,b ;Update speed X
 ld (SpeedX),a
 nopaddle:
+
+
+
+//Paddle Collisions second paddle
+//We check if the ball if between 146 and 152 (in front of the paddle)
+ld a,(BallX)
+cp 152
+jr nc,nopaddle2 ;BallX > 152 : no collision with paddle possible
+cp 146
+jr c,nopaddle2 ;BallX < 146 : no collision with paddle possible
+//We check if speed is positive (ball going towards the paddle)
+ld a,(SpeedX)
+bit 7,a
+jr nz,nopaddle2 ;SpeedX is negative : no paddle collision possible
+//We need to test if the ball is aligned with the paddle
+//So if ball's bottom position is higher as the top position of the paddle
+//And ball's top position is higher than the paddle's bottom position
+//First we check high limite (ball's bottom, paddle top)
+ld a,(BallY)
+add 8 ;Bottom of ball = BallY+sprite height
+ld b,a ;save result in B
+ld a,(Paddle2Y)
+cp b ;compare paddle Y with ball Y+8
+jr nc,nopaddle2 ;paddle Y > ballY +8 : no paddle collision possible
+//Now we test the low limit (top of ball, bottom of paddle)
+ld hl,BallY
+ld a,(Paddle2Y)
+add 32 ;Bottom of paddle = Paddle Y + paddle height (4 sprites of height 8)
+cp (hl) ;compare paddle Y+32 to ballY
+jr c,nopaddle2 ;PaddleY+32 < BallY ;no paddle collision possible
+//If all the above test didn't jump, it means we have a collision!
+//Now we define 3 zones for collision, to have 3 different bounce
+ld hl,BallY
+ld a,(Paddle2Y)
+add 8 ;quarter of the paddle
+cp (hl) ;compare quarter of the paddle to ballY
+jr c,nofirst2 ;Not in first sector if PaddleY+10 < BallY
+ld b,$FE ;B=-2 //First sector is fast bounce
+jp endsectors2
+nofirst2:
+ld a,(Paddle2Y)
+add 32-8 ;3/4 of the paddle
+cp (hl) ;compare 3/4 of the paddle to ballY
+jr nc,nothird2 ;Not in third sector if PaddleY+22 > BallY
+ld b,$FE ;B=-2 //Third sector is fast bounce
+jp endsectors2
+nothird2:
+ld b,$FF ;B=-1 //Middle sector is slow bounce
+endsectors2:
+call hibeep ;Paddle collision, play high sound
+ld a,b ;Update speed X
+ld (SpeedX),a
+nopaddle2:
+
 
 //Update ball sprite
 ld hl,$FE10 ;$FE00 + 4*4 (Sprite number 3 in OAM)
