@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir build
 cd build
 
 wla-gb -I ../ -o object.o ../$1
