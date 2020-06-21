@@ -1,9 +1,13 @@
 main:
+#  - title: "Posts"
+#    url: /posts/
   - title: "Posts"
-    url: /posts/
-  - title: "Categories"
     url: /categories/
-  - title: "Tags"
-    url: /tags/
+#  - title: "Tags"
+#    url: /tags/
+  - title: "Wiki"
+    url: https://github.com/PainsPerdus/gboi-rocket/wiki 
+  - title: "Download"
+    url: https://github.com/PainsPerdus/gboi-rocket/releases
   - title: "About"
     url: /about/
