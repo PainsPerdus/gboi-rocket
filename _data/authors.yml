@@ -1,0 +1,24 @@
+Jean Marie:
+    name: "Jean Marie Mineau"
+    bio: "Platypus programmer. Likes apple juice."
+    avatar: /assets/images/profile_pics/JeanMarie.png
+    links:
+      - label: "Email"
+        icon: "fas fa-fw fa-envelope-square"
+        url: "mailto:jean-marie.mineau@telecom-parie.fr"
+      - label: "Github"
+        icon: "fab fa-fw fa-github"
+        url: "https://github.com/JeanMarieMineau/"
+
+Virgile:
+    name: "Virgile Retault"
+    bio: "'DROP TABLE Users;--"
+    avatar: /assets/images/profile_pics/Virgile.png
+    links: 
+      - label: "Email"
+        icon: "fas fa-fw fa-envelope-square"
+        url: "mailto:virgile.retault@telecom-paris.fr"
+      - label: "Github"
+        icon: "fab fa-fw fa-github"
+        url: "https://github.com/g33kex/"
+        
