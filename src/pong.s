@@ -29,6 +29,8 @@ SpeedX DB //The ball X speed
 SpeedY DB //The ball Y speed
 .ENDE
 
+.INCLUDE "defs.s"
+
 /*$0040 is the interupt address*/
 .ORG $0040
 call VBlank ;Call directive Vblank
