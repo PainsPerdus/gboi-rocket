@@ -65,7 +65,7 @@ plugins:
 
 author:
   name   : "Team Rocket"
-  avatar : "/assets/images/profile_pics/Rocket.jpg"
+  avatar : "/assets/images/profile_pics/Rocket.png"
   bio    : "End-of-semester project team at Telecom Paris."
   location: "Paris, France"
   links:
