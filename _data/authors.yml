@@ -21,4 +21,16 @@ Virgile:
       - label: "Github"
         icon: "fab fa-fw fa-github"
         url: "https://github.com/g33kex/"
+
+Dorian:
+    name: "Dorian Bourgeoisat"
+    bio: "CPL INC a"
+    avatar: /assets/images/profile_pics/Dorian.png
+    links: 
+      - label: "Email"
+        icon: "fas fa-fw fa-envelope-square"
+        url: "mailto:dorian.bourgeoisat@telecom-paris.fr"
+      - label: "Github"
+        icon: "fab fa-fw fa-github"
+        url: "https://github.com/DorianXGH/"
         
