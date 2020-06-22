@@ -36,7 +36,7 @@ Dorian:
 Pascal:
     name: "Pascal Béroule"
     bio: "I do stuff sometimes"
-    avatar: /assets/images/profile_pics/Pascal.png
+    avatar: /assets/images/profile_pics/Pascal.gif
     links: 
       - label: "Email"
         icon: "fas fa-fw fa-envelope-square"
