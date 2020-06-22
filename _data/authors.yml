@@ -33,4 +33,14 @@ Dorian:
       - label: "Github"
         icon: "fab fa-fw fa-github"
         url: "https://github.com/DorianXGH/"
-        
+Pascal:
+    name: "Pascal Béroule"
+    bio: "I do stuff sometimes"
+    avatar: /assets/images/profile_pics/Pascal.gif
+    links: 
+      - label: "Email"
+        icon: "fas fa-fw fa-envelope-square"
+        url: "mailto:pascal.beroule@telecom-paris.fr"
+      - label: "Github"
+        icon: "fab fa-fw fa-github"
+        url: "https://github.com/Pascakk/"
