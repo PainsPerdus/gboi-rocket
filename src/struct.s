@@ -16,3 +16,8 @@
 	state DW
 .ENDST
 
+.STRUC sheet
+	size DB
+	function DW
+.ENDST
+
