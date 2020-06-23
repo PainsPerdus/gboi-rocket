@@ -3,7 +3,7 @@ title: "First Milestone"
 date: 2020-06-22
 author: Virgile
 header:
-  teaser: ../../assets/images/first-milestone_concept-art.png
+  teaser: /assets/images/first-milestone_concept-art.png
 categories: 
  - Blog
 tags:
