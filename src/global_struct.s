@@ -13,6 +13,7 @@
 .STRUCT element
 	x DB
 	y DB
+	speed DB
 	sheet DB
 	state DW
 .ENDST
@@ -20,7 +21,6 @@
 .STRUCT sheet
 	size DB
 	dmg DB
-	speed DB
 	function DW
 .ENDST
 

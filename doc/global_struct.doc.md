@@ -24,6 +24,7 @@ Content of the struct "element" :
 | ----- | ---- | ----------- |
 | x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
+| speed | 1 byte | Element's speed (split in 2 x 4bits, x speed and y speed) |
 | sheet | 1 byte | address to the corresponding generic sheet for the element (relative, first sheet will have address $00) |
 | state | 2 bytes | address to the state of the element |
 
@@ -35,7 +36,6 @@ Content of struct "sheet" :
 | ----- | ---- | ----------- |
 | size | 1 byte | 3 bit for the size (index in a table to be defined), 5 flags (blocks, hurts, reacts to touch, can be hurt by bombs, can be hurt by Isaac's tears) |
 | dmg | 1 byte | damage dealt by the ennemy |
-| speed | 1 byte | Element's speed (split in 2 x 4bits, x speed and y speed) |
 | function | 2 bytes | address to the AI function for ennemies or the function triggered when touched |
 
 ## State
