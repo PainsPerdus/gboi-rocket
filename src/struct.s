@@ -3,8 +3,16 @@
 	y DB
 	hp DB
 	dmg DB
-	upgrades DB
+	upgrades DW
 	range DB
 	speed DB
 	tears DB
 .ENDST
+
+.STRUCT element
+	x DB
+	y DB
+	sheet DB
+	state DW
+.ENDST
+
