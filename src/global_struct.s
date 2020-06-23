@@ -20,6 +20,7 @@
 .STRUCT sheet
 	size DB
 	dmg DB
+	speed DB
 	function DW
 .ENDST
 
