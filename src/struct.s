@@ -16,8 +16,11 @@
 	state DW
 .ENDST
 
-.STRUC sheet
+.STRUCT sheet
 	size DB
 	function DW
 .ENDST
 
+.STRUCT state
+	hp DB
+.ENDST

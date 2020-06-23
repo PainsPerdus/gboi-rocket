@@ -35,4 +35,11 @@ Content of struct "sheet" :
 | size | 1 byte | 3 bit for the size (value <-> number of pixel relation to be defined), 5 flags (blocks, hurts, reacts to touch, can be hurt by bombs, can be hurt by Isaac's tears) |
 | function | 2 bytes | address to the AI function for ennemies or the function triggered when touched |
 
-## 
+## State
+
+Content of struct "state" :
+
+| Label | Size | Description |
+| ----- | ---- | ----------- |
+| hp | 1 byte | the element's health |
+| | | this struct is almost empty, it is kept for later improvement (ex : content needed for the ennemie's AI) |
