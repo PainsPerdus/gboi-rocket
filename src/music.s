@@ -19,6 +19,9 @@ timer_interupt :
     dec bc
     jp nz, pass1
 
+    ;switch off channel 1
+    
+
     ;if the note is finished, let's get the next one
     ld hl, curs1
     ld b, (hl); take higher weight bits
@@ -58,5 +61,8 @@ timer_interupt :
     ld e, a ;save the time of the note to play in e
 
     ;play the note
+    ;Lower 8 bits of 11 bit frequency (FF13). Next 3 bit are in NR14 ($FF14)
+
+
 
 pass1:
