@@ -7,6 +7,7 @@
 	range DB
 	speed DB
 	tears DB
+	recover DB
 .ENDST
 
 .STRUCT element
@@ -18,6 +19,7 @@
 
 .STRUCT sheet
 	size DB
+	dmg DB
 	function DW
 .ENDST
 
