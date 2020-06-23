@@ -1,4 +1,4 @@
 Graphics:
-	
+	nop
 	ret
 

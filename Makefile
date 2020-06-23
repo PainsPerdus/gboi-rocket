@@ -17,7 +17,7 @@ INSTALL="/media/B009-9376/1 Game Boy/5 Team Rocket"
 # Files
 TARGET=rocket
 SOURCE_FILES =\
-	pong.s 
+	main.s 
 
 ##############
 # Directives #
