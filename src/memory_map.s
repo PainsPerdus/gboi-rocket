@@ -5,3 +5,8 @@
 */
 
 .NINTENDOLOGO
+
+.ORG $800
+Tiles:
+sdmlfkjeqsdmfldqskfjqmdslfkdjqsfmdlkjdsmfk
+.INCLUDE "isaac.sprite"

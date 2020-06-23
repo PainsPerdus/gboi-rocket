@@ -8,6 +8,10 @@ LINKER=wlalink
 AFLAGS=
 LFLAGS=-d -v -s
 
+#Emulator
+EMULATOR=visualboyadvance-m
+EFLAGS=
+
 # Folders
 SRC=src
 BIN=bin
@@ -16,7 +20,7 @@ INSTALL="/media/B009-9376/1 Game Boy/5 Team Rocket"
 
 # Files
 TARGET=rocket
-SOURCE_FILES =\
+SOURCE_FILES = \
 	main.s 
 
 ##############
@@ -26,10 +30,10 @@ OBJECT_FILES = $(SOURCE_FILES:%.s=$(BIN)/%.o)
 TARGET_FILE = $(BIN)/$(TARGET).gb
 LINK_FILE = $(BIN)/linkfile
 
-all: directories $(TARGET_FILE)
+all: clean directories $(TARGET_FILE)
 
 run: all
-	vbam -f 17 $(TARGET_FILE)
+	$(EMULATOR) $(EFLAGS)$(TARGET_FILE)
 
 install: all
 	cp $(TARGET_FILE) $(INSTALL)
@@ -43,7 +47,7 @@ directories:
 
 .PHONY: build clean directories
 
-$(TARGET_FILE): $(OBJECT_FILES) $(LINK_FILE) 
+$(TARGET_FILE): $(OBJECT_FILES) $(LINK_FILE)
 	echo "Building $(OBJECT_FILES)"
 	$(LINKER) $(LFLAGS) -r $(LINK_FILE) $(TARGET_FILE)
 	
