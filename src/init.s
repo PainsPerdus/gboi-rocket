@@ -27,7 +27,7 @@ xor a ;A=0
 ldh ($40),a ;($FF40)=A //Disables the LCD (bit 7 controls on/off status)
 
 //We copy the graphics from ROM to VRAM
-ld b,3*8*2 ;B=48 //We load 3 tiles, so (8*8*3*2)/8 = 48 bytes (8 pixels = 2 bytes)
+ld b,5*8*2 ;B=48 //We load 4 tiles, so (8*8*3*2)/8 = 48 bytes (8 pixels = 2 bytes)
 ld de,Tiles ;DE=Adress of "Tiles" Label, ROM pointer //This is where we're going to read the tiles
 /* $8000 is the first address in VRAM, corresponding to Tile number 0 */
 ld hl,$8000 ;HL=$8000, RAM pointer //This is where we're going to write the tiles
@@ -71,56 +71,64 @@ xor a ;A=0 //We put the background Scroll X and Scroll Y to 0 (upper left)
 ldh ($42),a ;($FF42)=A
 ldh ($43),a ;($FF42)=A
 
-//Prepare the sprites (4 paddle sprites and 1 ball sprite)
-//First we prepare the paddle sprites
-//The 4 paddle sprite are all Tile 1, but Y position in incremented by 8 each times
-ld hl,$FE00 ;HL=$FE00
-ld b,4 ;B=4
-ld a,$F ;A=16 //Y Position (minus 16)
-ldspr: ;LOOP : for(b=4; b>0; b--)
-ld (hl),a ;(HL)=A (OAM Sprite Y) //Set Y position
-add 8 ;A=A+8 //Next Y position
-inc l ;Increments L (we cannot use hdi because we're writing in the OAM)
-ld (hl),$10 ;(HL)=$10 (OAM sprite X) //Set X position to $10 (minus 8)
-inc l ;Increments L
-ld (hl),$01 ;(HL)=1 (OAM sprite tile) //We use tile 1
-inc l ;Increments L
-ld (hl),$00 ;(HL)=0 (OAM sprite attribut) //Object Above BG, Not flipped, number 0 palette
-inc l ;Increments L
-dec b ;Decrements B
-jr nz,ldspr ;Jump to ldspr if B not 0
-
-
-//Then we prepare the ball sprite
-ld (hl),$80 ;(HL)=$80 (OAM Sprite Y) //Ball starts at Y=$80-16
-inc l ;Increments L
-ld (hl),$80 ;(HL)=$80 (OAM Sprite X) //Ball starts at X=$80-8
-inc l ;Increments L
-ld (hl),$02 ;(HL)=2 (OAM sprite tile
-inc l ;Increments L
-ld (hl),$00 ;(HL)=0 (OAM sprite attribut)
-
-//Prepare the second paddle's sprite (same but on X=144 (160-8)
+ld b, 50 //Start pos Y
+ld c, 30 //Start pos X
+//Prepare isaac sprite (4 sprites, top left, top right, bottom left, bottom right)
+ld hl,$FE00
+//top left
+ld a,b //Start pos Y
+ld (hl), a ;PosY
 inc l
-ld b,4 ;B=4
-ld a,$F ;A=16 //Y Position (minus 16)
-ldspr2: ;LOOP : for(b=4; b>0; b--)
-ld (hl),a ;(HL)=A (OAM Sprite Y) //Set Y position
-add 8 ;A=A+8 //Next Y position
-inc l ;Increments L (we cannot use hdi because we're writing in the OAM)
-ld (hl),152 ;(HL)=$152 (OAM sprite X) //Set X position to 152
-inc l ;Increments L
-ld (hl),$01 ;(HL)=1 (OAM sprite tile) //We use tile 1
-inc l ;Increments L
-ld (hl),%00100000 ;(HL)=0 (OAM sprite attribut) //Object Above BG, X flipped, number 0 palette
-inc l ;Increments L
-dec b ;Decrements B
-jr nz,ldspr2 ;Jump to ldspr if B not 0
+ld a,c //Start posX
+ld (hl), a
+inc l
+ld (hl), $01
+inc l
+ld (hl), $00
+inc l
+//top right
+ld a,b
+ld (hl), a ;Pos Y
+inc l
+ld a,c
+add 8
+ld (hl), a ; Pos X
+inc l
+ld (hl), $02
+inc l
+ld (hl), $00
+inc l
+//bottom left
+ld a,b
+add 8
+ld (hl), a ;PosY
+inc l
+ld a,c
+ld (hl), a ;PosX
+inc l
+ld (hl), $03
+inc l
+ld (hl), $00
+inc l
+//bottom right
+ld a,b
+add 8
+ld (hl), a ;PosY
+inc l
+ld a,c
+add 8
+ld (hl), a ;PosX
+inc l
+ld (hl), $04
+inc l
+ld (hl), $00
+
 
 //Initialize the color palettes
 ld a,%11100100 ;11=Black 10=Dark Grey 01=Light Grey 00=White/Transparent
 /* $FF47 is BGP (BG Palette Data), assigning Color number 3, 2, 1, 0 (2 bit per color) */
 ldh ($47),a ;Background Palette
+ld a,%00011011
 /* $FF48/$FF49 is OBP0/1 (Object Palette 0/1 Data), same as BGP for sprite palette 0/1
    but $00 is transparent */
 ldh ($48),a ;Sprite Palette 0
