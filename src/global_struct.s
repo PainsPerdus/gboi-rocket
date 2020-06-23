@@ -13,6 +13,7 @@
 .STRUCT element
 	x DB
 	y DB
+	speed DB
 	sheet DB
 	state DW
 .ENDST
