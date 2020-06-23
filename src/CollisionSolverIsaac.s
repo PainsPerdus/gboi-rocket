@@ -80,10 +80,7 @@ noBlockCollision :
 	jr z, noHurtCollision
 	
 	;hurting Isaac
-	xor a
-	inc l
-	adc h
-	ld h, a ;now hl is sheet.dmg
+	inc hl
 	ld a, (isaac.hp)
 	sub (hl)
 	ld (isaac.hp), a
@@ -100,12 +97,8 @@ noHurtCollision :
 	
 	;getting function address
 	ld hl, de
-	xor a
-	inc l
-	adc h
-	inc l
-	adc 0
-	ld h, a
+	inc hl
+	inc hl
 	call (hl)
 	; \\\ Activation Collision ///
 noReactCollision :
