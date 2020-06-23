@@ -11,10 +11,10 @@ collisionSolverIsaac :
 	;/// Blocking Collision \\\
 	bit 4, c
 	jr z, noBlockCollision
-	
-	;// Touch right \\
+
+	;// Touch Horizontally \\
 	bit 1, b
-	jr z, noRightCollision
+	jp z, noHorizontalCollision
 	ld a, (isaac.speed)
 	and %11110000
 	srl a
@@ -23,50 +23,22 @@ collisionSolverIsaac :
 	srl a
 	ld d, a
 	ld a, (isaac.x)
-	add d
+	sub d
 	ld (isaac.x), a
-	;\\ Touch right //
-noRightCollision :
+	;\\ Touch Horizontally //
+noHorizontalCollision :
 
-	;// Touch left \\
+	; // Touch Vertically \\
 	bit 2, b
-	jp z, noLefttCollision
-	ld a, (isaac.speed)
-	and %11110000
-	srl a
-	srl a
-	srl a
-	srl a
-	ld d, a
-	ld a, (isaac.x)
-	sub d
-	ld (isaac.x), a
-	;\\ Touch left //
-noLefttCollision :
-
-	;// Touch down \\
-	bit 3, b
-	jr z, noDownCollision
-	ld a, (isaac.speed)
-	and %00001111
-	ld d, a
-	ld a, (isaac.y)
-	add d
-	ld (isaac.y), a
-	;\\ Touch down //
-noDownCollision :
-
-	; // Touch up \\
-	bit 4, b
-	jr z, noUpCollision
+	jr z, noVerticalCollision
 	ld a, (isaac.speed)
 	and %00001111
 	ld d, a
 	ld a, (isaac.y)
 	sub d
 	ld (isaac.y), a
-	; \\ Touch up //
-noUpCollision :
+	; \\ Touch Vertically //
+noVerticalCollision :
 	;\\\ Blocking Collision ///
 noBlockCollision :
 	

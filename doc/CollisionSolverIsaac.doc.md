@@ -8,7 +8,7 @@
 
 | Label | Type | Size/Struct | Description |
 | ----- | ---- | ----------- | ----------- |
-| b | register | 1 byte | the 4 left bits are flags which indicates which side of the element Isaac touched (right, left, lower, upper) |
+| b | register | 1 byte | the 2 left bits tell whether the collision happens during (respectively) horizontal or vertical movement |
 | hl | register | 2 bytes | address to the caracter's sheet of the element |
 
 ## Return
@@ -24,14 +24,10 @@ char void solve_collision_to_Isaac (
 	element.sheet* s) {
 	
 	if (0b00010000 and s.size) // is the element blocking
-		if (touched_from and 0b10000000) //Isaac touches the right side of the element
-			Isaac.x = Isaac.x + ((Isaac.speed or 0b11110000)/16)
-		if (touched_from and 0b01000000) //Isaac touches the left side of the element
-			Isaac.x = Isaac.x - ((Isaac.speed or 0b11110000)/16)
-		if (touched_from and 0b00100000) //Isaac touches the lower side of the element
-			Isaac.y = Isaac.y + (Isaac.speed or 0b00001111)
-		if (touched_from and 0b00010000) //Isaac touches the upper side of the element
-			Isaac.y = Isaac.y - (Isaac.speed or 0b00001111)
+		if (touched_from and 0b10000000) //Isaac touches during horizontal movement
+			Isaac.x = Isaac.x - ((Isaac.speed and 0b11110000)/16)
+		if (touched_from and 0b01000000) //Isaac touches during vertical movement
+			Isaac.y = Isaac.y - (Isaac.speed and 0b00001111)
 
 	if (0b00001000 and s.size) // does the element hurt Isaac
 		if (Isaac.recover == 0)
