@@ -13,7 +13,10 @@ timer_interupt :
 
     ;check if the note is finished
     ld a, (rest1)
-    dec a
+    ld b, a
+    ld a, (rest1+1)
+    ld c, a
+    dec bc
     jp nz, pass1
 
     ;if the note is finished, let's get the next one
