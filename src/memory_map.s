@@ -11,6 +11,6 @@ posY DB //Y Posiiton of Isaac
 
 .ORG $800
 Tiles:
-.INCLUDE "sprite/back.sprite"
-.INCLUDE "sprite/isaac.sprite"
-.INCLUDE "sprite/isaac.test"
+.INCLUDE "sprites/isaac.test"
+.INCLUDE "sprites/back.sprite"
+.INCLUDE "sprites/isaac.sprite"
