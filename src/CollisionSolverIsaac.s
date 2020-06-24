@@ -10,11 +10,11 @@ collisionSolverIsaac :
 	
 	;/// Blocking Collision \\\
 	bit 4, c
-	jr z, noBlockCollision
+	jp z, noBlockCollision
 
 	;// Touch Horizontally \\
 	bit 1, b
-	jp z, noHorizontalCollision
+	jr z, noHorizontalCollision
 	ld a, (isaac.speed)
 	and %11110000
 	srl a
