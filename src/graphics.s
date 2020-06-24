@@ -39,5 +39,3 @@ add 8
 ld (hl), a ; posX
 
 ret
-
-
