@@ -19,7 +19,7 @@ ldh ($26),a ;($FF26)=A //Turns sound off
 /*****Clear screen on VBlank*****/
 waitvbl: //We need to wait for the vblank (small period during which the screen isn't blanked) in order to init VRAM (Failure to do so will damage the screen!)
 /* $FF44 is LY, vertical line processed by LCD Driver (0 to 153, >144 indicates VBlank) */
-ldh a,($LCD_SCANL_Y_RO_LOW) ;A=($FF44)
+ldh a,(LCD_SCANL_Y_RO_LOW) ;A=($FF44)
 cp 144 ;Compares A with 144 (set the flags bits for A-144 without changing A)
 jr c,waitvbl ;Jump to waitvlb if carry is one (so A < 144) because getting a negative number while substracting results in a 1 carry
 
