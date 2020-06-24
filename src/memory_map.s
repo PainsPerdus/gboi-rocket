@@ -2,8 +2,8 @@
 
  ;$C000 is the start of the RAM
 .ENUM $C000 ;Declare variables
-.DB posX //X Position of Isaac
-.DB posY //Y Posiiton of Isaac
+posX DB //X Position of Isaac
+posY DB //Y Posiiton of Isaac
 .ENDE
 
 
