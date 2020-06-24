@@ -82,3 +82,7 @@ Content of struct "tear" :
 | global_.ennemy_tear_pointer     | 1 byte              | Index of next tear to generate |
 | global_.ennemy_tears[n_ennemy_tears]| tear * n_ennemy_tears | tears of the ennemys |
 | global_.states[n_states]   | state * n_states      | States. |
+
+
+TODO:
+  define size tables.

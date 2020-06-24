@@ -42,7 +42,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
 
 ; /////// INCLUDE .INIT \\\\\\\
-;.INCLUDE "main.init.s"
+.INCLUDE "global.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\

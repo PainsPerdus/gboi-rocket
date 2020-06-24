@@ -47,7 +47,7 @@
 	isaac INSTANCEOF isaac
 	elements INSTANCEOF element n_elements
 	issac_tear_pointer DB
-	isaac_tears INSTANCEOF tear n_ennemy_tears
+	isaac_tears INSTANCEOF tear n_isaac_tears
 	ennemy_tear_pointer DB
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
 	states INSTANCEOF state n_states
