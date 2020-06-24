@@ -8,6 +8,7 @@
 	speed DB
 	tears DB
 	recover DB
+	bombs DB
 .ENDST
 
 .STRUCT element
@@ -22,10 +23,17 @@
 	size DB
 	dmg DB
 	function DW
+	speed DB
 .ENDST
 
 .STRUCT state
 	hp DB
+.ENDST
+
+.STRUCT tear
+	x DB
+	y DB
+	direction DB
 .ENDST
 
 .STRUCT global_var
