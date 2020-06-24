@@ -1,5 +1,8 @@
 
 ; //////// SET SPEED \\\\\\\\
+
+;NOTE: for arrow keys, bits (3 to 0) are Down, Up, Left, Right
+
 move_check_input:
 	ld a,%00100000	; Select arrow keys
 	ldh ($00),a

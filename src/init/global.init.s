@@ -17,8 +17,9 @@ global_init:
 	dec b
 	jp nz,@sheets_loop
 @isaac_init:
+	ld a,$20
+	ldi (hl),a; x = 32
 	ld a,$40
-	ldi (hl),a; x = 64
 	ldi (hl),a; y = 64
 	ld a,10
 	ldi (hl),a; hp = 10
