@@ -43,6 +43,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 
 ; /////// INCLUDE .INIT \\\\\\\
 .INCLUDE "global.init.s"
+.INCLUDE "display.init.s.stub"
 ; \\\\\\\ INCLUDE .INIT ///////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
@@ -64,7 +65,7 @@ loop:
 VBlank:
 	push af
 	push hl
-;.INCLUDE "display.s"
+.INCLUDE "display.s.stub"
 .INCLUDE "body.s"
 	pop hl
 	pop af
@@ -72,5 +73,5 @@ VBlank:
 ; \\\\\\\\\ VBlank Interuption /////////
 
 ; ///////// INCLUDE .LIB \\\\\\\\\
-
+.INCLUDE "sprites.lib.s.stub"
 ; \\\\\\\\\ INCLUDE .LIB /////////
