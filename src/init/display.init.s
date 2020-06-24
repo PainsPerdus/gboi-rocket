@@ -46,9 +46,9 @@ display_init:
 
 ; // ISAAC SPRITES \\
 
-ld a, (global_.isaac.y)
+ld a, $39;(global_.isaac.y)
 ld b, a
-ld a, (global_.isaac.x)
+ld a, $40;(global_.isaac.x)
 ld c, a
 //top left
 ld a,b 

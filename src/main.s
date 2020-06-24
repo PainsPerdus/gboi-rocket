@@ -75,7 +75,7 @@ loop:
 VBlank:
 	push af
 	push hl
-.INCLUDE "display.s.stub"
+.INCLUDE "display.s"
 .INCLUDE "body.s"
 	pop hl
 	pop af
