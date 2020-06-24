@@ -13,7 +13,7 @@ inc l
 ld a,c
 ld (hl), a ; posX
 //top right
-ld (hl),$FE04
+ld hl,$FE04
 ld a,b
 ld (hl),a ;posY
 inc l ;posX
