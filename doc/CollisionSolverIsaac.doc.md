@@ -46,4 +46,4 @@ We mustn't forget to decrease the recover counter at each VBLank call
 
 ## TODO
 
-* the rollback technic to manage collision with blocking elements is likely not to be the best, as it can cause lines of uncrossable pixels between Isaac and the element.
+* the rollback technique to manage collision with blocking elements is likely not to be the best, as it can cause lines of uncrossable pixels between Isaac and the element.

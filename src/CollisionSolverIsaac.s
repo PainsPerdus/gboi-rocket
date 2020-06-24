@@ -6,7 +6,7 @@ collisionSolverIsaac :
 	push d
 	push e
 	
-	ld c, hl ;get element's size and flags
+	ld c, (hl) ;get element's size and flags
 	
 	;/// Blocking Collision \\\
 	bit 4, c
@@ -17,10 +17,7 @@ collisionSolverIsaac :
 	jr z, noHorizontalCollision
 	ld a, (isaac.speed)
 	and %11110000
-	srl a
-	srl a
-	srl a
-	srl a
+	swap a
 	ld d, a
 	ld a, (isaac.x)
 	sub d

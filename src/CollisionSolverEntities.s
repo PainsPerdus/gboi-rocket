@@ -8,7 +8,7 @@ collisionSolverIsaac :
 	push d
 	push e
 	
-	ld c, hl ;get element's size and flags
+	ld c, (hl) ;get element's size and flags
 	ld hl, (collidingEntity)
 	inc hl
 	inc hl ;hl leads to entity's speed
@@ -22,10 +22,7 @@ collisionSolverIsaac :
 	jr z, noEHorizontalCollision
 	ld a, (hl)
 	and %11110000
-	srl a
-	srl a
-	srl a
-	srl a
+	swap a
 	ld d, a
 	ld a, (collidingEntity)
 	sub d
