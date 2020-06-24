@@ -1,6 +1,6 @@
 display_init:
 ; /////// LOAD TILES \\\\\\\
-	ld b,14*32
+	ld bc,14*32
 	ld de,Tiles
 	ld hl,$8000
 @ldt:					; while bc != 0
