@@ -8,5 +8,5 @@
 
 .ORG $800
 Tiles:
-.INCLUDE "back.sprite"
-.INCLUDE "isaac.sprite"
+.INCLUDE "sprite/back.sprite"
+.INCLUDE "sprite/isaac.sprite"
