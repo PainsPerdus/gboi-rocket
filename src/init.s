@@ -29,7 +29,7 @@ ldh ($40),a ;($FF40)=A //Disables the LCD (bit 7 controls on/off status)
 
 
 /*****We copy the graphics from ROM to VRAM*****/
-ld b,5*8*2 ;B=48 //We load 4 tiles, so (8*8*3*2)/8 = 48 bytes (8 pixels = 2 bytes)
+ld bc,15*32 ;B=480 //We load 15 tiles, so (32*15) (1 tile = 32 bytes)
 ld de,Tiles ;DE=Adress of "Tiles" Label, ROM pointer //This is where we're going to read the tiles
 /* $8000 is the first address in VRAM, corresponding to Tile number 0 */
 ld hl,$8000 ;HL=$8000, RAM pointer //This is where we're going to write the tiles
@@ -37,7 +37,9 @@ ldt: //Loop : for(b=48; b>0; b--)
 ld a,(de) ;A=(DE)
 ldi (hl),a ;(HL)=A, HL=HL+1
 inc de ;DE=DE+1
-dec b ;B=B-1
+dec bc ;B=B-1
+ld a,c ; Z flag don't update for 16 bits registers, so we do it ourselves
+or b
 jr nz,ldt ;Jump to ldt if B not 0
 
 /*****Cleanup the background (it contains the Nitendo logo) and fill it with Tile 0*****/
@@ -92,7 +94,7 @@ inc l
 ld a,c ;Start pos X
 ld (hl), a
 inc l
-ld (hl), $01
+ld (hl), $02
 inc l
 ld (hl), $00
 inc l
@@ -104,7 +106,7 @@ ld a,c
 add 8
 ld (hl), a ; Pos X
 inc l
-ld (hl), $02
+ld (hl), $05
 inc l
 ld (hl), $00
 inc l
@@ -116,7 +118,7 @@ inc l
 ld a,c
 ld (hl), a ;PosX
 inc l
-ld (hl), $03
+ld (hl), $08
 inc l
 ld (hl), $00
 inc l
@@ -129,7 +131,7 @@ ld a,c
 add 8
 ld (hl), a ;PosX
 inc l
-ld (hl), $04
+ld (hl), $E
 inc l
 ld (hl), $00
 
