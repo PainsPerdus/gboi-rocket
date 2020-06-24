@@ -1,4 +1,4 @@
-# Description of the structs
+# Global structs:
 
 ## Isaac
 
@@ -58,3 +58,31 @@ Content of struct "tear" :
 | x | 1 byte | abscissa of the tear |
 | y | 1 byte | ordinate of the tear |
 | direction | 1 byte | 2 x 3 bits (x and y) + 1 flag to know if the tear is alive + 1 flag to know if the tear is upgraded |
+
+# Defines
+
+| Label | Value | Description |
+| ----- | ----- | ----------- |
+| n_elements | 10 | number of element in the array `global_.element` |
+| n_sheets | 1 | number of sheet |
+| n_states | 10 | number max of states |
+| n_isaac_tears | 10 | number max of issac'stears |
+| n_ennemy_tears | 10 | number max of ennemy's tears |
+
+# Global reserved memory:
+
+
+| Label | Size/Struct |  Description  |
+| ------------- | ---------- | ----------- |
+| global_.sheets[n_sheets]         | sheet * n_sheets   | Element sheets.           |
+| gobal_.isaac                   | isaac               | Isaac, the main caracter. |
+| global_.elements[n_elements]    | element * n_elements | Elements in the room, except for tears and isaac. |
+| global_.issac_tear_pointer     | 1 byte              | Index of next tear to generate |
+| global_.isaac_tears[n_isaac_tears] | tear * n_isaac_tears  | tears of isaac |
+| global_.ennemy_tear_pointer     | 1 byte              | Index of next tear to generate |
+| global_.ennemy_tears[n_ennemy_tears]| tear * n_ennemy_tears | tears of the ennemys |
+| global_.states[n_states]   | state * n_states      | States. |
+
+
+TODO:
+  define size tables.

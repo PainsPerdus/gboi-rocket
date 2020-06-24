@@ -1,3 +1,9 @@
+.DEFINE n_elements $0A
+.DEFINE n_sheets $01
+.DEFINE n_states $0A
+.DEFINE n_isaac_tears $0A
+.DEFINE n_ennemy_tears $0A
+
 .STRUCT isaac
 	x DB
 	y DB
@@ -37,5 +43,12 @@
 .ENDST
 
 .STRUCT global_var
-	void DB ; empty struct are forbidden :(
+	sheets INSTANCEOF sheet n_sheets
+	isaac INSTANCEOF isaac
+	elements INSTANCEOF element n_elements
+	issac_tear_pointer DB
+	isaac_tears INSTANCEOF tear n_isaac_tears
+	ennemy_tear_pointer DB
+	ennemy_tears INSTANCEOF tear n_ennemy_tears
+	states INSTANCEOF state n_states
 .ENDST
