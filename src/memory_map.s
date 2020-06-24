@@ -13,3 +13,4 @@ posY DB //Y Posiiton of Isaac
 Tiles:
 .INCLUDE "sprite/back.sprite"
 .INCLUDE "sprite/isaac.sprite"
+.INCLUDE "sprite/isaac.test"
