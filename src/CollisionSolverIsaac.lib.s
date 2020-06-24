@@ -15,25 +15,25 @@ collisionSolverIsaac :
 	;// Touch Horizontally \\
 	bit 7, b
 	jr z, noHorizontalCollision
-	ld a, (isaac.speed)
+	ld a, (isaac_.speed)
 	and %11110000
 	swap a
 	ld d, a
-	ld a, (isaac.x)
+	ld a, (isaac_.x)
 	sub d
-	ld (isaac.x), a
+	ld (isaac_.x), a
 	;\\ Touch Horizontally //
 @noHorizontalCollision :
 
 	; // Touch Vertically \\
 	bit 6, b
 	jr z, noVerticalCollision
-	ld a, (isaac.speed)
+	ld a, (isaac_.speed)
 	and %00001111
 	ld d, a
-	ld a, (isaac.y)
+	ld a, (isaac_.y)
 	sub d
-	ld (isaac.y), a
+	ld (isaac_.y), a
 	; \\ Touch Vertically //
 @noVerticalCollision :
 	;\\\ Blocking Collision ///
@@ -44,19 +44,19 @@ collisionSolverIsaac :
 	;/// Hurting Collision \\\
 	bit 3, c
 	jr z, noHurtCollision
-	ld a, (isaac.recover)
+	ld a, (isaac_.recover)
 	cp 0
 	jr z, noHurtCollision
 	
 	;hurting Isaac
 	inc hl
-	ld a, (isaac.hp)
+	ld a, (isaac_.hp)
 	sub (hl)
-	ld (isaac.hp), a
+	ld (isaac_.hp), a
 	
 	;starting recovery
 	ld a, RECOVERYTIME
-	ld (isaac.recover), a
+	ld (isaac_.recover), a
 	;\\\ Hurting Collision ///
 noHurtCollision :
 	
