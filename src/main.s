@@ -2,7 +2,7 @@
 .INCLUDE "hardware_specs.s"
 
 ; ///////// Mapping \\\\\\\\\
-.INCLUDE "global.var.s"
+.INCLUDE "var/global.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
@@ -48,8 +48,8 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
 
 ; /////// INCLUDE .INIT \\\\\\\
-.INCLUDE "global.init.s"
-.INCLUDE "display.init.s.stub"
+.INCLUDE "init/global.init.s"
+.INCLUDE "init/display.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
@@ -85,5 +85,5 @@ VBlank:
 
 
 ; ///////// INCLUDE .LIB \\\\\\\\\
-.INCLUDE "sprites.lib.s.stub"
+.INCLUDE "lib/sprites.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////

@@ -1,13 +1,15 @@
 display_init:
 ; /////// LOAD TILES \\\\\\\
-	ld b,3*8*2
+	ld b,14*32
 	ld de,Tiles
 	ld hl,$8000
-@ldt:					; while b != 0
+@ldt:					; while bc != 0
 	ld a,(de)
 	ldi (hl),a	; *hl <- *de; hl++
 	inc de			; de ++
-	dec b				; b--
+	dec bc ; bc--
+	ld a,b
+	or c
 	jr nz,@ldt		; end while
 ; \\\\\\\ LOAD TILES ///////
 
