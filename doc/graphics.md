@@ -6,6 +6,7 @@ Needed Information:
 - Isaac orientation
 - Is isaac moving? 
 - Has isaac shot during last frame?
+- frameCount
 
 Constants :
 - Left eye start
@@ -52,7 +53,7 @@ Here is how we compute the sprite_id that will be stored in OAM for the first tw
 offset = bit1(orientation) + (bit1(!orientation) && has_shot)
 sprite_id=LEFT_EYE_START + offset
 //Right
-offset = bit2(orientation) + (bit2(!orientation) && has_shot)
+offset = bit2(orientation) + (bit0(!orientation) && has_shot)
 sprite_id=RIGHT_EYE_START + offset
 ~~~
 
@@ -62,16 +63,20 @@ Isaac's legs are always facing front and his head moves independently.
 But a part of his face is displayed in the bottom sprites and has to move accordingly.
 ~~~C
 
-if (moving )
-	SpriteBottomLeft = Left walking start + bit1(orientation)
-	SpriteBottomRight = Rigth walking start + bit1(orientation)
-else
-	SpriteBottomLeft = Left standing start + 2*frameCount + bit1(orientation)
-	SpriteBottomRight = Rigth standing start + 2*frameCount + bit1(orientation)
-	frameCount ++
-	if (frameCount == nb frame)  frameCount = 0
-
-
+if (moving)
+{
+	//Left
+	sprite_id = LEFT_WALKING_START + 2*frameCount+ bit1(orientation)
+	//Right
+	sprite_id = RIGHT_WALKING_START + 2*frameCount+ bit0(orientation)
+}else
+{
+	//Left
+	sprite_id = LEFT_STANDING_START  + bit1(orientation)
+	//Right
+	sprite_id = RIGHT_STANDING_START + bit0(orientation)
+}
+if(bit0 & bit1) draw_cache_pixel()
 ~~~
 
 
