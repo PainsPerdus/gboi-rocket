@@ -2,7 +2,7 @@
 
 ## Label
 
-`collision`
+`collisionSolverIsaac`
 
 ## Parameters
 
@@ -20,8 +20,8 @@ None
 ~~~C
 // a function for when Isaac collides with any element
 char void solve_collision_to_Isaac (
-	char touched_from,
-	element.sheet* s) {
+	char touched_from, // b register
+	element.sheet* s) { // hl register
 	
 	if (0b00010000 and s.size) // is the element blocking
 		if (touched_from and 0b10000000) //Isaac touches during horizontal movement
@@ -42,7 +42,9 @@ char void solve_collision_to_Isaac (
 
 ## Note
 
-We mustn't forget to decrease the recover counter at each VBLank call
+We mustn't forget to decrease the recover counter at each VBLank call.
+
+For now, the informations given in the b register is not used in the actual implementation, as the collision function isn't able to detect direction of the impact. The code simply reverse the movement.
 
 ## TODO
 

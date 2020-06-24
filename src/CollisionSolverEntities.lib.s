@@ -1,8 +1,7 @@
 ; //// Collision Solver for Entities other than Isaac \\\\
-collisionSolverIsaac :
+collisionSolverEntities :
 	push c
 	push d
-	push e
 	
 	ld c, (hl) ;get element's size and flags
 	ld hl, (collidingEntity)
@@ -11,11 +10,11 @@ collisionSolverIsaac :
 	
 	;/// Blocking Collision \\\
 	bit 4, c
-	jp z, noEBlockCollision
+	jp z, @noEBlockCollision
 
 	;// Touch Horizontally \\
-	bit 7, b
-	jr z, noEHorizontalCollision
+;	bit 7, b
+;	jr z, @noEHorizontalCollision
 	ld a, (hl)
 	and %11110000
 	swap a
@@ -24,11 +23,11 @@ collisionSolverIsaac :
 	sub d
 	ld (collidingEntity), a
 	;\\ Touch Horizontally //
-@noEHorizontalCollision :
+;@noEHorizontalCollision :
 
 	; // Touch Vertically \\
-	bit 6, b
-	jr z, noEVerticalCollision
+;	bit 6, b
+;	jr z, @noEVerticalCollision
 	ld a, (hl)
 	and %00001111
 	ld d, a
@@ -37,11 +36,10 @@ collisionSolverIsaac :
 	sub d
 	ld (hl), a
 	; \\ Touch Vertically //
-@noEVerticalCollision :
+;@noEVerticalCollision :
 	;\\\ Blocking Collision ///
 @noEBlockCollision :
 
-	pop e
 	pop d
 	pop c
 	ret
