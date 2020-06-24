@@ -52,43 +52,6 @@ Links the interruption `VBLank` to the function `VBLank` and the starting point 
 ## Init
 
 See the pandoc for more info about what's done here. Basically clear the screen and initialize the modules.
-~~~
-; ///////// INIT \\\\\\\\\
-; /////// DISABLE INTERRUPTIONS \\\\\\\
-.org $0150 			; Write after $0150. Safe zone after the header.
-start:
-	di						; disable interrupt
-; \\\\\\\ DISABLE INTERRUPTIONS ///////
-; /////// TURN THE SCREEN AND SOUND OFF \\\\\\\
-	ld sp,$FFF4     ; set the StackPointer
-	xor a						; a=0
-	ldh ($26),a     ; ($FF26) = 0, turn the sound off
-waitvlb: 					; wait for the line 144 to be refreshed:
-	ldh a,($44)
-	cp 144          ; if a < 144 jump to waitvlb
-	jr c, waitvlb
-                  ; now we are in the vblank,
-                  ; the screen is not eddited for a few
-                  ; cycles.
-									; turn the screen off:
-	xor a
-	ldh ($40), a    ; ($FF40) = 0, turn the screen off
-; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
-
-; /////// INCLUDE .INIT \\\\\\\
-;.INCLUDE "main.init.s"
-; \\\\\\\ INCLUDE .INIT ///////
-
-; /////// ENABLE INTERRUPTIONS \\\\\\\
-	ld a,%00010000
-	ldh ($41),a		; enable VBlank interruption
-	ld a,%00000001
-	ldh ($FF),a		; twice, BECAUSE IT'S FUN
-	ei						; interrutions are back!
-; \\\\\\\ ENABLE INTERRUPTIONSS ///////
-
-; \\\\\\\\\ INIT /////////
-~~~
 
 Each module `xxx` has a `xxx.init.s` file with its initialization code.
 ~~~
