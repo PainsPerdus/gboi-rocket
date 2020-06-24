@@ -79,5 +79,13 @@ if (moving)
 if(bit0 & bit1) draw_cache_pixel()
 ~~~
 
+When isaac is facing left (orientation 10), we need to hide the mouth pixel
 
-
+~~~C
+if(orientation==10) {
+	MOUTH_PIXEL = $01 //Light gray
+}
+else {
+	MOUTH_PIXEL = $11 //Black
+}
+~~~
