@@ -13,7 +13,7 @@ collisionSolverIsaac :
 	jp z, noBlockCollision
 
 	;// Touch Horizontally \\
-	bit 1, b
+	bit 7, b
 	jr z, noHorizontalCollision
 	ld a, (isaac.speed)
 	and %11110000
@@ -29,7 +29,7 @@ collisionSolverIsaac :
 noHorizontalCollision :
 
 	; // Touch Vertically \\
-	bit 2, b
+	bit 6, b
 	jr z, noVerticalCollision
 	ld a, (isaac.speed)
 	and %00001111
@@ -45,7 +45,7 @@ noBlockCollision :
 	ld de, hl ;saving sheet address
 	
 	;/// Hurting Collision \\\
-	bit 5, c
+	bit 3, c
 	jr z, noHurtCollision
 	ld a, (isaac.recover)
 	cp 0
@@ -64,7 +64,7 @@ noBlockCollision :
 noHurtCollision :
 	
 	; /// Activation Collision \\\
-	bit 6, c
+	bit 2, c
 	jr z, noReactCollision
 	
 	;getting function address

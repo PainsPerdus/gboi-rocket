@@ -18,7 +18,7 @@ collisionSolverIsaac :
 	jp z, noEBlockCollision
 
 	;// Touch Horizontally \\
-	bit 1, b
+	bit 7, b
 	jr z, noEHorizontalCollision
 	ld a, (hl)
 	and %11110000
@@ -34,7 +34,7 @@ collisionSolverIsaac :
 noEHorizontalCollision :
 
 	; // Touch Vertically \\
-	bit 2, b
+	bit 6, b
 	jr z, noEVerticalCollision
 	ld a, (hl)
 	and %00001111
