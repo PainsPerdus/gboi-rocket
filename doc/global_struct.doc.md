@@ -2,9 +2,9 @@
 
 ## Isaac
 
-Content of the struct "isaac_var" :
+Content of the struct "isaac" :
 
-| Label | Size | Description |
+| Label | Size/Struct | Description |
 | ----- | ---- | ----------- |
 | x | 1 byte | abscissa of Isaac |
 | y | 1 byte | ordinate of Isaac |
@@ -19,9 +19,9 @@ Content of the struct "isaac_var" :
 
 ## Element
 
-Content of the struct "element_var" :
+Content of the struct "element" :
 
-| Label | Size | Description |
+| Label | Size/Struct | Description |
 | ----- | ---- | ----------- |
 | x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
@@ -31,17 +31,18 @@ Content of the struct "element_var" :
 
 ## Sheet
 
-Content of struct "sheet_var" :
+Content of struct "sheet" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
 | size | 1 byte | 3 bit for the size (index in a table to be defined), 5 flags (blocks, hurts, reacts to touch, can be hurt by bombs, can be hurt by Isaac's tears) |
 | dmg | 1 byte | damage dealt by the ennemy |
 | function | 2 bytes | address to the AI function for ennemies or the function triggered when touched |
+| speed | 1 byte | max speed for this element |
 
 ## State
 
-Content of struct "state_var" :
+Content of struct "state" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
@@ -50,7 +51,7 @@ Content of struct "state_var" :
 
 ## Tear
 
-Content of struct "tear_var" :
+Content of struct "tear" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |

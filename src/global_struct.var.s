@@ -1,4 +1,4 @@
-.STRUCT isaac_var
+.STRUCT isaac
 	x DB
 	y DB
 	hp DB
@@ -11,7 +11,7 @@
 	bombs DB
 .ENDST
 
-.STRUCT element_var
+.STRUCT element
 	x DB
 	y DB
 	speed DB
@@ -19,17 +19,18 @@
 	state DW
 .ENDST
 
-.STRUCT sheet_var
+.STRUCT sheet
 	size DB
 	dmg DB
 	function DW
+	speed DB
 .ENDST
 
-.STRUCT state_var
+.STRUCT state
 	hp DB
 .ENDST
 
-.STRUCT tear_var
+.STRUCT tear
 	x DB
 	y DB
 	direction DB
