@@ -5,6 +5,11 @@ Everybody has his own doc for this part, so we need to make one in common.
 This code is all from the pong tutorial.
 
 ## Prepare isaac sprite
+
+### Initialize variables
+We initialize isaac posX and posY with default values.
+
+### Setup OAM
 There are 4 sprites for isaac, in this order in the ROM:  
  - top left
  - top right

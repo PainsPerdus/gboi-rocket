@@ -76,9 +76,14 @@ ldh ($43),a ;($FF42)=A
 
 
 /*****Prepare isaac sprite*****/
+/**Initialize variables**/
 ld b, 50 //Start pos Y
 ld c, 30 //Start pos X
-
+ld a,b
+ld (posX),a
+ld a,c
+ld (posY),a
+/**Setup OAM**/
 ld hl,$FE00
 //top left
 ld a,b ;Start pos Y
