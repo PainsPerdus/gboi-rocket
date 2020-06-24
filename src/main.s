@@ -9,7 +9,7 @@
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
-; ///////// DISABLE INTERRUPTIONS \\\\\\\\\
+; ///////// DEFINE INTERRUPTIONS \\\\\\\\\
 .ORG $0040 				; Write at the address $0040 (vblank interuption)
 	call VBlank
 	reti
@@ -17,12 +17,15 @@
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
 	jp start
-; \\\\\\\\\ DISABLE INTERRUPTIONS /////////
+; \\\\\\\\\ DEFINE INTERRUPTIONS /////////
 
 ; ///////// INIT \\\\\\\\\
+; /////// DISABLE INTERRUPTIONS \\\\\\\
 .org $0150 				; Write after $0150. Safe zone after the header.
 start:
 	di							; disable interrupt
+; \\\\\\\ DISABLE INTERRUPTIONS ///////
+; /////// TURN THE SCREEN AND SOUND OFF \\\\\\\
 	ld sp,$FFF4     ; set the StackPointer
 	xor a						; a=0
 	ldh ($26),a     ; ($FF26) = 0, turn the sound off
@@ -36,6 +39,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 									; turn the screen off:
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
 
 ; /////// INCLUDE .INIT \\\\\\\
 ;.INCLUDE "main.init.s"
