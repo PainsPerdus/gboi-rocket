@@ -62,7 +62,6 @@ sprite_id=RIGHT_EYE_START + offset
 Isaac's legs are always facing front and his head moves independently.
 But a part of his face is displayed in the bottom sprites and has to move accordingly.
 ~~~C
-
 if (moving)
 {
 	//Left
