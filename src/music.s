@@ -9,6 +9,14 @@ dw scale2
 dw timing1
 dw timing2
 
+;open sound circuits and sound set up
+ld a,%10000000
+ldh ($26),a
+ld a,%01110111
+ldh ($24),a
+ld a,%00110011
+ldh ($25),a
+
 timer_interupt :
 
     ;check if the note is finished
@@ -20,7 +28,7 @@ timer_interupt :
     jp nz, pass1
 
     ;switch off channel 1
-    
+
 
     ;if the note is finished, let's get the next one
     ld hl, curs1
@@ -61,8 +69,35 @@ timer_interupt :
     ld e, a ;save the time of the note to play in e
 
     ;play the note
-    ;Lower 8 bits of 11 bit frequency (FF13). Next 3 bit are in NR14 ($FF14)
+    ;TODO : set rest1
+
+  	ld a,%11110000
+  	ldh ($12),a
+
+    ld a, d
+    bit 7, a
+    jp z, silence
+    and 00000111
+    or 11000000
+    ldh ($14),a ;set the 3 higher weight bits
+
+    inc d
+    ld a, d
+    ldh ($13), a     ;set 5 lower weight bits
+
+    jp endSilence
+
+silence:
+  push c
+  push d
+  push e
+
+  pop e
+  pop d
+  pop c
+  ret
 
 
+endSilence:
 
 pass1:
