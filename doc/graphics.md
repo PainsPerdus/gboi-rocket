@@ -75,7 +75,6 @@ if (moving)
 	//Right
 	sprite_id = RIGHT_STANDING_START + bit0(orientation)
 }
-if(bit0 & bit1) draw_cache_pixel()
 ~~~
 
 When isaac is facing left (orientation 10), we need to hide the mouth pixel
