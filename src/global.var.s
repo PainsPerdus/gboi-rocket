@@ -27,3 +27,7 @@
 .STRUCT state
 	hp DB
 .ENDST
+
+.STRUCT global_var
+	void DB ; empty struct are forbidden :(
+.ENDST
