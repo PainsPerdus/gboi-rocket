@@ -65,7 +65,7 @@ VBlank:
 	push af
 	push hl
 ;.INCLUDE "display.s"
-;.INCLUDE "body.s"
+.INCLUDE "body.s"
 	pop hl
 	pop af
 	ret
