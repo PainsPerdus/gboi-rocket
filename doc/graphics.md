@@ -57,3 +57,22 @@ sprite_id=RIGHT_EYE_START + offset
 ~~~
 
 ### Bottom tiles
+
+Isaac's legs are always facing front and his head moves independently.
+But a part of his face is displayed in the bottom sprites and has to move accordingly.
+~~~C
+
+if (moving )
+	SpriteBottomLeft = Left walking start + bit1(orientation)
+	SpriteBottomRight = Rigth walking start + bit1(orientation)
+else
+	SpriteBottomLeft = Left standing start + 2*frameCount + bit1(orientation)
+	SpriteBottomRight = Rigth standing start + 2*frameCount + bit1(orientation)
+	frameCount ++
+	if (frameCount == nb frame)  frameCount = 0
+
+
+~~~
+
+
+
