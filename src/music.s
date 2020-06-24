@@ -1,13 +1,3 @@
-; Variables
-dw fileAddress
-dw rest1
-dw rest2
-dw curs1
-dw curs2
-dw scale1
-dw scale2
-dw timing1
-dw timing2
 
 ;open sound circuits and sound set up
 ld a,%10000000
@@ -65,18 +55,16 @@ timer_interupt :
     ld e, a
     sla e
     add bc, e
-    ld a, (bc)
-    ld e, a ;save the time of the note to play in e
+    ld hl, bc
+    //ld rest1, hl ;set the time of the note to play in rest1, this line may not be useful
 
-    ;play the note
-    ;TODO : set rest1
-
+    ;play the frequency of the note
   	ld a,%11110000
   	ldh ($12),a
 
     ld a, d
     bit 7, a
-    jp z, silence
+    jp z, @silence
     and 00000111
     or 11000000
     ldh ($14),a ;set the 3 higher weight bits
@@ -85,19 +73,8 @@ timer_interupt :
     ld a, d
     ldh ($13), a     ;set 5 lower weight bits
 
-    jp endSilence
+    jp @endSilence
 
-silence:
-  push c
-  push d
-  push e
+@endSilence:
 
-  pop e
-  pop d
-  pop c
-  ret
-
-
-endSilence:
-
-pass1:
+@pass1:
