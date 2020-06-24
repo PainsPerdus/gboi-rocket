@@ -1,0 +1,8 @@
+; //////// DISPLAY BALL \\\\\\\\
+	ld hl,$FE00
+	ld a,(global_.isaac.x)
+	ld (hl),a
+	inc l
+	ld a,(global_.isaac.y)
+	ld (hl),a
+; \\\\\\\\ DISPLAY BALL ////////
