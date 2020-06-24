@@ -37,17 +37,38 @@ We set everything to 0.
 
 ## Clear OAM
 
-## Prepare isaac sprite
+There are 40 sprites in the OAM, each sprites take up 4 bytes, so we need to clear the 40*4 bytes of the OAM and set everything to 0.
 
-### Initialize variables
-We initialize isaac posX and posY with default values.
+## Load Sprites
 
-### Setup OAM
+### Isaac Sprites
 There are 4 sprites for isaac, in this order in the ROM:  
  - top left
  - top right
  - bottom left
  - bottom right
-We put their position in the OAM according to isaac PosX and PosY. 
-(TODO: for now, we use a fixed posX and posY in b and c, we need to load that from memory)
+We put their position in the OAM according to isaac x and y positions
 
+To make it a little faster and easier we store Isaac position in 2 registers. 
+
+## Init Color Palettes
+
+We initialize a basic color palette (in same order as colors) and set it on background and sprite.
+This can change if we want to use multiple palettes. 
+
+## Enable Screen
+
+We turn on the screen, the background by setting the LCDC STAT (LCDC Status Register) to `%10010011`
+Here is what Pandocs says about the STAT : 
+```
+Bit 6 - LYC=LY Coincidence Interrupt (1=Enable) (Read/Write)
+Bit 5 - Mode 2 OAM Interrupt         (1=Enable) (Read/Write)
+Bit 4 - Mode 1 V-Blank Interrupt     (1=Enable) (Read/Write)
+Bit 3 - Mode 0 H-Blank Interrupt     (1=Enable) (Read/Write)
+Bit 2 - Coincidence Flag  (0:LYC<>LY, 1:LYC=LY) (Read Only)
+Bit 1-0 - Mode Flag       (Mode 0-3, see below) (Read Only)
+          0: During H-Blank
+          1: During V-Blank
+          2: During Searching OAM
+          3: During Transferring Data to LCD Driver
+```
