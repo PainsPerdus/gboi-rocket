@@ -2,7 +2,7 @@
 
 ## Isaac
 
-Content of the struct "isaac" :
+Content of the struct "isaac_var" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
@@ -15,10 +15,11 @@ Content of the struct "isaac" :
 | speed | 1 byte | Isaac speed (split in 2 x 4bits, x speed and y speed) |
 | tears | 1 byte | 3 bits for horizontal speed of tears, 3 bits for vertical speed, 1 flag for "A was pressed the frame before", 1 flag for "B  was pressed" |
 | recover | 1 byte | recovery time |
+| bombs | 1 byte | number of bombs Isaac has |
 
 ## Element
 
-Content of the struct "element" :
+Content of the struct "element_var" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
@@ -30,7 +31,7 @@ Content of the struct "element" :
 
 ## Sheet
 
-Content of struct "sheet" :
+Content of struct "sheet_var" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
@@ -40,9 +41,19 @@ Content of struct "sheet" :
 
 ## State
 
-Content of struct "state" :
+Content of struct "state_var" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
 | hp | 1 byte | the element's health |
 | | | this struct is almost empty, it is kept for later improvement (ex : content needed for the ennemie's AI) |
+
+## Tear
+
+Content of struct "tear_var" :
+
+| Label | Size | Description |
+| ----- | ---- | ----------- |
+| x | 1 byte | abscissa of the tear |
+| y | 1 byte | ordinate of the tear |
+| direction | 1 byte | 2 x 3 bits (x and y) + 1 flag to know if the tear is alive + 1 flag to know if the tear is upgraded |
