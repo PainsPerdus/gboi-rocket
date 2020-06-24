@@ -1,7 +1,3 @@
-.ENUM $C000
-	collidingEntity DW
-.ENDE
-
 ; //// Collision Solver for Entities other than Isaac \\\\
 collisionSolverIsaac :
 	push c
@@ -28,7 +24,7 @@ collisionSolverIsaac :
 	sub d
 	ld (collidingEntity), a
 	;\\ Touch Horizontally //
-noEHorizontalCollision :
+@noEHorizontalCollision :
 
 	; // Touch Vertically \\
 	bit 6, b
@@ -41,9 +37,9 @@ noEHorizontalCollision :
 	sub d
 	ld (hl), a
 	; \\ Touch Vertically //
-noEVerticalCollision :
+@noEVerticalCollision :
 	;\\\ Blocking Collision ///
-noEBlockCollision :
+@noEBlockCollision :
 
 	pop e
 	pop d

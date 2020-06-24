@@ -10,7 +10,7 @@
 | ----- | ---- | ----------- | ----------- |
 | b | register | 1 byte | the 4 left bits are flags which indicates which side of the element the entity touched (right, left, lower, upper) |
 | hl | register | 2 bytes | address to the caracter's sheet of the element |
-| collidingEntity | fixed address | element pointer | address to the element representing the entity |
+| collisionSolver_.collidingEntity | fixed address | element pointer | address to the element representing the entity |
 
 ## Return
 

@@ -23,7 +23,7 @@ collisionSolverIsaac :
 	sub d
 	ld (isaac.x), a
 	;\\ Touch Horizontally //
-noHorizontalCollision :
+@noHorizontalCollision :
 
 	; // Touch Vertically \\
 	bit 6, b
@@ -35,9 +35,9 @@ noHorizontalCollision :
 	sub d
 	ld (isaac.y), a
 	; \\ Touch Vertically //
-noVerticalCollision :
+@noVerticalCollision :
 	;\\\ Blocking Collision ///
-noBlockCollision :
+@noBlockCollision :
 	
 	ld de, hl ;saving sheet address
 	
@@ -70,7 +70,7 @@ noHurtCollision :
 	inc hl
 	call (hl)
 	; \\\ Activation Collision ///
-noReactCollision :
+@noReactCollision :
 	
 	pop e
 	pop d
