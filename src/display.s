@@ -1,10 +1,14 @@
+; ########## START DISPLAY CRITICAL SECTION ##########
 display:
+
 ; ////// UPDATE SPRITES POSITION \\\\\\
 
 
-	ld hl, ISAAC_SPRITESHEET
 
 ; ///// Isaac \\\\\
+		ld hl, ISAAC_SPRITESHEET
+
+; //// Top Tiles \\\\
 		ld a, (global_.isaac.y)
 		ld b,a
 		ld a, (global_.isaac.x)
@@ -27,6 +31,8 @@ display:
 		ld (hl), ISAAC_TOP_LEFT + 1 ;First isaac standing sprite
 		
 //top right
+ld d,0
+ld e,0
 		ld hl,$FE04
 		ld a,b
 		ld (hl),a ;posY
@@ -36,6 +42,8 @@ display:
 		ld (hl),a ;posX
 		inc l
 		ld (hl), ISAAC_TOP_RIGHT + 1 ;First isaac standing sprite
+
+; \\\\ Top Tiles ////
 
 ; //// Bottom Tiles \\\\
 
@@ -60,15 +68,7 @@ display:
 		add ISAAC_BOTTOM_RIGHT_WALK
 		add e
 		ld e, a ;right_sprite_id
-	//Update Timer
-		ld a,(display_.isaac.walk_timer)
-  		and a
-  		jp nz,@end_timer
-  		ld a,11
-@end_timer:
-		dec a
-  		ld (display_.isaac.walk_timer), a
-		jp @endBottom ;jump to the end of the else
+		jr @endMoving
 ; \\ Moving //
 
 ; // Not Moving \\
@@ -77,11 +77,8 @@ display:
 		ld d, ISAAC_BOTTOM_LEFT_STAND
 	//Right sprite id
 		ld e, ISAAC_BOTTOM_RIGHT_STAND
-	//Update Timer
-		xor a
-		ld (display_.isaac.walk_timer), a ;reset walk_timer
 ; \\ Not Moving //
-@endBottom:
+@endMoving:
 ; \\\Setup sprite ids///
 
 ; /// Update OAM \\\
@@ -95,12 +92,8 @@ display:
 		ld a, (global_.isaac.x)
 		ld (hl), a ;posX
 		inc l
-		ld a,(display_.isaac.walk_timer) ;if walk timer is 0, we update the bottom sprite
-		and a ;update Z
-		jr nz, @noUpdateLeft
 		ld (hl), d ;Chosen bottom left sprite 
-@noUpdateLeft
-		
+
 //bottom right
 		ld hl,$FE0C
 		ld a, (global_.isaac.y)
@@ -111,11 +104,7 @@ display:
 		add 8
 		ld (hl), a ;posX
 		inc l
-		ld a,(display_.isaac.walk_timer) ;if walk timer is 0, we update the bottom sprite
-		and a ;update Z
-		jr nz, @noUpdateRight
 		ld (hl), e ;Chosen bottom right sprite
-@noUpdateRight
 
 ; \\\ Update OAM ///
 ; \\\\ Bottom Tiles ////
@@ -123,14 +112,48 @@ display:
 ; \\\\\\ UPDATE SPRITES POSITION //////
 
 
+; ########## END DISPLAY CRITICAL SECTION ##########
+displayNonCritical: 
+
+
 ; ////// UPDATE ANIMATION FRAMES AND TIMERS \\\\\\
-	
-	ld a,(display_.isaac.walk_timer) ;if walk timer is 0, we update the frames
-	and a ;update Z
-	jr nz, @noUpdateFrames
-	ld a, (display_.isaac.frame)
-	xor %00000001 ;bit0(a)=!bit0(a)
-	ld (display_.isaac.frame),a
-@noUpdateFrames
+
+; ///// Isaac \\\\\
+		ld a, (global_.isaac.speed)
+		and a ; update Z flag with value of a
+		jp z, @notMoving ; Isaac is not moving if its speed is 0
+; //// Moving \\\\
+
+; /// Update Timer \\\
+		ld a,(display_.isaac.walk_timer)
+		and a
+  		jr nz,@end_timer ;Reset timer and update frame when timer is 0
+
+; // Update animation frame \\
+		ld a, (display_.isaac.frame)
+		xor %00000001 ;bit0(a)=!bit0(a)
+		ld (display_.isaac.frame),a
+; \\ Update animation frame //
+
+		//Timer is 0 so we reset the timer
+  		ld a,20 
+@end_timer:
+		//We decrease the timer
+		dec a
+  		ld (display_.isaac.walk_timer), a
+; \\\ Update Timer ///
+
+		jr @endMoving
+; \\\\ Moving ////
+; //// Not Moving \\\\
+@notMoving
+		xor a
+	//Reset the timer
+		ld (display_.isaac.walk_timer), a
+	//Reset walking animation frame
+		ld (display_.isaac.frame), a
+@endMoving
+; \\\\ Not Moving ////
+; \\\\\ Isaac /////
 
 ; \\\\\\ UPDATE ANIMATION FRAMES AND TIMERS //////
