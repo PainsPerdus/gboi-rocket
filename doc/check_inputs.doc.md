@@ -54,26 +54,24 @@ Content of the struct "isaac" :
 ### Pseudo code
 
 ~~~C
-char collision(){
-	// INIT ARROW
-	(0xFFEE) = %00100000; // select the arrow keys
-	b = get_arrow_values();
-	// SET SPEED
-	// speed_x = a[7:4], speed_y = a [3:0]
-	speed_x = 0;
-	speed_y = 0;
-	if (right_arrow(b)){
-		speed_x = 2;
-	}else if (left_arrow(b)){
-		speed_x = -2;
-	}
-	if (down_arrow(b)){
-		speed_y = 2;
-	}else if (up_arrow(b)){
-		speed_x = -2;
-	}
-	global_.isaac.speed = [speed_x, speed_y];
+// INIT ARROW
+(0xFFEE) = %00100000; // select the arrow keys
+b = get_arrow_values();
+// SET SPEED
+// speed_x = a[7:4], speed_y = a [3:0]
+speed_x = 0;
+speed_y = 0;
+if (right_arrow(b)){
+	speed_x = 2;
+}else if (left_arrow(b)){
+	speed_x = -2;
 }
+if (down_arrow(b)){
+	speed_y = 2;
+}else if (up_arrow(b)){
+	speed_x = -2;
+}
+global_.isaac.speed = [speed_x, speed_y];
 ~~~
 
 * INIT ARROW: Set $FF00 to select the arrow keys.
