@@ -1,6 +1,8 @@
 display:
 ; ////// INIT DIRECTION \\\\\\
 
+
+
 /*
 ld a, (global_.isaac.speed)
 ld b,a
@@ -100,6 +102,15 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 		inc l
 		ld (hl), ISAAC_BOTTOM_RIGHT_STAND +1 ;Fourth isaac standing sprite
 
+
+ld hl, ISAAC_MOUTH_PIXEL_1
+ld a, (hl)
+and %11111110
+ld (hl), a
+ld hl, ISAAC_MOUTH_PIXEL_2
+ld a, (hl)
+and %11111110
+ld (hl), a
 
 
 ; \\ Isaac //
