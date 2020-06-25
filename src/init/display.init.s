@@ -2,9 +2,9 @@ display_init:
 
 ; /////// INITIALIZE VARIABLES \\\\\\\
 xor a
-ld (_display.isaac.frame),a
-ld (_display.isaac.shoot_timer),a
-ld (_display.isaac.walk_timer),a
+ld (display_.isaac.frame),a
+ld (display_.isaac.shoot_timer),a
+ld (display_.isaac.walk_timer),a
 
 ; \\\\\\\ INITIALIZE VARIABLES ///////
 

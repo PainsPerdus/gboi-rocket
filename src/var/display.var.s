@@ -1,9 +1,9 @@
-.STRUCT isaac
-	frame
-	shoot_timer
-	walk_timer
+.STRUCT isaac_display
+	frame DB
+	shoot_timer DB
+	walk_timer DB
 .ENDST
 
 .STRUCT display_var
-	isaac INSTANCEOF isaac
+	isaac INSTANCEOF isaac_display
 .ENDST
