@@ -50,14 +50,8 @@ There are 40 sprites in the OAM, each sprites take up 4 bytes, so we need to cle
 ## Load Sprites
 
 ### Isaac Sprites
-There are 4 sprites for isaac, in this order in the ROM:  
- - top left
- - top right
- - bottom left
- - bottom right
-We put their position in the OAM according to isaac x and y positions
 
-To make it a little faster and easier we store Isaac position in 2 registers. 
+As we change the sprites values in OAM, we don't need to set them up here. All flags are set to $00 when we clear the OAM.
 
 ## Init Color Palettes
 

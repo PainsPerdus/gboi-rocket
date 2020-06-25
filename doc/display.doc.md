@@ -23,6 +23,7 @@ Constants :
 ## Update sprites position
 
 We start by updating sprite positions in OAM because we need to do it before the end of VBlank. After, the OAM will be locked. 
+We also update the sprite shown for each Isaac's part
 
 ### Isaac
 

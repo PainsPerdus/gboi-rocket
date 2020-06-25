@@ -54,7 +54,7 @@ ld (display_.isaac.walk_timer),a
 	ld hl,$FE00
 
 ; // ISAAC SPRITES \\
-
+/* This is not needed because we update all the sprites in display.s
 ld a, $39;(global_.isaac.y)
 ld b, a
 ld a, $40;(global_.isaac.x)
@@ -106,7 +106,7 @@ inc l
 ld (hl), ISAAC_BOTTOM_RIGHT_STAND +1 ;Fourth isaac standing sprite
 inc l
 ld (hl), $00 ;Flags
-
+*/
 ; \\ ISAAC SPRITES //
 
 ; \\\\\\\ LOAD SPRITES ///////
