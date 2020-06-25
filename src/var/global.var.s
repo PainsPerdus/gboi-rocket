@@ -15,6 +15,7 @@
 	tears DB
 	recover DB
 	bombs DB
+	direction DB
 .ENDST
 
 .STRUCT element
