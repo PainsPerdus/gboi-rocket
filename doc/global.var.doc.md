@@ -16,6 +16,7 @@ Content of the struct "isaac" :
 | tears | 1 byte | 3 bits for horizontal speed of tears, 3 bits for vertical speed, 1 flag for "A was pressed the frame before", 1 flag for "B  was pressed" |
 | recover | 1 byte | recovery time |
 | bombs | 1 byte | number of bombs Isaac has |
+| direction | 1 byte | 2 bits indicate Isaac's direction (11 = up, 00 = down, 01 = right, 10 = left), 6 other bits are free |
 
 ## Element
 
