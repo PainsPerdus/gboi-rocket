@@ -57,7 +57,7 @@ inc l
 ld a,c 
 ld (hl), a ;PosX
 inc l
-ld (hl), $02 ;First isaac standing sprite
+ld (hl), ISAAC_TOP_LEFT + 1 ;First isaac standing sprite
 inc l
 ld (hl), $00 ;Flags
 inc l
@@ -69,7 +69,7 @@ ld a,c
 add 8
 ld (hl), a ; PosX
 inc l
-ld (hl), $05 ;Second isaac standing sprite
+ld (hl), ISAAC_TOP_RIGHT + 1 ;Second isaac standing sprite
 inc l
 ld (hl), $00 ;Flags
 inc l
@@ -81,7 +81,7 @@ inc l
 ld a,c
 ld (hl), a ;PosX
 inc l
-ld (hl), $08 ;Third isaac standing sprite
+ld (hl), ISAAC_BOTTOM_LEFT_STAND + 1;Third isaac standing sprite
 inc l
 ld (hl), $00 ;Flags
 inc l
@@ -94,7 +94,7 @@ ld a,c
 add 8
 ld (hl), a ;PosX
 inc l
-ld (hl), $E ;Fourth isaac standing sprite
+ld (hl), ISAAC_BOTTOM_RIGHT_STAND +1 ;Fourth isaac standing sprite
 inc l
 ld (hl), $00 ;Flags
 

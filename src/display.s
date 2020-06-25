@@ -16,6 +16,9 @@ ld hl, ISAAC_SPRITESHEET
 		inc l
 		ld a, c
 		ld (hl), a ; posX
+		inc l
+		ld (hl), ISAAC_TOP_LEFT + 1;First isaac standing sprite
+		
 //top right
 		ld hl,$FE04
 		ld a,b
@@ -24,6 +27,8 @@ ld hl, ISAAC_SPRITESHEET
 		ld a,c
 		add 8
 		ld (hl),a ;posX
+		inc l
+		ld (hl), ISAAC_TOP_RIGHT + 1 ;First isaac standing sprite
 //bottom left
 		ld hl,$FE08
 		ld a,b
