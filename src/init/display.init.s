@@ -1,4 +1,13 @@
 display_init:
+
+; /////// INITIALIZE VARIABLES \\\\\\\
+xor a
+ld (_display.isaac.frame),a
+ld (_display.isaac.shoot_timer),a
+ld (_display.isaac.walk_timer),a
+
+; \\\\\\\ INITIALIZE VARIABLES ///////
+
 ; /////// LOAD TILES \\\\\\\
 	ld bc,14*32
 	ld de,Tiles
