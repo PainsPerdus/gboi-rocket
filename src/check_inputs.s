@@ -63,10 +63,10 @@ move_check_input:
 
 	bit $1,b			; Test 1th bit (B)
 	jr nz,@noB
-	set $7,(hl)
+	set $6,(hl)
 	jr @Bset
 @noB:
-	res $7,(hl)
+	res $6,(hl)
 @Bset:
 
 ; \\\\\\\ SET AB ///////
