@@ -1,5 +1,9 @@
 display:
 ; ////// UPDATE SPRITES POSITION \\\\\\
+
+
+ld hl, ISAAC_SPRITESHEET
+
 ; // Isaac \\
 		ld a, (global_.isaac.y)
 		ld b,a
@@ -37,6 +41,8 @@ display:
 		ld a,c
 		add 8
 		ld (hl), a ;posX
+
+
 ; \\ Isaac //
 ; \\\\\\ UPDATE SPRITES POSITION //////
 

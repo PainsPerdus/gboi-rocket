@@ -11,12 +11,14 @@ Needed Information:
 - frameCount
 
 Constants :
+- isaac spritesheet
 - Left eye start
 - Right eye start
 - Left standing start
 - Right standing start
 - Left walking start
 - Right walking start
+- 
 
 ## Update sprites position
 

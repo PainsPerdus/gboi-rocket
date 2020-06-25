@@ -4,6 +4,7 @@
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "var/global.var.s"
 .INCLUDE "var/display.var.s"
+.INCLUDE "var/sprite.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
