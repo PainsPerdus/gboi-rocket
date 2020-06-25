@@ -2,12 +2,14 @@
 .INCLUDE "hardware_specs.s"
 
 ; ///////// Mapping \\\\\\\\\
-.INCLUDE "global.var.s"
+.INCLUDE "var/global.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
+
+
 
 ; ///////// DEFINE INTERRUPTIONS \\\\\\\\\
 .ORG $0040 				; Write at the address $0040 (vblank interuption)
@@ -19,12 +21,16 @@
 	jp start
 ; \\\\\\\\\ DEFINE INTERRUPTIONS /////////
 
+
+
 ; ///////// INIT \\\\\\\\\
+
 ; /////// DISABLE INTERRUPTIONS \\\\\\\
 .org $0150 				; Write after $0150. Safe zone after the header.
 start:
 	di							; disable interrupt
 ; \\\\\\\ DISABLE INTERRUPTIONS ///////
+
 ; /////// TURN THE SCREEN AND SOUND OFF \\\\\\\
 	ld sp,$FFF4     ; set the StackPointer
 	xor a						; a=0
@@ -42,8 +48,8 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
 
 ; /////// INCLUDE .INIT \\\\\\\
-.INCLUDE "global.init.s"
-.INCLUDE "display.init.s.stub"
+.INCLUDE "init/global.init.s"
+.INCLUDE "init/display.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
@@ -56,22 +62,28 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 
 ; \\\\\\\\\ INIT /////////
 
+
+
 ; ///////// MAIN LOOP \\\\\\\\\
 loop:
 	jr loop
 ; \\\\\\\\\ MAIN LOOP /////////
 
+
+
 ; ///////// VBlank Interuption \\\\\\\\\
 VBlank:
 	push af
 	push hl
-.INCLUDE "display.s.stub"
+.INCLUDE "display.s"
 .INCLUDE "body.s"
 	pop hl
 	pop af
 	ret
 ; \\\\\\\\\ VBlank Interuption /////////
 
+
+
 ; ///////// INCLUDE .LIB \\\\\\\\\
-.INCLUDE "sprites.lib.s.stub"
+.INCLUDE "lib/sprites.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
