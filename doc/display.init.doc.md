@@ -14,7 +14,7 @@ Here we copy all the used tiles from ROM to VRAM.
 ROM tiles are stored at the `Tiles` label, and we copy them over to $8000 (start of VRAM)
 `BC` stores the number of bytes to copy and is calculated as such :
 ~~~C
-BC = n * 32 //Each sprite is 32 bytes (8*8/2)
+BC = n * 16 //Each sprite is 16 bytes (8*8/4 because 4 pixels per byte)
 ~~~
 Where `n` is the number of sprites (currently 14)
 

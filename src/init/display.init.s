@@ -10,7 +10,7 @@ ld (display_.isaac.walk_timer),a
 
 
 ; /////// LOAD TILES \\\\\\\
-	ld bc,14*32
+	ld bc,14*16
 	ld de,Tiles
 	ld hl,$8000
 @ldt:					; while bc != 0
