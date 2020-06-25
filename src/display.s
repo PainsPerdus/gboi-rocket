@@ -39,29 +39,28 @@ display:
 
 ; //// Bottom Tiles \\\\
 
-; ///Setup sprite ids\\\
+; /// Setup sprite ids \\\
 		ld a, (global_.isaac.speed)
 		and a ; update Z flag with value of a
 		jp z, @notMoving ; Isaac is not moving if its speed is 0
-//Moving
+; // Moving \\
 		ld a, (display_.isaac.frame)
 		sla a ;a=a*2 (shift left)
 		ld e,a //will store right_sprite_id
-	//Left
+	//Left sprite id
 		ld a, (global_.isaac.direction)
 		and %00000010 ; bit1((global_.isaac.direction))
 		xor a
 		add ISAAC_BOTTOM_LEFT_WALK
 		add e
 		ld d,a ;left_sprite_id
-	//Right
+	//Right sprite id
 		ld a, (global_.isaac.direction)
 		and %00000001 ; bit0((global_.isaac.direction))
 		add ISAAC_BOTTOM_RIGHT_WALK
 		add e
 		ld e, a ;right_sprite_id
-
-		//Timer
+	//Update Timer
 		ld a,(display_.isaac.walk_timer)
   		and a
   		jp nz,@end_timer
@@ -69,16 +68,20 @@ display:
 @end_timer:
 		dec a
   		ld (display_.isaac.walk_timer), a
-		jp @endBottom
+		jp @endBottom ;jump to the end of the else
+; \\ Moving //
+
+; // Not Moving \\
 @notMoving: 
-//Not moving
+	//Left sprite id
 		ld d, ISAAC_BOTTOM_LEFT_STAND
+	//Right sprite id
 		ld e, ISAAC_BOTTOM_RIGHT_STAND
-		//Timer
+	//Update Timer
 		xor a
 		ld (display_.isaac.walk_timer), a ;reset walk_timer
-@endBottom: ;Finished setting up sprite ids
-
+; \\ Not Moving //
+@endBottom:
 ; \\\Setup sprite ids///
 
 ; /// Update OAM \\\

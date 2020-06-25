@@ -67,21 +67,30 @@ sprite_id= ISAAC_TOP_RIGHT + offset
 Isaac's legs are always facing front and his head moves independently.
 But a part of his face is displayed in the bottom sprites and has to move accordingly.
 
+Also, we set a timer to change isaac's sprites only each N frames (constant) to slow down the animation.
+
 #### Setup sprite ids
 Here how we calculate the left and right sprite_id for this frame: 
 ~~~C
-if (global_.isaac.speed != 0) //Moving
+if (global_.isaac.speed != 0) // Moving 
 {
 	//Left
 	left_sprite_id = ISAAC_BOTTOM_LEFT_WALK + 2*display_.isaac.frame+ bit1(global_.isaac.direction)
 	//Right
 	right_sprite_id = ISAAC_BOTTOM_RIGHT_WALK + 2*display_.isaac.frame+ bit0(global_.isaac.direction)
+	//Update Timer
+	if(display_.isaac.walk_timer==0) {
+		display_.isaac.walk_timer=11 //11 frames (N constant)
+	}
+	display_.isaac.walk_timer--
 }else //Not Moving
 {
 	//Left
 	left_sprite_id = ISAAC_BOTTOM_LEFT_STAND  + bit1(global_.isaac.direction)
 	//Right
 	right_sprite_id = ISAAC_BOTTOM_RIGHT_STAND + bit0(global_.isaac.direction)
+	//Update Timer
+	display_.isaac.walk_timer=0 //Not walking, so timer = 0 (we update the sprites all the time)
 }
 ~~~
 
