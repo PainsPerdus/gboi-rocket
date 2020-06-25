@@ -14,6 +14,7 @@ move_check_input:
 	bit $0,b			; Test Oth bit (right)
 	jr nz,@nor
 	or %00100000	; a [7:4] = 2
+	jr @nol
 @nor:
 	bit $1,b			; Test 1th bit (left arrow)
 	jr nz,@nol
@@ -22,6 +23,7 @@ move_check_input:
 	bit $3,b		 	; Test third bit (down)
 	jr nz,@nod
 	or %00000010 	; a [3:0] = 2
+	jr @nou
 @nod:
 	bit $2,b			; Test second bit (up)
 	jr nz,@nou
