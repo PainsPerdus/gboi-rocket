@@ -2,6 +2,8 @@
 display:
 ; ////// INIT DIRECTION \\\\\\
 
+
+
 /*
 ld a, (global_.isaac.speed)
 ld b,a
@@ -23,7 +25,7 @@ ld a, 1
 ld (global_.isaac.direction), a
 */
 
-ld a, 10
+ld a, 3
 ld (global_.isaac.direction), a ; TODO determine position (now hard coded)
 ld a, 0
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
@@ -113,9 +115,16 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; // Not Moving \\
 @notMoving: 
 	//Left sprite id
-		ld d, ISAAC_BOTTOM_LEFT_STAND
+		ld a, (global_.isaac.direction)
+		and %00000010
+		rrca
+		add ISAAC_BOTTOM_LEFT_STAND
+		ld d, a
 	//Right sprite id
-		ld e, ISAAC_BOTTOM_RIGHT_STAND
+		ld a, (global_.isaac.direction)
+		and %00000001
+		add ISAAC_BOTTOM_RIGHT_STAND
+		ld e, a
 ; \\ Not Moving //
 @endMoving:
 ; \\\Setup sprite ids///
@@ -149,6 +158,31 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; \\\\ Bottom Tiles ////
 ; \\\\\ Isaac /////
 ; \\\\\\ UPDATE SPRITES POSITION //////
+
+ld hl, ISAAC_MOUTH_PIXEL_1
+ld a, (hl)
+or %00000001
+ld (hl), a
+ld hl, ISAAC_MOUTH_PIXEL_2
+ld a, (hl)
+or %00000001
+ld (hl), a
+
+ld a, (global_.isaac.direction)
+cp %00000010
+jp nz, @face_left
+
+ld hl, ISAAC_MOUTH_PIXEL_1
+ld a, (hl)
+and %11111110
+ld (hl), a
+ld hl, ISAAC_MOUTH_PIXEL_2
+ld a, (hl)
+and %11111110
+ld (hl), a
+
+@face_left:
+
 
 
 ; ########## END DISPLAY CRITICAL SECTION ##########
