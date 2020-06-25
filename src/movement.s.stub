@@ -1,36 +1,4 @@
-
-; //////// SET SPEED \\\\\\\\
-
-;NOTE: for arrow keys, bits (3 to 0) are Down, Up, Left, Right
-
-move_check_input:
-	ld a,%00100000	; Select arrow keys
-	ldh ($00),a
-	ldh a,($00)	; Read arrow keys
-	ld b,a
-
-	xor a ; a = 0
-
-	bit $0,b	; Test Oth bit (right)
-	jr nz,@nor
-	or %00100000	; a [7:4] = 2
-@nor:
-	bit $1,b	; Test 1th bit (left arrow)
-	jr nz,@nol
-	or %11100000 ; a [7:4] = -2
-@nol:
-	bit $3,b		 ; Test third bit (down)
-	jr nz,@nod
-	or %00000010 ; a [3:0] = 2
-@nod:
-	bit $2,b	; Test second bit (up)
-	jr nz,@nou
-	or %00001110 ; a [3:0] = -2
-@nou:
-	ld (global_.isaac.speed),a
-
-; \\\\\\\\ SET SPEED ////////
-
+move_stub:
 ; //////// MOVE ISAAC \\\\\\\
 	ld a,(global_.isaac.speed)
 	and %00001111
@@ -55,4 +23,20 @@ move_check_input:
 	ld hl,global_.isaac.x
 	add (hl)
 	ld (hl),a
+
+; if A / B are pressed
+	ld hl, global_.isaac.tears
+	bit $7,(hl); flag A set
+	jr z,@Aset
+	ld a,$10
+	ld (global_.isaac.x),a
+	ld (global_.isaac.y),a
+@Aset:
+
+	bit $6,(hl); flag B set
+	jr z,@Bset
+	ld a,$90
+	ld (global_.isaac.x),a
+	ld (global_.isaac.y),a
+@Bset:
 ; \\\\\\\ MOVE ISAAC ////////
