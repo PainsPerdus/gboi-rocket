@@ -11,7 +11,7 @@ Content of the struct "isaac" :
 | hp | 1 byte | health point of Isaac |
 | dmg | 1 byte | damage dealt by Isaac |
 | upgrades | 2 bytes | upgrades earned by Isaac (flags, to be defined) |
-| range | 1 byte | range of Isaac's tears |
+| range | 1 byte | 6 bits for range of Isaac's tears, 1 flag that tells if a tear was shot during the previous image |
 | speed | 1 byte | Isaac speed (split in 2 x 4bits, x speed and y speed) |
 | tears | 1 byte | 3 bits for horizontal speed of tears, 3 bits for vertical speed, 1 flag for "A was pressed the frame before", 1 flag for "B  was pressed" |
 | recover | 1 byte | recovery time |
@@ -27,6 +27,7 @@ Content of the struct "element" :
 | y | 1 byte | position of the element |
 | speed | 1 byte | Element's speed (split in 2 x 4bits, x speed and y speed) |
 | sheet | 1 byte | address to the corresponding generic sheet for the element (relative, first sheet will have address $00) |
+| hp | 1 byte | the element's health |
 | state | 2 bytes | address to the state of the element |
 
 ## Sheet
@@ -39,6 +40,7 @@ Content of struct "sheet" :
 | dmg | 1 byte | damage dealt by the ennemy |
 | function | 2 bytes | address to the AI function for ennemies or the function triggered when touched |
 | speed | 1 byte | max speed for this element |
+| hp | 1 byte | max hp for this element |
 
 ## State
 
@@ -46,8 +48,7 @@ Content of struct "state" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
-| hp | 1 byte | the element's health |
-| | | this struct is almost empty, it is kept for later improvement (ex : content needed for the ennemie's AI) |
+| empty | | this struct is almost empty, it is kept for later improvement (ex : content needed for the ennemie's AI) |
 
 ## Tear
 
