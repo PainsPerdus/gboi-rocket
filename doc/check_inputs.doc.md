@@ -22,14 +22,16 @@ This code updates the values of Isaac regarding the states of the buttons.
 | c | register | 1 byte |
 | hl | register | 2 bytes |
 | global_.isaac.speed | fixed address | 1 byte |
-| global_.isaac.direction | 1 byte | 2 bits indicate Isaac's direction (11 = up, 00 = down, 01 = right, 10 = left) (pos 1:0), 6 other bits are free |
+| global_.isaac.direction | fixed address | 1 byte
+| global_.isaac.tears | fixed address | 1 byte |
 
 ### Global variables used
 
 | Label | Size |  Description  |
 | ------------- | ---------- | ----------- |
 | global_.isaac.speed | 1 byte | Isaac speed (split in 2 x 4bits, x speed and y speed. [7:4]: x speed, [3:0]: y speed) |
-| direction | 1 byte | 2 bits indicate Isaac's direction (11 = up, 00 = down, 01 = right, 10 = left) (pos 1:0), 6 other bits are free |
+| global_.isaac.direction | 1 byte | 2 bits indicate Isaac's direction (11 = up, 00 = down, 01 = right, 10 = left) (pos 1:0), 6 other bits are free |
+| global_.isaac.tears | 1 byte | 3 bits for horizontal speed of tears (pos 5:3), 3 bits for vertical speed (pos 2:0), 1 flag for "A was pressed the frame before" in postion (pos 7), 1 flag for "B  was pressed" (pos 6)|
 
 ### Global structs used
 
@@ -84,11 +86,29 @@ if (right_arrow(b)){
 }
 global_.isaac.speed = [speed_x, speed_y];
 global_.isaac.direction = [global_.isaac.direction[7:3],direction]
+
+// INIT AB
+(0xFFEE) = %00010000; // select button keys
+b = get_button_values();
+// SET AB
+if (A(b))	// bit $0,b
+	set(global_.isaac.tears.a);
+else
+	res(global_.isaac.tears.a);
+if (B(b)) // bit $0,a
+	set(global_.isaac.tears.b);
+else
+	res(global_.isaac.tears.b);
+
 ~~~
 
 * INIT ARROW: Set $FF00 to select the arrow keys.
 
-* SET SPEED: Set the speed according to the key pressed.
+* CHECK ARROWS: Set the speed and direction according to the key pressed.
+
+* INIT AB: Set $FF00 to select the button keys.
+
+* CHECK AB: Set the a/b flags according to the key pressed.
 
 ### Notes
 

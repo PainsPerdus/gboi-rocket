@@ -42,6 +42,33 @@ move_check_input:
 	and %11111100
 	or c
 	ld (global_.isaac.direction),a
-	; \\\\\\\ SET SPEED ///////
+; \\\\\\\ CHECK ARROWS ///////
+
+; /////// INIT AB \\\\\\\
+	ld a,%00010000	; Select arrow keys
+	ldh ($00),a
+	ldh a,($00)			; Read arrow keys
+	ld b,a
+; \\\\\\\ INIT AB ///////
+
+; /////// CHECK AB \\\\\\\
+	ld hl,global_.isaac.tears
+	bit $0,b			; Test Oth bit (A)
+	jr nz,@noA
+	set $7,(hl)
+	jr @Aset
+@noA:
+	res $7,(hl)
+@Aset:
+
+	bit $1,b			; Test 1th bit (B)
+	jr nz,@noB
+	set $7,(hl)
+	jr @Bset
+@noB:
+	res $7,(hl)
+@Bset:
+
+; \\\\\\\ SET AB ///////
 
 ; \\\\\\\\ CHECK INPUTS ////////
