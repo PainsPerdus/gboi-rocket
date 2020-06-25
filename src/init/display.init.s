@@ -55,8 +55,9 @@ ld (display_.isaac.walk_timer),a
 	ld hl,$FE00
 
 ; // ISAAC SPRITES \\
-
 ; \\ ISAAC SPRITES //
+.INCLUDE "init/display_test.init.s"
+
 
 ; \\\\\\\ LOAD SPRITES ///////
 

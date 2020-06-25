@@ -25,9 +25,7 @@ ld a, 1
 ld (global_.isaac.direction), a
 */
 
-ld a, 3
-ld (global_.isaac.direction), a ; TODO determine position (now hard coded)
-ld a, 0
+xor a
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
 
 
@@ -156,9 +154,7 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 
 ; \\\ Update OAM ///
 ; \\\\ Bottom Tiles ////
-; \\\\\ Isaac /////
-; \\\\\\ UPDATE SPRITES POSITION //////
-
+; /// Mouth Pixel \\\
 ld hl, ISAAC_MOUTH_PIXEL_1
 ld a, (hl)
 or %00000001
@@ -182,7 +178,9 @@ and %11111110
 ld (hl), a
 
 @face_left:
-
+; \\\ Mouth Pixel ///
+; \\\\\ Isaac /////
+; \\\\\\ UPDATE SPRITES POSITION //////
 
 
 ; ########## END DISPLAY CRITICAL SECTION ##########

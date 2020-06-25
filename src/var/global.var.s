@@ -23,6 +23,7 @@
 	y DB
 	speed DB
 	sheet DB
+	hp DB
 	state DW
 .ENDST
 
@@ -31,10 +32,11 @@
 	dmg DB
 	function DW
 	speed DB
+	hp DB
 .ENDST
 
 .STRUCT state
-	hp DB
+	empty DB
 .ENDST
 
 .STRUCT tear
