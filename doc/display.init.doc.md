@@ -1,12 +1,20 @@
 # Initialize display 
 
+## Initialize Variables
+
+| Label                      | Value |
+| -------------------------- | ----- |
+| _display.isaac.frame       | $0    |
+| _display.isaac.shoot_timer | $0    |
+| _display.isaac.walk_timer  | $0    |
+
 ## Load Tiles
 
 Here we copy all the used tiles from ROM to VRAM.  
 ROM tiles are stored at the `Tiles` label, and we copy them over to $8000 (start of VRAM)
 `BC` stores the number of bytes to copy and is calculated as such :
 ~~~C
-BC = n * 32 //Each sprite is 32 bytes (8*8/2)
+BC = n * 16 //Each sprite is 16 bytes (8*8/4 because 4 pixels per byte)
 ~~~
 Where `n` is the number of sprites (currently 14)
 
@@ -42,14 +50,8 @@ There are 40 sprites in the OAM, each sprites take up 4 bytes, so we need to cle
 ## Load Sprites
 
 ### Isaac Sprites
-There are 4 sprites for isaac, in this order in the ROM:  
- - top left
- - top right
- - bottom left
- - bottom right
-We put their position in the OAM according to isaac x and y positions
 
-To make it a little faster and easier we store Isaac position in 2 registers. 
+As we change the sprites values in OAM, we don't need to set them up here. All flags are set to $00 when we clear the OAM.
 
 ## Init Color Palettes
 

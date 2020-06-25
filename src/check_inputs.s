@@ -14,7 +14,7 @@ move_check_input:
 
 ; /////// CHECK ARROWS \\\\\\\
 	xor a 				; speed_x = 0; speed_y = 0;
-	ld c,0				; orientation = 0;
+	ld c,%00000011		; orientation = %11;
 	bit $3,b		 	; Test third bit (down)
 	jr nz,@nod
 	or %00000010 	; a [3:0] = 2
