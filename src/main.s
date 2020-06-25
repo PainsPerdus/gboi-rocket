@@ -3,9 +3,11 @@
 
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "var/global.var.s"
+.INCLUDE "var/display.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
+	display_ INSTANCEOF display_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 

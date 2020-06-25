@@ -1,5 +1,13 @@
 # Initialize display 
 
+## Initialize Variables
+
+| Label                      | Value |
+| -------------------------- | ----- |
+| _display.isaac.frame       | $0    |
+| _display.isaac.shoot_timer | $0    |
+| _display.isaac.walk_timer  | $0    |
+
 ## Load Tiles
 
 Here we copy all the used tiles from ROM to VRAM.  
