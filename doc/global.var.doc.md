@@ -11,7 +11,7 @@ Content of the struct "isaac" :
 | hp | 1 byte | health point of Isaac |
 | dmg | 1 byte | damage dealt by Isaac |
 | upgrades | 2 bytes | upgrades earned by Isaac (flags, to be defined) |
-| range | 1 byte | 6 bits for range of Isaac's tears (pos 6:0), 1 flag that tells if a tear was shot during the previous image (pos 7)|
+| range | 1 byte | 7 bits for range of Isaac's tears (pos 6:0), 1 flag that tells if a tear was shot during the previous image (pos 7)|
 | speed | 1 byte | Isaac speed (split in 2 x 4bits, x speed (pos 7:4) and y speed (pos 3:0)) |
 | tears | 1 byte | 3 bits for horizontal speed of tears (pos 5:3), 3 bits for vertical speed (pos 2:0), 1 flag for "A was pressed the frame before" in postion (pos 7), 1 flag for "B  was pressed" (pos 7)|
 | recover | 1 byte | recovery time |
