@@ -54,11 +54,11 @@ Here is how we compute the sprite_id that will be stored in OAM for the first tw
 )	
 ~~~C
 //Left
-offset = bit1(orientation) + (bit1(!orientation) && has_shot)
-sprite_id=LEFT_EYE_START + offset
+offset = bit1(display_.isaac.direction) + (bit1(display_.isaac.direction) && (shoot_timer > 0))
+sprite_id= ISAAC_TOP_LEFT  + offset
 //Right
-offset = bit2(orientation) + (bit0(!orientation) && has_shot)
-sprite_id=RIGHT_EYE_START + offset
+offset = bit0(display_.isaac.direction) + (bit0(display_.isaac.direction) && (shoot_timer > 0))
+sprite_id= ISAAC_TOP_RIGHT + offset
 ~~~
 
 ### Bottom tiles
@@ -66,28 +66,30 @@ sprite_id=RIGHT_EYE_START + offset
 Isaac's legs are always facing front and his head moves independently.
 But a part of his face is displayed in the bottom sprites and has to move accordingly.
 ~~~C
-if (moving)
+if (global_.isaac.speed != 0)
 {
 	//Left
-	sprite_id = LEFT_WALKING_START + 2*frameCount+ bit1(orientation)
+	sprite_id = ISAAC_TOP_LEFT + 2*display_.isaac.frame+ bit1(display_.isaac.direction)
 	//Right
-	sprite_id = RIGHT_WALKING_START + 2*frameCount+ bit0(orientation)
+	sprite_id = ISAAC_TOP_RIGHT + 2*display_.isaac.frame+ bit0(display_.isaac.direction)
 }else
 {
 	//Left
-	sprite_id = LEFT_STANDING_START  + bit1(orientation)
+	sprite_id = ISAAC_BOTTOM_LEFT_STAND  + bit1(display_.isaac.direction)
 	//Right
-	sprite_id = RIGHT_STANDING_START + bit0(orientation)
+	sprite_id = ISAAC_BOTTOM_RIGHT_STAND + bit0(display_.isaac.direction)
 }
 ~~~
 
 When isaac is facing left (orientation 10), we need to hide the mouth pixel
 
 ~~~C
-if(orientation==10) {
-	MOUTH_PIXEL = $01 //Light gray
+if(display_.isaac.direction==10) {
+	ISAAC_MOUTH_PIXEL_1 = $00 // black => Light gray ($11 => $01)
+	ISAAC_MOUTH_PIXEL_2 = $00
 }
 else {
-	MOUTH_PIXEL = $11 //Black
+	ISAAC_MOUTH_PIXEL_1 = $01 //Light gray => black
+	ISAAC_MOUTH_PIXEL_2 = $01
 }
 ~~~

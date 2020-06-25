@@ -1,13 +1,4 @@
 display_init:
-
-; /////// INITIALIZE VARIABLES \\\\\\\
-xor a
-ld (display_.isaac.frame),a
-ld (display_.isaac.shoot_timer),a
-ld (display_.isaac.walk_timer),a
-
-; \\\\\\\ INITIALIZE VARIABLES ///////
-
 ; /////// LOAD TILES \\\\\\\
 	ld bc,14*32
 	ld de,Tiles
@@ -55,57 +46,6 @@ ld (display_.isaac.walk_timer),a
 
 ; // ISAAC SPRITES \\
 
-ld a, $39;(global_.isaac.y)
-ld b, a
-ld a, $40;(global_.isaac.x)
-ld c, a
-//top left
-ld a,b 
-ld (hl), a ;PosY
-inc l
-ld a,c 
-ld (hl), a ;PosX
-inc l
-ld (hl), ISAAC_TOP_LEFT + 1 ;First isaac standing sprite
-inc l
-ld (hl), $00 ;Flags
-inc l
-//top right
-ld a,b
-ld (hl), a ;PosY
-inc l
-ld a,c
-add 8
-ld (hl), a ; PosX
-inc l
-ld (hl), ISAAC_TOP_RIGHT + 1 ;Second isaac standing sprite
-inc l
-ld (hl), $00 ;Flags
-inc l
-//bottom left
-ld a,b
-add 8
-ld (hl), a ;PosY
-inc l
-ld a,c
-ld (hl), a ;PosX
-inc l
-ld (hl), ISAAC_BOTTOM_LEFT_STAND + 1;Third isaac standing sprite
-inc l
-ld (hl), $00 ;Flags
-inc l
-//bottom right
-ld a,b
-add 8
-ld (hl), a ;PosY
-inc l
-ld a,c
-add 8
-ld (hl), a ;PosX
-inc l
-ld (hl), ISAAC_BOTTOM_RIGHT_STAND +1 ;Fourth isaac standing sprite
-inc l
-ld (hl), $00 ;Flags
 
 ; \\ ISAAC SPRITES //
 
