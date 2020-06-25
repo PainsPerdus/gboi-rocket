@@ -1,13 +1,15 @@
 display_init:
 ; /////// LOAD TILES \\\\\\\
-	ld b,3*8*2
+	ld bc,14*32
 	ld de,Tiles
 	ld hl,$8000
-@ldt:					; while b != 0
+@ldt:					; while bc != 0
 	ld a,(de)
 	ldi (hl),a	; *hl <- *de; hl++
 	inc de			; de ++
-	dec b				; b--
+	dec bc ; bc--
+	ld a,b
+	or c
 	jr nz,@ldt		; end while
 ; \\\\\\\ LOAD TILES ///////
 
@@ -42,16 +44,61 @@ display_init:
 ; /////// LOAD SPRITES \\\\\\\
 	ld hl,$FE00
 
-	; [$FE00-$FE04[ = ball [Y, X, sprite num, 0]
-	; load the ball sprite
-	ld (hl),$80		; ball.y <- 0x80
-	inc l
-	ld (hl),$80		; ball.x <- 0x80
-	inc l
-	ld (hl),$02		; ball.tile <- tile[2]
-	inc l
-	ld (hl),$00		; ball.attribute <- 0
-	inc l
+; // ISAAC SPRITES \\
+
+ld a, $39;(global_.isaac.y)
+ld b, a
+ld a, $40;(global_.isaac.x)
+ld c, a
+//top left
+ld a,b 
+ld (hl), a ;PosY
+inc l
+ld a,c 
+ld (hl), a ;PosX
+inc l
+ld (hl), $02 ;First isaac standing sprite
+inc l
+ld (hl), $00 ;Flags
+inc l
+//top right
+ld a,b
+ld (hl), a ;PosY
+inc l
+ld a,c
+add 8
+ld (hl), a ; PosX
+inc l
+ld (hl), $05 ;Second isaac standing sprite
+inc l
+ld (hl), $00 ;Flags
+inc l
+//bottom left
+ld a,b
+add 8
+ld (hl), a ;PosY
+inc l
+ld a,c
+ld (hl), a ;PosX
+inc l
+ld (hl), $08 ;Third isaac standing sprite
+inc l
+ld (hl), $00 ;Flags
+inc l
+//bottom right
+ld a,b
+add 8
+ld (hl), a ;PosY
+inc l
+ld a,c
+add 8
+ld (hl), a ;PosX
+inc l
+ld (hl), $E ;Fourth isaac standing sprite
+inc l
+ld (hl), $00 ;Flags
+
+; \\ ISAAC SPRITES //
 
 ; \\\\\\\ LOAD SPRITES ///////
 
@@ -60,6 +107,9 @@ ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt
 ldh ($47),a	; background palette
 ldh ($48),a	; sprite 0 palette
 ldh ($49),a	; sprite 1 palette
+; \\\\\\\ INIT COLOR PALETTES ///////
+
+; /////// ENABLE SCREEN \\\\\\\
 ld a,%10010011 	; screen on, bg on, tiles at $8000
 ldh ($40),a
-; \\\\\\\ INIT COLOR PALETTES ///////
+; \\\\\\\ ENABLE SCREEN ///////
