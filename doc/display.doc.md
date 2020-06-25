@@ -66,21 +66,34 @@ sprite_id= ISAAC_TOP_RIGHT + offset
 
 Isaac's legs are always facing front and his head moves independently.
 But a part of his face is displayed in the bottom sprites and has to move accordingly.
+
+#### Setup sprite ids
+Here how we calculate the left and right sprite_id for this frame: 
 ~~~C
-if (global_.isaac.speed != 0)
+if (global_.isaac.speed != 0) //Moving
 {
 	//Left
-	sprite_id = ISAAC_TOP_LEFT + 2*display_.isaac.frame+ bit1(global_.isaac.direction)
+	left_sprite_id = ISAAC_BOTTOM_LEFT_WALK + 2*display_.isaac.frame+ bit1(global_.isaac.direction)
 	//Right
-	sprite_id = ISAAC_TOP_RIGHT + 2*display_.isaac.frame+ bit0(global_.isaac.direction)
-}else
+	right_sprite_id = ISAAC_BOTTOM_RIGHT_WALK + 2*display_.isaac.frame+ bit0(global_.isaac.direction)
+}else //Not Moving
 {
 	//Left
-	sprite_id = ISAAC_BOTTOM_LEFT_STAND  + bit1(global_.isaac.direction)
+	left_sprite_id = ISAAC_BOTTOM_LEFT_STAND  + bit1(global_.isaac.direction)
 	//Right
-	sprite_id = ISAAC_BOTTOM_RIGHT_STAND + bit0(global_.isaac.direction)
+	right_sprite_id = ISAAC_BOTTOM_RIGHT_STAND + bit0(global_.isaac.direction)
 }
 ~~~
+
+#### Setup should update flag
+
+We use `c` as a flag to tell if we should actually update the bottom sprites ids.
+`c` is 0 if we don't need to update the bottom sprites ids, else `c` is $FF.
+
+#### Update OAM
+These sprite_id will be then placed in the OAM at the same time as the updated postiions.
+
+### Mouth pixel
 
 When isaac is facing left (orientation 10), we need to hide the mouth pixel
 
