@@ -1,3 +1,4 @@
+; ########## START DISPLAY CRITICAL SECTION ##########
 display:
 ; ////// INIT DIRECTION \\\\\\
 
@@ -24,7 +25,7 @@ ld a, 1
 ld (global_.isaac.direction), a
 */
 
-ld a, 3
+ld a, 10
 ld (global_.isaac.direction), a ; TODO determine position (now hard coded)
 ld a, 0
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
@@ -33,13 +34,16 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; ////// UPDATE SPRITES POSITION \\\\\\
 
 
-; // Isaac \\
+; ///// Isaac \\\\\
+		ld hl, ISAAC_SPRITESHEET
+
 		ld a, (global_.isaac.y)
 		ld b,a
 		ld a, (global_.isaac.x)
 		ld c,a
-;/ top tiles \
-;left
+
+; //// Top Tiles \\\\
+; /// Left \\\\
 		ld hl,$FE00
 		ld a, b
 		ld (hl), a ;posY
@@ -58,8 +62,8 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 		add d
 		add e
 		ld (hl), a
-		
-;right
+; \\\ Left ///	
+; /// Right \\\
 		ld hl,$FE04
 		ld a,b
 		ld (hl),a ;posY
@@ -78,30 +82,75 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 		add d
 		add e
 		ld (hl), a
-;\ top tiles /
+; \\\ Right ///
+
+; \\\\ Top Tiles ////
+
+; //// Bottom Tiles \\\\
+
+; /// Setup sprite ids \\\
+		ld a, (global_.isaac.speed)
+		and a ; update Z flag with value of a
+		jp z, @notMoving ; Isaac is not moving if its speed is 0
+; // Moving \\
+		ld a, (display_.isaac.frame)
+		sla a ;a=a*2 (shift left)
+		ld e,a //will store right_sprite_id
+	//Left sprite id
+		ld a, (global_.isaac.direction)
+		and %00000010 ; bit1((global_.isaac.direction))
+		rrca ;rotate right accumulator
+		add ISAAC_BOTTOM_LEFT_WALK
+		add e
+		ld d,a ;left_sprite_id
+	//Right sprite id
+		ld a, (global_.isaac.direction)
+		and %00000001 ; bit0((global_.isaac.direction))
+		add ISAAC_BOTTOM_RIGHT_WALK
+		add e
+		ld e, a ;right_sprite_id
+		jr @endMoving
+; \\ Moving //
+
+; // Not Moving \\
+@notMoving: 
+	//Left sprite id
+		ld d, ISAAC_BOTTOM_LEFT_STAND
+	//Right sprite id
+		ld e, ISAAC_BOTTOM_RIGHT_STAND
+; \\ Not Moving //
+@endMoving:
+; \\\Setup sprite ids///
+
+; /// Update OAM \\\
 
 //bottom left
 		ld hl,$FE08
-		ld a,b
+		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY
 		inc l
-		ld a,c
+		ld a, (global_.isaac.x)
 		ld (hl), a ;posX
 		inc l
-		ld (hl), ISAAC_BOTTOM_LEFT_STAND + 1 ;Third isaac standing sprite
+		ld (hl), d ;Chosen bottom left sprite 
+
 //bottom right
 		ld hl,$FE0C
-		ld a,b
+		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY
 		inc l
-		ld a,c
+		ld a, (global_.isaac.x)
 		add 8
 		ld (hl), a ;posX
 		inc l
-		ld (hl), ISAAC_BOTTOM_RIGHT_STAND +1 ;Fourth isaac standing sprite
+		ld (hl), e ;Chosen bottom right sprite
 
+; \\\ Update OAM ///
+; \\\\ Bottom Tiles ////
+; \\\\\ Isaac /////
+; \\\\\\ UPDATE SPRITES POSITION //////
 
 ld hl, ISAAC_MOUTH_PIXEL_1
 ld a, (hl)
@@ -113,6 +162,48 @@ and %11111110
 ld (hl), a
 
 
-; \\ Isaac //
-; \\\\\\ UPDATE SPRITES POSITION //////
+; ########## END DISPLAY CRITICAL SECTION ##########
+displayNonCritical: 
 
+
+; ////// UPDATE ANIMATION FRAMES AND TIMERS \\\\\\
+
+; ///// Isaac \\\\\
+		ld a, (global_.isaac.speed)
+		and a ; update Z flag with value of a
+		jp z, @notMoving ; Isaac is not moving if its speed is 0
+; //// Moving \\\\
+
+; /// Update Timer \\\
+		ld a,(display_.isaac.walk_timer)
+		and a
+  		jr nz,@end_timer ;Reset timer and update frame when timer is 0
+
+; // Update animation frame \\
+		ld a, (display_.isaac.frame)
+		xor %00000001 ;bit0(a)=!bit0(a)
+		ld (display_.isaac.frame),a
+; \\ Update animation frame //
+
+		//Timer is 0 so we reset the timer
+  		ld a,20 
+@end_timer:
+		//We decrease the timer
+		dec a
+  		ld (display_.isaac.walk_timer), a
+; \\\ Update Timer ///
+
+		jr @endMoving
+; \\\\ Moving ////
+; //// Not Moving \\\\
+@notMoving
+		xor a
+	//Reset the timer
+		ld (display_.isaac.walk_timer), a
+	//Reset walking animation frame
+		ld (display_.isaac.frame), a
+@endMoving
+; \\\\ Not Moving ////
+; \\\\\ Isaac /////
+
+; \\\\\\ UPDATE ANIMATION FRAMES AND TIMERS //////
