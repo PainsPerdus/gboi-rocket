@@ -55,10 +55,10 @@ Here is how we compute the sprite_id that will be stored in OAM for the first tw
 )	
 ~~~C
 //Left
-offset = bit1(display_.isaac.direction) + (bit1(display_.isaac.direction) && (shoot_timer > 0))
+offset = bit1(global_.isaac.direction) + (bit1(global_.isaac.direction) && (display_.shoot_timer > 0))
 sprite_id= ISAAC_TOP_LEFT  + offset
 //Right
-offset = bit0(display_.isaac.direction) + (bit0(display_.isaac.direction) && (shoot_timer > 0))
+offset = bit0(global_.isaac.direction) + (bit0(global_.isaac.direction) && (display_.shoot_timer > 0))
 sprite_id= ISAAC_TOP_RIGHT + offset
 ~~~
 
@@ -70,22 +70,22 @@ But a part of his face is displayed in the bottom sprites and has to move accord
 if (global_.isaac.speed != 0)
 {
 	//Left
-	sprite_id = ISAAC_TOP_LEFT + 2*display_.isaac.frame+ bit1(display_.isaac.direction)
+	sprite_id = ISAAC_TOP_LEFT + 2*display_.isaac.frame+ bit1(global_.isaac.direction)
 	//Right
-	sprite_id = ISAAC_TOP_RIGHT + 2*display_.isaac.frame+ bit0(display_.isaac.direction)
+	sprite_id = ISAAC_TOP_RIGHT + 2*display_.isaac.frame+ bit0(global_.isaac.direction)
 }else
 {
 	//Left
-	sprite_id = ISAAC_BOTTOM_LEFT_STAND  + bit1(display_.isaac.direction)
+	sprite_id = ISAAC_BOTTOM_LEFT_STAND  + bit1(global_.isaac.direction)
 	//Right
-	sprite_id = ISAAC_BOTTOM_RIGHT_STAND + bit0(display_.isaac.direction)
+	sprite_id = ISAAC_BOTTOM_RIGHT_STAND + bit0(global_.isaac.direction)
 }
 ~~~
 
 When isaac is facing left (orientation 10), we need to hide the mouth pixel
 
 ~~~C
-if(display_.isaac.direction==10) {
+if(global_.isaac.direction==10) {
 	ISAAC_MOUTH_PIXEL_1 = $00 // black => Light gray ($11 => $01)
 	ISAAC_MOUTH_PIXEL_2 = $00
 }
