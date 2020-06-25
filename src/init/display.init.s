@@ -51,10 +51,10 @@ ld b, a
 ld a, $40;(global_.isaac.x)
 ld c, a
 //top left
-ld a,b 
+ld a,b
 ld (hl), a ;PosY
 inc l
-ld a,c 
+ld a,c
 ld (hl), a ;PosX
 inc l
 ld (hl), $02 ;First isaac standing sprite
@@ -99,6 +99,8 @@ inc l
 ld (hl), $00 ;Flags
 
 ; \\ ISAAC SPRITES //
+.INCLUDE "init/display_test.init.s"
+
 
 ; \\\\\\\ LOAD SPRITES ///////
 

@@ -1,8 +1,31 @@
-; //////// DISPLAY BALL \\\\\\\\
-	ld hl,$FE00
-	ld a,(global_.isaac.y)
-	ld (hl),a
+display_test:
+; //////// DISPLAY TEST \\\\\\\\
+	ld hl,$FE90
+	ld a,(global_.isaac.direction)
+	and %00000011
+
+	cp 0
+	jr nz,@no_top
+	ld (hl),$10
 	inc l
-	ld a,(global_.isaac.x)
-	ld (hl),a
-; \\\\\\\\ DISPLAY BALL ////////
+	ld (hl),$50
+@no_top:
+	cp 1
+	jr nz,@no_right
+	ld (hl),$50
+	inc l
+	ld (hl),$90
+@no_right:
+	cp 3
+	jr nz,@no_down
+	ld (hl),$90
+	inc l
+	ld (hl),$50
+@no_down:
+	cp 2
+	jr nz,@no_left
+	ld (hl),$50
+	inc l
+	ld (hl),$10
+@no_left:
+; \\\\\\\\ DISPLAY TEST ////////
