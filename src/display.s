@@ -2,29 +2,6 @@
 display:
 ; ////// INIT DIRECTION \\\\\\
 
-
-
-/*
-ld a, (global_.isaac.speed)
-ld b,a
-and %11110000
-jp nz, @horizontal
-bit 3, b
-jp nz, @bas
-ld a, 0
-@bas:
-ld a, 3
-jp @end
-@horizontal:
-bit 7, b
-jp nz, @droite
-ld a, 2
-@droite:
-ld a, 1
-@end:
-ld (global_.isaac.direction), a
-*/
-
 xor a
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
 
