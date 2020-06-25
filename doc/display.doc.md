@@ -40,11 +40,11 @@ The shown eyes must close for one frame if he is shooting.
 
 Here is how we compute the sprite_id that will be stored in OAM for the first two sprites of isaac: 
 (Reminder : orientation is as follows : 
-      11 
+      00 
       TOP
 10 LEFT RIGHT 01
     BOTTOM
-      00
+      11
 )	
 ~~~C
 //Left
@@ -72,7 +72,7 @@ if (global_.isaac.speed != 0) // Moving
 	//Right
 	right_sprite_id = ISAAC_BOTTOM_RIGHT_WALK + 2*display_.isaac.frame+ bit0(global_.isaac.direction)
 }else //Not Moving
-{OB
+{
 	//Left
 	left_sprite_id = ISAAC_BOTTOM_LEFT_STAND  + bit1(global_.isaac.direction)
 	//Right

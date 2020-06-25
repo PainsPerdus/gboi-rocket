@@ -1,38 +1,67 @@
 ; ########## START DISPLAY CRITICAL SECTION ##########
 display:
+; ////// INIT DIRECTION \\\\\\
+
+/*
+ld a, (global_.isaac.speed)
+ld b,a
+and %11110000
+jp nz, @horizontal
+bit 3, b
+jp nz, @bas
+ld a, 0
+@bas:
+ld a, 3
+jp @end
+@horizontal:
+bit 7, b
+jp nz, @droite
+ld a, 2
+@droite:
+ld a, 1
+@end:
+ld (global_.isaac.direction), a
+*/
+
+ld a, 10
+ld (global_.isaac.direction), a ; TODO determine position (now hard coded)
+ld a, 0
+ld (display_.isaac.shoot_timer), a ; TODO hard coded
+
 
 ; ////// UPDATE SPRITES POSITION \\\\\\
-
 
 
 ; ///// Isaac \\\\\
 		ld hl, ISAAC_SPRITESHEET
 
-; //// Top Tiles \\\\
 		ld a, (global_.isaac.y)
 		ld b,a
 		ld a, (global_.isaac.x)
 		ld c,a
-//top left
+
+; //// Top Tiles \\\\
+; /// Left \\\\
 		ld hl,$FE00
 		ld a, b
 		ld (hl), a ;posY
 		inc l
 		ld a, c
 		ld (hl), a ; posX
-		;inc l
-		;ld a, global_.isaac.position
-		
-		;jp nc 
-		;ISAAC_TOP_LEFT + 1;First isaac standing sprite
-		;@top_done :
-		;ld (hl), 
 		inc l
-		ld (hl), ISAAC_TOP_LEFT + 1 ;First isaac standing sprite
-		
-//top right
-ld d,0
-ld e,0
+		ld a, (global_.isaac.direction)
+		and %00000010                  ;get second last bit
+		rrca
+		ld d, a                     ; d <= bit0(position)
+		ld a, (display_.isaac.shoot_timer)                      ; a <= (shoot_timer >0)
+		and d
+		ld e, a                     ; e <= ((shoot_timer >0) & position)
+		ld a, ISAAC_TOP_LEFT
+		add d
+		add e
+		ld (hl), a
+; \\\ Left ///	
+; /// Right \\\
 		ld hl,$FE04
 		ld a,b
 		ld (hl),a ;posY
@@ -41,7 +70,17 @@ ld e,0
 		add 8
 		ld (hl),a ;posX
 		inc l
-		ld (hl), ISAAC_TOP_RIGHT + 1 ;First isaac standing sprite
+		ld a, (global_.isaac.direction)
+		and %00000001                     ;get last bit
+		ld d, a                     ; d <= bit1(position)
+		ld a, (display_.isaac.shoot_timer)     ; a <= (shoot_timer >0)
+		and d
+		ld e, a                     ; e <= ((shoot_timer >0) & position)
+		ld a, ISAAC_TOP_RIGHT
+		add d
+		add e
+		ld (hl), a
+; \\\ Right ///
 
 ; \\\\ Top Tiles ////
 
@@ -58,7 +97,7 @@ ld e,0
 	//Left sprite id
 		ld a, (global_.isaac.direction)
 		and %00000010 ; bit1((global_.isaac.direction))
-		xor a
+		rrca ;rotate right accumulator
 		add ISAAC_BOTTOM_LEFT_WALK
 		add e
 		ld d,a ;left_sprite_id
