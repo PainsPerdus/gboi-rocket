@@ -25,7 +25,7 @@ ld a, 1
 ld (global_.isaac.direction), a
 */
 
-ld a, 2
+ld a, 3
 ld (global_.isaac.direction), a ; TODO determine position (now hard coded)
 ld a, 0
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
@@ -115,9 +115,16 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; // Not Moving \\
 @notMoving: 
 	//Left sprite id
-		ld d, ISAAC_BOTTOM_LEFT_STAND+1
+		ld a, (global_.isaac.direction)
+		and %00000010
+		rrca
+		add ISAAC_BOTTOM_LEFT_STAND
+		ld d, a
 	//Right sprite id
-		ld e, ISAAC_BOTTOM_RIGHT_STAND+1
+		ld a, (global_.isaac.direction)
+		and %00000001
+		add ISAAC_BOTTOM_RIGHT_STAND
+		ld e, a
 ; \\ Not Moving //
 @endMoving:
 ; \\\Setup sprite ids///
