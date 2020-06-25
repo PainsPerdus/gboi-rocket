@@ -25,6 +25,7 @@ move_check_input:
 	or %00001110 ; a [3:0] = -2
 @nou:
 	ld (global_.isaac.speed),a
+
 ; \\\\\\\\ SET SPEED ////////
 
 ; //////// MOVE ISAAC \\\\\\\
@@ -34,7 +35,7 @@ move_check_input:
 	jp z,@dx_pos
 	or %11110000
 @dx_pos:
-	ld hl,global_.isaac.x
+	ld hl,global_.isaac.y
 	add (hl)
 	ld (hl),a
 
@@ -48,7 +49,7 @@ move_check_input:
 	jp z,@dy_pos
 	or %11110000
 @dy_pos:
-	ld hl,global_.isaac.y
+	ld hl,global_.isaac.x
 	add (hl)
 	ld (hl),a
 ; \\\\\\\ MOVE ISAAC ////////
