@@ -13,7 +13,14 @@ tags:
 Hi there, 
 
 It's been a while since the first update but as you will see, we've been pretty busy !
-Isaac now moves in all four directions and has a minimal walk animation. we had to sacrifice some of the aestetics for 
+Isaac now moves in all four directions and has a minimal walk animation. we had to sacrifice some of the aestetics for the sake of code efficiency. 
+
+In order to reduce memory space used and execution time, we exploited some particularities of isaac's sprite.
+As you can see [here] (../../assets/images/graphics1/isaac_frames.png), isaac is very symetrical and turning him left and rigth is almost the same as making his eyes/tears disapear.
+
+![logic](../../assets/images/graphics1/direction_bit.png)
+
+![logic](../../assets/images/graphics1/spritesheet_logic.png)
 
 ![logo 2](../../assets/images/graphics1/logo_2.png){: height="300px" width="300px" .align-center}
 
