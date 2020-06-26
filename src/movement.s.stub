@@ -30,10 +30,13 @@ move_stub:
 	ld (collision_.hitbox2), a
 
 	call collision
-	cp 0
+	and a
 	jr z, @@noCollision
 	ld b, a
-	call collisionSolverIsaac
+;	call collisionSolverIsaac
+	ld a, 32
+	ld (global_.isaac.x), a
+	ld (global_.isaac.y), a
 @@noCollision
 
 	ld a,(global_.isaac.speed)
@@ -68,10 +71,13 @@ move_stub:
 	ld (collision_.hitbox2), a
 
 	call collision
-	cp 0
+	and a
 	jr z, @@noCollision
 	ld b, a
-	call collisionSolverIsaac
+;	call collisionSolverIsaac
+	ld a, 32
+	ld (global_.isaac.x), a
+	ld (global_.isaac.y), a
 @@noCollision
 
 ; if A / B are pressed
