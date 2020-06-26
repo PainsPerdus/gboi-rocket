@@ -38,7 +38,7 @@ global_init:
 	ldi (hl),a; recover=0
 	ldi (hl),a; bombs=0
 	ld a,%00000011
-	ldi (hl)
+	ldi (hl),a
 
 	ld b,n_elements
 	ld de,global_.states
