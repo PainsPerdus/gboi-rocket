@@ -1,33 +1,54 @@
 displayBackgroundTile:
-; //// Computer top left rock position \\\\
-ld bc, 12 ;bc=X
-ld de, 9 ;de=Y
-sla e ;de=Y*2
-sla e ;de=Y*4
-sla e ;de=Y*8
+	push bc
+	push de ;Save callee saved registers
+	
 
-ld hl,$9800
-add hl, bc ;hl+=X
-add hl, de ;hl+=Y
-add hl, de ;hl+=Y
-add hl, de ;hl+=Y
-add hl, de ;hl+=Y
+; ///// Computer top left position in the BG Map \\\\\
 
-;hl now countains the top left rock position in the BG Map
-; \\\\ Computer top left rock position ////
+; //// Compute X \\\\
+	srl a; a=x/2
+	srl a; a=x/4
+	srl a; a=x/8=X
+	ld d,$00
+	ld e, a ;load a in a 16 bits register
+; \\\\ Compute X ////
 
-; //// Set rock 4 tiles \\\\
+; //// Compute 8*Y \\\\
+	ld c,b
+	ld b,$00 ; bc now contains y = 8*Y
+; \\\\ Compute 8*Y ////
+
+	//First we save the tile id argument that's in l before touching hl
+	ld a,l
+
+	//We can now compute the top left position
+	ld hl,$9800
+	add hl, de ;hl+=X
+	add hl, bc ;hl+=8*Y
+	add hl, bc ;hl+=8*Y
+	add hl, bc ;hl+=8*Y
+	add hl, bc ;hl+=8*Y
+	//hl now contains the top left rock position in the BG Map
+
+; \\\\\ Computer top left rock position /////
+
+; ///// Set 4 tiles \\\\\
 	//First tile
-	ld (hl), ROCKS_SPRITESHEET+4
+	ldi (hl), a
 	//Second tile
-	inc hl
-	ld (hl), ROCKS_SPRITESHEET+5
+	inc a
+	ld (hl), a 
 	//Third tile
 	ld bc, 31
 	add hl,bc
-	ld (hl), ROCKS_SPRITESHEET+6
+	inc a
+	ldi (hl), a
 	//Fourth tile
-	inc hl
-	ld (hl), ROCKS_SPRITESHEET+7
+	inc a
+	ld (hl), a 
 
-; \\\\ Set rock 4 tiles ////
+; \\\\\ Set rock 4 tiles /////
+
+	pop de
+	pop bc ;Restore callee saved registers
+	ret

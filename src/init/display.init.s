@@ -76,6 +76,19 @@ ld (display_.isaac.walk_timer),a
 ; \\ ISAAC SPRITES //
 .INCLUDE "init/display_test.init.s"
 
+// Add a rock
+ld l,ROCKS_SPRITESHEET ;start tile id
+ld a, 12*8 ;X position in pixels (must be a multiple of 8)
+ld b, 12*8 ;Y position in pixels (must be a multiple of 8)
+call displayBackgroundTile
+ld l,ROCKS_SPRITESHEET+8 ;start tile id
+ld a, 7*8 ;X position in pixels (must be a multiple of 8)
+ld b, 4*8 ;Y position in pixels (must be a multiple of 8)
+call displayBackgroundTile
+ld l,ROCKS_SPRITESHEET+4 ;start tile id
+ld a, 3*8 ;X position in pixels (must be a multiple of 8)
+ld b, 8*8 ;Y position in pixels (must be a multiple of 8)
+call displayBackgroundTile
 
 ; \\\\\\\ LOAD SPRITES ///////
 
