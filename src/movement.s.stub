@@ -11,10 +11,8 @@ move_stub:
 	ld (hl),a
 
 	ld a,(global_.isaac.speed)
-	rrca
-	rrca
-	rrca
-	rrca
+	and %11110000
+	swap a
 	and %00001111
 	bit $3,a
 	jp z,@dy_pos
@@ -25,18 +23,18 @@ move_stub:
 	ld (hl),a
 
 ; if A / B are pressed
-	ld hl, global_.isaac.tears
-	bit $7,(hl); flag A set
-	jr z,@Aset
-	ld a,$10
-	ld (global_.isaac.x),a
-	ld (global_.isaac.y),a
-@Aset:
-
-	bit $6,(hl); flag B set
-	jr z,@Bset
-	ld a,$90
-	ld (global_.isaac.x),a
-	ld (global_.isaac.y),a
-@Bset:
+;	ld hl, global_.isaac.tears
+;	bit $7,(hl); flag A set
+;	jr z,@Aset
+;	ld a,$10
+;	ld (global_.isaac.x),a
+;	ld (global_.isaac.y),a
+;@Aset:
+;
+;	bit $6,(hl); flag B set
+;	jr z,@Bset
+;	ld a,$90
+;	ld (global_.isaac.x),a
+;	ld (global_.isaac.y),a
+;@Bset:
 ; \\\\\\\ MOVE ISAAC ////////
