@@ -29,6 +29,13 @@ move_stub:
 	and %00000111
 	ld (collision_.hitbox2), a
 
+	call collision
+	cp 0
+	jr z, @@noCollision
+	ld b, a
+	call collisionSolverIsaac
+@@noCollision
+
 	ld a,(global_.isaac.speed)
 	and %11110000
 	swap a
@@ -40,6 +47,32 @@ move_stub:
 	ld hl,global_.isaac.x
 	add (hl)
 	ld (hl),a
+
+	ld a, (global_.isaac.x)
+	ld (collision_.p.1.x), a
+	ld a, (global_.isaac.y)
+	ld (collision_.p.1.y), a
+	ld a, 1
+	ld (collision_.hitbox1), a
+
+	ld a, (global_.elements.1.x)
+	ld (collision_.p.2.x), a
+	ld a, (global_.elements.1.y)
+	ld (collision_.p.2.y), a
+	ld a, (global_.elements.1.sheet)
+	ld h, a
+	ld a, (global_.elements.1.sheet + 1)
+	ld l, a
+	ld a, (hl)
+	and %00000111
+	ld (collision_.hitbox2), a
+
+	call collision
+	cp 0
+	jr z, @@noCollision
+	ld b, a
+	call collisionSolverIsaac
+@@noCollision
 
 ; if A / B are pressed
 ;	ld hl, global_.isaac.tears
