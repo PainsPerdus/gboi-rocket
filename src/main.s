@@ -92,4 +92,6 @@ VBlank:
 ; ///////// INCLUDE .LIB \\\\\\\\\
 .INCLUDE "lib/display_background_tile.lib.s"
 .INCLUDE "lib/sprites.lib.s"
+.INCLUDE "lib/CollisionSolverIsaac.lib.s"
+
 ; \\\\\\\\\ INCLUDE .LIB /////////
