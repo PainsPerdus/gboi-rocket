@@ -52,6 +52,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 
 ; /////// INCLUDE .INIT \\\\\\\
 .INCLUDE "init/global.init.s"
+.INCLUDE "init/room.init.s.stub"
 .INCLUDE "init/display.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 

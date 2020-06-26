@@ -4,11 +4,15 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld a, global_.sheets
+    ld bc, global_.sheets
+    ld a, b
     ldi (hl), a
-    ld a, global_.sheets + 1
+    ld a, c
     ldi (hl), a
     ld a, 1
     ldi (hl), a
-    ld a, global_.state
+    ld bc, global_.states
+    ld a,b
+    ldi (hl), a
+    ld a,c
     ldi (hl), a
