@@ -37,7 +37,7 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 		ld (hl), a
 ; \\\ Left ///	
 ; /// Right \\\
-		ld hl,$FE04
+		ld hl, OAM_ISAAC+4
 		ld a,b
 		ld (hl),a ;posY
 		inc l
@@ -105,7 +105,7 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; /// Update OAM \\\
 
 //bottom left
-		ld hl,$FE08
+		ld hl, OAM_ISAAC+8
 		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY
@@ -116,7 +116,7 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 		ld (hl), d ;Chosen bottom left sprite 
 
 //bottom right
-		ld hl,$FE0C
+		ld hl, OAM_ISAAC+$0C
 		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY

@@ -79,6 +79,11 @@ ld (display_.isaac.walk_timer),a
 //TODO : Document this part
 ; // SETUP BULLET SPRITES \\
 ld hl, OAM_ISAAC_BULLETS
+ld (hl), 30
+inc l
+ld (hl), 50
+inc l
+ld (hl), $0
 ; \\ SETUP BULLET SPRITES //
 
 .INCLUDE "init/display_test.init.s"
