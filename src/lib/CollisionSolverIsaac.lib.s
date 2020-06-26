@@ -17,6 +17,10 @@ collisionSolverIsaac:
 	ld a, (global_.isaac.speed)
 	and %11110000
 	swap a
+	bit $3,a
+	jp z,@signComplXSpeed
+	or %11110000
+@signComplXSpeed:
 	ld d, a
 	ld a, (global_.isaac.x)
 	sub d
@@ -33,6 +37,10 @@ collisionSolverIsaac:
 	jr z, @noVerticalCollision
 	ld a, (global_.isaac.speed)
 	and %00001111
+	bit $3,a
+	jp z,@signComplYSpeed
+	or %11110000
+@signComplYSpeed:
 	ld d, a
 	ld a, (global_.isaac.y)
 	sub d

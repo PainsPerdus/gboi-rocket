@@ -77,7 +77,16 @@ move_stub:
 	or %01000000
 	ld b, a
 @@noCollision
+
+	ld a, b
+	and a
+	jr z, @@noColTot
+	ld a, (global_.elements.1.sheet)
+	ld h, a
+	ld a, (global_.elements.1.sheet + 1)
+	ld l, a
 	call collisionSolverIsaac
+@@noColTot:
 
 ; if A / B are pressed
 ;	ld hl, global_.isaac.tears
