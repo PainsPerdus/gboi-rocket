@@ -83,7 +83,9 @@ ld (hl), 30
 inc l
 ld (hl), 50
 inc l
-ld (hl), $0
+ld (hl), TEAR_SPRITESHEET
+inc l
+ld (hl), $00 ;Flags
 ; \\ SETUP BULLET SPRITES //
 
 .INCLUDE "init/display_test.init.s"
