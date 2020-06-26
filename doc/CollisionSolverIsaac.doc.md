@@ -23,18 +23,18 @@ char void solve_collision_to_Isaac (
 	char touched_from, // b register
 	element.sheet* s) { // hl register
 	
-	if (0b00010000 and s.size) // is the element blocking
+	if (0b10000000 and s.size) // is the element blocking
 		if (touched_from and 0b10000000) //Isaac touches during horizontal movement
 			Isaac.x = Isaac.x - ((Isaac.speed and 0b11110000)/16)
 		if (touched_from and 0b01000000) //Isaac touches during vertical movement
 			Isaac.y = Isaac.y - (Isaac.speed and 0b00001111)
 
-	if (0b00001000 and s.size) // does the element hurt Isaac
+	if (0b01000000 and s.size) // does the element hurt Isaac
 		if (Isaac.recover == 0)
 			Isaac.hp = Isaac.hp - s.dmg;
 			Isaac.recover = RECOVERYTIME;
 
-	if (0b00000100 and s.size) // does the element react to Isaac's touch
+	if (0b00100000 and s.size) // does the element react to Isaac's touch
 		s.function();
 
 }
