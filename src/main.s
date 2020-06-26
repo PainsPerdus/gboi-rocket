@@ -5,10 +5,12 @@
 .INCLUDE "var/global.var.s"
 .INCLUDE "var/display.var.s"
 .INCLUDE "var/sprite.var.s"
+.INCLUDE "var/collision.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
+	collision_ INSTANCEOF collision_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
@@ -52,6 +54,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 
 ; /////// INCLUDE .INIT \\\\\\\
 .INCLUDE "init/global.init.s"
+.INCLUDE "init/room.init.s.stub"
 .INCLUDE "init/display.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 
@@ -91,4 +94,6 @@ VBlank:
 ; ///////// INCLUDE .LIB \\\\\\\\\
 .INCLUDE "lib/display_background_tile.lib.s"
 .INCLUDE "lib/sprites.lib.s"
+.INCLUDE "lib/CollisionSolverIsaac.lib.s"
+.INCLUDE "lib/collision.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
