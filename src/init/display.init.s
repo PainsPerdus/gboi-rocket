@@ -75,7 +75,6 @@ ld (display_.isaac.walk_timer),a
 ; // ISAAC SPRITES \\
 ; \\ ISAAC SPRITES //
 .INCLUDE "init/display_test.init.s"
-.INCLUDE "init/display_rocks.init.s"
 
 
 ; \\\\\\\ LOAD SPRITES ///////

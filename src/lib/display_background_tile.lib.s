@@ -1,4 +1,3 @@
-; Display a rock at tile (X, Y) (X,Y being position on the 32x32 background grid)
 displayBackgroundTile:
 ; //// Computer top left rock position \\\\
 ld bc, 12 ;bc=X
