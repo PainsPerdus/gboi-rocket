@@ -11,20 +11,6 @@ move_stub:
 	ld (hl),a
 ; \\\\\\\ MOVE ISAAC  Y ////////
 
-; //////// MOVE ISAAC  X \\\\\\\
-	ld a,(global_.isaac.speed)
-	and %11110000
-	swap a
-	and %00001111
-	bit $3,a
-	jp z,@dx_pos
-	or %11110000
-@dx_pos:
-	ld hl,global_.isaac.x
-	add (hl)
-	ld (hl),a
-; \\\\\\\ MOVE ISAAC  X ////////
-
 ld b,0
 ; //////// Collision \\\\\\\
 	ld a, (global_.isaac.x)
@@ -49,8 +35,48 @@ ld b,0
 	call collision
 	and a
 	jr z, @@noCollision
-	set $7,b
 	set $6,b
+; \\\\\\\ Collision ////////
+@@noCollision
+
+; //////// MOVE ISAAC  X \\\\\\\
+	ld a,(global_.isaac.speed)
+	and %11110000
+	swap a
+	and %00001111
+	bit $3,a
+	jp z,@dx_pos
+	or %11110000
+@dx_pos:
+	ld hl,global_.isaac.x
+	add (hl)
+	ld (hl),a
+; \\\\\\\ MOVE ISAAC  X ////////
+
+; //////// Collision \\\\\\\
+	ld a, (global_.isaac.x)
+	ld (collision_.p.1.x), a
+	ld a, (global_.isaac.y)
+	ld (collision_.p.1.y), a
+	ld a, 1
+	ld (collision_.hitbox1), a
+
+	ld a, (global_.elements.1.x)
+	ld (collision_.p.2.x), a
+	ld a, (global_.elements.1.y)
+	ld (collision_.p.2.y), a
+
+	ld hl,global_.sheets
+	ld a,(global_.elements.1.sheet)
+	ld l,a
+	ld a, (hl)	; a = (*element.sheet).size)
+	and %00000111
+	ld (collision_.hitbox2), a
+
+	call collision
+	and a
+	jr z, @@noCollision
+	set $7,b
 ; \\\\\\\ Collision ////////
 @@noCollision
 
