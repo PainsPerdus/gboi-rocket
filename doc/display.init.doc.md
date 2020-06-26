@@ -58,10 +58,15 @@ As we change the sprites values in OAM, we don't need to set them up here. All f
 
 ### Setup Bullet Sprites
 
-We setup the OAM bullet sprites. 
-There are OAM_ISAAC_BULLETS_SIZE bullets, and we start storing them at address OAM_ISAAC_BULLETS.
-Here is what we're going to do (hold on to your assembly)
+We setup the OAM bullet sprites.   
+There are OAM_ISAAC_BULLETS_SIZE bullets, and we start storing them at address OAM_ISAAC_BULLETS.   
+Here is what we're going to do (hold on to your assembly)   
+We're going to reserve only OAM_ISAAC_BULLETS_SIZE sprites for the bullets. However, we want to display way more than that!  
+So during the HBlank interrupt, we're going to reuse those sprites and update the positions to show more sprites. Please see [display.s](display.doc.md) for more info. 
 
+## Setup Bullet HBlank Opcode
+
+We want to execute code in the HBlank to update the sprites. However, the HBlank
 
 ## Init Color Palettes
 

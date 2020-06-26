@@ -9,7 +9,7 @@ AFLAGS=
 LFLAGS=-d -v -s
 
 #Emulator
-EMULATOR=visualboyadvance-m
+EMULATOR=vbam#visualboyadvance-m
 EFLAGS=
 
 # Folders
