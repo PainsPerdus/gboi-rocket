@@ -1,13 +1,19 @@
 # Display structs:
 
 
-## Isaac
+## isaac_display
 
 | Label       | Size/Struct | Description                                                      |
 | ----------- | ----------- | ---------------------------------------------------------------- |
 | frame       | 1 byte      | Animation frame number                                           |
 | shoot_timer | 1 byte      | Number of game frames before the end of shooting animation       |
 | walk_timer  | 1 byte      | Number of game frames before the next frame of walking animation |
+
+## hblank_preloaded_opcode
+
+| Label  | Size/Struct | Description |
+| ------ | ----------- | ----------- |
+| address | 38 bytes   | Contains the address of the dynamically updated op code stored in RAM and called during HBlank interrupt. The address is actually 2 bytes but we need to allocate the bytes for the opcode. [See more](display.init.doc.md). |
 
 # Display vars
 

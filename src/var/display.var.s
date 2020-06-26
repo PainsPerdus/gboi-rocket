@@ -11,6 +11,11 @@
 	walk_timer DB
 .ENDST
 
+.STRUCT hblank_preloaded_opcode
+	address DSB 38
+.ENDST
+
 .STRUCT display_var
 	isaac INSTANCEOF isaac_display
+	hbland_preloaded_opcode INSTANCEOF hblank_preloaded_opcode
 .ENDST
