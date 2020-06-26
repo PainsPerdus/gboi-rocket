@@ -10,7 +10,7 @@ move_and_collide:
 	jp z,@@posit
 	or %11110000
 @@posit:
-	ld c,a									; C = SPEED Y
+	ld b,a									; B = SPEED Y
 	ld hl,global_.isaac.y
 	add (hl)
 	ld (hl),a								; y += speed y
@@ -55,11 +55,12 @@ move_and_collide:
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.y)
-	sub c
+	sub b
 	ld (global_.isaac.y),a ; isaac.y -= speed y
 	ld (collision_.p.1.y),a
 	ld a,(global_.isaac.speed)
 	and %11110000
+	ld b,0
 	ld (global_.isaac.speed),a ; speed y = 0
 @@noCollision:
 ; \ test collision /
@@ -83,7 +84,7 @@ move_and_collide:
 	jp z,@@posit
 	or %11110000
 @@posit:
-	ld c,a									; C = SPEED X
+	ld b,a									; B = SPEED X
 	ld hl,global_.isaac.x
 	add (hl)
 	ld (hl),a								; x += speed x
@@ -123,11 +124,12 @@ move_and_collide:
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.x)
-	sub c
+	sub b
 	ld (global_.isaac.x),a ; isaac.x -= speed x
 	ld (collision_.p.1.x),a
 	ld a,(global_.isaac.speed)
 	and %00001111
+	ld b,0
 	ld (global_.isaac.speed),a ; speed x = 0
 @@noCollision:
 ; \ test collision /
