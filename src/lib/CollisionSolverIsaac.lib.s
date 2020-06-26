@@ -1,15 +1,14 @@
 .DEFINE RECOVERYTIME 30
 
 ; //// Collision Solver for Isaac \\\\
-collisionSolverIsaac :
-	push c
-	push d
-	push e
+collisionSolverIsaac:
+	push bc
+	push de
 	
 	ld c, (hl) ;get element's size and flags
 	
 	;/// Blocking Collision \\\
-	bit 4, c
+	bit 7, c
 	jp z, @noBlockCollision
 
 	;// Touch Horizontally \\
@@ -37,12 +36,13 @@ collisionSolverIsaac :
 	; \\ Touch Vertically //
 ;@noVerticalCollision :
 	;\\\ Blocking Collision ///
-@noBlockCollision :
+@noBlockCollision:
 	
-	ld de, hl ;saving sheet address
+	ld d, h
+	ld e, l ;saving sheet address
 	
 	;/// Hurting Collision \\\
-	bit 3, c
+	bit 6, c
 	jr z, @noHurtCollision
 	ld a, (global_.isaac.recover)
 	cp 0
@@ -58,22 +58,22 @@ collisionSolverIsaac :
 	ld a, RECOVERYTIME
 	ld (global_.isaac.recover), a
 	;\\\ Hurting Collision ///
-@noHurtCollision :
+@noHurtCollision:
 	
 	; /// Activation Collision \\\
-	bit 2, c
+	bit 5, c
 	jr z, @noReactCollision
 	
 	;getting function address
-	ld hl, de
+	ld h, d
+	ld l, e
 	inc hl
 	inc hl
-	call (hl)
+;	call (hl)
 	; \\\ Activation Collision ///
-@noReactCollision :
+@noReactCollision:
 	
-	pop e
-	pop d
-	pop c
+	pop de
+	pop bc
 	ret
 ; \\\\ Collision Solver for Isaac ////
