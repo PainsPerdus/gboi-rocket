@@ -10,17 +10,35 @@ ld (display_.isaac.walk_timer),a
 
 
 ; /////// LOAD TILES \\\\\\\
-	ld bc,15*16
-	ld de,Tiles
-	ld hl,$8000
-@ldt:					; while bc != 0
+
+; ///// Sprite Tiles \\\\\
+	ld bc,(SPRITE_TILES_NUMBER+1)*16
+	ld de,SpriteTiles
+	ld hl,SPRITE_TILES_START_ADDRESS
+@loopSpriteTiles: ; while bc != 0
 	ld a,(de)
 	ldi (hl),a	; *hl <- *de; hl++
 	inc de			; de ++
 	dec bc ; bc--
 	ld a,b
 	or c
-	jr nz,@ldt		; end while
+	jr nz,@loopSpriteTiles	; end while
+; \\\\\ Sprite Tiles /////
+
+; ///// Background Tiles \\\\\
+	ld bc,(BACKGROUND_TILES_NUMBER+1)*16
+	ld de,BackgroundTiles
+	ld hl,BACKGROUND_TILES_START_ADDRESS
+@loopBackgroundTiles: ; while bc != 0
+	ld a,(de)
+	ldi (hl),a	; *hl <- *de; hl++
+	inc de			; de ++
+	dec bc ; bc--
+	ld a,b
+	or c
+	jr nz,@loopBackgroundTiles	; end while
+; \\\\\ Background Tiles /////
+
 ; \\\\\\\ LOAD TILES ///////
 
 ; /////// CLEAR BG \\\\\\\
@@ -69,6 +87,6 @@ ldh ($49),a	; sprite 1 palette
 ; \\\\\\\ INIT COLOR PALETTES ///////
 
 ; /////// ENABLE SCREEN \\\\\\\
-ld a,%10010011 	; screen on, bg on, tiles at $8000
+ld a,%10000011 	; screen on, bg on, tiles at $8000
 ldh ($40),a
 ; \\\\\\\ ENABLE SCREEN ///////

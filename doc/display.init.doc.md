@@ -11,7 +11,8 @@
 ## Load Tiles
 
 Here we copy all the used tiles from ROM to VRAM.  
-ROM tiles are stored at the `Tiles` label, and we copy them over to $8000 (start of VRAM)
+We have two sets of tiles to copy, the sprite tiles and the background tiles.
+For each set, we are going to do the same process:  
 `BC` stores the number of bytes to copy and is calculated as such :
 ~~~C
 BC = n * 16 //Each sprite is 16 bytes (8*8/4 because 4 pixels per byte)
@@ -24,6 +25,21 @@ dec bc
 ld a,b
 or c ; this updates correctly the Z register
 ~~~
+
+### Sprite Tiles ###
+
+We copy the sprite tiles from ROM to VRAM.  
+In ROM, sprite tiles are at the label SpriteTiles. In VRAM we need to copy them to SPRITE_TILES_START_ADDRESS.
+We need to copy SPRITE_TILES_NUMBER sprites, so SPRITE_TILES_NUMBER * 16 bytes. 
+We can have a maximum of 256 sprite tiles. 
+
+### Background Tiles ### 
+
+We copy the background tiles from ROM to VRAM.  
+In ROM, background tiles are at the label BackgroundTiles. In VRAM we need to copy them to BACKGROUND_TILES_START_ADDRESS.
+We need to copy BACKGROUND_TILES_NUMBER sprites, so BACKGROUND_TILES_NUMBER * 16 bytes.  
+We can have a maximum of 128 background tiles. 
+
 
 ## Clear BG
 
@@ -60,17 +76,19 @@ This can change if we want to use multiple palettes.
 
 ## Enable Screen
 
-We turn on the screen, the background by setting the LCDC STAT (LCDC Status Register) to `%10010011`
-Here is what Pandocs says about the STAT : 
+We turn on the screen, the background by setting the LCDC (LCD Control Register) to `%10000011`
+Here is what Pandocs says about the LCDC : 
 ```
-Bit 6 - LYC=LY Coincidence Interrupt (1=Enable) (Read/Write)
-Bit 5 - Mode 2 OAM Interrupt         (1=Enable) (Read/Write)
-Bit 4 - Mode 1 V-Blank Interrupt     (1=Enable) (Read/Write)
-Bit 3 - Mode 0 H-Blank Interrupt     (1=Enable) (Read/Write)
-Bit 2 - Coincidence Flag  (0:LYC<>LY, 1:LYC=LY) (Read Only)
-Bit 1-0 - Mode Flag       (Mode 0-3, see below) (Read Only)
-          0: During H-Blank
-          1: During V-Blank
-          2: During Searching OAM
-          3: During Transferring Data to LCD Driver
+Bit 7 - LCD Display Enable             (0=Off, 1=On)
+Bit 6 - Window Tile Map Display Select (0=9800-9BFF, 1=9C00-9FFF)
+Bit 5 - Window Display Enable          (0=Off, 1=On)
+Bit 4 - BG & Window Tile Data Select   (0=8800-97FF, 1=8000-8FFF)
+Bit 3 - BG Tile Map Display Select     (0=9800-9BFF, 1=9C00-9FFF)
+Bit 2 - OBJ (Sprite) Size              (0=8x8, 1=8x16)
+Bit 1 - OBJ (Sprite) Display Enable    (0=Off, 1=On)
+Bit 0 - BG/Window Display/Priority     (0=Off, 1=On)
 ```
+So we enable the LCD, don't enable the window.   
+Select the first adressing mode for window and background (Bank 1 and 2). This is to separate the Sprite tiles (from 0 to 255, going from bank 0 to bank 1) and the Background tiles, going from 0 to 127 (Bank 2). We won't store background tiles in bank1 even though we could.  
+We also select the first tilemap for background, 8x8 sprite size, and enable sprite display and BG/Window prioerity
+
