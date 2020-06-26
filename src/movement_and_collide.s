@@ -1,146 +1,149 @@
-.DEFINE ISAACHITBOX 1
+.DEFINE ISAAC_HITBOX 1
 
-move_stub:
+move_and_collide:
+
+@y:
 ; //////// MOVE ISAAC  Y \\\\\\\
 	ld a,(global_.isaac.speed)
 	and %00001111
 	bit $3,a
-	jp z,@dy_pos
+	jp z,@@posit
 	or %11110000
-@dy_pos:
+@@posit:
+	ld c,a									; C = SPEED Y
 	ld hl,global_.isaac.y
 	add (hl)
-	ld (hl),a
-; \\\\\\\ MOVE ISAAC  Y ////////
+	ld (hl),a								; y += speed y
 
-ld b,0
-; //////// Collision \\\\\\\
+
+;   //// collision Y  init \\\\
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
 	ld (collision_.p.1.y), a
-	ld a, ISAACHITBOX
+	ld a, ISAAC_HITBOX
 	ld (collision_.hitbox1), a
+;   \\\\ collision Y  init ////
 
-	; /// loop start \\\
+;   //// collision Y  loop \\\\
 	ld hl, global_.elements
 	ld c, n_elements
-@@loop:
-	; /// loop start \\\
+	@@loop:
+; /// loop start \\\
 
-	; /// set position as parameter \\\
+; / set position as parameter \
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
 	ldi a, (hl)
 	ld (collision_.p.2.y), a
-	; \\\ set position as parameter ///
-	
-	; /// set hitbox as parameter \\\
+; \ set position as parameter /
+
+; / set hitbox as parameter \
 	inc hl
 	ld a, (hl)
 	ld de, global_.sheets
 	ld e,a
 	ld a, (de)	; a = (*element.sheet).size)
+	bit $7,a
+	jp z, @@ending_loop	; if non block : continue
 	and %00000111
 	ld (collision_.hitbox2), a
-	; \\\ set hitbox as parameter ///
+; \ set hitbox as parameter /
 
-	; /// test collision \\\
-	ld d, h
-	ld e, l
+; / test collision \
 	call collision
-	ld h, d
-	ld l, e
 	and a
 	jr z, @@noCollision
-	set $6,b
-	; \\\ test collision ///
+	ld a,(global_.isaac.y)
+	sub c
+	ld (global_.isaac.y),a ; isaac.y -= speed y
+	ld (collision_.p.1.y),a
+	ld a,(global_.isaac.speed)
+	and %11110000
+	ld (global_.isaac.speed),a ; speed y = 0
 @@noCollision:
+; \ test collision /
 
-	; /// loop end \\\
+@@ending_loop:
 	ld de, $0004
 	add hl, de
 	dec c
 	jr nz, @@loop
-	; \\\ loop end ///
-; \\\\\\\ Collision ////////
+;   \\\\ collision Y  loop ////
+; \\\\\\\ MOVE ISAAC  Y ////////
 
+
+
+@x:
 ; //////// MOVE ISAAC  X \\\\\\\
 	ld a,(global_.isaac.speed)
 	and %11110000
 	swap a
-	and %00001111
 	bit $3,a
-	jp z,@dx_pos
+	jp z,@@posit
 	or %11110000
-@dx_pos:
+@@posit:
+	ld c,a									; C = SPEED X
 	ld hl,global_.isaac.x
 	add (hl)
-	ld (hl),a
-; \\\\\\\ MOVE ISAAC  X ////////
+	ld (hl),a								; x += speed x
 
-; //////// Collision \\\\\\\
+;   //// collision X  init \\\\
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
-	ld a, (global_.isaac.y)
-	ld (collision_.p.1.y), a
-	ld a, ISAACHITBOX
-	ld (collision_.hitbox1), a
+;   \\\\ collision Y  init ////
 
-	; /// loop start \\\
+;   //// collision X  loop \\\\
 	ld hl, global_.elements
 	ld c, n_elements
-@@loop:
-	; /// loop start \\\
+	@@loop:
+; /// loop start \\\
 
-	; /// set position as parameter \\\
+; / set position as parameter \
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
 	ldi a, (hl)
 	ld (collision_.p.2.y), a
-	; \\\ set position as parameter ///
-	
-	; /// set hitbox as parameter \\\
+; \ set position as parameter /
+
+; / set hitbox as parameter \
 	inc hl
 	ld a, (hl)
 	ld de, global_.sheets
 	ld e,a
 	ld a, (de)	; a = (*element.sheet).size)
+	bit $7,a
+	jp z, @@ending_loop	; if non block : continue
 	and %00000111
 	ld (collision_.hitbox2), a
-	; \\\ set hitbox as parameter ///
+; \ set hitbox as parameter /
 
-	; /// test collision \\\
-	ld d, h
-	ld e, l
+; / test collision \
 	call collision
-	ld h, d
-	ld l, e
 	and a
 	jr z, @@noCollision
-	set $7,b
-	; \\\ test collision ///
+	ld a,(global_.isaac.x)
+	sub c
+	ld (global_.isaac.x),a ; isaac.x -= speed x
+	ld (collision_.p.1.x),a
+	ld a,(global_.isaac.speed)
+	and %00001111
+	ld (global_.isaac.speed),a ; speed x = 0
 @@noCollision:
+; \ test collision /
 
-	; /// loop end \\\
+@@ending_loop:
 	ld de, $0004
 	add hl, de
 	dec c
 	jr nz, @@loop
-	; \\\ loop end ///
-; \\\\\\\ Collision ////////
+;   \\\\ collision X  loop ////
+; \\\\\\\ MOVE ISAAC  X ////////
 
-@collision_solver:
-; //////// call collision solver \\\\\\\
-	ld a,b
-	and a
-	jp z,@@dont_call
-	ld hl,global_.sheets
-	ld a,(global_.elements.1.sheet)
-	ld l,a
-	call collisionSolverIsaac
-@@dont_call:
-; \\\\\\\ call collision solver ////////
+
+
+
+
 
 ; //////// TEST A B \\\\\\\
 ; if A / B are pressed

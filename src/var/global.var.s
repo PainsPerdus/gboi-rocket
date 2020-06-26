@@ -1,5 +1,5 @@
 .DEFINE n_elements $0A
-.DEFINE n_sheets $01
+.DEFINE n_sheets $02
 .DEFINE n_states $0A
 .DEFINE n_isaac_tears $0A
 .DEFINE n_ennemy_tears $0A
