@@ -22,10 +22,12 @@ add hl, de ;hl+=Y
 	//Second tile
 	inc hl
 	ld (hl), ROCKS_SPRITESHEET+1
-
 	//Third tile
-
-
+	ld bc, 31
+	add hl,bc
+	ld (hl), ROCKS_SPRITESHEET+2
 	//Fourth tile
+	inc hl
+	ld (hl), ROCKS_SPRITESHEET+3
 
 ; \\\\ Set rock 4 tiles ////

@@ -11,23 +11,27 @@ hl += 32*Y + X
 ~~~
 We need to use 16 bits additions and registers.  
 Y is from 0 to 31, so we have to do `de=Y*8` by shifting left `e` 3 times.   
-Then we do `add hl,de` 4 times to add `8*4=32` times Y to `hl`.  
+Then we do `add hl,de` 4 times to add 8*4=32 times Y to `hl`.  
 We could just add 32 Y times to hl with a loop, but it's slower when Y>7.
 
 ## Set rock 4 tiles
 
 ### First tile
 
-First tile is the one pointed by `hl`.
+First tile is the one pointed by `hl`.  
 We load the first rock tile.
 
 ### Second tile
 
-We increment `hl` to switch the the second tile.
+We increment `hl` to switch the the second tile.  
 We load the second rock tile.
 
 ### Third tile
-
+For the third tile, we need to switch to the line below.  
+We add 31 to `hl` (32-1) because we already added 1  
+We load the third rock tile.
 
 ### Fourth tile
+We increment `hl` to switch to the fourth tile.  
+We load the fourth rock tile.  
 
