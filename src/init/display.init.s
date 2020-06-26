@@ -99,6 +99,13 @@ ld (display_.isaac.walk_timer),a
 
 ; \\\\\\\ LOAD SPRITES ///////
 
+; /////// SETUP BULLET HBLANK OPCODE \\\\\\\
+
+
+
+; \\\\\\\ SETUP BULLET HBLANK OPCODE ///////
+
+
 ; /////// INIT COLOR PALETTES \\\\\\\
 ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt
 ldh ($47),a	; background palette

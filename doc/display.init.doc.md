@@ -44,20 +44,7 @@ We can have a maximum of 128 background tiles.
 ## Clear BG
 
 BG currently contains the Nitendo Logo, so we need to clear it. 
-The BG is 32*32 tiles. $9800 where the first background map is defined. We need to fill all tiles with tile id 0 because the background sprite is the sprite with id 0.  
-WARN: this could change later
-
-Here is the description of the 8 bits of each background map byte (from PanDocs) :
-| Bit     | Name                      | Description                             |
-|---------|---------------------------|-----------------------------------------|
-| Bit 0-2 | Background Palette number | (BGP0-7)                                | 
-| Bit 3   | Tile VRAM Bank number     | (0=Bank 0, 1=Bank 1)                    |
-| Bit 4   | Not used                  |                                         |
-| Bit 5   | Horizontal Flip           | (0=Normal, 1=Mirror horizontally)       |
-| Bit 6   | Vertical Flip             | (0=Normal, 1=Mirror vertically)         |
-| Bit 7   | BG-to-OAM Priority        | (0=Use OAM priority bit, 1=BG Priority) |
-
-We set everything to 0. 
+The BG is 32*32 tiles. $9800 where the first background map is defined. We need to fill all tiles with background tile id 0. We'll add later actual tiles, this is just for safety so that all the background is cleared and doesn't contain random tiles in real hardware.  
 
 ## Clear OAM
 
@@ -68,6 +55,13 @@ There are 40 sprites in the OAM, each sprites take up 4 bytes, so we need to cle
 ### Isaac Sprites
 
 As we change the sprites values in OAM, we don't need to set them up here. All flags are set to $00 when we clear the OAM.
+
+### Setup Bullet Sprites
+
+We setup the OAM bullet sprites. 
+There are OAM_ISAAC_BULLETS_SIZE bullets, and we start storing them at address OAM_ISAAC_BULLETS.
+Here is what we're going to do (hold on to your assembly)
+
 
 ## Init Color Palettes
 
