@@ -5,7 +5,7 @@
     ld a, 0
     ldi (hl), a
     ld bc, global_.sheets
-    ld a, b
+    ld a, c
     ldi (hl), a
     ld a, c
     ldi (hl), a
