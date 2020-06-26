@@ -38,40 +38,40 @@ collisionSolverIsaac:
 	;\\\ Blocking Collision ///
 @noBlockCollision:
 	
-	ld d, h
-	ld e, l ;saving sheet address
+	; ld d, h
+	; ld e, l ;saving sheet address
 	
-	;/// Hurting Collision \\\
-	bit 6, c
-	jr z, @noHurtCollision
-	ld a, (global_.isaac.recover)
-	cp 0
-	jr z, @noHurtCollision
+; 	;/// Hurting Collision \\\
+; 	bit 6, c
+; 	jr z, @noHurtCollision
+; 	ld a, (global_.isaac.recover)
+; 	cp 0
+; 	jr z, @noHurtCollision
 	
-	;hurting Isaac
-	inc hl
-	ld a, (global_.isaac.hp)
-	sub (hl)
-	ld (global_.isaac.hp), a
+; 	;hurting Isaac
+; 	inc hl
+; 	ld a, (global_.isaac.hp)
+; 	sub (hl)
+; 	ld (global_.isaac.hp), a
 	
-	;starting recovery
-	ld a, RECOVERYTIME
-	ld (global_.isaac.recover), a
-	;\\\ Hurting Collision ///
-@noHurtCollision:
+; 	;starting recovery
+; 	ld a, RECOVERYTIME
+; 	ld (global_.isaac.recover), a
+; 	;\\\ Hurting Collision ///
+; @noHurtCollision:
 	
-	; /// Activation Collision \\\
-	bit 5, c
-	jr z, @noReactCollision
+; 	; /// Activation Collision \\\
+; 	bit 5, c
+; 	jr z, @noReactCollision
 	
-	;getting function address
-	ld h, d
-	ld l, e
-	inc hl
-	inc hl
-;	call (hl)
-	; \\\ Activation Collision ///
-@noReactCollision:
+; 	;getting function address
+; 	ld h, d
+; 	ld l, e
+; 	inc hl
+; 	inc hl
+; ;	call (hl)
+; 	; \\\ Activation Collision ///
+; @noReactCollision:
 	
 	pop de
 	pop bc
