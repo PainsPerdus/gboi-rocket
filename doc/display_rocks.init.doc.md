@@ -1,4 +1,6 @@
-# Display Rocks
+# Display Background Tile
+
+Function : display a rock at the position X and Y (in pixels)
 
 We display a rock at the position (X,Y), relative to the 32x32 background Grid.
 TODO: Compute those coordinate from pixel coordinate.
