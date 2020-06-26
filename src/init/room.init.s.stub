@@ -7,8 +7,6 @@
     ld bc, global_.sheets
     ld a, c
     ldi (hl), a
-    ld a, c
-    ldi (hl), a
     ld a, 1
     ldi (hl), a
     ld bc, global_.states
