@@ -1,4 +1,4 @@
-# Global reserved memory:
+# Global constants:
 
 ## Isaac_spritesheet
 
