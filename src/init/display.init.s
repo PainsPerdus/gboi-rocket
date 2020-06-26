@@ -76,7 +76,6 @@ ld (display_.isaac.walk_timer),a
 ; \\ ISAAC SPRITES //
 .INCLUDE "init/display_test.init.s"
 
-
 ; \\\\\\\ LOAD SPRITES ///////
 
 ; /////// INIT COLOR PALETTES \\\\\\\
