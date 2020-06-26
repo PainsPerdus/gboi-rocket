@@ -48,8 +48,8 @@ global_init:
 	ldi (hl),a ; y = 0
 	ldi (hl),a ; speed x = 0, speed y = 0
 	ldi (hl),a ; sheet = 0
-	ld a,1
-	ldi (hl),a ; hp = 1
+	ld a,0
+	ldi (hl),a ; hp = 0
 	ld a,d	
 	ldi (hl),a
 	ld a,e
@@ -83,3 +83,4 @@ global_init:
 	ldi (hl),a ; placeholder = O (they are no element for now)
 	dec b
 	jp nz,@states_loop
+
