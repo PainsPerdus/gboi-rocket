@@ -6,6 +6,7 @@ displayBackgroundTile:
 ; ///// Computer top left position in the BG Map \\\\\
 
 ; //// Compute X \\\\
+	sub 8
 	srl a; a=x/2
 	srl a; a=x/4
 	srl a; a=x/8=X
@@ -14,7 +15,9 @@ displayBackgroundTile:
 ; \\\\ Compute X ////
 
 ; //// Compute 8*Y \\\\
-	ld c,b
+	ld a,b
+	sub 16
+	ld c,a
 	ld b,$00 ; bc now contains y = 8*Y
 ; \\\\ Compute 8*Y ////
 
