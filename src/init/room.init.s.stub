@@ -1,5 +1,5 @@
     ld hl, global_.elements
-    ld a, 16
+    ld a, $50
     ldi (hl), a
     ldi (hl), a
     ld a, 0
