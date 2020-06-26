@@ -1,3 +1,5 @@
+.DEFINE ISAACHITBOX 1
+
 move_stub:
 ; //////// MOVE ISAAC  Y \\\\\\\
 	ld a,(global_.isaac.speed)
@@ -17,7 +19,7 @@ ld b,0
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
 	ld (collision_.p.1.y), a
-	ld a, 1
+	ld a, ISAACHITBOX
 	ld (collision_.hitbox1), a
 
 	; /// loop start \\\
@@ -82,7 +84,7 @@ ld b,0
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
 	ld (collision_.p.1.y), a
-	ld a, 1
+	ld a, ISAACHITBOX
 	ld (collision_.hitbox1), a
 
 	; /// loop start \\\
