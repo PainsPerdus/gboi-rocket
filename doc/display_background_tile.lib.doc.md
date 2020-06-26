@@ -8,11 +8,10 @@ Arguments:
 
 | Label |   Type   | Size        | Description                                       |
 | ----- | -------- | ----------- | --------------------------------------------------|
-| A     | register | 1 byte      | x (x position of the element in pixels-8 pixels)  |
-| B     | register | 1 byte      | y (y position of the element in pixels-16 pixels) |
+| A     | register | 1 byte      | x (x position of the element in pixels)  |
+| B     | register | 1 byte      | y (y position of the element in pixels) |
 | L     | register | 1 byte      | ID of the first tile (out of 4)                   |
 
-So, if you want to display isaac on the screen at 0,0, you need to call the fonction with x = 0 and y = 0, because the screen starts at (x:-8, y:-16)
 
 NOTE : x and y have to be multiples of 8. Undefined behaviour may occur otherwise.
 
@@ -23,13 +22,14 @@ We display an element at the position (x,y) in pixels.
 
 ### Compute X
 ~~~C
-X = x/8
+X = (x-8)/8 //We need to substract the screen offset x (8)
 ~~~
 
 ### Compute 8*Y
 
 We already have y=8*Y, and we'll need to do 32*Y. 
-So we just copy y into a 16 bits register and we'll add it 4 times. 
+So we copy y into a 16 bits register and we'll add it 4 times. 
+We first need to substract the screen's offset y (16)
 
 ### Compute top left position
 ~~~C
