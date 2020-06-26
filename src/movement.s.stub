@@ -1,3 +1,5 @@
+.DEFINE ISAACHITBOX 1
+
 move_stub:
 ; //////// MOVE ISAAC  Y \\\\\\\
 	ld a,(global_.isaac.speed)
@@ -17,27 +19,51 @@ ld b,0
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
 	ld (collision_.p.1.y), a
-	ld a, 1
+	ld a, ISAACHITBOX
 	ld (collision_.hitbox1), a
 
-	ld a, (global_.elements.1.x)
-	ld (collision_.p.2.x), a
-	ld a, (global_.elements.1.y)
-	ld (collision_.p.2.y), a
+	; /// loop start \\\
+	ld hl, global_.elements
+	ld c, n_elements
+@@loop:
+	; /// loop start \\\
 
-	ld hl,global_.sheets
-	ld a,(global_.elements.1.sheet)
-	ld l,a
-	ld a, (hl)	; a = (*element.sheet).size)
+	; /// set position as parameter \\\
+	ldi a, (hl)
+	ld (collision_.p.2.x), a
+	ldi a, (hl)
+	ld (collision_.p.2.y), a
+	; \\\ set position as parameter ///
+	
+	; /// set hitbox as parameter \\\
+	inc hl
+	ld a, (hl)
+	ld de, global_.sheets
+	ld e,a
+	ld a, (de)	; a = (*element.sheet).size)
 	and %00000111
 	ld (collision_.hitbox2), a
+	; \\\ set hitbox as parameter ///
 
+	; /// test collision \\\
+	ld d, h
+	ld e, l
 	call collision
+	ld h, d
+	ld l, e
 	and a
 	jr z, @@noCollision
 	set $6,b
+	; \\\ test collision ///
+@@noCollision:
+
+	; /// loop end \\\
+	ld de, $0004
+	add hl, de
+	dec c
+	jr nz, @@loop
+	; \\\ loop end ///
 ; \\\\\\\ Collision ////////
-@@noCollision
 
 ; //////// MOVE ISAAC  X \\\\\\\
 	ld a,(global_.isaac.speed)
@@ -58,27 +84,51 @@ ld b,0
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
 	ld (collision_.p.1.y), a
-	ld a, 1
+	ld a, ISAACHITBOX
 	ld (collision_.hitbox1), a
 
-	ld a, (global_.elements.1.x)
-	ld (collision_.p.2.x), a
-	ld a, (global_.elements.1.y)
-	ld (collision_.p.2.y), a
+	; /// loop start \\\
+	ld hl, global_.elements
+	ld c, n_elements
+@@loop:
+	; /// loop start \\\
 
-	ld hl,global_.sheets
-	ld a,(global_.elements.1.sheet)
-	ld l,a
-	ld a, (hl)	; a = (*element.sheet).size)
+	; /// set position as parameter \\\
+	ldi a, (hl)
+	ld (collision_.p.2.x), a
+	ldi a, (hl)
+	ld (collision_.p.2.y), a
+	; \\\ set position as parameter ///
+	
+	; /// set hitbox as parameter \\\
+	inc hl
+	ld a, (hl)
+	ld de, global_.sheets
+	ld e,a
+	ld a, (de)	; a = (*element.sheet).size)
 	and %00000111
 	ld (collision_.hitbox2), a
+	; \\\ set hitbox as parameter ///
 
+	; /// test collision \\\
+	ld d, h
+	ld e, l
 	call collision
+	ld h, d
+	ld l, e
 	and a
 	jr z, @@noCollision
 	set $7,b
+	; \\\ test collision ///
+@@noCollision:
+
+	; /// loop end \\\
+	ld de, $0004
+	add hl, de
+	dec c
+	jr nz, @@loop
+	; \\\ loop end ///
 ; \\\\\\\ Collision ////////
-@@noCollision
 
 @collision_solver:
 ; //////// call collision solver \\\\\\\

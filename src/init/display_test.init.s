@@ -11,11 +11,25 @@ ld (hl), a
 inc l
 
 // Add rocks
-ld l,ROCKS_SPRITESHEET ;start tile id
-ld a, (global_.elements.1.y) ;X position in pixels (must be a multiple of 8)
-ld b, a
-ld a, (global_.elements.1.x) ;Y position in pixels (must be a multiple of 8)
-call displayBackgroundTile
+	ld de, global_.elements
+	ld c, n_elements
+looptodisplayrocks:
+	ld h, d
+	ld l, e
+	inc hl
+	ld b, (hl) ;X position in pixels (must be a multiple of 8)
+	dec hl
+	ld a, (hl) ;Y position in pixels (must be a multiple of 8)
+	ld l,ROCKS_SPRITESHEET ;start tile id
+	call displayBackgroundTile
+	ld hl, $0007
+	add hl, de
+	ld d, h
+	ld e, l
+	dec c
+	jr nz, looptodisplayrocks
+
+
 ; ld l,ROCKS_SPRITESHEET+8 ;start tile id
 ; ld a, 7*8 ;X position in pixels (must be a multiple of 8)
 ; ld b, 4*8 ;Y position in pixels (must be a multiple of 8)
