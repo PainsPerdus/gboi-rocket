@@ -1,3 +1,5 @@
+display_test_init:
+
 	ld hl,$FE90
 ; TEST SPRITE:
 
@@ -13,21 +15,26 @@ inc l
 // Add rocks
 	ld de, global_.elements
 	ld c, n_elements
-looptodisplayrocks:
-	ld h, d
-	ld l, e
-	inc hl
+@looptodisplayrocks:
+
+	ld hl,$0004
+	add hl,de
+	ld a,(hl)
+	and a					; test if the element has hp
+	jp z, @ending_of_looptodisplayrocks
+	ld h,d
+	ld l,e
+	ldi a, (hl) ;Y position in pixels (must be a multiple of 8)
 	ld b, (hl) ;X position in pixels (must be a multiple of 8)
-	dec hl
-	ld a, (hl) ;Y position in pixels (must be a multiple of 8)
 	ld l,ROCKS_SPRITESHEET ;start tile id
 	call displayBackgroundTile
+@ending_of_looptodisplayrocks:
 	ld hl, $0007
 	add hl, de
 	ld d, h
 	ld e, l
 	dec c
-	jr nz, looptodisplayrocks
+	jr nz, @looptodisplayrocks
 
 
 ; ld l,ROCKS_SPRITESHEET+8 ;start tile id
