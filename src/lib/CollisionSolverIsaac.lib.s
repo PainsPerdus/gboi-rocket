@@ -13,7 +13,7 @@ collisionSolverIsaac:
 
 	;// Touch Horizontally \\
 	bit 7, b
-;	jr z, @noHorizontalCollision
+	jr z, @noHorizontalCollision
 	ld a, (global_.isaac.speed)
 	and %11110000
 	swap a
@@ -21,20 +21,28 @@ collisionSolverIsaac:
 	ld a, (global_.isaac.x)
 	sub d
 	ld (global_.isaac.x), a
+
+	ld a, 100
+	ld (global_.isaac.x), a
+	ld (global_.isaac.y), a
 	;\\ Touch Horizontally //
-;@noHorizontalCollision :
+@noHorizontalCollision:
 
 	; // Touch Vertically \\
 	bit 6, b
-;	jr z, @noVerticalCollision
+	jr z, @noVerticalCollision
 	ld a, (global_.isaac.speed)
 	and %00001111
 	ld d, a
 	ld a, (global_.isaac.y)
 	sub d
 	ld (global_.isaac.y), a
+
+	ld a, 100
+	ld (global_.isaac.x), a
+	ld (global_.isaac.y), a
 	; \\ Touch Vertically //
-;@noVerticalCollision :
+@noVerticalCollision:
 	;\\\ Blocking Collision ///
 @noBlockCollision:
 	
