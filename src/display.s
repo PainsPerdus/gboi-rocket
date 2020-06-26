@@ -17,7 +17,7 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 
 ; //// Top Tiles \\\\
 ; /// Left \\\\
-		ld hl,$FE00
+		ld hl, OAM_ISAAC
 		ld a, b
 		ld (hl), a ;posY
 		inc l
