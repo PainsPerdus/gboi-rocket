@@ -25,6 +25,7 @@ move_stub:
 	ld (hl),a
 ; \\\\\\\ MOVE ISAAC  X ////////
 
+ld b,0
 ; //////// Collision \\\\\\\
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
@@ -48,12 +49,22 @@ move_stub:
 	call collision
 	and a
 	jr z, @@noCollision
-	ld a, 100
-	ld (global_.isaac.x), a
-	ld (global_.isaac.y), a
+	set $7,b
+	set $6,b
 ; \\\\\\\ Collision ////////
 @@noCollision
 
+@collision_solver:
+; //////// call collision solver \\\\\\\
+	ld a,b
+	and a
+	jp z,@@dont_call
+	ld hl,global_.sheets
+	ld a,(global_.elements.1.sheet)
+	ld l,a
+	call collisionSolverIsaac
+@@dont_call:
+; \\\\\\\ call collision solver ////////
 
 ; //////// TEST A B \\\\\\\
 ; if A / B are pressed
