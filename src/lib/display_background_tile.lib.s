@@ -32,7 +32,7 @@ displayBackgroundTile:
 
 ; \\\\\ Computer top left rock position /////
 
-; ///// Set 4 tiles \\\\\
+; ///// Set the 4 tiles \\\\\
 	//First tile
 	ldi (hl), a
 	//Second tile
@@ -47,7 +47,7 @@ displayBackgroundTile:
 	inc a
 	ld (hl), a 
 
-; \\\\\ Set rock 4 tiles /////
+; \\\\\ Set the 4 tiles /////
 
 	pop de
 	pop bc ;Restore callee saved registers
