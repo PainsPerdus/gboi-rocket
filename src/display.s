@@ -10,8 +10,6 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 
 
 ; ///// Isaac \\\\\
-		ld hl, ISAAC_SPRITESHEET
-
 		ld a, (global_.isaac.y)
 		ld b,a
 		ld a, (global_.isaac.x)

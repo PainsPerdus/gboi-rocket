@@ -74,6 +74,13 @@ ld (display_.isaac.walk_timer),a
 
 ; // ISAAC SPRITES \\
 ; \\ ISAAC SPRITES //
+
+
+//TODO : Document this part
+; // SETUP BULLET SPRITES \\
+
+; \\ SETUP BULLET SPRITES //
+
 .INCLUDE "init/display_test.init.s"
 
 ; \\\\\\\ LOAD SPRITES ///////
