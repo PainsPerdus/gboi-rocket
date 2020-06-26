@@ -78,14 +78,21 @@ ld (display_.isaac.walk_timer),a
 
 //TODO : Document this part
 ; // SETUP BULLET SPRITES \\
-ld hl, OAM_ISAAC_BULLETS
-ld (hl), 30
-inc l
-ld (hl), 50
-inc l
-ld (hl), TEAR_SPRITESHEET
-inc l
-ld (hl), $00 ;Flags
+	ld hl, OAM_ISAAC_BULLETS
+	ld b, OAM_ISAAC_BULLETS_SIZE+1
+	ld a,10 ;initial posX
+@loopSetupIsaacBullets
+	ld (hl), 30
+	inc l
+	ld (hl), a
+	inc l
+	ld (hl), TEAR_SPRITESHEET
+	inc l
+	ld (hl), $00 ;Flags
+	inc l
+	add 10 ;add to X pos
+	dec b
+	jp nz,@loopSetupIsaacBullets 
 ; \\ SETUP BULLET SPRITES //
 
 .INCLUDE "init/display_test.init.s"
