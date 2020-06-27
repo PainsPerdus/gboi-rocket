@@ -33,6 +33,7 @@ global_init:
 
 
 @isaac_init:
+	ld hl, global_.isaac
 	ld a,$20
 	ldi (hl),a; x = 32
 	ld a,$40
@@ -46,13 +47,15 @@ global_init:
 	ldi (hl),a; flags off
 	ld a,$10
 	ldi (hl),a; range = 16
+	ld a,0
+	ldi (hl),a; speed = 0
 	ld a,%00010000
 	ldi (hl),a; tear x=2, tear y=0, a_flag = 0, b_flag = 0
 	xor a
 	ldi (hl),a; recover=0
 	ldi (hl),a; bombs=0
 	ld a,%00000011
-	ldi (hl),a
+	ldi (hl),a ; direction : smiling to the camera
 
 	ld b,n_elements
 	ld de,global_.states
