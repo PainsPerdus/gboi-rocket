@@ -180,11 +180,93 @@ ld hl, global_.elements
     ld a,c
     ldi (hl), a
 
-; // init hitboxes
+; // init top wall
+    ld a, 1
+    ldi (hl), a ; 1 hp
+    ld a, 8
+    ldi (hl), a ; x = 8
     ld a, 16
-    ld hl, global_.hitboxes_width
+    ldi (hl), a ; y = 16
+    ld bc, global_.sheets.3 ; horizontal wall sheet
+    ld a, c
     ldi (hl), a
+    ld a, 0
+    ldi (hl), a ; no speed
+    ld bc, global_.states
+    ld a, b
+    ldi (hl), a
+    ld a, c
+    ldi (hl), a
+
+; // init bottom wall
+    ld a, 1
+    ldi (hl), a ; 1 hp
+    ld a, 8
+    ldi (hl), a ; x = 8
+    ld a, 144
+    ldi (hl), a ; y = 144
+    ld bc, global_.sheets.3 ; horizontal wall sheet
+    ld a, c
+    ldi (hl), a
+    ld a, 0
+    ldi (hl), a ; no speed
+    ld bc, global_.states
+    ld a, b
+    ldi (hl), a
+    ld a, c
+    ldi (hl), a
+
+; // init left wall
+    ld a, 1
+    ldi (hl), a ; 1 hp
+    ld a, 8
+    ldi (hl), a ; x = 8
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld bc, global_.sheets.4 ; vertical wall sheet
+    ld a, c
+    ldi (hl), a
+    ld a, 0
+    ldi (hl), a ; no speed
+    ld bc, global_.states
+    ld a, b
+    ldi (hl), a
+    ld a, c
+    ldi (hl), a
+
+; // init right wall
+    ld a, 1
+    ldi (hl), a ; 1 hp
+    ld a, 160-8
+    ldi (hl), a ; x = 160-8
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld bc, global_.sheets.4 ; vertical wall sheet
+    ld a, c
+    ldi (hl), a
+    ld a, 0
+    ldi (hl), a ; no speed
+    ld bc, global_.states
+    ld a, b
+    ldi (hl), a
+    ld a, c
+    ldi (hl), a
+
+initHitBoxes:
+; // init hitboxes
+    ld hl, global_.hitboxes_width
+    ld a, $10
+    ldi (hl), a
+    ldi (hl), a
+    ld a, $A0
+    ldi (hl), a
+    ld a, $10
     ldi (hl), a
     ld hl, global_.hitboxes_height
+    ld a, $10
     ldi (hl), a
     ldi (hl), a
+    ldi (hl), a
+    ld a, $90
+    ldi (hl), a
+
