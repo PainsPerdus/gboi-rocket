@@ -156,3 +156,5 @@ The array needs to be ordered by hblank line
 
 To read this array in RAM : we test if we are at the line. We manually load a pointer to the array in hl after the recyling code. If we are no the correponding line, we increament manually in opcode that pointer and we update the x, y and oam sprite number 
 
+
+We can take the first in the list each time and set it as the first sprite
