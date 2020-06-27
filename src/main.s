@@ -59,10 +59,10 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; \\\\\\\ INCLUDE .INIT ///////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
-	ld a,%00010000
-	ldh ($41),a		; enable VBlank interruption
+	ld a,%00000000
+	ldh ($41),a		; Disable LCD STAT interruptions
 	ld a,%00000001
-	ldh ($FF),a		; twice, BECAUSE IT'S FUN
+	ldh ($FF),a		; Enable VBlank global interruption
 	ei						; interrutions are back!
 ; \\\\\\\ ENABLE INTERRUPTIONSS ///////
 
