@@ -51,7 +51,9 @@ move_and_collide:
 ; \ set hitbox as parameter /
 
 ; / test collision \
+	push hl
 	call collision
+	pop hl
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.y)
@@ -120,7 +122,9 @@ move_and_collide:
 ; \ set hitbox as parameter /
 
 ; / test collision \
+	push hl
 	call collision
+	pop hl
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.x)
