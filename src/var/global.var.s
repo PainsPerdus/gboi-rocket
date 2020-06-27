@@ -1,5 +1,5 @@
-.DEFINE n_elements $0A
-.DEFINE n_sheets $02
+.DEFINE n_elements $0E
+.DEFINE n_sheets $04
 .DEFINE n_states $0A
 .DEFINE n_isaac_tears $0A
 .DEFINE n_ennemy_tears $0A
@@ -54,6 +54,6 @@
 	ennemy_tear_pointer DB
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
 	states INSTANCEOF state n_states
-	hitboxes_width DSB 2
- 	hitboxes_height DSB 2
+	hitboxes_width DSB 4
+ 	hitboxes_height DSB 4
 .ENDST

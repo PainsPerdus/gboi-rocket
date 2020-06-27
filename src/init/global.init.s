@@ -5,6 +5,7 @@ global_init:
 	ld hl,global_.sheets
 	ld b,n_sheets
 
+@rock:
 ; ////// ROCK \\\\\\
 	ld a,%10010000	; size = 0, block, hurt by bombs.
 	ldi (hl),a
@@ -18,8 +19,9 @@ global_init:
 	ldi (hl),a ; 0 HP
 ; \\\\\\ ROCK //////
 
+@void:
 ; ////// VOID \\\\\\
-	ld a,%00010000	; size = 0, block, hurt by bombs.
+	ld a,%00010000	; size = 0, no block, hurt by bombs.
 	ldi (hl),a
 	ld a,0	; dmg = 0
 	ldi (hl),a
@@ -31,6 +33,33 @@ global_init:
 	ldi (hl),a ; a rock has 1 HP
 ; \\\\\\ VOID //////
 
+@hwall:
+; ////// horizontal wall \\\\\\
+	ld a, %10000010 ; size = 2, block only
+	ldi (hl),a
+	ld a,0 ; dmg = 0
+	ldi (hl),a
+	ld a,0
+	ldi (hl),a
+	ldi (hl),a ; no function pointer or whatever
+	ldi (hl),a ; speed = 0, walls can't run... for now
+	ld a,1
+	ldi (hl),a ; hp = 1
+; \\\\\\ horizontal wall //////
+
+@vwall:
+; ////// vertical wall \\\\\\
+	ld a, %10000011 ; size = 3, block only
+	ldi (hl),a
+	ld a,0 ; dmg = 0
+	ldi (hl),a
+	ld a,0
+	ldi (hl),a
+	ldi (hl),a ; no function pointer or whatever
+	ldi (hl),a ; speed = 0, walls can't run... for now
+	ld a,1
+	ldi (hl),a ; hp = 1
+; \\\\\\ vertical wall //////
 
 @isaac_init:
 	ld hl, global_.isaac

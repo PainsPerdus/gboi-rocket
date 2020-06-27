@@ -20,11 +20,22 @@ inc l
 	ld a,(de)
 	and a					; test if the element has hp
 	jp z, @ending_of_looptodisplayrocks
+
 	ld h,d
 	ld l,e
 	inc hl
-	ldi a, (hl) ;Y position in pixels (must be a multiple of 8)
-	ld b, (hl) ;X position in pixels (must be a multiple of 8)
+	inc hl
+	inc hl
+	ld a, (hl)
+	ld hl, global_.sheets
+	cp l
+	jp nz, @ending_of_looptodisplayrocks
+
+	ld h,d
+	ld l,e
+	inc hl
+	ldi a, (hl) ;x position in pixels (must be a multiple of 8)
+	ld b, (hl) ;y position in pixels (must be a multiple of 8)
 	ld l,ROCKS_SPRITESHEET ;start tile id
 	call displayBackgroundTile
 @ending_of_looptodisplayrocks:
