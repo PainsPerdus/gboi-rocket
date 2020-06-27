@@ -18,6 +18,9 @@ unsigned char largeur;
 unsigned char * map;
 unsigned char current;
 unsigned char temp[4];
+unsigned char start;
+unsigned char boss;
+unsigned char item;
 
 int main(int argc, char const *argv[]) {
   printf("level : %d\n",level);
@@ -49,45 +52,18 @@ int main(int argc, char const *argv[]) {
   }
   i--;
   j--;
-  map[j * largeur + i] = 0b00001100;
+  start = j * largeur + i;
+  map[start] = 0b00001100;
   display();
 
-  //Salle de boss
-  //Way with a length between m/3 and  n
+  //Boss's room with a Way of a length between largeur/3 and hauteur
 
   unsigned char diff = hauteur - largeur/3 ;
   unsigned char c = aleatNumber() % (diff + 1) ;
   c = c + 1 + largeur/3;
 
-  current = j * largeur + i;
-  while (c > 0){
-    unsigned char next = unvisitedNeighbours(current);
-    c--;
-    map[next] = map[next] | 0b00001000;
-    if (next == current + 1){
-      map[current] = map[current] | 0b00010000;
-      map[next] = map[next] | 0b00100000;
-    } else{
-      if (next == current - 1){
-        map[current] = map[current] | 0b00100000;
-        map[next] = map[next] | 0b00010000;
-      } else{
-        if (next == current - largeur){
-          map[current] = map[current] | 0b10000000;
-          map[next] = map[next] | 0b01000000;
-        } else{
-          if(next == current + largeur){
-            map[current] = map[current] | 0b01000000;
-            map[next] = map[next] | 0b10000000;
-          } else{
-            printf("Probleme dans le switch case !\n");
-          }
-        }
-      }
-    }
-    current = next;
-    printf("%d\n", next);
-  }
+  createWay(c);
+
   map[current] = map[current] & 0b11111000;
   map[current] = map[current] | 0b00000010;
   display();
@@ -96,8 +72,7 @@ int main(int argc, char const *argv[]) {
     map[i] = map[i] & 0b11110111;
   }
 
-
-  //item same/2
+  //Item's room with way of a length between largeur/6 and hauteur/2
   a=a-2;
   x=x+2;
   y=y*2;
@@ -106,35 +81,8 @@ int main(int argc, char const *argv[]) {
   c = aleatNumber() % (diff + 1) ;
   c = c + largeur/6;
 
-  current = j * largeur + i;
-  while (c > 0){
-    unsigned char next = unvisitedNeighbours(current);
-    c--;
-    map[next] = map[next] | 0b00001000;
-    if (next == current + 1){
-      map[current] = map[current] | 0b00010000;
-      map[next] = map[next] | 0b00100000;
-    } else{
-      if (next == current - 1){
-        map[current] = map[current] | 0b00100000;
-        map[next] = map[next] | 0b00010000;
-      } else{
-        if (next == current - largeur){
-          map[current] = map[current] | 0b10000000;
-          map[next] = map[next] | 0b01000000;
-        } else{
-          if(next == current + largeur){
-            map[current] = map[current] | 0b01000000;
-            map[next] = map[next] | 0b10000000;
-          } else{
-            printf("Probleme dans le switch case !\n");
-          }
-        }
-      }
-    }
-    current = next;
-    printf("%d\n", next);
-  }
+  createWay(c);
+
   map[current] = map[current] & 0b11111000;
   map[current] = map[current] | 0b00000001;
   display();
@@ -143,7 +91,7 @@ int main(int argc, char const *argv[]) {
     map[i] = map[i] & 0b11110111;
   }
 
-  //cul de sac between n/2 and max 3n/4
+  //Dead ends between hauteur/2 and max 3*hauteur/4
   //First
   a=a*2;
   x=x-2;
@@ -153,35 +101,7 @@ int main(int argc, char const *argv[]) {
   c = aleatNumber() % (diff + 1) ;
   c = c + hauteur/2;
 
-  current = j * largeur + i;
-  while (c > 0){
-    unsigned char next = unvisitedNeighbours(current);
-    c--;
-    map[next] = map[next] | 0b00001000;
-    if (next == current + 1){
-      map[current] = map[current] | 0b00010000;
-      map[next] = map[next] | 0b00100000;
-    } else{
-      if (next == current - 1){
-        map[current] = map[current] | 0b00100000;
-        map[next] = map[next] | 0b00010000;
-      } else{
-        if (next == current - largeur){
-          map[current] = map[current] | 0b10000000;
-          map[next] = map[next] | 0b01000000;
-        } else{
-          if(next == current + largeur){
-            map[current] = map[current] | 0b01000000;
-            map[next] = map[next] | 0b10000000;
-          } else{
-            printf("Probleme dans le switch case !\n");
-          }
-        }
-      }
-    }
-    current = next;
-    printf("%d\n", next);
-  }
+  createWay(c);
   display();
 
 
@@ -194,39 +114,8 @@ int main(int argc, char const *argv[]) {
   c = aleatNumber() % (diff + 1) ;
   c = c + largeur/6;
 
-  current = j * largeur + i;
-  while (c > 0){
-    unsigned char next = unvisitedNeighbours(current);
-    c--;
-    map[next] = map[next] | 0b00001000;
-    if (next == current + 1){
-      map[current] = map[current] | 0b00010000;
-      map[next] = map[next] | 0b00100000;
-    } else{
-      if (next == current - 1){
-        map[current] = map[current] | 0b00100000;
-        map[next] = map[next] | 0b00010000;
-      } else{
-        if (next == current - largeur){
-          map[current] = map[current] | 0b10000000;
-          map[next] = map[next] | 0b01000000;
-        } else{
-          if(next == current + largeur){
-            map[current] = map[current] | 0b01000000;
-            map[next] = map[next] | 0b10000000;
-          } else{
-            printf("Probleme dans le switch case !\n");
-          }
-        }
-      }
-    }
-    current = next;
-    printf("%d\n", next);
-  }
-  map[current] = map[current] & 0b11111000;
-  map[current] = map[current] | 0b00000001;
+  createWay(c)
   display();
-
 
   //Up | Down | Left | Right | Visited | Cat | Cat | Cat
   //000 : normal
@@ -371,6 +260,38 @@ unsigned char aleatNumber(){
   }
   //printf("%hhu\n", a%4);
   return a;
+}
+
+void createWay(unsigned char c){
+  current = start;
+  while (c > 0){
+    unsigned char next = unvisitedNeighbours(current);
+    c--;
+    map[next] = map[next] | 0b00001000;
+    if (next == current + 1){
+      map[current] = map[current] | 0b00010000;
+      map[next] = map[next] | 0b00100000;
+    } else{
+      if (next == current - 1){
+        map[current] = map[current] | 0b00100000;
+        map[next] = map[next] | 0b00010000;
+      } else{
+        if (next == current - largeur){
+          map[current] = map[current] | 0b10000000;
+          map[next] = map[next] | 0b01000000;
+        } else{
+          if(next == current + largeur){
+            map[current] = map[current] | 0b01000000;
+            map[next] = map[next] | 0b10000000;
+          } else{
+            printf("Probleme dans le switch case !\n");
+          }
+        }
+      }
+    }
+    current = next;
+    printf("%d\n", next);
+  }
 }
 
 void display(){
