@@ -6,6 +6,13 @@ A temporary code to implement Isaac's movement and collisions
 
 ## Struct used
 
+### reserved memory
+
+| Label | Size/Struct | Description |
+| ----- | ---- | ----------- |
+| next_coll | 2 bytes | address of the next position to read in the collisions array |
+| collisions | n_elements * 1 byte | for each element the b argument for the collisionSolverIsaac function |
+
 ### global structs
 
 #### Isaac
@@ -77,12 +84,13 @@ collision_.p.1.y = isaac.y
 collision_.hitbox1 = ISAACHITBOX
 
 for (c=0, c<n_elements, c++) {
+    movement_stub_.collisions[c] = 0
     collision_.p.2.x = elements[c].x
     collision_.p.2.y = elements[c].y
     collision_.hitbox2 = (*elements[c].sheet).size and 0b00000111
     a = collision()
     if (!a)
-        b = 0b01000000
+        movement_stub_.collisions[c] = movement_stub_.collisions or 0b01000000
 }
 
 isaac.x = isaac.x + isaac.speed.x
@@ -97,10 +105,19 @@ for (c=0, c<n_elements, c++) {
     collision_.hitbox2 = (*elements[c].sheet).size and 0b00000111
     a = collision()
     if (!a)
-        b = b or 0b10000000
+        movement_stub_.collisions[c] = movement_stub_.collisions[c] or 0b10000000
 }
 
-if (b)
-    collisionSolver(b, sheets[0])
-
+for (c=0, c<n_elements, c++) {
+    if (movement_stub_.collisions[c])
+        collisionSolver(movement_stub_.collisions[c], elements[c].sheet)
+}
 ~~~
+
+## NOTE
+
+* introduces a slight glitch : when Isaac goes to an angle, he is pushed away a few pixels too far
+
+## TODO
+
+* correct the glitch above
