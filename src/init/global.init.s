@@ -58,12 +58,12 @@ global_init:
 	ld de,global_.states
 @elements_loop: ; they are no element for now
 	xor a
+	ldi (hl),a ; hp = 0
 	ldi (hl),a ; x = 0
 	ldi (hl),a ; y = 0
-	ldi (hl),a ; speed x = 0, speed y = 0
 	ldi (hl),a ; sheet = 0
 	ld a,0
-	ldi (hl),a ; hp = 0
+	ldi (hl),a ; speed x = 0, speed y = 0
 	ld a,d
 	ldi (hl),a
 	ld a,e

@@ -24,11 +24,11 @@ Content of the struct "element" :
 
 | Label | Size/Struct | Description |
 | ----- | ---- | ----------- |
+| hp | 1 byte | the element's health |
 | x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
-| speed | 1 byte | Element's speed (split in 2 x 4bits, x speed (pos 7:4) and y speed (pos 3:0)) |
 | sheet | 1 byte | second byte of the address of the element's description sheet. (the first can be retrieved with the first byte of gobal_.sheets ) |
-| hp | 1 byte | the element's health |
+| speed | 1 byte | Element's speed (split in 2 x 4bits, x speed (pos 7:4) and y speed (pos 3:0)) |
 | state | 2 bytes | address to the state of the element |
 
 ## Sheet

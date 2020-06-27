@@ -32,6 +32,7 @@ move_and_collide:
 ; /// loop start \\\
 
 ; / set position as parameter \
+	inc hl
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
 	ldi a, (hl)
@@ -39,7 +40,6 @@ move_and_collide:
 ; \ set position as parameter /
 
 ; / set hitbox as parameter \
-	inc hl
 	ld a, (hl)
 	ld de, global_.sheets
 	ld e,a
@@ -103,6 +103,7 @@ move_and_collide:
 ; /// loop start \\\
 
 ; / set position as parameter \
+	inc hl
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
 	ldi a, (hl)
@@ -110,7 +111,6 @@ move_and_collide:
 ; \ set position as parameter /
 
 ; / set hitbox as parameter \
-	inc hl
 	ld a, (hl)
 	ld de, global_.sheets
 	ld e,a
