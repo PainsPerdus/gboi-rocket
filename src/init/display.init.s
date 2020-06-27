@@ -54,6 +54,79 @@ ld (display_.isaac.walk_timer),a
 	; The Z flag can't be used when dec on 16bit reg :(
 ; \\\\\\\ CLEAR BG ///////
 
+; /////// DRAWING WALLS \\\\\\\
+;    ///// UPPER WALL \\\\\
+
+	ld de,20       ; loop iterator
+	ld hl,$9800
+	@wall_up_line1:			; while de != 0
+	ld a, FLAT_BACKGROUND_WALL 
+	ldi (hl),a	; *hl <- 0; hl++
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@wall_up_line1	; end while
+	ld bc, $000C   ; next line distance
+	add hl, bc                      ;next line
+	ld de,20
+	@wall_up_line2:			; while de != 0
+	ld a, UP_BACKGROUND_WALL ;
+	ldi (hl),a	; *hl <- 0; hl++
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@wall_up_line2	; end while
+;    \\\\\ UPPER WALL /////
+
+;    ///// SIDE WALLS \\\\\
+	ld de,14
+	@walls_sides:			; while de != 0
+	ld bc, $000C   ; next line distance
+	add hl, bc     ;next line
+	ld a, FLAT_BACKGROUND_WALL ;
+	ldi (hl),a	; *hl <- 0; hl++
+	ld a, LEFT_BACKGROUND_WALL ;
+	ldi (hl), a
+	ld bc, $0010
+	add hl, bc
+	ld a, RIGHT_BACKGROUND_WALL ;
+	ldi (hl),a	; *hl <- 0; hl++
+	ld a, FLAT_BACKGROUND_WALL ;
+	ldi (hl), a
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@walls_sides	; end while
+;    \\\\\ SIDE WALLS /////
+	ld bc, $000C   ; next line distance
+	add hl, bc                      ;next line
+;    ///// DOWN WALL \\\\\
+
+	ld de,20       ; loop iterator
+	@wall_down_line1:			; while de != 0
+	ld a, DOWN_BACKGROUND_WALL 
+	ldi (hl),a	; *hl <- 0; hl++
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@wall_down_line1	; end while
+
+	ld bc, $000C   ; next line distance
+	add hl, bc                      ;next line
+
+	ld de,20
+	@wall_down_line2:			; while de != 0
+	ld a, FLAT_BACKGROUND_WALL ;
+	ldi (hl),a	; *hl <- 0; hl++
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@wall_down_line2	; end while
+;    \\\\\ DOWN WALL /////
+; \\\\\\\ DRAWING WALLS ///////
+
+
+
 ; /////// CLEAR OAM \\\\\\\
 	ld hl,$FE00
 	ld b,40*4
@@ -74,9 +147,13 @@ ld (display_.isaac.walk_timer),a
 
 ; // ISAAC SPRITES \\
 ; \\ ISAAC SPRITES //
+
 .INCLUDE "init/display_test.init.s"
 
 ; \\\\\\\ LOAD SPRITES ///////
+
+
+
 
 ; /////// INIT COLOR PALETTES \\\\\\\
 ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt
