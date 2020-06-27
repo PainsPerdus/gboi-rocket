@@ -16,7 +16,7 @@ Content of the struct "isaac" :
 | tears | 1 byte | 3 bits for horizontal speed of tears (pos 5:3), 3 bits for vertical speed (pos 2:0), 1 flag for "A was pressed the frame before" in postion (pos 7), 1 flag for "B  was pressed" (pos 6)|
 | recover | 1 byte | recovery time |
 | bombs | 1 byte | number of bombs Isaac has |
-| direction | 1 byte | 2 bits indicate Isaac's direction (11 = up, 00 = down, 01 = right, 10 = left) (pos 1:0), 6 other bits are free |
+| direction | 1 byte | 2 bits indicate Isaac's direction (00 = up, 11 = down, 10 = right, 01 = left) (pos 1:0), 6 other bits are free |
 
 ## Element
 
@@ -24,11 +24,11 @@ Content of the struct "element" :
 
 | Label | Size/Struct | Description |
 | ----- | ---- | ----------- |
+| hp | 1 byte | the element's health |
 | x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
-| speed | 1 byte | Element's speed (split in 2 x 4bits, x speed (pos 7:4) and y speed (pos 3:0)) |
 | sheet | 1 byte | second byte of the address of the element's description sheet. (the first can be retrieved with the first byte of gobal_.sheets ) |
-| hp | 1 byte | the element's health |
+| speed | 1 byte | Element's speed (split in 2 x 4bits, x speed (pos 7:4) and y speed (pos 3:0)) |
 | state | 2 bytes | address to the state of the element |
 
 ## Sheet

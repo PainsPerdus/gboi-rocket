@@ -4,9 +4,22 @@
 global_init:
 	ld hl,global_.sheets
 	ld b,n_sheets
-@sheets_loop:
-;	for now they are all rocks
+
+; ////// ROCK \\\\\\
 	ld a,%10010000	; size = 0, block, hurt by bombs.
+	ldi (hl),a
+	ld a,0	; dmg = 0
+	ldi (hl),a
+	ld a,0
+	ldi (hl),a
+	ldi (hl),a ; no funtion pointer or whatever
+	ldi (hl),a ; speed = 0
+	ld a,0
+	ldi (hl),a ; 0 HP
+; \\\\\\ ROCK //////
+
+; ////// VOID \\\\\\
+	ld a,%00010000	; size = 0, block, hurt by bombs.
 	ldi (hl),a
 	ld a,0	; dmg = 0
 	ldi (hl),a
@@ -16,8 +29,9 @@ global_init:
 	ldi (hl),a ; speed = 0, that a rock, duh
 	ld a,1
 	ldi (hl),a ; a rock has 1 HP
-	dec b
-	jp nz,@sheets_loop
+; \\\\\\ VOID //////
+
+
 @isaac_init:
 	ld a,$20
 	ldi (hl),a; x = 32
@@ -44,13 +58,13 @@ global_init:
 	ld de,global_.states
 @elements_loop: ; they are no element for now
 	xor a
+	ldi (hl),a ; hp = 0
 	ldi (hl),a ; x = 0
 	ldi (hl),a ; y = 0
-	ldi (hl),a ; speed x = 0, speed y = 0
 	ldi (hl),a ; sheet = 0
 	ld a,0
-	ldi (hl),a ; hp = 0
-	ld a,d	
+	ldi (hl),a ; speed x = 0, speed y = 0
+	ld a,d
 	ldi (hl),a
 	ld a,e
 	ldi (hl),a ; state
@@ -83,4 +97,3 @@ global_init:
 	ldi (hl),a ; placeholder = O (they are no element for now)
 	dec b
 	jp nz,@states_loop
-

@@ -1,5 +1,5 @@
 .DEFINE n_elements $0A
-.DEFINE n_sheets $01
+.DEFINE n_sheets $02
 .DEFINE n_states $0A
 .DEFINE n_isaac_tears $0A
 .DEFINE n_ennemy_tears $0A
@@ -19,11 +19,11 @@
 .ENDST
 
 .STRUCT element
+	hp DB
 	x DB
 	y DB
-	speed DB
 	sheet DB
-	hp DB
+	speed DB
 	state DW
 .ENDST
 
