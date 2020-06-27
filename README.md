@@ -2,7 +2,7 @@
 
 ## Description
 
-This project aims to remake the popular game *The Binding of Isaac* for Gameboy classic, in assembly. 
+This project aims at remaking the popular game *The Binding of Isaac* for Gameboy classic, in assembly. 
 
 ## Features
 
