@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void createWay(unsigned char c);
 unsigned char aleatNumber();
 unsigned char unvisitedNeighbours(unsigned char k);
 unsigned char * neighbours(unsigned char k);
@@ -12,7 +13,7 @@ unsigned char x=0;
 unsigned char y=0;
 unsigned char z=0;
 unsigned char a=1;
-unsigned char level = 4;
+unsigned char level = 7;
 unsigned char hauteur;
 unsigned char largeur;
 unsigned char * map;
@@ -28,7 +29,7 @@ int main(int argc, char const *argv[]) {
   hauteur= level/2;
   largeur = level - hauteur;
   printf("hauteur : %d, largeur : %d\n", hauteur, largeur);
-  map = (char *) malloc (hauteur * largeur);
+  map = (unsigned char *) malloc (hauteur * largeur);
   for (int i = 0; i < hauteur*largeur; i++){
     map[i] = 0b00000000;
   }
@@ -109,12 +110,12 @@ int main(int argc, char const *argv[]) {
   a=a-1;
   x=x+1;
   y=y*3;
-  z=z-4;
+  z=z-2;
   diff = hauteur/2 - largeur/6 ;
   c = aleatNumber() % (diff + 1) ;
   c = c + largeur/6;
 
-  createWay(c)
+  createWay(c);
   display();
 
   //Up | Down | Left | Right | Visited | Cat | Cat | Cat
@@ -138,63 +139,7 @@ unsigned char unvisitedNeighbours(unsigned char k){
   unsigned char * possibleNeighbours;
   possibleNeighbours = neighbours(k);
   int compteur = 0;
-  char neighbour;
-  char bool[4];
-  //for(int i = 0; i < 4; i++){
-  neighbour = possibleNeighbours[0];
-  if (!(map[neighbour] & (1u << 3))){
-    if (k < largeur){
-      bool[0] = 0;
-    } else{
-      bool[0] = 1;
-      compteur++;
-    }
-  }
-  neighbour = possibleNeighbours[1];
-  if (!(map[neighbour] & (1u << 3))){
-    if (k % largeur == 0){
-      bool[1] = 0;
-    } else{
-      bool[1] = 1;
-      compteur++;
-    }
-  }
-  neighbour = possibleNeighbours[2];
-  if (!(map[neighbour] & (1u << 3))){
-    if (k % largeur == largeur - 1){
-      bool[2] = 0;
-    } else{
-      bool[2] = 1;
-      compteur++;
-    }
-  }
-  neighbour = possibleNeighbours[3];
-  if (!(map[neighbour] & (1u << 3))){
-    if (k >= (hauteur - 1) * largeur){
-      bool[3] = 0;
-    } else{
-      bool[3] = 1;
-      compteur++;
-    }
-  }
-  char alea = aleatNumber() % compteur;
-  int i = 0;
-  char chose;
-  while(alea >= 0){
-    if (bool[i] == 1){
-      chose = possibleNeighbours[i];
-      alea--;
-    }
-    i++;
-  }
-  return chose;
-}
-
-unsigned char anyNeighbours(unsigned char k){
-  unsigned char * possibleNeighbours;
-  possibleNeighbours = neighbours(k);
-  int compteur = 0;
-  char neighbour;
+  unsigned char neighbour;
   char bool[4];
   //for(int i = 0; i < 4; i++){
   neighbour = possibleNeighbours[0];
