@@ -1,29 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-void createWay(unsigned char c);
-unsigned char aleatNumber();
-unsigned char unvisitedNeighbour(unsigned char k);
-unsigned char * neighbours(unsigned char k);
-void display();
-void binaryDisplay(unsigned char n);
-unsigned char anyNeighbours(unsigned char k);
+void createWay(unsigned char c);//create a way between the start and a specific room, opening doors
+void randomNumber();//give an random number
+unsigned char unvisitedNeighbour(unsigned char k);//give a random neighbour in the unvisited accessible rooms
+unsigned char * neighbours(unsigned char k);//give the subscripts of theoric accesible rooms for a given subscript
+void display();//display the map in the terminal
+void binaryDisplay(unsigned char n);//show a char in its binaty form
 
 unsigned char x=0;
 unsigned char y=0;
 unsigned char z=0;
 unsigned char a=1;
-unsigned char level = 7;
-unsigned char height;
-unsigned char width;
-unsigned char * map;
-unsigned char current;
-unsigned char temp[4];
-unsigned char start;
-unsigned char boss;
-unsigned char item;
+unsigned char level = 5;//level of the stage to generate
+unsigned char height;//height of the arrayof rooms
+unsigned char width;//width of the array of rooms
+unsigned char * map;//array of rooms
+unsigned char current;//current room in the algo
+unsigned char temp[4];//subscript of theoric accessible rooms for a specifi room
+unsigned char start;//subscript of start room
+unsigned char boss;//subscript of boss's room
+unsigned char item;//subscript of item's room
 
 int main(int argc, char const *argv[]) {
+
+  //get the number of second since january the first
+  int times = time(NULL)%200;
+  for (int i = 0 ; i < times ; i++){
+    randomNumber();
+  }
+
+
   //Initialization of width and jeight on level
   level=level+6;
   height= level/2;
@@ -50,14 +58,16 @@ int main(int argc, char const *argv[]) {
     i = width/2 + 1;
   }
   else {
-    unsigned char b = aleatNumber() % 2;
+    randomNumber();
+    unsigned char b = a % 2;
     i = width / 2 + b;
   }
   if (height % 2 != 0){
     j = height/2 + 1;
   }
   else {
-    unsigned char b = aleatNumber() % 2;
+    randomNumber();
+    unsigned char b = a % 2;
     j = height / 2 + b;
   }
   i--;
@@ -68,7 +78,8 @@ int main(int argc, char const *argv[]) {
   //Boss's room with a Way of a length between width/3 and height
 
   unsigned char diff = height - width/3 ;
-  unsigned char c = aleatNumber() % (diff + 1) ;//generate a random length of the way between the limits mentionned above
+  randomNumber();
+  unsigned char c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
   c = c + 1 + width/3;
 
   createWay(c);
@@ -84,7 +95,8 @@ int main(int argc, char const *argv[]) {
 
   //Item's room with way of a length between width/6 and height/2
   diff = height/2 - width/6 ;
-  c = aleatNumber() % (diff + 1) ;//generate a random length of the way between the limits mentionned above
+  randomNumber();
+  c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
   c = c + width/6;
 
   createWay(c);
@@ -101,18 +113,20 @@ int main(int argc, char const *argv[]) {
   //Dead ends between height/2 and max 3*height/4
   //First dead end
   diff = 3*height/4 - height/2 ;
-  c = aleatNumber() % (diff + 1) ;//generate a random length of the way between the limits mentionned above
+  randomNumber();
+  c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
   c = c + height/2;
 
   createWay(c);
 
   //Second dead end
   diff = height/2 - width/6 ;
-  c = aleatNumber() % (diff + 1) ;//generate a random length of the way between the limits mentionned above
+  randomNumber();
+  c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
   c = c + width/6;
 
   createWay(c);
-  //display();
+  display();
 
   return 0;
 }
@@ -173,7 +187,8 @@ unsigned char unvisitedNeighbour(unsigned char k){
       compteur++;//count unvisited accessible rooms
     }
   }
-  char alea = aleatNumber() % compteur;//chose a random room in thos unvisited and accessible
+  randomNumber();
+  char alea = a % compteur;//chose a random room in thos unvisited and accessible
   int i = 0;
   char chose;
   while(alea >= 0){//Circle to find the alea-nd unvisited accessible rooms
@@ -186,15 +201,12 @@ unsigned char unvisitedNeighbour(unsigned char k){
   return chose;
 }
 
-unsigned char aleatNumber(){//Have a random number
-  for(unsigned long i = 0 ; i < 14 ; i++) {
-    unsigned char t = x ^ (x << 4);
-    x=y;
-    y=z;
-    z=a;
-    a = z ^ t ^ ( z >> 1) ^ (t << 1);
-  }
-  return a;
+void randomNumber(){//Have a random number
+  unsigned char t = x ^ (x << 4);
+  x=y;
+  y=z;
+  z=a;
+  a = z ^ t ^ ( z >> 1) ^ (t << 1);
 }
 
 void createWay(unsigned char c){//create a random way from the start to a specific room with the length mentionned in argument
@@ -227,7 +239,7 @@ void createWay(unsigned char c){//create a random way from the start to a specif
   }
 }
 
-//// Specific C code to display and check the code above \\\\
+//Specific C code to display and check the code above
 void display(){//to show the map of rooms, each room is represented by a byte
   for (int k = 0 ; k < height ; k++){
     for (int l = 0 ; l < width ; l++){
@@ -246,5 +258,3 @@ void binaryDisplay(unsigned char n) {//to show a char in its binary form
     i--;
   }
 }
-
-//// Specific C code to display and check the code above \\\\
