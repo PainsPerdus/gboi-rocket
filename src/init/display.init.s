@@ -60,7 +60,7 @@ ld (display_.isaac.walk_timer),a
 	ld de,20       ; loop iterator
 	ld hl,$9800
 	@wall_up_line1:			; while de != 0
-	ld a, FLAT_BACKGROUND_WALL 
+	ld a, FLAT_BACKGROUND_WALL
 	ldi (hl),a	 
 	dec de		; de --
 	ld a,e
@@ -75,8 +75,8 @@ ld (display_.isaac.walk_timer),a
 	ld de,16
 	@wall_up_line2:			; while de != 0
 	ld a, UP_BACKGROUND_WALL ;
-	ldi (hl),a	 
-	dec de		; de --
+	ldi (hl),a
+	dec de	; de --
 	ld a,e
 	or d
 	jr nz,@wall_up_line2	; end while
