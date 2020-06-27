@@ -26,10 +26,12 @@ move_and_collide:
 ;   \\\\ collision Y  init ////
 
 ;   //// collision Y  loop \\\\
-	ld hl, global_.elements
+	ld de, global_.elements
 	ld c, n_elements
 	@@loop:
 ; /// loop start \\\
+	ld h,d
+	ld l,e
 
 ; / set position as parameter \
 	inc hl
@@ -41,9 +43,9 @@ move_and_collide:
 
 ; / set hitbox as parameter \
 	ld a, (hl)
-	ld de, global_.sheets
-	ld e,a
-	ld a, (de)	; a = (*element.sheet).size)
+	ld hl, global_.sheets
+	ld l,a
+	ld a, (hl)	; a = (*element.sheet).size)
 	bit $7,a
 	jp z, @@ending_loop	; if non block : continue
 	and %00000111
@@ -51,9 +53,7 @@ move_and_collide:
 ; \ set hitbox as parameter /
 
 ; / test collision \
-	push hl
 	call collision
-	pop hl
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.y)
@@ -68,8 +68,10 @@ move_and_collide:
 ; \ test collision /
 
 @@ending_loop:
-	ld de, $0004
+	ld hl, $0007
 	add hl, de
+	ld d,h
+	ld e,l
 	dec c
 	jr nz, @@loop
 ;   \\\\ collision Y  loop ////
@@ -97,10 +99,12 @@ move_and_collide:
 ;   \\\\ collision X  init ////
 
 ;   //// collision X  loop \\\\
-	ld hl, global_.elements
+	ld de, global_.elements
 	ld c, n_elements
 	@@loop:
 ; /// loop start \\\
+	ld h,d
+	ld l,e
 
 ; / set position as parameter \
 	inc hl
@@ -112,9 +116,9 @@ move_and_collide:
 
 ; / set hitbox as parameter \
 	ld a, (hl)
-	ld de, global_.sheets
-	ld e,a
-	ld a, (de)	; a = (*element.sheet).size)
+	ld hl, global_.sheets
+	ld l,a
+	ld a, (hl)	; a = (*element.sheet).size)
 	bit $7,a
 	jp z, @@ending_loop	; if non block : continue
 	and %00000111
@@ -122,9 +126,7 @@ move_and_collide:
 ; \ set hitbox as parameter /
 
 ; / test collision \
-	push hl
 	call collision
-	pop hl
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.x)
@@ -139,8 +141,10 @@ move_and_collide:
 ; \ test collision /
 
 @@ending_loop:
-	ld de, $0004
+	ld hl, $0007
 	add hl, de
+	ld d,h
+	ld e,l
 	dec c
 	jr nz, @@loop
 ;   \\\\ collision X  loop ////
