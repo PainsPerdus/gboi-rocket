@@ -18,7 +18,6 @@
     ldi (hl), a
 
 ; // init rock 2
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $10
@@ -36,7 +35,6 @@
     ldi (hl), a
 
 ; // init rock 3
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $20
@@ -54,7 +52,6 @@
     ldi (hl), a
 
 ; // init rock 4
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $30
@@ -72,7 +69,6 @@
     ldi (hl), a
     
 ; // init rock 5
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $40
@@ -90,7 +86,6 @@
     ldi (hl), a
 
 ; // init rock 6
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $50
@@ -108,7 +103,6 @@
     ldi (hl), a
 
 ; // init rock 7
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $60
@@ -126,7 +120,6 @@
     ldi (hl), a
 
 ; // init rock 8
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $70
@@ -144,7 +137,6 @@
     ldi (hl), a
 
 ; // init rock 9
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $80
@@ -162,7 +154,6 @@
     ldi (hl), a
 
 ; // init rock 10
-    ld hl, global_.elements
     ld a, 1
     ldi (hl), a
     ld a, $90
