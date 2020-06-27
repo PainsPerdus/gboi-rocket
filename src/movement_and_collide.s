@@ -7,7 +7,7 @@ move_and_collide:
 	ld a,(global_.isaac.speed)
 	and %00001111
 	bit $3,a
-	jp z,@@posit
+	jr z,@@posit
 	or %11110000
 @@posit:
 	ld b,a									; B = SPEED Y
@@ -124,7 +124,7 @@ move_and_collide:
 	ld l,a
 	ld a, (hl)	; a = (*element.sheet).size)
 	bit $7,a
-	jp z, @@ending_loop	; if non block : continue
+	jr z, @@ending_loop	; if non block : continue
 	and %00000111
 	ld (collision_.hitbox2), a
 ; \ set hitbox as parameter /
