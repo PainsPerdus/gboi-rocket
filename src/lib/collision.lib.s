@@ -48,28 +48,28 @@ collision:
   ld h,a  ; h = collision_p_RD.2.x
   ld a,(collision_.p.1.x) ; a = collision_p.1.x
   cp h
-  jp nc,@ret_false ; (if collision_p.1.x > collision_p_RD.2.x) return 0
+  jr nc,@ret_false ; (if collision_p.1.x > collision_p_RD.2.x) return 0
 ; \\ COMPARE, line 1 //
 ; // COMPARE, line 2\\
   ld a,(collision_.p_RD.1.x)
   ld h,a  ; h = collision_p_RD.1.x
   ld a,(collision_.p.2.x) ; a = collision_p.2.x
   cp h
-  jp nc,@ret_false ; (if collision_p.2.x > collision_p_RD.1.x) return 0
+  jr nc,@ret_false ; (if collision_p.2.x > collision_p_RD.1.x) return 0
 ; \\ COMPARE, line 2 //
 ; // COMPARE, line 3\\
   ld a,(collision_.p_RD.1.y)
   ld h,a  ; h = collision_p.2.y
   ld a,(collision_.p.2.y) ; a = collision_p_RD.1.y
   cp h
-  jp nc,@ret_false ; (if collision_p.2.y > collision_p_RD.1.y) return 0
+  jr nc,@ret_false ; (if collision_p.2.y > collision_p_RD.1.y) return 0
 ; \\ COMPARE, line 3 //
 ; // COMPARE, line 4\\
   ld a,(collision_.p_RD.2.y)
   ld h,a  ; h = collision_p_RD.2.y
   ld a,(collision_.p.1.y) ; a = collision_p.1.y
   cp h
-  jp nc,@ret_false ; (if collision_p.1.y > collision_p_RD.2.y) return 0
+  jr nc,@ret_false ; (if collision_p.1.y > collision_p_RD.2.y) return 0
 ; \\ COMPARE, line 4 //
   ld a,1
   ret
