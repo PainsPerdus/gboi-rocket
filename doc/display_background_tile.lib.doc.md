@@ -1,6 +1,7 @@
 # Display Background Tile
 
 Function : display a background element at the position x and y (in pixels)
+x and y need to be multiples of 16 to fit the display grid.
 
 Modifies: A, HL  
 Restores: BC, DE  

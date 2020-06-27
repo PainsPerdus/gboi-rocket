@@ -16,3 +16,15 @@ fn = frame n° n
 | ISAAC_BOTTOM_RIGHT_WALK  |    2 bytes   | first sprite of walk animation (f1 no tear - f1 tear - f2 no tear - f2 tear) |
 | ISAAC_MOUTH_PIXEL_1      |    2 bytes   | position of the first byte encoding isaac's mouth pixel                      |
 | ISAAC_MOUTH_PIXEL_2      |    2 bytes   | position of the second byte encoding isaac's mouth pixel                     |
+
+
+
+following background sprites follow this convention :
+
+SPRITESHEET (id of the first tile of the stritesheet)
+SPRITESHEET SIZE (tile count in the spritesheet)
+
+IDs are relative and assigned depending of the last declaration
+
+ex :
+SPRITESHEET(N) = SPRITESHEET(N-1) + SPRITESHEET_SIZE(N-1)

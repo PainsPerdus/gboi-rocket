@@ -59,6 +59,32 @@ Here is the description of the 8 bits of each background map byte (from PanDocs)
 
 We set everything to 0. 
 
+## Drawing walls
+We have to draw 16px large walls around the room. We work in a 20x18 area in the BG grid.
+de i used as loop iterator
+bc is used to keep the distance to the next line in the BG grid
+
+the walls are display by order of appearance in the BG grid.
+
+# upper wall
+For the first two lines, we use two loop.
+first loop draws 20 basic wall tiles
+skip to next line (32 -20 = 12)
+draw two hardcoded tiles for the left corner
+second loop draws 16 wall tiles
+draw two hardcoded tiles for the right corner
+
+# side walls
+draw first outer wall tile
+draw first inner wall tile
+skip to the other side (18 - 2 = 16)
+draw second inner wall tile
+draw second outer wall tile
+skip to next line (32 -20 = 12)
+
+# down wall
+same logic as upper wall section.
+
 ## Clear OAM
 
 There are 40 sprites in the OAM, each sprites take up 4 bytes, so we need to clear the 40*4 bytes of the OAM and set everything to 0.
