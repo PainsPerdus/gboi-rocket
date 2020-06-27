@@ -19,11 +19,11 @@
 .ENDST
 
 .STRUCT element
+	hp DB
 	x DB
 	y DB
-	speed DB
 	sheet DB
-	hp DB
+	speed DB
 	state DW
 .ENDST
 
