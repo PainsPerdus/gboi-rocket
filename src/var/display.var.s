@@ -5,17 +5,14 @@
 .DEFINE OAM_ENNEMY_BULLETS OAM_ISAAC OAM_ISAAC_BULLETS+OAM_ISAAC_BULLETS_SIZE*4
 .DEFINE OAM_ENNEMY_BULLETS_SIZE 5
 
+.DEFINE DISPLAY_RAM_OPCODE_START $C000
+
 .STRUCT isaac_display
 	frame DB
 	shoot_timer DB
 	walk_timer DB
 .ENDST
 
-.STRUCT hblank_preloaded_opcode
-	address DSB 38
-.ENDST
-
 .STRUCT display_var
 	isaac INSTANCEOF isaac_display
-	hbland_preloaded_opcode INSTANCEOF hblank_preloaded_opcode
 .ENDST

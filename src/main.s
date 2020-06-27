@@ -6,7 +6,9 @@
 .INCLUDE "var/display.var.s"
 .INCLUDE "var/sprite.var.s"
 
-.ENUM $C000
+; $C000 to $C0FF is reserved for dynamic opcode
+
+.ENUM $C100
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 .ENDE
@@ -21,7 +23,7 @@
 
 .ORG $0048 				; Write at the address $0048 (hblank interruption)
 	push hl	;Save the hl registery that we're going to use
-	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
+;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
@@ -71,7 +73,6 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; \\\\\\\\\ INIT /////////
 
 
-
 ; ///////// MAIN LOOP \\\\\\\\\
 loop:
 	jr loop
@@ -85,6 +86,7 @@ VBlank:
 .INCLUDE "display.s"
 .INCLUDE "display.s.stub"
 .INCLUDE "body.s"
+	ld b,b
 	pop hl
 	pop af
 	ret

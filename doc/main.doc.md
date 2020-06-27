@@ -13,8 +13,8 @@ Include specifications for the generation of the binary file.
 ~~~
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "global.var.s"
-...
-.ENUM $C000
+; $C000 to $C0FF is reserved for dynamic opcode 
+.ENUM $C100
 	global_ INSTANCEOF global_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////

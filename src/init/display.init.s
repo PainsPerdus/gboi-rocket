@@ -101,7 +101,9 @@ ld (display_.isaac.walk_timer),a
 
 ; /////// SETUP BULLET HBLANK OPCODE \\\\\\\
 
-
+ld hl, DISPLAY_RAM_OPCODE_START
+ld (hl), $00
+inc hl
 
 ; \\\\\\\ SETUP BULLET HBLANK OPCODE ///////
 

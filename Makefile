@@ -9,8 +9,8 @@ AFLAGS=
 LFLAGS=-d -v -s
 
 #Emulator
-EMULATOR=vbam#visualboyadvance-m
-EFLAGS=-f 17  
+EMULATOR=sameboy#vbam#visualboyadvance-m
+EFLAGS=#-f 17 
 
 # Folders
 SRC=src
