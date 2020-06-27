@@ -54,6 +54,6 @@
 	ennemy_tear_pointer DB
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
 	states INSTANCEOF state n_states
-	hitboxes_width DSB 2
- 	hitboxes_height DSB 2
+	hitboxes_width DSB 4
+ 	hitboxes_height DSB 4
 .ENDST
