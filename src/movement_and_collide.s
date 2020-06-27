@@ -94,7 +94,7 @@ move_and_collide:
 ;   //// collision X  init \\\\
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
-;   \\\\ collision Y  init ////
+;   \\\\ collision X  init ////
 
 ;   //// collision X  loop \\\\
 	ld hl, global_.elements
