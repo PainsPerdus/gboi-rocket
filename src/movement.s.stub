@@ -13,7 +13,6 @@ move_stub:
 	ld (hl),a
 ; \\\\\\\ MOVE ISAAC  Y ////////
 
-ld b,0
 ; //////// Collision \\\\\\\
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
@@ -23,10 +22,24 @@ ld b,0
 	ld (collision_.hitbox1), a
 
 	; /// loop start \\\
+	ld de, movement_stub_.collisions
+	ld a, d
+	ld (movement_stub_.next_coll), a
+	ld a, e
+	ld (movement_stub_.next_coll + 1), a
 	ld hl, global_.elements
 	ld c, n_elements
 @@loop:
-	; /// loop start \\\
+	; \\\ loop start ///
+
+	; /// init result \\\
+	ld a, (movement_stub_.next_coll)
+	ld d, a
+	ld a, (movement_stub_.next_coll + 1)
+	ld e, a
+	ld a, %00000000
+	ld (de), a
+	; \\\ init result ///
 
 	; /// set position as parameter \\\
 	ldi a, (hl)
@@ -51,15 +64,36 @@ ld b,0
 	call collision
 	ld h, d
 	ld l, e
+
 	and a
 	jr z, @@noCollision
-	set $6,b
+	ld a, (movement_stub_.next_coll)
+	ld d, a
+	ld a, (movement_stub_.next_coll + 1)
+	ld e, a
+	ld a, (de)
+	set $6, a
+	ld (de), a
 	; \\\ test collision ///
 @@noCollision:
 
 	; /// loop end \\\
 	ld de, $0004
 	add hl, de
+
+	; // update position of next result \\
+	ld a, (movement_stub_.next_coll)
+	ld d, a
+	ld a, (movement_stub_.next_coll + 1)
+	ld e, a
+	inc de
+	inc de
+	ld a, d
+	ld (movement_stub_.next_coll), a
+	ld a, e
+	ld (movement_stub_.next_coll + 1), a
+	; \\ update position of next result //
+
 	dec c
 	jr nz, @@loop
 	; \\\ loop end ///
@@ -88,10 +122,15 @@ ld b,0
 	ld (collision_.hitbox1), a
 
 	; /// loop start \\\
+	ld de, movement_stub_.collisions
+	ld a, d
+	ld (movement_stub_.next_coll), a
+	ld a, e
+	ld (movement_stub_.next_coll + 1), a
 	ld hl, global_.elements
 	ld c, n_elements
 @@loop:
-	; /// loop start \\\
+	; \\\ loop start ///
 
 	; /// set position as parameter \\\
 	ldi a, (hl)
@@ -118,13 +157,33 @@ ld b,0
 	ld l, e
 	and a
 	jr z, @@noCollision
-	set $7,b
+	ld a, (movement_stub_.next_coll)
+	ld d, a
+	ld a, (movement_stub_.next_coll + 1)
+	ld e, a
+	ld a, (de)
+	set $7, a
+	ld (de), a
 	; \\\ test collision ///
 @@noCollision:
 
 	; /// loop end \\\
 	ld de, $0004
 	add hl, de
+
+	; // update position of next result \\
+	ld a, (movement_stub_.next_coll)
+	ld d, a
+	ld a, (movement_stub_.next_coll + 1)
+	ld e, a
+	inc de
+	inc de
+	ld a, d
+	ld (movement_stub_.next_coll), a
+	ld a, e
+	ld (movement_stub_.next_coll + 1), a
+	; \\ update position of next result //
+
 	dec c
 	jr nz, @@loop
 	; \\\ loop end ///
@@ -132,14 +191,56 @@ ld b,0
 
 @collision_solver:
 ; //////// call collision solver \\\\\\\
-	ld a,b
+	; /// loop start \\\
+	ld hl, movement_stub_.collisions
+	ld a, h
+	ld (movement_stub_.next_coll), a
+	ld a, l
+	ld (movement_stub_.next_coll + 1), a
+	ld de, global_.elements
+	ld c, n_elements
+@@loop:
+	; \\\ loop start ///
+
+	inc de
+	inc de
+	inc de ; points on element.sheet
+	ld a, (movement_stub_.next_coll)
+	ld h, a
+	ld a, (movement_stub_.next_coll + 1)
+	ld l, a
+	ld a, (hl)
+	ld b, a
 	and a
 	jp z,@@dont_call
 	ld hl,global_.sheets
-	ld a,(global_.elements.1.sheet)
+	ld a,(de)
 	ld l,a
 	call collisionSolverIsaac
 @@dont_call:
+
+	; /// loop end \\\
+	ld hl, $0004
+	add hl, de
+	ld d, h
+	ld e, l
+
+	; // update position of next result \\
+	ld a, (movement_stub_.next_coll)
+	ld h, a
+	ld a, (movement_stub_.next_coll + 1)
+	ld l, a
+	inc hl
+	inc hl
+	ld a, h
+	ld (movement_stub_.next_coll), a
+	ld a, l
+	ld (movement_stub_.next_coll + 1), a
+	; \\ update position of next result //
+
+	dec c
+	jr nz, @@loop
+	; \\\ loop end ///
 ; \\\\\\\ call collision solver ////////
 
 ; //////// TEST A B \\\\\\\

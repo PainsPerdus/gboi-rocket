@@ -6,11 +6,14 @@
 .INCLUDE "var/display.var.s"
 .INCLUDE "var/sprite.var.s"
 .INCLUDE "var/collision.var.s"
+.INCLUDE "var/movement.stub.var.s"
+
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 	collision_ INSTANCEOF collision_var
+	movement_stub_ INSTANCEOF movement_stub_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
