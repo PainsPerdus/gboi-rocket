@@ -21,8 +21,7 @@
 
 .ORG $0048 				; Write at the address $0048 (hblank interruption)
 	push hl	;Save the hl registery that we're going to use
-	reti
-;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
+	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
@@ -61,6 +60,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; \\\\\\\ INCLUDE .INIT ///////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
+	.PRINTT "Hello world\n"
 	ld a,%00001000
 	ldh ($41),a		; enable STAT HBlank interrupt
 	ld a,%00000011
