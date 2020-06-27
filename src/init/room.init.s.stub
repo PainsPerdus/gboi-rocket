@@ -18,8 +18,9 @@
     ldi (hl), a
 
 ; // init rock 2
-    ld a, $10
+    ld a, $70
     ldi (hl), a
+    ld a,$30
     ldi (hl), a
     ld a, 0
     ldi (hl), a
@@ -35,8 +36,9 @@
     ldi (hl), a
 
 ; // init rock 3
-    ld a, $20
+    ld a, $40
     ldi (hl), a
+    ld a, $80
     ldi (hl), a
     ld a, 0
     ldi (hl), a
@@ -57,10 +59,10 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld bc, global_.sheets.1
+    ld bc, global_.sheets.2
     ld a, c
     ldi (hl), a
-    ld a, 1
+    ld a, 0
     ldi (hl), a
     ld bc, global_.states
     ld a,b
@@ -74,10 +76,10 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld bc, global_.sheets.1
+    ld bc, global_.sheets.2
     ld a, c
     ldi (hl), a
-    ld a, 1
+    ld a, 0
     ldi (hl), a
     ld bc, global_.states
     ld a,b
@@ -91,10 +93,10 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld bc, global_.sheets.1
+    ld bc, global_.sheets.2
     ld a, c
     ldi (hl), a
-    ld a, 1
+    ld a, 0
     ldi (hl), a
     ld bc, global_.states
     ld a,b
@@ -108,10 +110,10 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld bc, global_.sheets.1
+    ld bc, global_.sheets.2
     ld a, c
     ldi (hl), a
-    ld a, 1
+    ld a, 0
     ldi (hl), a
     ld bc, global_.states
     ld a,b
@@ -125,10 +127,10 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld bc, global_.sheets.1
+    ld bc, global_.sheets.2
     ld a, c
     ldi (hl), a
-    ld a, 1
+    ld a, 0
     ldi (hl), a
     ld bc, global_.states
     ld a,b
@@ -142,10 +144,10 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld bc, global_.sheets.1
+    ld bc, global_.sheets.2
     ld a, c
     ldi (hl), a
-    ld a, 1
+    ld a, 0
     ldi (hl), a
     ld bc, global_.states
     ld a,b
@@ -159,10 +161,10 @@
     ldi (hl), a
     ld a, 0
     ldi (hl), a
-    ld bc, global_.sheets.1
+    ld bc, global_.sheets.2
     ld a, c
     ldi (hl), a
-    ld a, 1
+    ld a, 0
     ldi (hl), a
     ld bc, global_.states
     ld a,b
