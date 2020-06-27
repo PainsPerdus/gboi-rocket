@@ -2,8 +2,6 @@
 
 ## Description
 
-A temporary code to implement Isaac's movement and collisions
-
 ## Struct used
 
 ### global structs
@@ -20,11 +18,11 @@ A temporary code to implement Isaac's movement and collisions
 
 | Label | Size/Struct | Description |
 | ----- | ---- | ----------- |
+| hp | 1 byte | the element's health |
 | x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
 | speed | 1 byte | Element's speed (split in 2 x 4bits, x speed (pos 7:4) and y speed (pos 3:0)) |
 | sheet | 1 byte | second byte of the address of the element's description sheet. (the first can be retrieved with the first byte of gobal_.sheets ) |
-| hp | 1 byte | the element's health |
 | state | 2 bytes | address to the state of the element |
 
 #### Sheet
@@ -81,18 +79,20 @@ collision_.hitbox1 = ISAAC_HITBOX
 
    //// collision Y  loop \\\\
 for (c=0, c<n_elements, c++) {
-  if (elements.hp){
-    collision_.p.2.x = elements[c].x
-    collision_.p.2.y = elements[c].y
-    if !block(elements[c].sheet)
+  if !(elements[c].hp)
     continue;
-    collision_.hitbox2 = (*elements[c].sheet).size and 0b00000111
-    a = collision()
-    if (!a){
-        isaac.y -= isaac.speed.y
-        collision_.p.1.y = isaac.y
-        isaac.speed.y = 0
-    }
+  collision_.p.2.x = elements[c].x
+  collision_.p.2.y = elements[c].y
+  if !(block(elements[c].sheet)
+    continue;
+  collision_.hitbox2 = (*elements[c].sheet).size and 0b00000111
+  if (!(*elements[c].sheet).block_flag)
+    continue;
+  a = collision()
+  if (!a){
+      isaac.y -= isaac.speed.y
+      collision_.p.1.y = isaac.y
+      isaac.speed.y = 0
   }
 }
 // \\\\ collision Y  loop ////
@@ -103,16 +103,19 @@ isaac.x += isaac.speed.x
 collision_.p.1.x = isaac.x
 
 for (c=0, c<n_elements, c++) {
-  if (elements.hp){
-    collision_.p.2.x = elements[c].x
-    collision_.p.2.y = elements[c].y
-    collision_.hitbox2 = (*elements[c].sheet).size and 0b00000111
-    a = collision()
-    if (!a && block(elements[c].sheet)){
-        isaac.x -= isaac.speed.x
-        collision_.p.1.x = isaac.x
-        isaac.speed.x = 0
-    }
+  if (!elements.hp)
+    continue;
+
+  collision_.p.2.x = elements[c].x
+  collision_.p.2.y = elements[c].y
+  collision_.hitbox2 = (*elements[c].sheet).size and 0b00000111
+  if (!(*elements[c].sheet).block_flag)
+    continue;
+  a = collision()
+  if (!a){
+      isaac.x -= isaac.speed.x
+      collision_.p.1.x = isaac.x
+      isaac.speed.x = 0
   }
 }
 

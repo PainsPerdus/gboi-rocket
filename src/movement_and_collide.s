@@ -34,7 +34,9 @@ move_and_collide:
 	ld l,e
 
 ; / set position as parameter \
-	inc hl
+	ldi a, (hl)
+	and a
+	jr z,@@noCollision ; check if hp != 0
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
 	ldi a, (hl)
@@ -107,7 +109,9 @@ move_and_collide:
 	ld l,e
 
 ; / set position as parameter \
-	inc hl
+	ldi a, (hl)
+	and a
+	jr z,@@noCollision ; check if hp != 0
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
 	ldi a, (hl)
