@@ -130,3 +130,29 @@ else { //Not Moving
 	display_.isaac.frame
 }
 ~~~
+
+## Bullets
+
+We have 5 sprites for bullets in OAM. 
+Get bullet list. Find the bullet with smallest y, let's name it B
+Look for the bullet that are at least y'=y+4 (4 because bullets are only 4 pixels heigh) and has the smallest y'. Call it B'.
+Continue: we create an ordered bullet list by y, and there is at least 8 pixels between each bullets.
+Then, we do this again with remaining bullets, until all remaining bullets are less than 8 pixels appart
+This leads to 4 ordered list + bullets we cannot recycle because they overlap. 
+We need to avoid having 2 recyclings in the same line!
+
+We need to tell 3 infos to the HBlank procecure :
+- Y address in OAM  (1 byte)
+- new x pos (1 byte)
+- new y pos (1 byte)
+- hblank line for the recycling (1 byte)
+
+
+We actually need 8 lists. So we have 4 HBlank to do a max of 4 recycling
+When we have to recycle a sprite on one Y, we assign it to the hblank 4 y lower. And the next on the same y : 5 y lower, then 6, 7. We can do 4 recyling on the same line with that method
+
+We generate an array for that.
+The array needs to be ordered by hblank line
+
+To read this array in RAM : we test if we are at the line. We manually load a pointer to the array in hl after the recyling code. If we are no the correponding line, we increament manually in opcode that pointer and we update the x, y and oam sprite number 
+
