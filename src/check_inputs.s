@@ -19,24 +19,24 @@ move_check_input:
 	xor a 				; speed_x = 0; speed_y = 0;
 	bit $3,b		 	; Test third bit (down)
 	jr nz,@nod
-	or %00000010 	; a [3:0] = 2
+	or %00000001 	; a [3:0] = 1
 	ld c,%00000011; orientation = %11;
 	jr @nou
 @nod:
 	bit $2,b			; Test second bit (up)
 	jr nz,@nou
-	or %00001110 	; a [3:0] = -2
+	or %00001111 	; a [3:0] = -1
 	ld c,%00000000; orientation = %00;
 @nou:
 	bit $0,b			; Test Oth bit (right)
 	jr nz,@nor
-	or %00100000	; a [7:4] = 2
+	or %00010000	; a [7:4] = 1
 	ld c,%00000001; orientation = %01;
 	jr @nol
 @nor:
 	bit $1,b			; Test 1th bit (left arrow)
 	jr nz,@nol
-	or %11100000 	; a [7:4] = -2
+	or %11110000 	; a [7:4] = -1
 	ld c,%00000010; orientation = %10;
 @nol:
 	ld (global_.isaac.speed),a
