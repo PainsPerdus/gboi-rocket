@@ -97,9 +97,9 @@ ld (display_.isaac.walk_timer),a
 	ldi (hl), a
 	ld bc, $0010
 	add hl, bc
-	ld a, RIGHT_BACKGROUND_WALL ;
+	ld a, RIGHT_BACKGROUND_WALL
 	ldi (hl),a	
-	ld a, FLAT_BACKGROUND_WALL ;
+	ld a, FLAT_BACKGROUND_WALL
 	ldi (hl), a
 	dec de		; de --
 	ld a,e
@@ -109,7 +109,7 @@ ld (display_.isaac.walk_timer),a
 	ld bc, $000C   ; next line distance
 	add hl, bc                      ;next line
 ;    ///// DOWN WALL \\\\\
-	ld a, FLAT_BACKGROUND_WALL ;
+	ld a, FLAT_BACKGROUND_WALL
 	ldi (hl),a
 	ld a, DOWN_LEFT_CORNER ;
 	ldi (hl),a
@@ -123,7 +123,7 @@ ld (display_.isaac.walk_timer),a
 	jr nz,@wall_down_line1	; end while
 	ld a, DOWN_RIGHT_CORNER
 	ldi (hl),a
-	ld a, FLAT_BACKGROUND_WALL 
+	ld a, FLAT_BACKGROUND_WALL
 	ldi (hl),a
 
 	ld bc, $000C   ; next line distance
@@ -138,6 +138,58 @@ ld (display_.isaac.walk_timer),a
 	or d
 	jr nz,@wall_down_line2	; end while
 ;    \\\\\ DOWN WALL /////
+
+;    ///// DETAILING \\\\\
+
+	ld a, FIRST_WALL_DETAIL
+	ld hl, $9805
+	ld (hl),a
+	ld hl, $9A2F
+	ld (hl),a
+	inc a
+	ld hl, $9810
+	ld (hl),a
+	ld hl, $9A24
+	ld (hl),a
+	inc a
+	ld hl, $9880
+	ld (hl),a
+	ld hl, $99B3
+	ld (hl),a
+	inc a
+	ld hl, $9980
+	ld (hl),a
+	ld hl, $9873
+	ld (hl),a
+
+	inc a
+	ld hl, $9826
+	ld (hl),a
+	inc a
+	ld hl, $982D
+	ld (hl),a
+	inc a
+	ld hl, $98C1
+	ld (hl),a
+	inc a
+	ld hl, $98D2
+	ld (hl),a
+	inc a
+	ld hl, $9961
+	ld (hl),a
+	inc a
+	ld hl, $9992
+	ld (hl),a
+	inc a
+	ld hl, $9A06
+	ld (hl),a
+	inc a
+	ld hl, $9A0D
+	ld (hl),a
+	
+
+;    \\\\\ DETAILING /////
+
 ; \\\\\\\ DRAWING WALLS ///////
 
 
