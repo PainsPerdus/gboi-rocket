@@ -14,8 +14,8 @@ unsigned char y=0;
 unsigned char z=0;
 unsigned char a=1;
 unsigned char level = 7;
-unsigned char hauteur;
-unsigned char largeur;
+unsigned char height;
+unsigned char width;
 unsigned char * map;
 unsigned char current;
 unsigned char temp[4];
@@ -24,86 +24,86 @@ unsigned char boss;
 unsigned char item;
 
 int main(int argc, char const *argv[]) {
-  printf("level : %d\n",level);
+  //printf("level : %d\n",level);
   level=level+6;
-  hauteur= level/2;
-  largeur = level - hauteur;
-  printf("hauteur : %d, largeur : %d\n", hauteur, largeur);
-  map = (unsigned char *) malloc (hauteur * largeur);
-  for (int i = 0; i < hauteur*largeur; i++){
+  height= level/2;
+  width = level - height;
+  //printf("height : %d, width : %d\n", height, width);
+  map = (unsigned char *) malloc (height * width);
+  for (int i = 0; i < height*width; i++){
     map[i] = 0b00000000;
   }
 
   //Salle de depart
   unsigned char i;
   unsigned char j;
-  if (largeur%2 != 0){
-    i = largeur/2 + 1;
+  if (width%2 != 0){
+    i = width/2 + 1;
   }
   else {
     unsigned char b = aleatNumber() % 2;
-    i = largeur / 2 + b;
+    i = width / 2 + b;
   }
-  if (hauteur % 2 != 0){
-    j = hauteur/2 + 1;
+  if (height % 2 != 0){
+    j = height/2 + 1;
   }
   else {
     unsigned char b = aleatNumber() % 2;
-    j = hauteur / 2 + b;
+    j = height / 2 + b;
   }
   i--;
   j--;
-  start = j * largeur + i;
+  start = j * width + i;
   map[start] = 0b00001100;
-  display();
+  //display();
 
-  //Boss's room with a Way of a length between largeur/3 and hauteur
+  //Boss's room with a Way of a length between width/3 and height
 
-  unsigned char diff = hauteur - largeur/3 ;
+  unsigned char diff = height - width/3 ;
   unsigned char c = aleatNumber() % (diff + 1) ;
-  c = c + 1 + largeur/3;
+  c = c + 1 + width/3;
 
   createWay(c);
 
   map[current] = map[current] & 0b11111000;
   map[current] = map[current] | 0b00000010;
-  display();
+  //display();
 
-  for (int i = 0; i < hauteur*largeur; i++){
+  for (int i = 0; i < height*width; i++){
     map[i] = map[i] & 0b11110111;
   }
 
-  //Item's room with way of a length between largeur/6 and hauteur/2
+  //Item's room with way of a length between width/6 and height/2
   a=a-2;
   x=x+2;
   y=y*2;
   z=z-3;
-  diff = hauteur/2 - largeur/6 ;
+  diff = height/2 - width/6 ;
   c = aleatNumber() % (diff + 1) ;
-  c = c + largeur/6;
+  c = c + width/6;
 
   createWay(c);
 
   map[current] = map[current] & 0b11111000;
   map[current] = map[current] | 0b00000001;
-  display();
+  //display();
 
-  for (int i = 0; i < hauteur*largeur; i++){
+  for (int i = 0; i < height*width; i++){
     map[i] = map[i] & 0b11110111;
   }
 
-  //Dead ends between hauteur/2 and max 3*hauteur/4
+  //Dead ends between height/2 and max 3*height/4
   //First
   a=a*2;
   x=x-2;
   y=y*3;
   z=z-2;
-  diff = 3*hauteur/4 - hauteur/2 ;
+  diff = 3*height/4 - height/2 ;
   c = aleatNumber() % (diff + 1) ;
-  c = c + hauteur/2;
+  c = c + height/2;
 
   createWay(c);
-  display();
+  //display();
 
 
   //Second
@@ -111,12 +111,12 @@ int main(int argc, char const *argv[]) {
   x=x+1;
   y=y*3;
   z=z-2;
-  diff = hauteur/2 - largeur/6 ;
+  diff = height/2 - width/6 ;
   c = aleatNumber() % (diff + 1) ;
-  c = c + largeur/6;
+  c = c + width/6;
 
   createWay(c);
-  display();
+  //display();
 
   //Up | Down | Left | Right | Visited | Cat | Cat | Cat
   //000 : normal
@@ -127,10 +127,10 @@ int main(int argc, char const *argv[]) {
 }
 
 unsigned char * neighbours(unsigned char k){
-  temp[0] = k - largeur;
+  temp[0] = k - width;
   temp[1] = k - 1;
   temp[2] = k + 1;
-  temp[3] = k + largeur;
+  temp[3] = k + width;
   return temp;
 }
 
@@ -144,7 +144,7 @@ unsigned char unvisitedNeighbours(unsigned char k){
   //for(int i = 0; i < 4; i++){
   neighbour = possibleNeighbours[0];
   if (!(map[neighbour] & (1u << 3))){
-    if (k < largeur){
+    if (k < width){
       bool[0] = 0;
     } else{
       bool[0] = 1;
@@ -153,7 +153,7 @@ unsigned char unvisitedNeighbours(unsigned char k){
   }
   neighbour = possibleNeighbours[1];
   if (!(map[neighbour] & (1u << 3))){
-    if (k % largeur == 0){
+    if (k % width == 0){
       bool[1] = 0;
     } else{
       bool[1] = 1;
@@ -162,7 +162,7 @@ unsigned char unvisitedNeighbours(unsigned char k){
   }
   neighbour = possibleNeighbours[2];
   if (!(map[neighbour] & (1u << 3))){
-    if (k % largeur == largeur - 1){
+    if (k % width == width - 1){
       bool[2] = 0;
     } else{
       bool[2] = 1;
@@ -171,7 +171,7 @@ unsigned char unvisitedNeighbours(unsigned char k){
   }
   neighbour = possibleNeighbours[3];
   if (!(map[neighbour] & (1u << 3))){
-    if (k >= (hauteur - 1) * largeur){
+    if (k >= (height - 1) * width){
       bool[3] = 0;
     } else{
       bool[3] = 1;
@@ -221,11 +221,11 @@ void createWay(unsigned char c){
         map[current] = map[current] | 0b00100000;
         map[next] = map[next] | 0b00010000;
       } else{
-        if (next == current - largeur){
+        if (next == current - width){
           map[current] = map[current] | 0b10000000;
           map[next] = map[next] | 0b01000000;
         } else{
-          if(next == current + largeur){
+          if(next == current + width){
             map[current] = map[current] | 0b01000000;
             map[next] = map[next] | 0b10000000;
           } else{
@@ -235,14 +235,14 @@ void createWay(unsigned char c){
       }
     }
     current = next;
-    printf("%d\n", next);
+    //printf("%d\n", next);
   }
 }
 
 void display(){
-  for (int k = 0 ; k < hauteur ; k++){
-    for (int l = 0 ; l < largeur ; l++){
-      binaryDisplay(map[k * largeur + l]);
+  for (int k = 0 ; k < height ; k++){
+    for (int l = 0 ; l < width ; l++){
+      binaryDisplay(map[k * width + l]);
       printf("    ");
     }
     printf("\n");
