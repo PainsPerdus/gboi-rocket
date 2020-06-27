@@ -18,4 +18,13 @@ fn = frame n° n
 | ISAAC_MOUTH_PIXEL_2      |    2 bytes   | position of the second byte encoding isaac's mouth pixel                     |
 
 
-TODO : update with new walls constants
+
+following background sprites follow this convention :
+
+SPRITESHEET (id of the first tile of the stritesheet)
+SPRITESHEET SIZE (tile count in the spritesheet)
+
+IDs are relative and assigned depending of the last declaration
+
+ex :
+SPRITESHEET(N) = SPRITESHEET(N-1) + SPRITESHEET_SIZE(N-1)
