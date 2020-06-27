@@ -44,3 +44,12 @@ Pascal:
       - label: "Github"
         icon: "fab fa-fw fa-github"
         url: "https://github.com/Pascakk/"
+
+Melissa:
+    name: "Mélissa Blanche"
+    bio: "Engineering student hoping to help sharing content"
+    avatar: /assets/images/profile_pics/Melissa.jpg
+    links:
+      - label: "Email" 
+        icon: "fas fa-fw fa-envelope-square"
+        url: "lebmelissa.blancheb@gmail.com"
