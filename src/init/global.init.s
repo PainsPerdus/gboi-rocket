@@ -63,7 +63,7 @@ global_init:
 	ldi (hl), a
 	ldi (hl), a
 	dec b
-	jp nz,@elements_loop
+	jp nz,@blocking_loop
 
 	; tears
 	ld hl, global_.issac_tear_pointer
@@ -97,7 +97,7 @@ global_init:
 	xor a
 	ldi (hl), a ; no hp
 	ldi (hl), a ; void enemy doesn't exist, it can't hurt you
-	ld (global_.speeds.1), a ; no speed
+	ld (global_.speeds), a ; no speed
 	; \\\ void enemy ///
 
 	ld hl, global_.enemies
