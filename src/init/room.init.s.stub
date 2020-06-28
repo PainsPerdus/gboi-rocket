@@ -1,256 +1,78 @@
-ld hl, global_.elements
+ld hl, global_.blockings
 
 ; // init rock 1
-    ld a, 1
+    ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
     ld a, $18
     ldi (hl), a
     ld a, $20
     ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
 
 ; // init rock 2
-    ld a, 1
+    ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
     ld a, $78
     ldi (hl), a
     ld a, $30
     ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
 
 ; // init rock 3
-    ld a, 1
+    ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
     ld a, $48
     ldi (hl), a
     ld a, $80
     ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
 
 ; // init rock 4
-    ld a, 1
+    ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
     ld a, $28
     ldi (hl), a
     ld a, $20
     ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
 
 ; // init rock 5
-    ld a, 1
+    ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
     ld a, $68
     ldi (hl), a
     ld a, $80
     ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
 
-; // init rock 6
-    ld a, 1
-    ldi (hl), a
-    ld a, $48
-    ldi (hl), a
-    ld a, $80
-    ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
-
-; // init rock 7
-    ld a, 1
-    ldi (hl), a
-    ld a, $18
-    ldi (hl), a
-    ld a, $30
-    ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
-
-; // init rock 8
-    ld a, 1
-    ldi (hl), a
-    ld a, $28
-    ldi (hl), a
-    ld a, $50
-    ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
-
-; // init rock 9
-    ld a, 1
-    ldi (hl), a
-    ld a, $18
-    ldi (hl), a
-    ld a, $80
-    ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
-
-; // init rock 10
-    ld a, 1
-    ldi (hl), a
-    ld a, $78
-    ldi (hl), a
-    ld a, $20
-    ldi (hl), a
-    ld bc, global_.sheets.1
-    ld a, c
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld bc, global_.states
-    ld a,b
-    ldi (hl), a
-    ld a,c
-    ldi (hl), a
+    ld hl, global_.blockings.11
 
 ; // init top wall
-    ld a, 1
-    ldi (hl), a ; 1 hp
+    ld a, (global_.blocking_inits.3.info)
+    ldi (hl), a
     ld a, 8
     ldi (hl), a ; x = 8
     ld a, 16
     ldi (hl), a ; y = 16
-    ld bc, global_.sheets.3 ; horizontal wall sheet
-    ld a, c
-    ldi (hl), a
-    ld a, 0
-    ldi (hl), a ; no speed
-    ld bc, global_.states
-    ld a, b
-    ldi (hl), a
-    ld a, c
-    ldi (hl), a
 
 ; // init bottom wall
-    ld a, 1
-    ldi (hl), a ; 1 hp
+    ld a, (global_.blocking_inits.3.info)
+    ldi (hl), a
     ld a, 8
     ldi (hl), a ; x = 8
     ld a, 144
     ldi (hl), a ; y = 144
-    ld bc, global_.sheets.3 ; horizontal wall sheet
-    ld a, c
-    ldi (hl), a
-    ld a, 0
-    ldi (hl), a ; no speed
-    ld bc, global_.states
-    ld a, b
-    ldi (hl), a
-    ld a, c
-    ldi (hl), a
 
 ; // init left wall
-    ld a, 1
-    ldi (hl), a ; 1 hp
+    ld a, (global_.blocking_inits.4.info)
+    ldi (hl), a
     ld a, 8
     ldi (hl), a ; x = 8
     ld a, 16
     ldi (hl), a ; y = 16
-    ld bc, global_.sheets.4 ; vertical wall sheet
-    ld a, c
-    ldi (hl), a
-    ld a, 0
-    ldi (hl), a ; no speed
-    ld bc, global_.states
-    ld a, b
-    ldi (hl), a
-    ld a, c
-    ldi (hl), a
 
 ; // init right wall
-    ld a, 1
+    ld a, (global_.blocking_inits.4.info)
     ldi (hl), a ; 1 hp
     ld a, 160-8
     ldi (hl), a ; x = 160-8
     ld a, 16
     ldi (hl), a ; y = 16
-    ld bc, global_.sheets.4 ; vertical wall sheet
-    ld a, c
-    ldi (hl), a
-    ld a, 0
-    ldi (hl), a ; no speed
-    ld bc, global_.states
-    ld a, b
-    ldi (hl), a
-    ld a, c
-    ldi (hl), a
 
 initHitBoxes:
 ; // init hitboxes
