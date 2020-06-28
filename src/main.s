@@ -106,8 +106,8 @@ VBlank:
 	jp z,endVBlank
 ; \\\\ CHECK IF THE LOOP FINISHED ////
 
-.INCLUDE "display.s"
-.INCLUDE "check_inputs.s"
+.INCLUDE "vblank/display.vbl.s"
+.INCLUDE "vblank/check_inputs.vbl.s"
 
 ; //// REALLOW THE LOOP \\\\
 	xor a
