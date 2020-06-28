@@ -54,7 +54,6 @@ roundDivision:
 //// PGCD calculator \\\\
 ;Here I use the substraction's method to calculate the pgcd
 pgcd:
-  push c
   push d
   push e
   ld e, a //save a
@@ -82,6 +81,5 @@ pgcd:
 
   pop e
   pop d
-  pop c
   ret
   \\\\ PGCD calculator ////
