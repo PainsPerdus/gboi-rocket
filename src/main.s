@@ -92,7 +92,7 @@ loop:
 ; \\\\ ALLOW WBLANK TO UPDATE THE SCREEN ////
 ; \\\\\\\\\ MAIN LOOP /////////
 	jp loop
-
+; \\\\\\\\\ MAIN LOOP /////////
 
 
 ; ///////// VBlank Interuption \\\\\\\\\
