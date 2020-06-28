@@ -18,10 +18,14 @@
 	direction DB
 .ENDST
 
-.STRUCT element
+.STRUCT blocking
 	info DB
 	x DB
 	y DB
+.ENDST
+
+.STRUCT blocking_init
+	info DB
 .ENDST
 
 .STRUCT enemy
@@ -33,10 +37,21 @@
 	dmg DB
 .ENDST
 
-.STRUCT state
+.STRUCT enemy_init
+	info DB
+	hp DB
+	dmg DB
+.ENDST
+
+.STRUCT object
 	info DB
 	x DB
 	y DB
+	function DW
+.ENDST
+
+.STRUCT object_init
+	info DB
 	function DW
 .ENDST
 
@@ -57,4 +72,8 @@
 	objects INSTANCEOF object n_objects
 	hitboxes_width DSB 8
  	hitboxes_height DSB 8
+	blocking_inits INSTANCEOF blocking_init 8
+	enemy_inits INSTANCEOF enemy_init 16
+	object_inits INSTANCEOF object_init 32
+	speeds DSB n_enemies
 .ENDST

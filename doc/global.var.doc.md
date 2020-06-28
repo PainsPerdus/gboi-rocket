@@ -28,6 +28,14 @@ Content of the struct "blocking" :
 | x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
 
+## Blocking Init
+
+Content of the struct "blocking_init" :
+
+| Label | Size | Description |
+| ----- | ---- | ----------- |
+| info | 1 byte | 1 flag "the element is alive" (pos 7), 1 flag "can be destroyed by bombs" (pos 6), 3 bits for ID (pos 5:3), 3 bits for size (pos 2:0) |
+
 ## Enemy
 
 Content of struct "enemy" :
@@ -41,6 +49,16 @@ Content of struct "enemy" :
 | speed | 1 byte | 4 bits for x speed (pos 7:4), 4 bits for y speed (pos 3:0) |
 | dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
 
+## Enemy Init
+
+Content of struct "enemy_init"
+
+| Label | Size | Description |
+| ----- | ---- | ----------- |
+| info | 1 byte | 1 flag "alive" (pos 7), 4 bits for ID (pos 6:3), 3 bit for the size (pos 2:0) |
+| hp | 1 byte | health of the enemy |
+| dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
+
 ## Object
 
 Content of struct "object" :
@@ -50,6 +68,15 @@ Content of struct "object" :
 | info | 1 byte | 1 flag "alive" (pos 7), 5 bits for ID (pos 6:2), 2 bits for size (pos 1:0) |
 | x | 1 byte | position of the object |
 | y | 1 byte | position of the object |
+| funtion | 2 bytes | address to the effect function |
+
+## Object Init
+
+Content of struct "object_init" :
+
+| Label | Size | Description |
+| ----- | ---- | ----------- |
+| info | 1 byte | 1 flag "alive" (pos 7), 5 bits for ID (pos 6:2), 2 bits for size (pos 1:0) |
 | funtion | 2 bytes | address to the effect function |
 
 ## Tear
@@ -85,6 +112,10 @@ Content of struct "tear" :
 | global_.ennemy_tear_pointer | 1 byte | Index of next tear to generate |
 | global_.ennemy_tears[n_ennemy_tears]| tear * n_ennemy_tears | tears of the ennemys |
 | global_.objects[n_objects] | object * n_objects | Objects in the room |
+| global_.blocking_inits[8] | blocking_init * 8 | Initial values of blocking elements |
+| global_.enemy_inits[16] | enemy_init * 16 | Initial values of enemies |
+| global_.object_inits[32] | object_init * 32 | Initial values of objects |
+| global_.speeds[n_enemies] | n_enemies | max speed of the enemies |
 
 # Note
 
