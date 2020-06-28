@@ -32,6 +32,20 @@ In the main loop we update isaac values.
 | check_inputs_.keys_values[6] | 1 bit | Select Key. |
 | check_inputs_.keys_values[7] | 1 bit | Start Key. |
 
+# Defines
+
+| Label | Value | Description |
+| ----- | ----- | ----------- |
+| RG_KEY  | 0 | Index of the right key value in check_inputs_.keys_values  |
+| LF_KEY  | 1 | Index of the left key value in check_inputs_.keys_values   |
+| UP_KEY  | 2 | Index of the up key value in check_inputs_.keys_values     |
+| DW_KEY  | 3 | Index of the down key value in check_inputs_.keys_values   |
+| A_KEY   | 4 | Index of the A key value in check_inputs_.keys_values      |
+| B_KEY   | 5 | Index of the B key value in check_inputs_.keys_values      |
+| SEL_KEY | 6 | Index of the select key value in check_inputs_.keys_values |
+| ST_KEY  | 7 | Index of the start key value in check_inputs_.keys_values  |
+
+
 ### Modified values in loop:
 
 | Label | Type | Size/Struc |

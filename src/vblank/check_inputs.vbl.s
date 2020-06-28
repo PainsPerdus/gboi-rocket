@@ -6,17 +6,17 @@
 check_input_vlb:
 
 ; /////// INIT ARROW \\\\\\\
-	ld a,%00100000	; Select arrow keys
-	ldh ($00),a
-	ldh a,($00)			; Read arrow keys
+	ld a,P1F_5	; Select arrow keys
+	ld (rP1),a
+	ld a,(rP1)			; Read arrow keys
 	and %00001111
 	ld b,a
 ; \\\\\\\ INIT ARROW ///////
 
 ; /////// INIT AB \\\\\\\
 	ld a,%00010000	; Select arrow keys
-	ldh ($00),a
-	ldh a,($00)			; Read arrow keys
+	ld (rP1),a
+	ld a,(rP1)			; Read arrow keys
 	and %00001111
 	swap a
 	or b
