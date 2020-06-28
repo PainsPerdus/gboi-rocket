@@ -66,7 +66,7 @@ Each module `xxx` has a `xxx.init.s` file with its initialization code.
 
 The main logic in included in `body.s`.
 
-We use a look to synchronize the update of the values with the update of the screen. After each iteration we wait for a VBlank, and if we didn't finished the iteration, the VBlank interruption do nothing.
+We use a lock to synchronize the update of the values with the update of the screen. After each iteration we wait for a VBlank, and if we didn't finished the iteration, the VBlank interruption do nothing.
 ~~~
 ; ///////// MAIN LOOP \\\\\\\\\
 loop:
@@ -79,10 +79,10 @@ loop:
 
 .INCLUDE "body.s"
 
-; //// ALLOW WBLANK TO UPDATE THE SCREEN \\\\
+; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
 	ld a,1
 	ld (lock),a    ; lock = 1
-; \\\\ ALLOW WBLANK TO UPDATE THE SCREEN ////
+; \\\\ ALLOW VBLANK TO UPDATE THE SCREEN ////
 ; \\\\\\\\\ MAIN LOOP /////////
 	jp loop
 ; \\\\\\\\\ MAIN LOOP /////////
@@ -96,6 +96,8 @@ The VBlank function. This function is called with VBlank interrupt, but we only 
 ; ///////// VBlank Interuption \\\\\\\\\
 VBlank:
 	push af
+	push bc
+	push de
 	push hl
 ; //// CHECK IF THE LOOP FINISHED \\\\
 	ld a,(lock)
@@ -112,6 +114,8 @@ VBlank:
 ; \\\\ REALLOW THE LOOP ////
 endVBlank:
 	pop hl
+	pop bc
+	pop de
 	pop af
 	ret
 ; \\\\\\\\\ VBlank Interuption /////////

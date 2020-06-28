@@ -86,10 +86,10 @@ loop:
 
 .INCLUDE "body.s"
 
-; //// ALLOW WBLANK TO UPDATE THE SCREEN \\\\
+; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
 	ld a,1
 	ld (lock),a    ; lock = 1
-; \\\\ ALLOW WBLANK TO UPDATE THE SCREEN ////
+; \\\\ ALLOW VBLANK TO UPDATE THE SCREEN ////
 ; \\\\\\\\\ MAIN LOOP /////////
 	jp loop
 ; \\\\\\\\\ MAIN LOOP /////////
@@ -99,6 +99,8 @@ loop:
 
 VBlank:
 	push af
+	push bc
+	push de
 	push hl
 ; //// CHECK IF THE LOOP FINISHED \\\\
 	ld a,(lock)
@@ -115,6 +117,8 @@ VBlank:
 ; \\\\ REALLOW THE LOOP ////
 endVBlank:
 	pop hl
+	pop bc
+	pop de
 	pop af
 	ret
 ; \\\\\\\\\ VBlank Interuption /////////
