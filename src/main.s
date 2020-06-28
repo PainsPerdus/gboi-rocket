@@ -107,6 +107,7 @@ VBlank:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
 
 .INCLUDE "display.s"
+.INCLUDE "check_inputs.s"
 
 ; //// REALLOW THE LOOP \\\\
 	xor a
