@@ -1,6 +1,6 @@
-.DEFINE n_elements $0E
-.DEFINE n_sheets $04
-.DEFINE n_states $0A
+.DEFINE n_blockings $0E
+.DEFINE n_enemies $0A
+.DEFINE n_objects $0A
 .DEFINE n_isaac_tears $0A
 .DEFINE n_ennemy_tears $0A
 
@@ -19,24 +19,25 @@
 .ENDST
 
 .STRUCT element
-	hp DB
+	info DB
 	x DB
 	y DB
-	sheet DB
-	speed DB
-	state DW
 .ENDST
 
-.STRUCT sheet
-	size DB
-	dmg DB
-	function DW
-	speed DB
+.STRUCT enemy
+	info DB
+	x DB
+	y DB
 	hp DB
+	speed DB
+	dmg DB
 .ENDST
 
 .STRUCT state
-	empty DB
+	info DB
+	x DB
+	y DB
+	function DW
 .ENDST
 
 .STRUCT tear
@@ -46,14 +47,14 @@
 .ENDST
 
 .STRUCT global_var
-	sheets INSTANCEOF sheet n_sheets
+	blockings INSTANCEOF blocking n_blockings
 	isaac INSTANCEOF isaac
-	elements INSTANCEOF element n_elements
+	enemies INSTANCEOF enemy n_enemies
 	issac_tear_pointer DB
 	isaac_tears INSTANCEOF tear n_isaac_tears
 	ennemy_tear_pointer DB
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
-	states INSTANCEOF state n_states
-	hitboxes_width DSB 4
- 	hitboxes_height DSB 4
+	objects INSTANCEOF object n_objects
+	hitboxes_width DSB 8
+ 	hitboxes_height DSB 8
 .ENDST

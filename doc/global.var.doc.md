@@ -18,38 +18,39 @@ Content of the struct "isaac" :
 | bombs | 1 byte | number of bombs Isaac has |
 | direction | 1 byte | 2 bits indicate Isaac's direction (00 = up, 11 = down, 10 = right, 01 = left) (pos 1:0), 6 other bits are free |
 
-## Element
+## Blocking
 
-Content of the struct "element" :
+Content of the struct "blocking" :
 
 | Label | Size/Struct | Description |
 | ----- | ---- | ----------- |
-| hp | 1 byte | the element's health |
+| info | 1 byte | 1 flag "the element is alive" (pos 7), 1 flag "can be destroyed by bombs" (pos 6), 3 bits for ID (pos 5:3), 3 bits for size (pos 2:0) |
 | x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
-| sheet | 1 byte | second byte of the address of the element's description sheet. (the first can be retrieved with the first byte of gobal_.sheets ) |
-| speed | 1 byte | Element's speed (split in 2 x 4bits, x speed (pos 7:4) and y speed (pos 3:0)) |
-| state | 2 bytes | address to the state of the element |
 
-## Sheet
+## Enemy
 
-Content of struct "sheet" :
+Content of struct "enemy" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
-| size | 1 byte | 3 bit for the size (index in a table to be defined) (pos 2:0), 5 flags (blocks (pos 7), hurts (pos 6), reacts to touch (pos 5), can be hurt by bombs (pos 4), can be hurt by Isaac's tears (pos 3)) |
-| dmg | 1 byte | damage dealt by the ennemy |
-| function | 2 bytes | address to the AI function for ennemies or the function triggered when touched |
-| speed | 1 byte | max speed for this element |
-| hp | 1 byte | max hp for this element |
+| info | 1 byte | 1 flag "alive" (pos 7), 4 bits for ID (pos 6:3), 3 bit for the size (pos 2:0) |
+| x | 1 byte | position of the enemy |
+| y | 1 byte | position of the enemy |
+| hp | 1 byte | health of the enemy |
+| speed | 1 byte | 4 bits for x speed (pos 7:4), 4 bits for y speed (pos 3:0) |
+| dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
 
-## State
+## Object
 
-Content of struct "state" :
+Content of struct "object" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
-| empty | | this struct is almost empty, it is kept for later improvement (ex : content needed for the ennemie's AI) |
+| info | 1 byte | 1 flag "alive" (pos 7), 5 bits for ID (pos 6:2), 2 bits for size (pos 1:0) |
+| x | 1 byte | position of the object |
+| y | 1 byte | position of the object |
+| funtion | 2 bytes | address to the effect function |
 
 ## Tear
 
@@ -65,9 +66,9 @@ Content of struct "tear" :
 
 | Label | Value | Description |
 | ----- | ----- | ----------- |
-| n_elements | 10 | number of element in the array `global_.element` |
-| n_sheets | 1 | number of sheet |
-| n_states | 10 | number max of states |
+| n_blockings | 14 | number of elements in the array `global_.blockings` |
+| n_enemies | 10 | number of enemies in the array `global_.enemies` |
+| n_objects | 10 | number of objects in the array `global_.objects` |
 | n_isaac_tears | 10 | number max of issac'stears |
 | n_ennemy_tears | 10 | number max of ennemy's tears |
 
@@ -76,15 +77,18 @@ Content of struct "tear" :
 
 | Label | Size/Struct |  Description  |
 | ------------- | ---------- | ----------- |
-| global_.sheets[n_sheets]         | sheet * n_sheets   | Element sheets.           |
-| gobal_.isaac                   | isaac               | Isaac, the main caracter. |
-| global_.elements[n_elements]    | element * n_elements | Elements in the room, except for tears and isaac. |
-| global_.issac_tear_pointer     | 1 byte              | Index of next tear to generate |
+| global_.blockings[n_blockings] | blocking * n_blockings | Blocking elements in the room |
+| gobal_.isaac | isaac | Isaac, the main caracter. |
+| global_.enemies[n_enemies]    | enemy * n_enemies | Enemies in the room |
+| global_.issac_tear_pointer | 1 byte | Index of next tear to generate |
 | global_.isaac_tears[n_isaac_tears] | tear * n_isaac_tears  | tears of isaac |
-| global_.ennemy_tear_pointer     | 1 byte              | Index of next tear to generate |
+| global_.ennemy_tear_pointer | 1 byte | Index of next tear to generate |
 | global_.ennemy_tears[n_ennemy_tears]| tear * n_ennemy_tears | tears of the ennemys |
-| global_.states[n_states]   | state * n_states      | States. |
+| global_.objects[n_objects] | object * n_objects | Objects in the room |
 
+# Note
 
-TODO:
-  define size tables.
+As objects have fewer bits to define their sizes, hitbox arrays should begin with the size of objects.
+
+# TODO:
+    define size tables
