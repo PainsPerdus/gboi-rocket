@@ -17,6 +17,7 @@ unsigned char level = 5;//level of the stage to generate
 unsigned char height;//height of the arrayof rooms
 unsigned char width;//width of the array of rooms
 unsigned char * map;//array of rooms
+unsigned short * list;//opened rooms' list
 unsigned char current;//current room in the algo
 unsigned char temp[4];//subscript of theoric accessible rooms for a specifi room
 unsigned char start;//subscript of start room
