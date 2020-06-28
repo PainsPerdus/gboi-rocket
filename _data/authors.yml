@@ -5,7 +5,7 @@ Jean Marie:
     links:
       - label: "Email"
         icon: "fas fa-fw fa-envelope-square"
-        url: "mailto:jean-marie.mineau@telecom-parie.fr"
+        url: "mailto:jean-marie.mineau@telecom-paris.fr"
       - label: "Github"
         icon: "fab fa-fw fa-github"
         url: "https://github.com/JeanMarieMineau/"
@@ -53,3 +53,15 @@ Melissa:
       - label: "Email" 
         icon: "fas fa-fw fa-envelope-square"
         url: "lebmelissa.blancheb@gmail.com"
+
+Thomas:
+    name: "Thomas Grenier"
+    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    avatar: /assets/images/profile_pics/Thomas.png
+    links:
+      - label: "Email"
+        icon: "fas fa-fw fa-envelope-square"
+        url: "mailto:thomas.grenier@telecom-paris.fr"
+      - label: "Github"
+        icon: "fab fa-fw fa-github"
+        url: "https://github.com/Thomyrock/"
