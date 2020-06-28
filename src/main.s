@@ -11,6 +11,7 @@
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 	collision_ INSTANCEOF collision_var
+	lock DB
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
@@ -57,6 +58,10 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "init/room.init.s.stub"
 .INCLUDE "init/display.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
+; //// Lock \\\\
+	xor a
+	ld (lock),a    ; lock = 0
+; \\\\ Lock ////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
 	ld a,%00000000
@@ -72,17 +77,42 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 
 ; ///////// MAIN LOOP \\\\\\\\\
 loop:
-	jr loop
+; //// WAIT FOR VBLANK \\\\
+	halt
+	ld a,(lock)
+	and a
+  jp nz,loop			; wait until lock = 0
+; \\\\ WAIT FOR VBLANK ////
+
+.INCLUDE "body.s"
+
+; //// ALLOW WBLANK TO UPDATE THE SCREEN \\\\
+	ld a,1
+	ld (lock),a    ; lock = 1
+; \\\\ ALLOW WBLANK TO UPDATE THE SCREEN ////
 ; \\\\\\\\\ MAIN LOOP /////////
+	jp loop
 
 
 
 ; ///////// VBlank Interuption \\\\\\\\\
+
 VBlank:
 	push af
 	push hl
+; //// CHECK IF THE LOOP FINISHED \\\\
+	ld a,(lock)
+	and a
+	jp z,endVBlank
+; \\\\ CHECK IF THE LOOP FINISHED ////
+
 .INCLUDE "display.s"
-.INCLUDE "body.s"
+
+; //// REALLOW THE LOOP \\\\
+	xor a
+	ld (lock),a    ; lock = 0
+; \\\\ REALLOW THE LOOP ////
+endVBlank:
 	pop hl
 	pop af
 	ret
