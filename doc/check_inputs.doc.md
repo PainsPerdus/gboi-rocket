@@ -4,16 +4,35 @@
 
 This code updates the values of Isaac regarding the states of the buttons.
 
+We check the values of the inputs in VBlank, and save them in the `check_inputs_.keys_values` variables.
+
+In the main loop we update isaac values.
+
 ### file to include:
+
+`check_inputs.var.s`
+
+`check_inputs.init.s`
 
 `check_inputs.s`
 
-### Parameters:
+`check_inputs.vbl.s`
 
-### Return:
+### Reserved memory:
 
+| Label | Size |  Description  |
+| ------------- | ---------- | ----------- |
+| check_inputs_.keys_values | 1 byte | Values of the keys. |
+| check_inputs_.keys_values[0] | 1 bit | Right Key. |
+| check_inputs_.keys_values[1] | 1 bit | Left Key. |
+| check_inputs_.keys_values[2] | 1 bit | Up Key. |
+| check_inputs_.keys_values[3] | 1 bit | Down Key. |
+| check_inputs_.keys_values[4] | 1 bit | A Key. |
+| check_inputs_.keys_values[5] | 1 bit | B Key. |
+| check_inputs_.keys_values[6] | 1 bit | Select Key. |
+| check_inputs_.keys_values[7] | 1 bit | Start Key. |
 
-### Modified values:
+### Modified values in loop:
 
 | Label | Type | Size/Struc |
 | ------------- | ------------- | ---------- |
@@ -25,16 +44,20 @@ This code updates the values of Isaac regarding the states of the buttons.
 | global_.isaac.direction | fixed address | 1 byte
 | global_.isaac.tears | fixed address | 1 byte |
 
-### Global variables used
+### Modified values in vblank:
+
+| Label | Type | Size/Struc |
+| ------------- | ------------- | ---------- |
+| a | register | 1 byte |
+| b | register | 1 byte |
+
+### Global variables used in loop
 
 | Label | Size |  Description  |
 | ------------- | ---------- | ----------- |
 | global_.isaac.speed | 1 byte | Isaac speed (split in 2 x 4bits, x speed and y speed. [7:4]: x speed, [3:0]: y speed) |
 | global_.isaac.direction | 1 byte | 2 bits indicate Isaac's direction (11 = up, 00 = down, 01 = right, 10 = left) (pos 1:0), 6 other bits are free |
 | global_.isaac.tears | 1 byte | 3 bits for horizontal speed of tears (pos 5:3), 3 bits for vertical speed (pos 2:0), 1 flag for "A was pressed the frame before" in postion (pos 7), 1 flag for "B  was pressed" (pos 6)|
-
-### Global structs used
-
 
 #### Isaac
 
@@ -55,22 +78,15 @@ Content of the struct "isaac" :
 | direction | 1 byte | 2 bits indicate Isaac's direction (11 = up, 00 = down, 01 = right, 10 = left) (pos 1:0), 6 other bits are free |
 
 
-### Reserved memory:
-
-
-### Pseudo code
+### Pseudo code in loop
 
 ~~~C
 // INIT ARROW
-(0xFFEE) = %00100000; // select the arrow keys
-b = get_arrow_values();
+b = (check_inputs_.keys_values);
 // CHECK ARROWS
 // speed_x = a[7:4], speed_y = a [3:0]
-// global_.isaac.direction = c[1:0]
 speed_x = 0;
 speed_y = 0;
-// direction = %11;  --//By default, isaac looks at YOU!--
-// Isaac no retains its position
 if (down_arrow(b)){
 	speed_y = 1;
 	direction = %11;
@@ -88,9 +104,6 @@ if (right_arrow(b)){
 global_.isaac.speed = [speed_x, speed_y];
 global_.isaac.direction = [global_.isaac.direction[7:3],direction]
 
-// INIT AB
-(0xFFEE) = %00010000; // select button keys
-b = get_button_values();
 // SET AB
 if (A(b))	// bit $0,b
 	set(global_.isaac.tears.a);
