@@ -147,10 +147,6 @@ move_and_collide:
 ; \\\\\\\ MOVE ISAAC  X ////////
 
 
-
-
-
-
 ; //////// TEST A B \\\\\\\
 ; if A / B are pressed
 ;	ld hl, global_.isaac.tears
