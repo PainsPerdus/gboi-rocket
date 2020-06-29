@@ -183,11 +183,12 @@ ld (hl), a
 	cp %00010000
 
 	jp z, @fly
-	; cp %00011000...
+	; cp %00110000...
 	
 	; MORE ENNEMIES OPTIONS HERE
 
 @fly:
+ld b,b
 	inc l
 	ld a, (hl)
 	ld (bc), a
@@ -197,10 +198,18 @@ ld (hl), a
 	ld (bc), a
 	inc c
 	ld a, FLY_SPRITESHEET
+	push hl
+	ld hl, display_.fly.frame
+	ld h, (hl)
+	add h
+	pop hl
 	ld (bc), a
 	inc c
 	inc c
 	jp @ennemy_updated
+	ld a, (display_.fly.frame)
+	xor 1
+	ld (display_.fly.frame), a
 	
 	;...
 	; MORE ENNEMIES LABELS HERE

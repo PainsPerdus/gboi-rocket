@@ -12,8 +12,13 @@
 	walk_timer DB
 .ENDST
 
+.STRUCT fly_display
+	frame DB
+.ENDST
+
 .STRUCT display_var
 	isaac INSTANCEOF isaac_display
+	fly INSTANCEOF fly_display
 .ENDST
 
 

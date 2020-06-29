@@ -90,6 +90,19 @@ ld hl, global_.enemies
     ld a, (global_.enemy_inits.2.dmg)
     ldi (hl), a
 
+; // hurting rock 2
+    ld a, (global_.enemy_inits.2.info)
+    ldi (hl), a
+    ld a, 96
+    ldi (hl), a
+    ldi (hl), a
+    ld a, (global_.enemy_inits.2.hp)
+    ldi (hl), a
+    ld a, (global_.speeds + 1)
+    ldi (hl), a
+    ld a, (global_.enemy_inits.2.dmg)
+    ldi (hl), a
+
 ; // fly 1
     ld a, %10010000
     ldi (hl), a
@@ -119,7 +132,7 @@ ld hl, global_.enemies
 ; // fly 3
     ld a, %10010000
     ldi (hl), a
-    ld a, 100
+    ld a, 120
     ldi (hl), a
     ldi (hl), a
     ld a, (global_.enemy_inits.2.hp)
@@ -129,21 +142,16 @@ ld hl, global_.enemies
     ld a, (global_.enemy_inits.2.dmg)
     ldi (hl), a
 
-initHitBoxes:
-; // init hitboxes
-    ld hl, global_.hitboxes_width
-    ld a, $10
+; // fly 4
+    ld a, %10010000
+    ldi (hl), a
+    ld a, 50
     ldi (hl), a
     ldi (hl), a
-    ld a, $A0
+    ld a, (global_.enemy_inits.2.hp)
     ldi (hl), a
-    ld a, $10
+    ld a, (global_.speeds + 1)
     ldi (hl), a
-    ld hl, global_.hitboxes_height
-    ld a, $10
-    ldi (hl), a
-    ldi (hl), a
-    ldi (hl), a
-    ld a, $90
+    ld a, (global_.enemy_inits.2.dmg)
     ldi (hl), a
 
