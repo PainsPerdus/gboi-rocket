@@ -12,6 +12,7 @@
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 	collision_ INSTANCEOF collision_var
+	rng_state INSTANCEOF rng_state_var
 	VBlank_lock DB
 .ENDE
 ; \\\\\\\\\ Mapping /////////

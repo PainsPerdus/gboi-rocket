@@ -1,4 +1,4 @@
-.STRUCT rng_state
+.STRUCT rng_state_var
 	a DB
 	x DB
     y DB
