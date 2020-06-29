@@ -133,12 +133,12 @@ else { //Not Moving
 
 ## Bullets
 
-We have 5 sprites for bullets in OAM. 
-Get bullet list. Find the bullet with smallest y, let's name it B
-Look for the bullet that are at least y'=y+4 (4 because bullets are only 4 pixels heigh) and has the smallest y'. Call it B'.
-Continue: we create an ordered bullet list by y, and there is at least 8 pixels between each bullets.
-Then, we do this again with remaining bullets, until all remaining bullets are less than 8 pixels appart
-This leads to 4 ordered list + bullets we cannot recycle because they overlap. 
+We have 4 sprites for bullets in OAM. 
+Get bullet list. Find the bullet with smallest y.
+Look for the bullet that are at least y'=y+8 (bullets are only 4 pixels heigh, but there can we up to 4 sprites to recycle per line, and we can only recycle one. So that lets up 4 hblank lines to recycle those sprites) and has the smallest y'.
+Continue: we create an ordered bullet list by y, and there is at least 8 pixels between each bullets. This is our first recycling chain.
+Then, we do this again with remaining bullets, until all remaining bullets are less than 8 pixels appart.
+This leads to 8 ordered list + bullets we cannot recycle because they overlap. 
 We need to avoid having 2 recyclings in the same line!
 
 We need to tell 3 infos to the HBlank procecure :
@@ -147,14 +147,25 @@ We need to tell 3 infos to the HBlank procecure :
 - new y pos (1 byte)
 - hblank line for the recycling (1 byte)
 
-
-We actually need 8 lists. So we have 4 HBlank to do a max of 4 recycling
+These infos will be in an array that we will build during VBlank with our 8 ordered lists.
+The array will be ordered by hblank line, more on that [here](display.doc.md).
 When we have to recycle a sprite on one Y, we assign it to the hblank 4 y lower. And the next on the same y : 5 y lower, then 6, 7. We can do 4 recyling on the same line with that method
-
-We generate an array for that.
-The array needs to be ordered by hblank line
 
 To read this array in RAM : we test if we are at the line. We manually load a pointer to the array in hl after the recyling code. If we are no the correponding line, we increament manually in opcode that pointer and we update the x, y and oam sprite number 
 
-
-We can take the first in the list each time and set it as the first sprite
+Here is the pseudo code to build the first list:
+~~~C
+BL = bullet list = [(PosY, PosX, visited=false), ...] ordered by PosY asc
+PL = Prepared list number 1 = [(PosY, PosX), ...] ordered by PosY asc
+int j=0;
+last_element = 0 //Pointer to last added element
+for (int i=0; i<len(BL); i++) {
+	if (BL[i].visited)
+		continue;
+	if (last_element==0 || BL[i].Y > (last_element).Y+8) {
+		last_element=(BL+i)
+		PL[j].X=*(last_element.X)
+		PL[j].Y=*(last_element.Y)
+	}
+}
+~~~
