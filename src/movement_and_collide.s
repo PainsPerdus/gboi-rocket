@@ -1,5 +1,23 @@
-.DEFINE ISAAC_HITBOX 1
+.DEFINE ISAAC_HITBOX 3
+.DEFINE ISAAC_FEET_HITBOX 4
 .DEFINE RECOVERY_TIME 30
+
+test_vectorisation:
+	ld a,(global_.isaac.speed)
+	and a
+	jp nz,move_and_collide
+
+	ld a,(global_.isaac.x)
+	ld (vectorisation_.p.1.x),a
+	ld a,(global_.isaac.y)
+	ld (vectorisation_.p.1.y),a
+	ld a,$50
+	ld (vectorisation_.p.2.x),a
+	ld a,$50
+	ld (vectorisation_.p.2.y),a
+
+	call vectorisation
+	ld (global_.isaac.speed),a
 
 move_and_collide:
 
@@ -21,8 +39,9 @@ move_and_collide:
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
+	add $08
 	ld (collision_.p.1.y), a
-	ld a, ISAAC_HITBOX
+	ld a, ISAAC_FEET_HITBOX
 	ld (collision_.hitbox1), a
 ;   \\\\ collision Y  init ////
 
@@ -41,9 +60,9 @@ move_and_collide:
 	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
 	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ld a, (hl)
 	ld (collision_.p.2.y), a
+	ld a, (hl)
+	ld (collision_.p.2.x), a
 ; \ set hitbox and position as parameter /
 
 ; / test collision \
@@ -53,6 +72,7 @@ move_and_collide:
 	ld a,(global_.isaac.y)
 	sub b
 	ld (global_.isaac.y),a ; isaac.y -= speed y
+	add $08
 	ld (collision_.p.1.y),a
 	ld a,(global_.isaac.speed)
 	and %11110000
@@ -106,9 +126,9 @@ move_and_collide:
 	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
 	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ld a, (hl)
 	ld (collision_.p.2.y), a
+	ld a, (hl)
+	ld (collision_.p.2.x), a
 ; \ set hitbox and position as parameter /
 
 ; / test collision \
@@ -137,6 +157,15 @@ move_and_collide:
 
 
 @enemies_collide:
+	; /// load Isaac true position and hitbox \\\
+	ld a, (global_.isaac.x)
+	ld (collision_.p.1.x), a
+	ld a, (global_.isaac.y)
+	ld (collision_.p.1.y), a
+	ld a, ISAAC_HITBOX
+	ld (collision_.hitbox1), a
+	; \\\ load Isaac true position and hitbox ///
+
 	ld a, (global_.isaac.recover)
 	and a
 	jp nz, @@noEnemyCollisions
@@ -156,9 +185,9 @@ move_and_collide:
 	and ENEMY_SIZE_MASK
 	ld (collision_.hitbox2), a
 	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ldi a, (hl)
 	ld (collision_.p.2.y), a
+	ldi a, (hl)
+	ld (collision_.p.2.x), a
 ; \ set hitbox and position as parameter /
 
 ; / test collision \

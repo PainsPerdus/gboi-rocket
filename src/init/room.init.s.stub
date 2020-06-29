@@ -3,41 +3,41 @@ ld hl, global_.blockings
 ; // init rock 1
     ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
-    ld a, $18
-    ldi (hl), a
     ld a, $20
+    ldi (hl), a
+    ld a, $18
     ldi (hl), a
 
 ; // init rock 2
     ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
-    ld a, $78
-    ldi (hl), a
     ld a, $30
+    ldi (hl), a
+    ld a, $78
     ldi (hl), a
 
 ; // init rock 3
     ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
-    ld a, $48
-    ldi (hl), a
     ld a, $80
+    ldi (hl), a
+    ld a, $48
     ldi (hl), a
 
 ; // init rock 4
     ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
-    ld a, $28
-    ldi (hl), a
     ld a, $20
+    ldi (hl), a
+    ld a, $28
     ldi (hl), a
 
 ; // init rock 5
     ld a, (global_.blocking_inits.1.info)
     ldi (hl), a
-    ld a, $68
-    ldi (hl), a
     ld a, $80
+    ldi (hl), a
+    ld a, $68
     ldi (hl), a
 
     ld hl, global_.blockings.11
@@ -45,34 +45,34 @@ ld hl, global_.blockings
 ; // init top wall
     ld a, (global_.blocking_inits.3.info)
     ldi (hl), a
-    ld a, 8
-    ldi (hl), a ; x = 8
     ld a, 16
     ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
 
 ; // init bottom wall
     ld a, (global_.blocking_inits.3.info)
     ldi (hl), a
-    ld a, 8
-    ldi (hl), a ; x = 8
     ld a, 144
     ldi (hl), a ; y = 144
+    ld a, 8
+    ldi (hl), a ; x = 8
 
 ; // init left wall
     ld a, (global_.blocking_inits.4.info)
     ldi (hl), a
-    ld a, 8
-    ldi (hl), a ; x = 8
     ld a, 16
     ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
 
 ; // init right wall
     ld a, (global_.blocking_inits.4.info)
     ldi (hl), a ; 1 hp
-    ld a, 160-8
-    ldi (hl), a ; x = 160-8
     ld a, 16
     ldi (hl), a ; y = 16
+    ld a, 160-8
+    ldi (hl), a ; x = 160-8
 
 initEnemies:
 ld hl, global_.enemies
@@ -89,22 +89,3 @@ ld hl, global_.enemies
     ldi (hl), a
     ld a, (global_.enemy_inits.2.dmg)
     ldi (hl), a
-
-initHitBoxes:
-; // init hitboxes
-    ld hl, global_.hitboxes_width
-    ld a, $10
-    ldi (hl), a
-    ldi (hl), a
-    ld a, $A0
-    ldi (hl), a
-    ld a, $10
-    ldi (hl), a
-    ld hl, global_.hitboxes_height
-    ld a, $10
-    ldi (hl), a
-    ldi (hl), a
-    ldi (hl), a
-    ld a, $90
-    ldi (hl), a
-

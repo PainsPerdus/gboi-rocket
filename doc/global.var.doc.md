@@ -25,8 +25,8 @@ Content of the struct "blocking" :
 | Label | Size/Struct | Description |
 | ----- | ---- | ----------- |
 | info | 1 byte | 1 flag "the element is alive" (pos 7), 1 flag "can be destroyed by bombs" (pos 6), 3 bits for ID (pos 5:3), 3 bits for size (pos 2:0) |
-| x | 1 byte | position of the element |
 | y | 1 byte | position of the element |
+| x | 1 byte | position of the element |
 
 ## Blocking Init
 
@@ -43,8 +43,8 @@ Content of struct "enemy" :
 | Label | Size | Description |
 | ----- | ---- | ----------- |
 | info | 1 byte | 1 flag "alive" (pos 7), 4 bits for ID (pos 6:3), 3 bit for the size (pos 2:0) |
-| x | 1 byte | position of the enemy |
 | y | 1 byte | position of the enemy |
+| x | 1 byte | position of the enemy |
 | hp | 1 byte | health of the enemy |
 | speed | 1 byte | 4 bits for x speed (pos 7:4), 4 bits for y speed (pos 3:0) |
 | dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
@@ -66,8 +66,8 @@ Content of struct "object" :
 | Label | Size | Description |
 | ----- | ---- | ----------- |
 | info | 1 byte | 1 flag "alive" (pos 7), 5 bits for ID (pos 6:2), 2 bits for size (pos 1:0) |
-| x | 1 byte | position of the object |
 | y | 1 byte | position of the object |
+| x | 1 byte | position of the object |
 | funtion | 2 bytes | address to the effect function |
 
 ## Object Init
@@ -85,9 +85,10 @@ Content of struct "tear" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
-| x | 1 byte | abscissa of the tear |
-| y | 1 byte | ordinate of the tear |
-| direction | 1 byte | 2 x 3 bits (x (pos 5:3) and y (pos 2:0)) + 1 flag to know if the tear is alive (pos 7) + 1 flag to know if the tear is upgraded (pos 6)|
+| y | 1 byte | position of the tear |
+| x | 1 byte | position of the tear |
+| id | 1 byte | 1 flag for "does it need to be recycled" (pos 7), 1 flag for "is it in the recycling chain" (pos 6), 1 flag for "is it the first in the recycling chain" (pos 5), 5 bits for OAM ID (pos 4:0) |
+| speed | 1 byte | 4 bits for x speed (pos 7:4) and 4 bits for (pos 3:0) |
 
 # Defines
 

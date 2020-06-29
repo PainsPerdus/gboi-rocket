@@ -1,11 +1,22 @@
 .INCLUDE "../GBDefs/defs.s"
 .INCLUDE "hardware_specs.s"
 
+; //// WAITING TO THE UPDATE OF GBDefs \\\\
+; Joy pad register
+.DEFINE rP1 $FF00
+
+.DEFINE P1F_5 %00100000 ; P15 out port, set to 0 to get buttons
+.DEFINE P1F_4 %00010000 ; P14 out port, set to 0 to get dpad
+; \\\\ WAITING TO THE UPDATE OF GBDefs ////
+
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "var/global.var.s"
 .INCLUDE "var/display.var.s"
 .INCLUDE "var/sprite.var.s"
 .INCLUDE "var/collision.var.s"
+.INCLUDE "var/vectorisation.var.s"
+.INCLUDE "var/rng.var.s"
+.INCLUDE "var/check_inputs.var.s"
 
 ; $C000 to $C0FF is reserved for dynamic opcode
 
@@ -13,6 +24,9 @@
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 	collision_ INSTANCEOF collision_var
+	vectorisation_ INSTANCEOF vectorisation_var
+	rng_state INSTANCEOF rng_state_var
+	check_inputs_ INSTANCEOF check_inputs_var
 	VBlank_lock DB
 .ENDE
 ; \\\\\\\\\ Mapping /////////
@@ -64,6 +78,8 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "init/global.init.s"
 .INCLUDE "init/room.init.s.stub"
 .INCLUDE "init/display.init.s"
+.INCLUDE "init/rng.init.s"
+.INCLUDE "init/check_inputs.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 ; //// VBlank_lock \\\\
 	xor a
@@ -137,4 +153,6 @@ endVBlank:
 .INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/CollisionSolverIsaac.lib.s"
 .INCLUDE "lib/collision.lib.s"
+.INCLUDE "lib/vectorisation.lib.s"
+.INCLUDE "lib/rng.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
