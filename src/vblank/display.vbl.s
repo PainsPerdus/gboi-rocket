@@ -5,6 +5,11 @@ display:
 xor a
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
 
+; // Update fly animation frame \\
+ld a, (display_.fly.frame)
+inc a
+ld (display_.fly.frame), a
+; \\ Update fly animation frame //
 
 ; ////// UPDATE SPRITES POSITION \\\\\\
 
@@ -188,7 +193,6 @@ ld (hl), a
 	; MORE ENNEMIES OPTIONS HERE
 
 @fly:
-ld b,b
 	inc l
 	ld a, (hl)
 	ld (bc), a
@@ -199,17 +203,18 @@ ld b,b
 	inc c
 	ld a, FLY_SPRITESHEET
 	push hl
-	ld hl, display_.fly.frame
-	ld h, (hl)
+	ld h, a
+	ld a, (display_.fly.frame)
+	and %00000010
+	sra a
 	add h
 	pop hl
 	ld (bc), a
 	inc c
 	inc c
+
 	jp @ennemy_updated
-	ld a, (display_.fly.frame)
-	xor 1
-	ld (display_.fly.frame), a
+	
 	
 	;...
 	; MORE ENNEMIES LABELS HERE
@@ -253,6 +258,7 @@ displayNonCritical:
 		xor %00000001 ;bit0(a)=!bit0(a)
 		ld (display_.isaac.frame),a
 ; \\ Update animation frame //
+
 
 		//Timer is 0 so we reset the timer
   		ld a,20 
