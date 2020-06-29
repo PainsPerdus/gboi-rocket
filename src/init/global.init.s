@@ -18,7 +18,7 @@ global_init:
 
 @void:
 ; ////// VOID \\\\\\
-	ld a,
+	ld a, VOID_INFO
 	ldi (hl),a
 ; \\\\\\ VOID //////
 
