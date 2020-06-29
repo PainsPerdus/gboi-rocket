@@ -128,7 +128,7 @@ if (!isaac.recover) {
       collision_.p.2.y = enemies[c].y
       collision_.hitbox2 = enemies[c].info and ENEMY_SIZE_MASK
       a = collision()
-      if (!a){
+      if (a){
           isaac.recover = RECOVERY_TIME
           isaac.hp -= enemies[c].dmg and DMG_MASK
           if (isaac.hp < 0)
