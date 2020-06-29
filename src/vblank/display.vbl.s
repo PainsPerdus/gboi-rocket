@@ -198,6 +198,7 @@ ld (hl), a
 	inc c
 	ld a, (hl) ;tear posX
 	ld (bc), a ;tear pos X in OAM
+	inc c ;oam tile pattern number
 	inc c ;oam flags
 	inc c ;next tear address in OAM
 @disabledTear:
