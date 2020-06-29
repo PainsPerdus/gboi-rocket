@@ -12,7 +12,7 @@ Vectorisation:
   ld (dx), a //Save X-axis's vector it in dx
   ld b, a
   call abs
-  ld d, a
+  ld d, a //d = abs(direction.x)
 
 
   ;Vector's Y-axis
@@ -23,11 +23,72 @@ Vectorisation:
   ld (dy), a //Save Y-axis's vector it in dy
   ld b, a
   call abs
-  ld e, a
+  ld e, a //e = abs(direction.y)
 
-  ;compare abs(direction.x) et abs(direction.y)
-  sub d
+  ;abs(direction.x) < abs(direction.y)//2:
+  ld a, d
+  ld b, e
+  sr1 b
+  sub b
+  bit 7, a
+  jp nz, @uncheckedCondition1
+  ld a, %00000000
+  ld (dx), a
+  @uncheckedCondition1:
 
+  ;abs(direction.x) < abs(direction.y)//2:
+  ld a, e
+  ld b, d
+  sr1 b
+  sub b
+  bit 7, a
+  jp nz, @uncheckedCondition2
+  ld a, %00000000
+  ld (dy), a
+  @uncheckedCondition2:
+
+  ;Condition on x
+  ld a, (dx)
+  bit 7, a
+
+  jp nz, @uncheckedCondition3
+  ld a, %00001111
+  ld (dx), a
+
+  jp @uncheckedCondition4
+
+  @uncheckedCondition3:
+  sub 1
+  bit 7, a
+  jp z, @uncheckedCondition4
+
+  ld a, %00000001
+  ld (dx), a
+
+  @uncheckedCondition4:
+
+  ;Condition on y
+  ld a, (dy)
+  bit 7, a
+
+  jp nz, @uncheckedCondition5
+  ld a, %00001111
+  ld (dy), a
+  jp @uncheckedCondition6
+
+  @uncheckedCondition5:
+  sub 1
+  bit 7, a
+
+  jp z, @uncheckedCondition6
+
+  ld a, %00000001
+  ld (dy), a
+
+  @uncheckedCondition4:
+
+  pop de
+  pop bc
 
 \\\\ Vectorisation function ////
 
@@ -35,7 +96,7 @@ Vectorisation:
 @abs:
   bit 7, b
   jp nz, @bpositive:
-  
+
   cpl
   add 1
 
@@ -44,23 +105,3 @@ Vectorisation:
 
 
 \\\\ Albsolute value function ////
-
-    if abs(direction.x) < abs(direction.y):
-      direction.x = 0
-    if abs(direction.y) < abs(direction.x):
-      direction.y = 0
-    if (direction.x < 0):
-      direction.x = -1
-    if (direction.y > 0):
-      direction.y = 1
-    if (direction.y < 0):
-      direction.y = -1
-    if (direction.y > 0):
-      direction.y = 1
-    return direction
-
-    1 = %0001, -1 = %1111
-
-  pop de
-  pop bc
-  ret
