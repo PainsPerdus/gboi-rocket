@@ -170,9 +170,32 @@ ld (hl), a
 ; \\\\\ Isaac /////
 
 ; ///// Tears \\\\\
-	ld bc, OAM_ISAAC_TEARS
+//TODO: temporary(-ish) code, opcode injection will go here
+
+	ld d, n_isaac_tears+1 ;loop counter
+@loopUpdateTears: //do {
+
+	ld bc, OAM_ISAAC_TEARS ;Pointer to the start of the tears in OAM
 	ld hl, global_.isaac.tears ;Pointer to the start of the tears
 	ld a, (hl) ;tear posY
+	and a
+	jr z, @disabledTear ;if a==0 then tear is disabled
+	ld (bc), a ;tear pos Y in OAM
+	ldi a, (hl) ;tear posX
+	ld (bc), a ;tear pos X in OAM
+	inc c
+	inc c ;next tear address in OAM
+@disabledTear:
+
+	//Get pointer to next tear Y position in hl
+	inc hl ;tear direction
+	inc hl ;next tear Y
+	dec d ;loop counter --
+	jr nz, @loopUpdateTears //} while((--d)!=0) 
+
+
+	
+	
 
 
 ; \\\\\ Tears /////

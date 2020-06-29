@@ -90,7 +90,7 @@ Here is what we're going to do (hold on to your assembly)
 We're going to reserve only OAM_ISAAC_TEARS_SIZE sprites for the bullets. However, we want to display way more than that!  
 So during the HBlank interrupt, we're going to reuse those sprites and update the positions to show more sprites. Please see [display.s](display.doc.md) for more info. 
 
-## Setup Bullet HBlank Opcode
+## Setup Tear HBlank Opcode
 
 We want to execute code in the HBlank to update the sprites. However, we only have at 85 clock cycles.  
 So we're going to write that code in WRAM and jump to it in HBLANK. The code that modifies the OAM needs to be less than 85 cycle. Then we can have some (a bit) longer reset code.  
