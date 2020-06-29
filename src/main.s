@@ -6,11 +6,13 @@
 .INCLUDE "var/display.var.s"
 .INCLUDE "var/sprite.var.s"
 .INCLUDE "var/collision.var.s"
+.INCLUDE "var/vectorisation.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 	collision_ INSTANCEOF collision_var
+	vectorisation_ INSTANCEOF vectorisation_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
@@ -95,4 +97,5 @@ VBlank:
 .INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/CollisionSolverIsaac.lib.s"
 .INCLUDE "lib/collision.lib.s"
+.INCLUDE "lib/vectorisation.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////

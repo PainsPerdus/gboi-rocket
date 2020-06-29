@@ -1,3 +1,10 @@
+Takes `vectorisation_.p.1` and `vectorisation_.p.2` as arguments (points).
+
+Return with `a` the general direction of p2-p1. (a[7:4]=dx, a[3:0]=dy, signed value).
+
+modifies `vectorisation_.direction` (point), `a` and `b`
+
+
 ~~~
 ;Vectorisation
 /* @requires X1 Y1 unsigned coordinates of position1
@@ -23,7 +30,7 @@ if (direction.y > 0):
 ~~~
 
 ~~~
-;abs
+;@abs
 /* @ensures two's complement value in b
    @ensures absolute value of a returned in a/*
 ~~~
