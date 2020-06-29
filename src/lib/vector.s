@@ -9,76 +9,58 @@ Vectorisation:
   ld b, a
   ld a, (X2)
   sub b
-  ld b, a //Save X-axis's vector it in b
+  ld (dx), a //Save X-axis's vector it in dx
+  ld b, a
+  call abs
+  ld d, a
+
 
   ;Vector's Y-axis
   ld a, (Y1)
   ld c, a
   ld a, (Y2)
   sub c
-  ld c, a //Save Y-axis's vector it in c
+  ld (dy), a //Save Y-axis's vector it in dy
+  ld b, a
+  call abs
+  ld e, a
 
-  call pgcd //pgcd(a,b) -> give it in a
-  ld e, a//save the pgcd in e ?
+  ;compare abs(direction.x) et abs(direction.y)
+  sub d
 
-  call roundDivision// b = b/a
-  ld d, b
-  ld b, c
-  call roundDivision// b = b/a
 
-  ld a, d
+\\\\ Vectorisation function ////
+
+//// Albsolute value function \\\\
+@abs:
+  bit 7, b
+  jp nz, @bpositive:
+  
+  cpl
+  add 1
+
+  @bpositive:
+  ret
+
+
+\\\\ Albsolute value function ////
+
+    if abs(direction.x) < abs(direction.y):
+      direction.x = 0
+    if abs(direction.y) < abs(direction.x):
+      direction.y = 0
+    if (direction.x < 0):
+      direction.x = -1
+    if (direction.y > 0):
+      direction.y = 1
+    if (direction.y < 0):
+      direction.y = -1
+    if (direction.y > 0):
+      direction.y = 1
+    return direction
+
+    1 = %0001, -1 = %1111
 
   pop de
   pop bc
   ret
-\\\\ Vectorisation function ////
-
-//// Integer Round Division \\\\
-roundDivision:
-  push de
-
-  ld e, a
-  ld a, b
-  ld d, 0
-  ;substract until getting 0 and save a counter in d
-  @divisionCircle:
-    sub e
-    inc d
-    jp nz, @divisionCircle
-
-  ld b, d ;b = b/a
-
-  pop de
-  ret
-\\\\ Integer Round Division ////
-
-//// PGCD calculator \\\\
-;Here I use the substraction's method to calculate the pgcd
-pgcd:
-  push de
-  ld e, a //save a
-  ld a, 0
-  @pgcdCircle:
-    ld d, a//save the result of the substraction
-    ;to have the max of a and b
-    sub b
-    bit 7, a
-    jp z, @bmax
-    add b
-    jp @afterbmax
-    @bmax:
-    add b
-    ld e, a
-    ld a, b
-    ld b, e
-    :mtn le max est dans a et le min dans b
-    @afterbmax:
-
-    sub b
-    jp z, @pgcdCircle //when we finally get 0 as substract
-  //take the last non-zero substract
-  ld a, d
-
-  pop de
-  ret
-  \\\\ PGCD calculator ////
