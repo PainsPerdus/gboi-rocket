@@ -149,4 +149,5 @@ endVBlank:
 .INCLUDE "lib/collision.lib.s"
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
+.INCLUDE "lib/ai.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
