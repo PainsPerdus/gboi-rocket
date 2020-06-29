@@ -10,34 +10,34 @@ check_input:
 
 ; /////// CHECK ARROWS \\\\\\\
 	ld a,(global_.isaac.direction)
-	and %00000011
+	and MASK_2_LSB
 	ld c,a
 	xor a 				; speed_x = 0; speed_y = 0;
 	bit DW_KEY,b		 	; Test third bit (down)
 	jr nz,@nod
-	or %00000001 	; a [3:0] = 1
-	ld c,%00000011; orientation = %11;
+	or VALUE_4LSB_1 	; a [3:0] = 1
+	ld c,ORIENTATION_DW; orientation = %11;
 	jr @nou
 @nod:
 	bit UP_KEY,b			; Test second bit (up)
 	jr nz,@nou
-	or %00001111 	; a [3:0] = -1
-	ld c,%00000000; orientation = %00;
+	or VALUE_4LSB_minus_1 	; a [3:0] = -1
+	ld c,ORIENTATION_UP; orientation = %00;
 @nou:
 	bit RG_KEY,b			; Test Oth bit (right)
 	jr nz,@nor
-	or %00010000	; a [7:4] = 1
-	ld c,%00000001; orientation = %01;
+	or VALUE_4MSB_1	; a [7:4] = 1
+	ld c,ORIENTATION_RG; orientation = %01;
 	jr @nol
 @nor:
 	bit LF_KEY,b			; Test 1th bit (left arrow)
 	jr nz,@nol
-	or %11110000 	; a [7:4] = -1
-	ld c,%00000010; orientation = %10;
+	or VALUE_4MSB_minus_1 	; a [7:4] = -1
+	ld c,ORIENTATION_LF; orientation = %10;
 @nol:
 	ld (global_.isaac.speed),a
 	ld a,(global_.isaac.direction)
-	and %11111100
+	and MASK_6_MSB
 	or c
 	ld (global_.isaac.direction),a
 ; \\\\\\\ CHECK ARROWS ///////
@@ -46,18 +46,18 @@ check_input:
 	ld hl,global_.isaac.tears
 	bit A_KEY,b			; Test 4th bit (A)
 	jr nz,@noA
-	set $7,(hl)
+	set ISAAC_A_FLAG,(hl)
 	jr @Aset
 @noA:
-	res $7,(hl)
+	res ISAAC_A_FLAG,(hl)
 @Aset:
 
 	bit B_KEY,b			; Test 5th bit (B)
 	jr nz,@noB
-	set $6,(hl)
+	set ISAAC_B_FLAG,(hl)
 	jr @Bset
 @noB:
-	res $6,(hl)
+	res ISAAC_B_FLAG,(hl)
 @Bset:
 
 ; \\\\\\\ SET AB ///////

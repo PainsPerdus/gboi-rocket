@@ -1,6 +1,14 @@
 .INCLUDE "../GBDefs/defs.s"
 .INCLUDE "hardware_specs.s"
 
+; //// WAITING TO THE UPDATE OF GBDefs \\\\
+; Joy pad register
+.DEFINE rP1 $FF00
+
+.DEFINE P1F_5 %00100000 ; P15 out port, set to 0 to get buttons
+.DEFINE P1F_4 %00010000 ; P14 out port, set to 0 to get dpad
+; \\\\ WAITING TO THE UPDATE OF GBDefs ////
+
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "var/global.var.s"
 .INCLUDE "var/display.var.s"

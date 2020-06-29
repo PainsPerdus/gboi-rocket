@@ -9,15 +9,15 @@ check_input_vlb:
 	ld a,P1F_5	; Select arrow keys
 	ld (rP1),a
 	ld a,(rP1)			; Read arrow keys
-	and %00001111
+	and MASK_4_LSB
 	ld b,a
 ; \\\\\\\ INIT ARROW ///////
 
 ; /////// INIT AB \\\\\\\
-	ld a,%00010000	; Select arrow keys
+	ld a,P1F_4	; Select button keys
 	ld (rP1),a
-	ld a,(rP1)			; Read arrow keys
-	and %00001111
+	ld a,(rP1)			; Read button keys
+	and MASK_4_LSB
 	swap a
 	or b
 	ld b,a
