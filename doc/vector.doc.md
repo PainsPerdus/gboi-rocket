@@ -1,4 +1,4 @@
-#vectorisation
+# Vectorisation function
 
 Takes `vectorisation_.p.1` and `vectorisation_.p.2` as arguments (points).
 
@@ -22,7 +22,7 @@ if (direction.y > 0):
     direction.y = 1
 ~~~
 
-#abs
+# abs function
 
 Takes `a` (signed values in two's complement).
 
