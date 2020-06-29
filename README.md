@@ -2,15 +2,17 @@
 
 ## Description
 
-This project aims to remake the popular game *The Binding of Isaac* for Gameboy classic, in assembly. 
+This project aims at remaking the popular game *The Binding of Isaac* for Gameboy classic, in assembly. 
+
+Checkout our [blog](https://painsperdus.github.io/gboi-rocket) !
 
 ## Features
 
-For now, we started development with a working Pong game
-
-* Two paddles, one for each player
-* The bouncing of the ball depends on where it's been hit
-* Sound effects!
+- Basic room with rocks and walls
+- Isaac that can move with animations
+- Working collisions !
+- In developpement sound system
+- Basic room generation (not integrated yet)
 
 ## Building
 
