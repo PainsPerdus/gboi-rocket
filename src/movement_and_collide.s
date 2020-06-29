@@ -1,4 +1,5 @@
-.DEFINE ISAAC_HITBOX 1
+.DEFINE ISAAC_HITBOX 16_16_HB
+.DEFINE ISAAC_FEET_HITBOX 16_8_HB
 .DEFINE RECOVERY_TIME 30
 
 move_and_collide:
@@ -21,8 +22,9 @@ move_and_collide:
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
+	add $08
 	ld (collision_.p.1.y), a
-	ld a, ISAAC_HITBOX
+	ld a, ISAAC_FEET_HITBOX
 	ld (collision_.hitbox1), a
 ;   \\\\ collision Y  init ////
 
@@ -53,6 +55,7 @@ move_and_collide:
 	ld a,(global_.isaac.y)
 	sub b
 	ld (global_.isaac.y),a ; isaac.y -= speed y
+	add $08
 	ld (collision_.p.1.y),a
 	ld a,(global_.isaac.speed)
 	and %11110000
@@ -137,6 +140,15 @@ move_and_collide:
 
 
 @enemies_collide:
+	; /// load Isaac true position and hitbox \\\
+	ld a, (global_.isaac.x)
+	ld (collision_.p.1.x), a
+	ld a, (global_.isaac.y)
+	ld (collision_.p.1.y), a
+	ld a, ISAAC_HITBOX
+	ld (collision_.hitbox1), a
+	; \\\ load Isaac true position and hitbox ///
+
 	ld a, (global_.isaac.recover)
 	and a
 	jp nz, @@noEnemyCollisions

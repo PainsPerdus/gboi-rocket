@@ -89,22 +89,3 @@ ld hl, global_.enemies
     ldi (hl), a
     ld a, (global_.enemy_inits.2.dmg)
     ldi (hl), a
-
-initHitBoxes:
-; // init hitboxes
-    ld hl, global_.hitboxes_width
-    ld a, $10
-    ldi (hl), a
-    ldi (hl), a
-    ld a, $A0
-    ldi (hl), a
-    ld a, $10
-    ldi (hl), a
-    ld hl, global_.hitboxes_height
-    ld a, $10
-    ldi (hl), a
-    ldi (hl), a
-    ldi (hl), a
-    ld a, $90
-    ldi (hl), a
-
