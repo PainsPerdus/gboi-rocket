@@ -2,63 +2,36 @@
 	states INSTANCEOF state n_states*/
 
 global_init:
-	ld hl,global_.sheets
-	ld b,n_sheets
+
+.DEFINE ROCK_INFO %11000000 ; alive, hurt by bombs, ID 0, size 0
+.DEFINE VOID_INFO %00001000	; not alive, not hurt by bombs, ID 1; size 0
+.DEFINE HWALL_INFO %10010010 ; alive, not hurt by bombs, ID 2, size 2
+.DEFINE VWALL_INFO %10011011 ; alive, not hurt by bombs, ID 3, size 3
+
+	ld hl,global_.blocking_inits
 
 @rock:
 ; ////// ROCK \\\\\\
-	ld a,%10010000	; size = 0, block, hurt by bombs.
+	ld a,ROCK_INFO
 	ldi (hl),a
-	ld a,0	; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no funtion pointer or whatever
-	ldi (hl),a ; speed = 0
-	ld a,0
-	ldi (hl),a ; 0 HP
 ; \\\\\\ ROCK //////
 
 @void:
 ; ////// VOID \\\\\\
-	ld a,%00010000	; size = 0, no block, hurt by bombs.
+	ld a, VOID_INFO
 	ldi (hl),a
-	ld a,0	; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no funtion pointer or whatever
-	ldi (hl),a ; speed = 0, that a rock, duh
-	ld a,1
-	ldi (hl),a ; a rock has 1 HP
 ; \\\\\\ VOID //////
 
 @hwall:
 ; ////// horizontal wall \\\\\\
-	ld a, %10000010 ; size = 2, block only
+	ld a, HWALL_INFO
 	ldi (hl),a
-	ld a,0 ; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no function pointer or whatever
-	ldi (hl),a ; speed = 0, walls can't run... for now
-	ld a,1
-	ldi (hl),a ; hp = 1
 ; \\\\\\ horizontal wall //////
 
 @vwall:
 ; ////// vertical wall \\\\\\
-	ld a, %10000011 ; size = 3, block only
+	ld a, VWALL_INFO
 	ldi (hl),a
-	ld a,0 ; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no function pointer or whatever
-	ldi (hl),a ; speed = 0, walls can't run... for now
-	ld a,1
-	ldi (hl),a ; hp = 1
 ; \\\\\\ vertical wall //////
 
 @isaac_init:
@@ -86,27 +59,22 @@ global_init:
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
 
-	ld b,n_elements
-	ld de,global_.states
-@elements_loop: ; they are no element for now
+	ld b,n_blockings
+	ld hl, global_.blockings
+@blocking_loop: ; they are no element for now
+	ld a, (global_.blocking_inits.2.info)
+	ldi (hl), a
 	xor a
-	ldi (hl),a ; hp = 0
-	ldi (hl),a ; x = 0
-	ldi (hl),a ; y = 0
-	ldi (hl),a ; sheet = 0
-	ld a,0
-	ldi (hl),a ; speed x = 0, speed y = 0
-	ld a,d
-	ldi (hl),a
-	ld a,e
-	ldi (hl),a ; state
-	inc de
+	ldi (hl), a
+	ldi (hl), a
 	dec b
-	jp nz,@elements_loop
+	jp nz,@blocking_loop
 
 	; tears
+	ld hl, global_.issac_tear_pointer
 	xor a
 	ldi (hl),a	; issac_tear_pointer = 0
+	ld hl, global_.isaac_tears
 	ld b,n_isaac_tears
 @isaac_tears_loop:
 	ldi (hl),a ; x = 0
@@ -124,8 +92,76 @@ global_init:
 	dec b
 	jp nz,@ennemy_tears_loop
 
-	ld b,n_states
-@states_loop:
-	ldi (hl),a ; placeholder = O (they are no element for now)
+
+.DEFINE VOID_ENEMY_INFO %00000000 ; not alive, ID 0, size 0
+.DEFINE HURTING_ROCK_INFO %10001000 ; alive, ID 1, size 0
+
+	ld hl, global_.enemy_inits
+
+@void_enemy:
+	; /// void enemy \\\
+	ld a, VOID_ENEMY_INFO
+	ldi (hl),a
+	xor a
+	ldi (hl), a ; no hp
+	ldi (hl), a ; void enemy doesn't exist, it can't hurt you
+	ld (global_.speeds), a ; no speed
+	; \\\ void enemy ///
+
+@hurting_rock:
+	; /// hurting rock \\\
+	ld a, HURTING_ROCK_INFO
+	ldi (hl), a
+	ld a, 1
+	ldi (hl), a
+	ld a, 2
+	ldi (hl), a
+	xor a
+	ld (global_.speeds + 1), a
+	; \\\ hurting rock ///
+
+	ld hl, global_.enemies
+	ld b, n_enemies
+@enemy_loop:
+	ld a, (global_.enemy_inits.1.info)
+	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ldi (hl), a
+	ld a, (global_.enemy_inits.1.hp)
+	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ld a, (global_.enemy_inits.1.dmg)
+	ldi (hl), a
 	dec b
-	jp nz,@states_loop
+	jp nz, @enemy_loop
+
+
+.DEFINE VOID_OBJECT_INFO %00000000 ; not alive, ID 0, size 0
+
+	ld hl, global_.object_inits
+
+@void_object:
+	; /// void object \\\
+	ld a, VOID_OBJECT_INFO
+	ldi (hl),a
+	xor a
+	ldi (hl), a
+	ldi (hl), a ; no function
+	; \\\ void object ///
+
+	ld hl, global_.objects
+	ld b, n_objects
+@object_loop:
+	ld a, (global_.object_inits.1.info)
+	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ldi (hl), a
+	ld a, (global_.object_inits.1.function)
+	ldi (hl), a
+	ld a, (global_.object_inits.1.function + 1)
+	ldi (hl), a
+	dec b
+	jp nz, @object_loop

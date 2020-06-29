@@ -1,7 +1,7 @@
 ; //// Collision Solver for Entities other than Isaac \\\\
 collisionSolverEntities :
-	push c
-	push d
+	push bc
+	push de
 	
 	ld c, (hl) ;get element's size and flags
 	ld hl, (collidingEntity)
@@ -40,7 +40,7 @@ collisionSolverEntities :
 	;\\\ Blocking Collision ///
 @noEBlockCollision :
 
-	pop d
-	pop c
+	pop de
+	pop bc
 	ret
 ; \\\\ Collision Solver for Entities other than Isaac ////
