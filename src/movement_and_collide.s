@@ -146,7 +146,7 @@ move_and_collide:
 ; \\\\\\\ MOVE ISAAC  X ////////
 
 
-@enemies
+@enemies_collide:
 	ld a, (global_.isaac.recover)
 	and a
 	jp nz, @@noEnemyCollisions
@@ -196,6 +196,7 @@ move_and_collide:
 	ld (global_.isaac.x), a
 	ld (global_.isaac.y), a 	; //// TODO implement death
 @@noDeath:
+	jr @@damageDone
 
 @@noCollision:
 ; \ test collision /
@@ -207,8 +208,8 @@ move_and_collide:
 	ld e,l
 	dec c
 	jr nz, @@loop
-;   \\\\ collision with enemies loop ////
 	jr @@damageDone
+;   \\\\ collision with enemies loop ////
 @@noEnemyCollisions:
 	dec a
 	ld (global_.isaac.recover), a
