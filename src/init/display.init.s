@@ -5,6 +5,7 @@ xor a
 ld (display_.isaac.frame),a
 ld (display_.isaac.shoot_timer),a
 ld (display_.isaac.walk_timer),a
+ld (display_.fly.frame),a
 
 ; \\\\\\\ INITIALIZE VARIABLES ///////
 
