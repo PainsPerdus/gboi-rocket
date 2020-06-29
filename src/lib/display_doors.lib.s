@@ -9,6 +9,7 @@ displayDoors:
 	bit 0, d
 	jp z, @no_up_door	
 
+; ///// UP DOOR \\\\\
 	ld a, UP_DOOR
 	ld hl, $9808
 	ld (hl),a
@@ -26,11 +27,13 @@ displayDoors:
 	ldi (hl),a
 	add 2
 	ldi (hl),a
-	
+; \\\\\ DOWN DOOR /////
+
 	@no_up_door:
 	bit 1,d
 	jp z, @no_left_door	
 
+; ///// LEFT DOOR \\\\\
 	ld a, LEFT_DOOR
 	ld hl, $98E0
 	ld (hl),a
@@ -49,12 +52,13 @@ displayDoors:
 	add 2
 	sub e
 	ldi (hl),a
-	
+; \\\\\ LEFT DOOR /////
+
 	@no_left_door:
-
 	bit 2, d
-	jp z, @no_right_door	
+	jp z, @no_right_door
 
+; ///// RIGHT DOOR \\\\\
 	ld a, RIGHT_DOOR
 	ld hl, $98F3
 	ld (hl),a
@@ -73,11 +77,13 @@ displayDoors:
 	add 2
 	sub e
 	ldi (hl),a
+; \\\\\ RIGHT DOOR /////
 	
 	@no_right_door:
 	bit 3, d
 	jp z, @no_down_door	
 
+; ///// DOWN DOOR \\\\\
 	ld a, DOWN_DOOR
 	add e
 	ld hl, $9A09
@@ -96,9 +102,8 @@ displayDoors:
 	inc a
 	ld hl, $9A2B
 	ld (hl), a
-	
+; \\\\\ DOWN DOOR /////
 
-	
 	@no_down_door:
 
 	pop de
