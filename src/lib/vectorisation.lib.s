@@ -1,13 +1,12 @@
 ;//// Vectorisation function \\\\
 
 vectorisation:
-  ld b,b
   ;Vector's X-axis
   ld a, (vectorisation_.p.1.x)
   ld b,a
   ld a, (vectorisation_.p.2.x)
   sub b
-  ld (vectorisation_.direction.x), a ;Save X-axis's vector it in dx
+  ld (vectorisation_.direction.x), a ;Save X-axis's vector it in direction.x
 
   ;Vector's Y-axis
   ld a, (vectorisation_.p.1.y)
