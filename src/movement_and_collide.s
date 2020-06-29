@@ -1,4 +1,6 @@
-.DEFINE ISAAC_HITBOX 1
+.DEFINE ISAAC_HITBOX 3
+.DEFINE ISAAC_FEET_HITBOX 4
+.DEFINE RECOVERY_TIME 30
 
 test_vectorisation:
 	ld a,(global_.isaac.speed)
@@ -37,39 +39,31 @@ move_and_collide:
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
 	ld a, (global_.isaac.y)
+	add $08
 	ld (collision_.p.1.y), a
-	ld a, ISAAC_HITBOX
+	ld a, ISAAC_FEET_HITBOX
 	ld (collision_.hitbox1), a
 ;   \\\\ collision Y  init ////
 
 ;   //// collision Y  loop \\\\
-	ld de, global_.elements
-	ld c, n_elements
+	ld de, global_.blockings
+	ld c, n_blockings
 	@@loop:
 ; /// loop start \\\
 	ld h,d
 	ld l,e
 
-; / set position as parameter \
+; / set hitbox and position as parameter \
 	ldi a, (hl)
-	and a
-	jr z,@@noCollision ; check if hp != 0
+	bit ALIVE_FLAG, a
+	jr z,@@noCollision ; check if element is alive
+	and BLOCKING_SIZE_MASK
+	ld (collision_.hitbox2), a
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
-	ldi a, (hl)
-	ld (collision_.p.2.y), a
-; \ set position as parameter /
-
-; / set hitbox as parameter \
 	ld a, (hl)
-	ld hl, global_.sheets
-	ld l,a
-	ld a, (hl)	; a = (*element.sheet).size)
-	bit $7,a
-	jp z, @@ending_loop	; if non block : continue
-	and %00000111
-	ld (collision_.hitbox2), a
-; \ set hitbox as parameter /
+	ld (collision_.p.2.y), a
+; \ set hitbox and position as parameter /
 
 ; / test collision \
 	call collision
@@ -78,6 +72,7 @@ move_and_collide:
 	ld a,(global_.isaac.y)
 	sub b
 	ld (global_.isaac.y),a ; isaac.y -= speed y
+	add $08
 	ld (collision_.p.1.y),a
 	ld a,(global_.isaac.speed)
 	and %11110000
@@ -87,10 +82,9 @@ move_and_collide:
 ; \ test collision /
 
 @@ending_loop:
-	ld hl, $0007
-	add hl, de
-	ld d,h
-	ld e,l
+	inc de
+	inc de
+	inc de
 	dec c
 	jr nz, @@loop
 ;   \\\\ collision Y  loop ////
@@ -118,33 +112,24 @@ move_and_collide:
 ;   \\\\ collision X  init ////
 
 ;   //// collision X  loop \\\\
-	ld de, global_.elements
-	ld c, n_elements
+	ld de, global_.blockings
+	ld c, n_blockings
 	@@loop:
 ; /// loop start \\\
 	ld h,d
 	ld l,e
 
-; / set position as parameter \
+; / set hitbox and position as parameter \
 	ldi a, (hl)
-	and a
-	jr z,@@noCollision ; check if hp != 0
+	bit ALIVE_FLAG, a
+	jr z,@@noCollision ; check if element is alive
+	and BLOCKING_SIZE_MASK
+	ld (collision_.hitbox2), a
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
-	ldi a, (hl)
-	ld (collision_.p.2.y), a
-; \ set position as parameter /
-
-; / set hitbox as parameter \
 	ld a, (hl)
-	ld hl, global_.sheets
-	ld l,a
-	ld a, (hl)	; a = (*element.sheet).size)
-	bit $7,a
-	jr z, @@ending_loop	; if non block : continue
-	and %00000111
-	ld (collision_.hitbox2), a
-; \ set hitbox as parameter /
+	ld (collision_.p.2.y), a
+; \ set hitbox and position as parameter /
 
 ; / test collision \
 	call collision
@@ -162,19 +147,93 @@ move_and_collide:
 ; \ test collision /
 
 @@ending_loop:
-	ld hl, $0007
-	add hl, de
-	ld d,h
-	ld e,l
+	inc de
+	inc de
+	inc de
 	dec c
 	jr nz, @@loop
 ;   \\\\ collision X  loop ////
 ; \\\\\\\ MOVE ISAAC  X ////////
 
 
+@enemies_collide:
+	; /// load Isaac true position and hitbox \\\
+	ld a, (global_.isaac.x)
+	ld (collision_.p.1.x), a
+	ld a, (global_.isaac.y)
+	ld (collision_.p.1.y), a
+	ld a, ISAAC_HITBOX
+	ld (collision_.hitbox1), a
+	; \\\ load Isaac true position and hitbox ///
 
+	ld a, (global_.isaac.recover)
+	and a
+	jp nz, @@noEnemyCollisions
+; /////// implement enemy damage \\\\\\\
+;   //// collision with enemies loop \\\\
+	ld de, global_.enemies
+	ld c, n_enemies
+	@@loop:
+; /// loop start \\\
+	ld h,d
+	ld l,e
 
+; / set hitbox and position as parameter \
+	ldi a, (hl)
+	bit ALIVE_FLAG, a
+	jr z,@@noCollision ; check if element is alive
+	and ENEMY_SIZE_MASK
+	ld (collision_.hitbox2), a
+	ldi a, (hl)
+	ld (collision_.p.2.x), a
+	ldi a, (hl)
+	ld (collision_.p.2.y), a
+; \ set hitbox and position as parameter /
 
+; / test collision \
+	push hl
+	call collision
+	pop hl
+	and a
+	jr z, @@noCollision
+
+	; revcovery
+	ld a, RECOVERY_TIME
+	ld (global_.isaac.recover), a
+	; damage
+	inc hl
+	inc hl
+	ld a, (hl)
+	and DMG_MASK
+	ld b, a
+	ld a, (global_.isaac.hp)
+	sub b
+	ld (global_.isaac.hp), a
+	bit 7, a
+	jr z, @@noDeath
+	xor a
+	ld (global_.isaac.x), a
+	ld (global_.isaac.y), a 	; //// TODO implement death
+@@noDeath:
+	jr @@damageDone
+
+@@noCollision:
+; \ test collision /
+
+@@ending_loop:
+	ld hl, 6
+	add hl, de
+	ld d,h
+	ld e,l
+	dec c
+	jr nz, @@loop
+	jr @@damageDone
+;   \\\\ collision with enemies loop ////
+@@noEnemyCollisions:
+	dec a
+	ld (global_.isaac.recover), a
+@@damageDone:
+; \\\\\\\ implement enemy damage ///////
 
 ; //////// TEST A B \\\\\\\
 ; if A / B are pressed

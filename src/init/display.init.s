@@ -192,7 +192,9 @@ ld (display_.isaac.walk_timer),a
 
 ; \\\\\\\ DRAWING WALLS ///////
 
-
+	ld a, %00000101
+	ld b, %00000000
+	call displayDoors
 
 ; /////// CLEAR OAM \\\\\\\
 	ld hl,$FE00

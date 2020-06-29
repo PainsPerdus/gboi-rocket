@@ -1,18 +1,31 @@
 .INCLUDE "../GBDefs/defs.s"
 .INCLUDE "hardware_specs.s"
 
+; //// WAITING TO THE UPDATE OF GBDefs \\\\
+; Joy pad register
+.DEFINE rP1 $FF00
+
+.DEFINE P1F_5 %00100000 ; P15 out port, set to 0 to get buttons
+.DEFINE P1F_4 %00010000 ; P14 out port, set to 0 to get dpad
+; \\\\ WAITING TO THE UPDATE OF GBDefs ////
+
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "var/global.var.s"
 .INCLUDE "var/display.var.s"
 .INCLUDE "var/sprite.var.s"
 .INCLUDE "var/collision.var.s"
 .INCLUDE "var/vectorisation.var.s"
+.INCLUDE "var/rng.var.s"
+.INCLUDE "var/check_inputs.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 	collision_ INSTANCEOF collision_var
 	vectorisation_ INSTANCEOF vectorisation_var
+	rng_state INSTANCEOF rng_state_var
+	check_inputs_ INSTANCEOF check_inputs_var
+	VBlank_lock DB
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
@@ -58,7 +71,13 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "init/global.init.s"
 .INCLUDE "init/room.init.s.stub"
 .INCLUDE "init/display.init.s"
+.INCLUDE "init/rng.init.s"
+.INCLUDE "init/check_inputs.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
+; //// VBlank_lock \\\\
+	xor a
+	ld (VBlank_lock),a    ; VBlank_lock = 0
+; \\\\ VBlank_lock ////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
 	ld a,%00000000
@@ -74,18 +93,48 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 
 ; ///////// MAIN LOOP \\\\\\\\\
 loop:
-	jr loop
+; //// WAIT FOR VBLANK \\\\
+	halt
+	ld a,(VBlank_lock)
+	and a
+  jp nz,loop			; wait until VBlank_lock = 0
+; \\\\ WAIT FOR VBLANK ////
+
+.INCLUDE "body.s"
+
+; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
+	ld a,1
+	ld (VBlank_lock),a    ; VBlank_lock = 1
+; \\\\ ALLOW VBLANK TO UPDATE THE SCREEN ////
+; \\\\\\\\\ MAIN LOOP /////////
+	jp loop
 ; \\\\\\\\\ MAIN LOOP /////////
 
 
-
 ; ///////// VBlank Interuption \\\\\\\\\
+
 VBlank:
 	push af
+	push bc
+	push de
 	push hl
-.INCLUDE "display.s"
-.INCLUDE "body.s"
+; //// CHECK IF THE LOOP FINISHED \\\\
+	ld a,(VBlank_lock)
+	and a
+	jp z,endVBlank
+; \\\\ CHECK IF THE LOOP FINISHED ////
+
+.INCLUDE "vblank/display.vbl.s"
+.INCLUDE "vblank/check_inputs.vbl.s"
+
+; //// REALLOW THE LOOP \\\\
+	xor a
+	ld (VBlank_lock),a    ; VBlank_lock = 0
+; \\\\ REALLOW THE LOOP ////
+endVBlank:
 	pop hl
+	pop de
+	pop bc
 	pop af
 	ret
 ; \\\\\\\\\ VBlank Interuption /////////
@@ -94,8 +143,10 @@ VBlank:
 
 ; ///////// INCLUDE .LIB \\\\\\\\\
 .INCLUDE "lib/display_background_tile.lib.s"
+.INCLUDE "lib/display_doors.lib.s"
 .INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/CollisionSolverIsaac.lib.s"
 .INCLUDE "lib/collision.lib.s"
 .INCLUDE "lib/vectorisation.lib.s"
+.INCLUDE "lib/rng.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
