@@ -1,12 +1,54 @@
-/*
-	states INSTANCEOF state n_states*/
+initHitBoxes:
+
+.DEFINE 8_8_HB 0
+.DEFINE H_DOOR_HB 1
+.DEFINE V_DOOR_HB 2
+.DEFINE 16_16_HB 3
+.DEFINE 16_8_HB 4
+.DEFINE 8_16_HB 5
+.DEFINE H_WALL_HB 6
+.DEFINE V_WALL_HB 7
+
+; // init hitboxes
+    ld hl, global_.hitboxes_width
+    ld a, $08
+    ldi (hl), a
+	ld a, $00
+    ldi (hl), a
+    ld a, $08
+    ldi (hl), a
+	ld a, $10
+    ldi (hl), a
+	ldi (hl), a
+	ld a, $08
+	ldi (hl), a
+	ld a, $A0
+	ldi (hl), a
+	ld a, $10
+	ldi (hl), a
+    ld hl, global_.hitboxes_height
+    ld a, $08
+    ldi (hl), a
+    ldi (hl), a
+	ld a, $00
+    ldi (hl), a
+	ld a, $10
+    ldi (hl), a
+	ld a, $08
+	ldi (hl), a
+	ld a, $10
+	ldi (hl), a
+	ldi (hl), a
+	ld a, $90
+	ldi (hl), a
+
 
 global_init:
 
-.DEFINE ROCK_INFO %11000000 ; alive, hurt by bombs, ID 0, size 0
+.DEFINE ROCK_INFO %11000011 ; alive, hurt by bombs, ID 0, size 3
 .DEFINE VOID_INFO %00001000	; not alive, not hurt by bombs, ID 1; size 0
-.DEFINE HWALL_INFO %10010010 ; alive, not hurt by bombs, ID 2, size 2
-.DEFINE VWALL_INFO %10011011 ; alive, not hurt by bombs, ID 3, size 3
+.DEFINE HWALL_INFO %10010110 ; alive, not hurt by bombs, ID 2, size 6
+.DEFINE VWALL_INFO %10011111 ; alive, not hurt by bombs, ID 3, size 7
 
 	ld hl,global_.blocking_inits
 
@@ -94,6 +136,7 @@ global_init:
 
 
 .DEFINE VOID_ENEMY_INFO %00000000 ; not alive, ID 0, size 0
+.DEFINE HURTING_ROCK_INFO %10001011 ; alive, ID 1, size 3
 
 	ld hl, global_.enemy_inits
 
@@ -106,6 +149,18 @@ global_init:
 	ldi (hl), a ; void enemy doesn't exist, it can't hurt you
 	ld (global_.speeds), a ; no speed
 	; \\\ void enemy ///
+
+@hurting_rock:
+	; /// hurting rock \\\
+	ld a, HURTING_ROCK_INFO
+	ldi (hl), a
+	ld a, 1
+	ldi (hl), a
+	ld a, 2
+	ldi (hl), a
+	xor a
+	ld (global_.speeds + 1), a
+	; \\\ hurting rock ///
 
 	ld hl, global_.enemies
 	ld b, n_enemies

@@ -74,21 +74,18 @@ ld hl, global_.blockings
     ld a, 16
     ldi (hl), a ; y = 16
 
-initHitBoxes:
-; // init hitboxes
-    ld hl, global_.hitboxes_width
-    ld a, $10
-    ldi (hl), a
-    ldi (hl), a
-    ld a, $A0
-    ldi (hl), a
-    ld a, $10
-    ldi (hl), a
-    ld hl, global_.hitboxes_height
-    ld a, $10
-    ldi (hl), a
-    ldi (hl), a
-    ldi (hl), a
-    ld a, $90
-    ldi (hl), a
+initEnemies:
+ld hl, global_.enemies
 
+; // hurting rock 1
+    ld a, (global_.enemy_inits.2.info)
+    ldi (hl), a
+    ld a, 80
+    ldi (hl), a
+    ldi (hl), a
+    ld a, (global_.enemy_inits.2.hp)
+    ldi (hl), a
+    ld a, (global_.speeds + 1)
+    ldi (hl), a
+    ld a, (global_.enemy_inits.2.dmg)
+    ldi (hl), a
