@@ -12,18 +12,13 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; ///// Isaac \\\\\
 		ld hl, ISAAC_SPRITESHEET
 
-		ld a, (global_.isaac.y)
-		ld b,a
-		ld a, (global_.isaac.x)
-		ld c,a
-
 ; //// Top Tiles \\\\
 ; /// Left \\\\
 		ld hl,$FE00
-		ld a, b
+		ld a, (global_.isaac.y)
 		ld (hl), a ;posY
 		inc l
-		ld a, c
+		ld a, (global_.isaac.x)
 		ld (hl), a ; posX
 		inc l
 		ld a, (global_.isaac.direction)
@@ -40,10 +35,10 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; \\\ Left ///	
 ; /// Right \\\
 		ld hl,$FE04
-		ld a,b
+		ld a,(global_.isaac.y)
 		ld (hl),a ;posY
 		inc l
-		ld a,c
+		ld a,(global_.isaac.x)
 		add 8
 		ld (hl),a ;posX
 		inc l
@@ -129,6 +124,7 @@ ld (display_.isaac.shoot_timer), a ; TODO hard coded
 		inc l
 		ld (hl), e ;Chosen bottom right sprite
 
+
 ; \\\ Update OAM ///
 ; \\\\ Bottom Tiles ////
 ; /// Mouth Pixel \\\
@@ -156,6 +152,21 @@ ld (hl), a
 
 @face_left:
 ; \\\ Mouth Pixel ///
+
+; /// Recover time \\\
+
+	ld a, (global_.isaac.recover)
+	bit 2,a
+	jp z, @no_recover
+	xor a
+	ld ($FE00), a
+	ld ($FE04), a
+	ld ($FE08), a
+	ld ($FE0C), a
+
+	@no_recover:
+
+; \\\ Recover time ///
 ; \\\\\ Isaac /////
 ; \\\\\\ UPDATE SPRITES POSITION //////
 
