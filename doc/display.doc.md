@@ -86,6 +86,14 @@ if (global_.isaac.speed != 0) // Moving
 
 These sprite_id will be then placed in the OAM at the same time as the updated positions.
 
+To make isaac blink after taking damage, isaac's sprites are hidden every 8 frames, corresponding to the 3rd bit of the "recover" timer
+~~~C
+if (bit2(global_.isaac.recover))
+{
+hideIsaac()
+}
+~~~
+
 #### Mouth pixel
 
 When isaac is facing left (orientation 10), we need to hide the mouth pixel

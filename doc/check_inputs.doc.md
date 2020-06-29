@@ -69,19 +69,20 @@ b = get_arrow_values();
 // global_.isaac.direction = c[1:0]
 speed_x = 0;
 speed_y = 0;
-direction = %11; //By default, isaac looks at YOU!
+// direction = %11;  --//By default, isaac looks at YOU!--
+// Isaac no retains its position
 if (down_arrow(b)){
-	speed_y = 2;
+	speed_y = 1;
 	direction = %11;
 }else if (up_arrow(b)){
-	speed_x = -2;
+	speed_x = -1;
 	direction = %00;
 }
 if (right_arrow(b)){
-	speed_x = 2;
+	speed_x = 1;
 	direction = %01;
 }else if (left_arrow(b)){
-	speed_x = -2;
+	speed_x = -1;
 	direction = %10;
 }
 global_.isaac.speed = [speed_x, speed_y];

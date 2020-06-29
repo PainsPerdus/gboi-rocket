@@ -54,6 +54,148 @@ ld (display_.isaac.walk_timer),a
 	; The Z flag can't be used when dec on 16bit reg :(
 ; \\\\\\\ CLEAR BG ///////
 
+; /////// DRAWING WALLS \\\\\\\
+;    ///// UPPER WALL \\\\\
+	
+	ld de,20       ; loop iterator
+	ld hl,$9800
+	@wall_up_line1:			; while de != 0
+	ld a, FLAT_BACKGROUND_WALL
+	ldi (hl),a	 
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@wall_up_line1	; end while
+	ld bc, $000C   ; next line distance
+	add hl, bc                      ;next line
+	ld a, FLAT_BACKGROUND_WALL ;
+	ldi (hl),a
+	ld a, UP_RIGHT_CORNER ;
+	ldi (hl),a
+	ld de,16
+	@wall_up_line2:			; while de != 0
+	ld a, UP_BACKGROUND_WALL ;
+	ldi (hl),a
+	dec de	; de --
+	ld a,e
+	or d
+	jr nz,@wall_up_line2	; end while
+	ld a, UP_LEFT_CORNER ;
+	ldi (hl),a
+	ld a, FLAT_BACKGROUND_WALL ;
+	ldi (hl),a
+;    \\\\\ UPPER WALL /////
+
+;    ///// SIDE WALLS \\\\\
+	ld de,14
+	@walls_sides:			; while de != 0
+	ld bc, $000C   ; next line distance
+	add hl, bc     ;next line
+	ld a, FLAT_BACKGROUND_WALL ;
+	ldi (hl),a	 
+	ld a, LEFT_BACKGROUND_WALL ;
+	ldi (hl), a
+	ld bc, $0010
+	add hl, bc
+	ld a, RIGHT_BACKGROUND_WALL
+	ldi (hl),a	
+	ld a, FLAT_BACKGROUND_WALL
+	ldi (hl), a
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@walls_sides	; end while
+;    \\\\\ SIDE WALLS /////
+	ld bc, $000C   ; next line distance
+	add hl, bc                      ;next line
+;    ///// DOWN WALL \\\\\
+	ld a, FLAT_BACKGROUND_WALL
+	ldi (hl),a
+	ld a, DOWN_LEFT_CORNER ;
+	ldi (hl),a
+	ld de,16       ; loop iterator
+	@wall_down_line1:			; while de != 0
+	ld a, DOWN_BACKGROUND_WALL 
+	ldi (hl),a	; *hl <- 0; hl++
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@wall_down_line1	; end while
+	ld a, DOWN_RIGHT_CORNER
+	ldi (hl),a
+	ld a, FLAT_BACKGROUND_WALL
+	ldi (hl),a
+
+	ld bc, $000C   ; next line distance
+	add hl, bc                      ;next line
+
+	ld de,20
+	@wall_down_line2:			; while de != 0
+	ld a, FLAT_BACKGROUND_WALL ;
+	ldi (hl),a	; *hl <- 0; hl++
+	dec de		; de --
+	ld a,e
+	or d
+	jr nz,@wall_down_line2	; end while
+;    \\\\\ DOWN WALL /////
+
+;    ///// DETAILING \\\\\
+
+	ld a, FIRST_WALL_DETAIL
+	ld hl, $9805
+	ld (hl),a
+	ld hl, $9A2F
+	ld (hl),a
+	inc a
+	ld hl, $9810
+	ld (hl),a
+	ld hl, $9A24
+	ld (hl),a
+	inc a
+	ld hl, $9880
+	ld (hl),a
+	ld hl, $99B3
+	ld (hl),a
+	inc a
+	ld hl, $9980
+	ld (hl),a
+	ld hl, $9873
+	ld (hl),a
+
+	inc a
+	ld hl, $9826
+	ld (hl),a
+	inc a
+	ld hl, $982D
+	ld (hl),a
+	inc a
+	ld hl, $98C1
+	ld (hl),a
+	inc a
+	ld hl, $98D2
+	ld (hl),a
+	inc a
+	ld hl, $9961
+	ld (hl),a
+	inc a
+	ld hl, $9992
+	ld (hl),a
+	inc a
+	ld hl, $9A06
+	ld (hl),a
+	inc a
+	ld hl, $9A0D
+	ld (hl),a
+	
+
+;    \\\\\ DETAILING /////
+
+; \\\\\\\ DRAWING WALLS ///////
+
+	ld a, %00000101
+	ld b, %00000000
+	call displayDoors
+
 ; /////// CLEAR OAM \\\\\\\
 	ld hl,$FE00
 	ld b,40*4
@@ -70,11 +212,9 @@ ld (display_.isaac.walk_timer),a
 ; \\\\\\\ CLEAR OAM ///////
 
 ; /////// LOAD SPRITES \\\\\\\
-	ld hl,$FE00
 
 ; // ISAAC SPRITES \\
 ; \\ ISAAC SPRITES //
-
 
 //TODO : Document this part
 ; // SETUP BULLET SPRITES \\
@@ -82,7 +222,7 @@ ld (display_.isaac.walk_timer),a
 	ld b, OAM_ISAAC_BULLETS_SIZE+1
 	ld a,10 ;initial posX
 @loopSetupIsaacBullets
-	ld (hl), 30
+	ld (hl), 50 ;posY
 	inc l
 	ld (hl), a
 	inc l
