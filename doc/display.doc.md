@@ -169,3 +169,46 @@ for (int i=0; i<len(BL); i++) {
 	}
 }
 ~~~
+
+Here is the new algorithm (better, more vanilla, less sugar) :
+~~~C
+BC = [(posY, posX, recycled, inChain, init, OAM_id), ...] //Bullet list
+RL = [(hline, OAM_id, newX, newY), ... ] //Recycling List
+
+char OAM_id = 0; //Current free OAM_id for initialization
+
+//TODO : optimize hline start and end. 
+for(char hline = 16*4; hline <= 144-16-5; hline++) { 
+	char min_index = 0;
+	//We look for the sprite above hline-4 with minimal not null Y, that's not recycled. 
+	for(char j=1; j<len(BL); j++) {
+		if(BL[j].posY<BL[min_index].posY && BL(j).posY!=0 && BL[j].posY <= hline-4 && !BL[j].recycled)
+			min_index=j;
+	}
+	if(BL[min_index].posY > hline-4 || BL[min_index].recycled || BL[min_index].posY == 0)
+		continue; // No sprite avaliable to recycle at this hline
+
+	char source = m_index; //Recycling source
+
+	min_index=0;
+	for(char j=1; j<len(BL); j++) {
+		if(BL[j].posY < BL[min_index].posY && BL[j].posY > hline && !BL[j].inChain)
+			min_index=j;
+	}
+	if(BL[min_index].posY <= hline || BL[min_index].inChain)
+		break; // No more recycling needed 
+
+	char target = m_index; //Recycling target
+
+	if(!BL[source].inChain) { //First in chain, so we need to manually add it to OAM, so we choose an id
+		BL[source].OAM_id=OAM_id++;
+		BL[source].init=true;
+	}
+	BL[source].inChain=true; BL[source].recycled=true;
+	BL[target].OAM_id=BL[source].OAM_id
+	BL[target].inChain=true;
+
+	//Add corresponding recycling rule
+	*(RL++) = (hline, BL[source].OAM_id, BL[target].posX, BL[target].posY);
+}
+~~~
