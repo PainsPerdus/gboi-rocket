@@ -25,5 +25,5 @@ if (direction.y > 0):
 ~~~
 ;abs
 /* @ensures two's complement value in b
-   @ensures absolute value of b returned in a/*
+   @ensures absolute value of a returned in a/*
 ~~~

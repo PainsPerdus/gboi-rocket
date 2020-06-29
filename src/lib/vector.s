@@ -10,9 +10,9 @@ Vectorisation:
   ld a, (X2)
   sub b
   ld (dx), a //Save X-axis's vector it in dx
-  ld b, a
+  /*ld b, a
   call abs
-  ld d, a //d = abs(direction.x)
+  ld d, a*/ //d = abs(direction.x)
 
 
   ;Vector's Y-axis
@@ -21,13 +21,16 @@ Vectorisation:
   ld a, (Y2)
   sub c
   ld (dy), a //Save Y-axis's vector it in dy
-  ld b, a
-  call abs
-  ld e, a //e = abs(direction.y)
+  /*ld b, a
+  call @abs
+  ld e, a*/ //e = abs(direction.y)
 
   ;abs(direction.x) < abs(direction.y)//2:
-  ld a, d
-  ld b, e
+  ld a, (dy)
+  call abs
+  ld b, a
+  ld a, (dx)
+  call abs
   sr1 b
   sub b
   bit 7, a
@@ -52,7 +55,7 @@ Vectorisation:
   bit 7, a
 
   jp nz, @uncheckedCondition3
-  ld a, %00001111
+  ld a, %11110000
   ld (dx), a
 
   jp @uncheckedCondition4
@@ -62,7 +65,7 @@ Vectorisation:
   bit 7, a
   jp z, @uncheckedCondition4
 
-  ld a, %00000001
+  ld a, %00010000
   ld (dx), a
 
   @uncheckedCondition4:
@@ -94,7 +97,7 @@ Vectorisation:
 
 //// Albsolute value function \\\\
 @abs:
-  bit 7, b
+  bit 7, a
   jp nz, @bpositive:
 
   cpl
