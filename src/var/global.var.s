@@ -90,6 +90,7 @@
 	y DB
 	x DB
 	id DB
+	speed DB
 .ENDST
 
 .STRUCT global_var
