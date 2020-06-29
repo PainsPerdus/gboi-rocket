@@ -25,7 +25,6 @@
 	reti
 
 .ORG $0048 				; Write at the address $0048 (hblank interruption)
-	ld b,b
 	push hl	;Save the hl registery that we're going to use
 	jp DISPLAY_RAM_OPCODE_START
 ;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
