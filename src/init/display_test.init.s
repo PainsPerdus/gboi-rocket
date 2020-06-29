@@ -12,8 +12,8 @@ display_test_init:
 	ld h,d
 	ld l,e
 	inc hl
-	ldi a, (hl) ;x position in pixels (must be a multiple of 8)
-	ld b, (hl) ;y position in pixels (must be a multiple of 8)
+	ldi b, (hl) ;y position in pixels (must be a multiple of 8)
+	ld a, (hl) ;x position in pixels (must be a multiple of 8)
 	ld l,ROCKS_SPRITESHEET ;start tile id
 	call displayBackgroundTile
 @ending_of_looptodisplayrocks:
@@ -35,8 +35,8 @@ display_test_init:
 	ld h,d
 	ld l,e
 	inc hl
-	ldi a, (hl) ;x position in pixels (must be a multiple of 8)
-	ld b, (hl) ;y position in pixels (must be a multiple of 8)
+	ldi b, (hl) ;y position in pixels (must be a multiple of 8)
+	ld a, (hl) ;x position in pixels (must be a multiple of 8)
 	ld l,ROCKS_SPRITESHEET ;start tile id
 	call displayBackgroundTile
 @ending_of_looptodisplayhurtingrocks:
