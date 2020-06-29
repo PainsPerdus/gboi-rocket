@@ -178,37 +178,64 @@ RL = [(hline, OAM_id, newX, newY), ... ] //Recycling List
 char OAM_id = 0; //Current free OAM_id for initialization
 
 //TODO : optimize hline start and end. 
-for(char hline = 16*4; hline <= 144-16-5; hline++) { 
-	char min_index = 0;
-	//We look for the sprite above hline-4 with minimal not null Y, that's not recycled. 
-	for(char j=1; j<len(BL); j++) {
-		if(BL[j].posY<BL[min_index].posY && BL(j).posY!=0 && BL[j].posY <= hline-4 && !BL[j].recycled)
-			min_index=j;
-	}
-	if(BL[min_index].posY > hline-4 || BL[min_index].recycled || BL[min_index].posY == 0)
-		continue; // No sprite avaliable to recycle at this hline
+for(char hline = 16*4; hline <= 144-16-5; hline++) { //We iterate over all screen lines, and look what sprite to recycle at each line
 
-	char source = m_index; //Recycling source
+	/* First, we look for a source bullet to recycle.
+	   We look from the top of the screen to hline-4. */  
 
-	min_index=0;
+	char min_index = 0; //Index in BL of the bullet with minimum Y that verifies the following conditions:  
 	for(char j=1; j<len(BL); j++) {
-		if(BL[j].posY < BL[min_index].posY && BL[j].posY > hline && !BL[j].inChain)
-			min_index=j;
+		if(BL[j].posY >= BL[min_index.posY]) //We compute a minimum, this tests if posY is lower than what we currently found
+			continue;
+		if(BL(j).posY == 0) //If posY is 0, it means the bullet is not used (out of screen)
+			continue;
+		if(BL[j].posY-16 > hline-4) //The bullet must be above the hline-4 to be able to start recycling it. The +16 offset is due to GB screen offset. 
+			continue;
+		if(BL[j].recycled) //We won't recycle a bullet that's already been recycled, it doesn't make sense. (Reminder: we're building a chain) 
+			continue;  
+
+		min_index=j //We found a better candidate, so we update the min index
+	}  
+
+	//We need to double check the result, in case min_index didn't change from default value (0)
+	if(BL[min_index].posY-16 > hline-4 || BL[min_index].recycled || BL[min_index].posY == 0)
+		continue; //There is no bullet avaliable to recycle at this hline  
+
+	char source = m_index; //We found the recycling source! 
+
+	
+	/* Then, we look for a target bullet to recycle to. 
+	   We look from hline+1 to the bottom of the screen. */
+
+	min_index=0;  //Index in BL of the bullet with minimum Y that verifies those new conditions: 
+	for(char j=1; j<len(BL); j++) {
+		if(BL[j].posY >= BL[min_index].posY) //We compute a minimum, this tests if posY is lower than what we currently found
+			continue;
+		if(BL[j].posY <= hline) //To be a valid recycling target, the bullet must be after hline
+			continue;
+		if(BL[j].inChain) //We won't recycle to a bullet that's already in a chain, so that's already being taken care of
+			continue;  
+
+		min_index=j; //We found a better candidate, so we update the min index
 	}
+
+	//We need to double check the result, in case min_index didn't change from the default value (0)
 	if(BL[min_index].posY <= hline || BL[min_index].inChain)
-		break; // No more recycling needed 
+		break; // There is no possible target below hline, so there is no more recycling needed/possible. 
 
-	char target = m_index; //Recycling target
+	char target = m_index; //We found the recycling target!
 
-	if(!BL[source].inChain) { //First in chain, so we need to manually add it to OAM, so we choose an id
-		BL[source].OAM_id=OAM_id++;
-		BL[source].init=true;
-	}
-	BL[source].inChain=true; BL[source].recycled=true;
-	BL[target].OAM_id=BL[source].OAM_id
-	BL[target].inChain=true;
+	if(!BL[source].inChain) { //The source is the first in its recycling chain, so we need to manually add it to OAM in VBlank, so we choose an id
+		BL[source].OAM_id=OAM_id++; //Set source's id in OAM and increase the current id
+		BL[source].init=true; //Indicate that the source needs to be initialized manually into OAM in VBlank
+	}  
+
+	BL[source].inChain=true; BL[source].recycled=true; //The source is now already recycled, and so is in a chain
+
+	BL[target].OAM_id=BL[source].OAM_id //We replace the source with the target, so the target takes the id of the source
+	BL[target].inChain=true; //The target is in a recycling chain now.
 
 	//Add corresponding recycling rule
-	*(RL++) = (hline, BL[source].OAM_id, BL[target].posX, BL[target].posY);
+	*(RL++) = (hline, BL[source].OAM_id, BL[target].posX, BL[target].posY); //During hline, the source bullet's position will be set to the target bullet position
 }
 ~~~
