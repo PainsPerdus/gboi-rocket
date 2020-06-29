@@ -51,8 +51,8 @@
 
 .STRUCT blocking
 	info DB
-	x DB
 	y DB
+	x DB
 .ENDST
 
 .STRUCT blocking_init
@@ -61,8 +61,8 @@
 
 .STRUCT enemy
 	info DB
-	x DB
 	y DB
+	x DB
 	hp DB
 	speed DB
 	dmg DB
@@ -76,8 +76,8 @@
 
 .STRUCT object
 	info DB
-	x DB
 	y DB
+	x DB
 	function DW
 .ENDST
 
