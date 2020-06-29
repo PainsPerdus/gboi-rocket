@@ -34,22 +34,17 @@ move_and_collide:
 	ld h,d
 	ld l,e
 
-; / set position as parameter \
+; / set hitbox and position as parameter \
 	ldi a, (hl)
 	bit ALIVE_FLAG, a
 	jr z,@@noCollision ; check if element is alive
-	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ldd a, (hl)
-	ld (collision_.p.2.y), a
-	dec hl
-; \ set position as parameter /
-
-; / set hitbox as parameter \
-	ld a, (hl)
 	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
-; \ set hitbox as parameter /
+	ldi a, (hl)
+	ld (collision_.p.2.x), a
+	ld a, (hl)
+	ld (collision_.p.2.y), a
+; \ set hitbox and position as parameter /
 
 ; / test collision \
 	call collision
@@ -104,22 +99,17 @@ move_and_collide:
 	ld h,d
 	ld l,e
 
-; / set position as parameter \
+; / set hitbox and position as parameter \
 	ldi a, (hl)
 	bit ALIVE_FLAG, a
 	jr z,@@noCollision ; check if element is alive
-	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ldd a, (hl)
-	ld (collision_.p.2.y), a
-	dec hl
-; \ set position as parameter /
-
-; / set hitbox as parameter \
-	ld a, (hl)
 	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
-; \ set hitbox as parameter /
+	ldi a, (hl)
+	ld (collision_.p.2.x), a
+	ld a, (hl)
+	ld (collision_.p.2.y), a
+; \ set hitbox and position as parameter /
 
 ; / test collision \
 	call collision
