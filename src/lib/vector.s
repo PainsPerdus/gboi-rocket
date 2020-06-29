@@ -10,9 +10,6 @@ Vectorisation:
   ld a, (X2)
   sub b
   ld (dx), a //Save X-axis's vector it in dx
-  /*ld b, a
-  call abs
-  ld d, a*/ //d = abs(direction.x)
 
 
   ;Vector's Y-axis
@@ -21,9 +18,7 @@ Vectorisation:
   ld a, (Y2)
   sub c
   ld (dy), a //Save Y-axis's vector it in dy
-  /*ld b, a
-  call @abs
-  ld e, a*/ //e = abs(direction.y)
+
 
   ;abs(direction.x) < abs(direction.y)//2:
   ld a, (dy)
