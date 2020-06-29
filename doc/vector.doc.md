@@ -6,6 +6,7 @@ Return with `a` the general direction of p2-p1. (a[7:4]=dx, a[3:0]=dy, signed va
 
 modifies `vectorisation_.direction` (point), `a` and `b`
 
+## Pseudo-code of vectorisation function
 
 ~~~python
 if abs(direction.x) < abs(direction.y)//2:
@@ -22,7 +23,7 @@ if (direction.y > 0):
     direction.y = 1
 ~~~
 
-# abs function
+## abs function
 
 Takes `a` (signed values in two's complement).
 
