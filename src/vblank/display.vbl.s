@@ -184,9 +184,8 @@ ld (hl), a
 	bit 7, a                    ; "alive" bit
 	jp z, @dead
 	ld d, c                     ; saving OAM state
-	and %011110000
-	cp %00010000
-
+	and ENEMY_ID_MASK
+	cp  %00010000
 	jp z, @fly
 	; cp %00110000...
 	
