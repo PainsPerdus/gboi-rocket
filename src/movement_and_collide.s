@@ -60,9 +60,9 @@ move_and_collide:
 	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
 	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ld a, (hl)
 	ld (collision_.p.2.y), a
+	ld a, (hl)
+	ld (collision_.p.2.x), a
 ; \ set hitbox and position as parameter /
 
 ; / test collision \
@@ -126,9 +126,9 @@ move_and_collide:
 	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
 	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ld a, (hl)
 	ld (collision_.p.2.y), a
+	ld a, (hl)
+	ld (collision_.p.2.x), a
 ; \ set hitbox and position as parameter /
 
 ; / test collision \
@@ -185,9 +185,9 @@ move_and_collide:
 	and ENEMY_SIZE_MASK
 	ld (collision_.hitbox2), a
 	ldi a, (hl)
-	ld (collision_.p.2.x), a
-	ldi a, (hl)
 	ld (collision_.p.2.y), a
+	ldi a, (hl)
+	ld (collision_.p.2.x), a
 ; \ set hitbox and position as parameter /
 
 ; / test collision \
