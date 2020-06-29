@@ -1,19 +1,22 @@
 //// Vectorisation function \\\\
 
 Vectorisation:
-  push c
-  push d
-  push e
+  push bc
+  push de
 
   ;Vector's X-axis
-  ld a, X2
-  sub X1
-  ld b, a //Save it in b
+  ld a, (X1)
+  ld b, a
+  ld a, (X2)
+  sub b
+  ld b, a //Save X-axis's vector it in b
 
   ;Vector's Y-axis
-  ld a, Y2
-  sub Y1
-  ld c, a //Save it in c
+  ld a, (Y1)
+  ld c, a
+  ld a, (Y2)
+  sub c
+  ld c, a //Save Y-axis's vector it in c
 
   call pgcd //pgcd(a,b) -> give it in a
   ld e, a//save the pgcd in e ?
@@ -25,9 +28,8 @@ Vectorisation:
 
   ld a, d
 
-  pop e
-  pop d
-  pop c
+  pop de
+  pop bc
   ret
 \\\\ Vectorisation function ////
 
