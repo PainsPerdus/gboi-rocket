@@ -91,6 +91,7 @@ loop:
 ; \\\\ WAIT FOR VBLANK ////
 
 .INCLUDE "body.s"
+.INCLUDE "display.s"
 
 ; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
 	ld a,1
