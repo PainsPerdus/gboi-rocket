@@ -216,11 +216,11 @@ ld (display_.isaac.walk_timer),a
 ; // ISAAC SPRITES \\
 ; \\ ISAAC SPRITES //
 
-; // SETUP BULLET SPRITES \\
-	ld hl, OAM_ISAAC_BULLETS
-	ld b, OAM_ISAAC_BULLETS_SIZE+1
+; // SETUP ISAAC TEARS SPRITES \\
+	ld hl, OAM_ISAAC_TEARS
+	ld b, OAM_ISAAC_TEARS_SIZE+1
 	ld a,10 ;initial posX
-@loopSetupIsaacBullets
+@loopSetupIsaacTears
 	ld (hl), 50 ;posY
 	inc l
 	ld (hl), a
@@ -231,8 +231,8 @@ ld (display_.isaac.walk_timer),a
 	inc l
 	add 10 ;add to X pos
 	dec b
-	jp nz,@loopSetupIsaacBullets 
-; \\ SETUP BULLET SPRITES //
+	jp nz,@loopSetupIsaacTears 
+; \\ SETUP ISAAC TEARS SPRITES //
 
 .INCLUDE "init/display_test.init.s"
 

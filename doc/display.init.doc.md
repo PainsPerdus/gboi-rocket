@@ -82,12 +82,12 @@ There are 40 sprites in the OAM, each sprites take up 4 bytes, so we need to cle
 
 As we change the sprites values in OAM, we don't need to set them up here. All flags are set to $00 when we clear the OAM.
 
-### Setup Bullet Sprites
+### Setup Isaac Tears Sprites
 
-We setup the OAM bullet sprites.   
-There are OAM_ISAAC_BULLETS_SIZE bullets, and we start storing them at address OAM_ISAAC_BULLETS.   
+We setup the OAM tears sprites.   
+There are OAM_ISAAC_TEARS_SIZE bullets, and we start storing them at address OAM_ISAAC_TEARS.   
 Here is what we're going to do (hold on to your assembly)   
-We're going to reserve only OAM_ISAAC_BULLETS_SIZE sprites for the bullets. However, we want to display way more than that!  
+We're going to reserve only OAM_ISAAC_TEARS_SIZE sprites for the bullets. However, we want to display way more than that!  
 So during the HBlank interrupt, we're going to reuse those sprites and update the positions to show more sprites. Please see [display.s](display.doc.md) for more info. 
 
 ## Setup Bullet HBlank Opcode

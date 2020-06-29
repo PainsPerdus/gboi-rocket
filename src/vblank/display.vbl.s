@@ -168,6 +168,14 @@ ld (hl), a
 
 ; \\\ Recover time ///
 ; \\\\\ Isaac /////
+
+; ///// Tears \\\\\
+	ld bc, OAM_ISAAC_TEARS
+	ld hl, global_.isaac.tears ;Pointer to the start of the tears
+	ld a, (hl) ;tear posY
+
+
+; \\\\\ Tears /////
 ; \\\\\\ UPDATE SPRITES POSITION //////
 
 
