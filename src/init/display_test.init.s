@@ -6,7 +6,7 @@ display_test_init:
 @looptodisplayrocks:
 
 	ld a,(de)
-	cp %11000000				; test if the element is a living rock
+	cp ROCK_INFO		; test if the element is a living rock
 	jp nz, @ending_of_looptodisplayrocks
 
 	ld h,d

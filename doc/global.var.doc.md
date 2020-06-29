@@ -99,6 +99,14 @@ Content of struct "tear" :
 | n_isaac_tears | 10 | number max of issac'stears |
 | n_ennemy_tears | 10 | number max of ennemy's tears |
 
+Moreover, flag bits, masks and right shifts to apply to extract an info are given by the values : 
+ALIVE_FLAG, BOMB_FLAG
+BLOCKING_ID_MASK, BLOCKING_ID_RIGHT_SHIFT
+ENEMY_ID_MASK, ENEMY_ID_RIGHT_SHIFT
+OBJECT_ID_MASK, OBJECT_ID_RIGHT_SHIFT
+BLOCKING_SIZE_MASK, ENEMY_SIZE_MASK, OBJECT_SIZE_MASK
+SHOOT_FLAG, DMG_MASK
+
 # Global reserved memory:
 
 

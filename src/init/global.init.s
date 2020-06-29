@@ -3,29 +3,34 @@
 
 global_init:
 
+.DEFINE ROCK_INFO %11000000 ; alive, hurt by bombs, ID 0, size 0
+.DEFINE VOID_INFO %00001000	; not alive, not hurt by bombs, ID 1; size 0
+.DEFINE HWALL_INFO %10010010 ; alive, not hurt by bombs, ID 2, size 2
+.DEFINE VWALL_INFO %10011011 ; alive, not hurt by bombs, ID 3, size 3
+
 	ld hl,global_.blocking_inits
 
 @rock:
 ; ////// ROCK \\\\\\
-	ld a,%11000000	; alive, hurt by bombs, ID 0, size 0
+	ld a,ROCK_INFO
 	ldi (hl),a
 ; \\\\\\ ROCK //////
 
 @void:
 ; ////// VOID \\\\\\
-	ld a,%00001000	; not alive, not hurt by bombs, ID 1; size 0
+	ld a,
 	ldi (hl),a
 ; \\\\\\ VOID //////
 
 @hwall:
 ; ////// horizontal wall \\\\\\
-	ld a, %10010010 ; alive, not hurt by bombs, ID 2, size 2
+	ld a, HWALL_INFO
 	ldi (hl),a
 ; \\\\\\ horizontal wall //////
 
 @vwall:
 ; ////// vertical wall \\\\\\
-	ld a, %10011011 ; alive, not hurt by bombs, ID 3, size 3
+	ld a, VWALL_INFO
 	ldi (hl),a
 ; \\\\\\ vertical wall //////
 
@@ -88,11 +93,13 @@ global_init:
 	jp nz,@ennemy_tears_loop
 
 
+.DEFINE VOID_ENEMY_INFO %00000000 ; not alive, ID 0, size 0
+
 	ld hl, global_.enemy_inits
 
 @void_enemy:
 	; /// void enemy \\\
-	ld a, %00000000 ; not alive, ID 0, size 0
+	ld a, VOID_ENEMY_INFO
 	ldi (hl),a
 	xor a
 	ldi (hl), a ; no hp
@@ -117,11 +124,14 @@ global_init:
 	dec b
 	jp nz, @enemy_loop
 
+
+.DEFINE VOID_OBJECT_INFO %00000000 ; not alive, ID 0, size 0
+
 	ld hl, global_.object_inits
 
 @void_object:
 	; /// void object \\\
-	ld a, %00000000 ; not alive, ID 0, size 0
+	ld a, VOID_OBJECT_INFO
 	ldi (hl),a
 	xor a
 	ldi (hl), a
