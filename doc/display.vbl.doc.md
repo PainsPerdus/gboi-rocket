@@ -106,3 +106,22 @@ else {
 	ISAAC_MOUTH_PIXEL_2 = $01
 }
 ~~~
+
+#### Tears
+
+We show the first `OAM_ISAAC_TEARS_SIZE` first active tears listed in `global_.isaac_tears`  
+~~~C
+char d = n_isaac_tears+1
+char *hl = global_.isaac.tears //Pointer on struct array
+char *bc = OAM_ISAAC_TEARS //Pointer in OAM
+do {
+	if(*hl.Y != 0) {
+		(*bc).Y=(*hl).Y;
+		(*bc).X=(*hl).X;
+		bc++;
+		if(bc>End address of tears in OAM) {
+			break;
+		}
+	}
+	bc++;
+} while(--d!=0)

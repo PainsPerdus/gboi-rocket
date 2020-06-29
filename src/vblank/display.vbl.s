@@ -170,24 +170,10 @@ ld (hl), a
 ; \\\\\ Isaac /////
 
 ; ///// Tears \\\\\
-//TODO: temporary(-ish) code, opcode injection will go here
-/*	ld b,b	
-	ld d, n_isaac_tears+1
-	ld hl, global_.isaac_tears
-@testloop:
-	ld a,(hl) ; posY
-	inc hl ;posX
-	inc hl ;id
-	inc hl ;speed
-	inc hl ;next posY
-	dec d
-	jr nz, @testloop
-*/	
 
-
-
+	//Show the OAM_ISAAC_TEARS_SIZE first active tears
 	ld b,b
-	ld d, n_isaac_tears+1 ;loop counter
+	ld d, n_isaac_tears ;loop counter
 	ld bc, OAM_ISAAC_TEARS ;Pointer to the start of the tears in OAM
 	ld hl, global_.isaac_tears ;Pointer to the start of the tears
 @loopUpdateTears: //do {
@@ -198,16 +184,19 @@ ld (hl), a
 	inc c
 	ld a, (hl) ;tear posX
 	ld (bc), a ;tear pos X in OAM
-	inc c ;oam tile pattern number
-	inc c ;oam flags
+	ld a,c
+	cp OAM_ISAAC_TEARS-$FE00+4*(OAM_ISAAC_TEARS_SIZE-1)+1 ;check if c is last tear sprite pos X in OAM
+	jr z, @endTears
+	inc c
+	inc c
 	inc c ;next tear address in OAM
 @disabledTear:
 	//Get pointer to next tear Y position in hl
-	;inc hl ;tear id
 	inc hl ;tear speed
 	inc hl ;next tear Y
 	dec d ;loop counter --
 	jr nz, @loopUpdateTears //} while((--d)!=0) 
+@endTears:
 
 ; \\\\\ Tears /////
 ; \\\\\\ UPDATE SPRITES POSITION //////

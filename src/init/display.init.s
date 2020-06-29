@@ -218,7 +218,7 @@ ld (display_.isaac.walk_timer),a
 
 ; // SETUP ISAAC TEARS SPRITES \\
 	ld hl, OAM_ISAAC_TEARS
-	ld b, OAM_ISAAC_TEARS_SIZE+1
+	ld b, OAM_ISAAC_TEARS_SIZE
 	ld a,10 ;initial posX
 @loopSetupIsaacTears
 	ld (hl), 50 ;posY

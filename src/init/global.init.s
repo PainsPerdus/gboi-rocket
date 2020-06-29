@@ -117,7 +117,7 @@ global_init:
 	xor a
 	ldi (hl),a	; issac_tear_pointer = 0
 	ld hl, global_.isaac_tears
-	ld b,n_isaac_tears+1
+	ld b,n_isaac_tears
 @isaac_tears_loop:
 	ld a,30
 	ldi (hl),a ; x = 30
