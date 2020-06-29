@@ -1,18 +1,11 @@
+#vectorisation
+
 Takes `vectorisation_.p.1` and `vectorisation_.p.2` as arguments (points).
 
 Return with `a` the general direction of p2-p1. (a[7:4]=dx, a[3:0]=dy, signed value).
 
 modifies `vectorisation_.direction` (point), `a` and `b`
 
-
-~~~
-;Vectorisation
-/* @requires X1 Y1 unsigned coordinates of position1
-             X2 Y2 unsigned coordinates of position2
-   @ensures a pseudo-unitary vector from position1 to position2
-             X coordinate of the vector in a
-             Y coordinate of the vector in b*/
-~~~
 
 ~~~python
 if abs(direction.x) < abs(direction.y)//2:
@@ -29,8 +22,10 @@ if (direction.y > 0):
     direction.y = 1
 ~~~
 
-~~~
-;@abs
-/* @ensures two's complement value in b
-   @ensures absolute value of a returned in a/*
-~~~
+#abs
+
+Takes `a` (signed values in two's complement).
+
+Return with `a` the absolute value
+
+modifies `a`
