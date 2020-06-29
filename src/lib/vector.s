@@ -23,6 +23,7 @@ Vectorisation:
   ld b, c
   call roundDivision// b = b/a
 
+  ld a, d
 
   pop e
   pop d
@@ -32,8 +33,7 @@ Vectorisation:
 
 //// Integer Round Division \\\\
 roundDivision:
-  push d
-  push e
+  push de
 
   ld e, a
   ld a, b
@@ -46,16 +46,14 @@ roundDivision:
 
   ld b, d ;b = b/a
 
-  pop e
-  pop d
+  pop de
   ret
 \\\\ Integer Round Division ////
 
 //// PGCD calculator \\\\
 ;Here I use the substraction's method to calculate the pgcd
 pgcd:
-  push d
-  push e
+  push de
   ld e, a //save a
   ld a, 0
   @pgcdCircle:
@@ -79,7 +77,6 @@ pgcd:
   //take the last non-zero substract
   ld a, d
 
-  pop e
-  pop d
+  pop de
   ret
   \\\\ PGCD calculator ////
