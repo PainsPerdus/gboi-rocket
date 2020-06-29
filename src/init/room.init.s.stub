@@ -45,34 +45,34 @@ ld hl, global_.blockings
 ; // init top wall
     ld a, (global_.blocking_inits.3.info)
     ldi (hl), a
-    ld a, 8
-    ldi (hl), a ; x = 8
     ld a, 16
     ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
 
 ; // init bottom wall
     ld a, (global_.blocking_inits.3.info)
     ldi (hl), a
-    ld a, 8
-    ldi (hl), a ; x = 8
     ld a, 144
     ldi (hl), a ; y = 144
+    ld a, 8
+    ldi (hl), a ; x = 8
 
 ; // init left wall
     ld a, (global_.blocking_inits.4.info)
     ldi (hl), a
-    ld a, 8
-    ldi (hl), a ; x = 8
     ld a, 16
     ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
 
 ; // init right wall
     ld a, (global_.blocking_inits.4.info)
     ldi (hl), a ; 1 hp
-    ld a, 160-8
-    ldi (hl), a ; x = 160-8
     ld a, 16
     ldi (hl), a ; y = 16
+    ld a, 160-8
+    ldi (hl), a ; x = 160-8
 
 initEnemies:
 ld hl, global_.enemies
