@@ -133,6 +133,7 @@ if (!isaac.recover) {
           isaac.hp -= enemies[c].dmg and DMG_MASK
           if (isaac.hp < 0)
             // isaac dies
+          break;
       }
     }
 } else
