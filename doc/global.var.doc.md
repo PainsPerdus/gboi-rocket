@@ -85,10 +85,9 @@ Content of struct "tear" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
-| y | 1 byte | position of the tear |
-| x | 1 byte | position of the tear |
-| id | 1 byte | 1 flag for "does it need to be recycled" (pos 7), 1 flag for "is it in the recycling chain" (pos 6), 1 flag for "is it the first in the recycling chain" (pos 5), 5 bits for OAM ID (pos 4:0) |
-| speed | 1 byte | 4 bits for x speed (pos 7:4) and 4 bits for (pos 3:0) |
+| x | 1 byte | abscissa of the tear |
+| y | 1 byte | ordinate of the tear |
+| direction | 1 byte | 2 x 3 bits (x (pos 5:3) and y (pos 2:0)) + 1 flag to know if the tear is alive (pos 7) + 1 flag to know if the tear is upgraded (pos 6)|
 
 # Defines
 
