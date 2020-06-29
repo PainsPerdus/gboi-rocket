@@ -171,7 +171,13 @@ ld (hl), a
 
 ; ///// Tears \\\\\
 //TODO: temporary(-ish) code, opcode injection will go here
+ld b,b
+ld bc, OAM_ISAAC_TEARS
+ld a, (global_.isaac.tears)
+ld (bc), a
+/*
 
+	ld b,b
 	ld d, n_isaac_tears+1 ;loop counter
 @loopUpdateTears: //do {
 
@@ -192,11 +198,7 @@ ld (hl), a
 	inc hl ;next tear Y
 	dec d ;loop counter --
 	jr nz, @loopUpdateTears //} while((--d)!=0) 
-
-
-	
-	
-
+*/
 
 ; \\\\\ Tears /////
 ; \\\\\\ UPDATE SPRITES POSITION //////
