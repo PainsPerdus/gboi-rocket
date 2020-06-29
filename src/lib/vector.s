@@ -11,7 +11,6 @@ Vectorisation:
   sub b
   ld (dx), a //Save X-axis's vector it in dx
 
-
   ;Vector's Y-axis
   ld a, (Y1)
   ld c, a
@@ -29,19 +28,21 @@ Vectorisation:
   sr1 b
   sub b
   bit 7, a
-  jp nz, @uncheckedCondition1
-  ld a, %00000000
+  jr nz, @uncheckedCondition1
+  ld a, 0
   ld (dx), a
-  @uncheckedCondition1:
 
-  ;abs(direction.x) < abs(direction.y)//2:
-  ld a, e
-  ld b, d
+@uncheckedCondition1:
+  ;abs(direction.y) < abs(direction.x)//2:
+  ld a, (dx)
+  call abs
+  ld b, a
+  ld a, (dy)
   sr1 b
   sub b
   bit 7, a
   jp nz, @uncheckedCondition2
-  ld a, %00000000
+  ld a, 0
   ld (dy), a
   @uncheckedCondition2:
 
@@ -53,32 +54,31 @@ Vectorisation:
   ld a, %11110000
   ld (dx), a
 
-  jp @uncheckedCondition4
+  jr @uncheckedCondition4
 
-  @uncheckedCondition3:
-  sub 1
-  bit 7, a
-  jp z, @uncheckedCondition4
+@uncheckedCondition3:
+  and a
+  jr z, @uncheckedCondition4
 
   ld a, %00010000
   ld (dx), a
 
-  @uncheckedCondition4:
+@uncheckedCondition4:
 
   ;Condition on y
   ld a, (dy)
   bit 7, a
 
-  jp nz, @uncheckedCondition5
+  jr nz, @uncheckedCondition5
   ld a, %00001111
   ld (dy), a
-  jp @uncheckedCondition6
+  jr @uncheckedCondition6
 
-  @uncheckedCondition5:
-  sub 1
-  bit 7, a
+@uncheckedCondition5:
 
-  jp z, @uncheckedCondition6
+  and a
+
+  jr z, @uncheckedCondition6
 
   ld a, %00000001
   ld (dy), a
@@ -98,8 +98,7 @@ Vectorisation:
   cpl
   add 1
 
-  @bpositive:
+@bpositive:
   ret
-
 
 \\\\ Albsolute value function ////
