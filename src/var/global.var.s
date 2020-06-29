@@ -87,9 +87,9 @@
 .ENDST
 
 .STRUCT tear
-	x DB
 	y DB
-	direction DB
+	x DB
+	id DB
 .ENDST
 
 .STRUCT global_var
