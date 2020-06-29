@@ -1,22 +1,12 @@
 display_test_init:
 
-// Add rocks
-	ld de, global_.elements
-	ld c, n_elements
+; // Add rocks
+	ld de, global_.blockings
+	ld c, n_blockings
 @looptodisplayrocks:
 
 	ld a,(de)
-	and a					; test if the element has hp
-	jp z, @ending_of_looptodisplayrocks
-
-	ld h,d
-	ld l,e
-	inc hl
-	inc hl
-	inc hl
-	ld a, (hl)
-	ld hl, global_.sheets
-	cp l
+	cp ROCK_INFO		; test if the element is a living rock
 	jp nz, @ending_of_looptodisplayrocks
 
 	ld h,d
@@ -27,10 +17,9 @@ display_test_init:
 	ld l,ROCKS_SPRITESHEET ;start tile id
 	call displayBackgroundTile
 @ending_of_looptodisplayrocks:
-	ld hl, $0007
-	add hl, de
-	ld d, h
-	ld e, l
+	inc de
+	inc de
+	inc de
 	dec c
 	jr nz, @looptodisplayrocks
 

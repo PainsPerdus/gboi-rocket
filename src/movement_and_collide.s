@@ -26,8 +26,8 @@ move_and_collide:
 ;   \\\\ collision Y  init ////
 
 ;   //// collision Y  loop \\\\
-	ld de, global_.elements
-	ld c, n_elements
+	ld de, global_.blockings
+	ld c, n_blockings
 	@@loop:
 ; /// loop start \\\
 	ld h,d
@@ -36,21 +36,18 @@ move_and_collide:
 ; / set position as parameter \
 	ldi a, (hl)
 	and a
-	jr z,@@noCollision ; check if hp != 0
+	bit ALIVE_FLAG, a
+	jr z,@@noCollision ; check if element is alive
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
-	ldi a, (hl)
+	ldd a, (hl)
 	ld (collision_.p.2.y), a
+	dec hl
 ; \ set position as parameter /
 
 ; / set hitbox as parameter \
 	ld a, (hl)
-	ld hl, global_.sheets
-	ld l,a
-	ld a, (hl)	; a = (*element.sheet).size)
-	bit $7,a
-	jp z, @@ending_loop	; if non block : continue
-	and %00000111
+	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
 ; \ set hitbox as parameter /
 
@@ -70,10 +67,9 @@ move_and_collide:
 ; \ test collision /
 
 @@ending_loop:
-	ld hl, $0007
-	add hl, de
-	ld d,h
-	ld e,l
+	inc de
+	inc de
+	inc de
 	dec c
 	jr nz, @@loop
 ;   \\\\ collision Y  loop ////
@@ -101,8 +97,8 @@ move_and_collide:
 ;   \\\\ collision X  init ////
 
 ;   //// collision X  loop \\\\
-	ld de, global_.elements
-	ld c, n_elements
+	ld de, global_.blockings
+	ld c, n_blockings
 	@@loop:
 ; /// loop start \\\
 	ld h,d
@@ -111,21 +107,18 @@ move_and_collide:
 ; / set position as parameter \
 	ldi a, (hl)
 	and a
-	jr z,@@noCollision ; check if hp != 0
+	bit ALIVE_FLAG, a
+	jr z,@@noCollision ; check if element is alive
 	ldi a, (hl)
 	ld (collision_.p.2.x), a
-	ldi a, (hl)
+	ldd a, (hl)
 	ld (collision_.p.2.y), a
+	dec hl
 ; \ set position as parameter /
 
 ; / set hitbox as parameter \
 	ld a, (hl)
-	ld hl, global_.sheets
-	ld l,a
-	ld a, (hl)	; a = (*element.sheet).size)
-	bit $7,a
-	jr z, @@ending_loop	; if non block : continue
-	and %00000111
+	and BLOCKING_SIZE_MASK
 	ld (collision_.hitbox2), a
 ; \ set hitbox as parameter /
 
@@ -145,10 +138,9 @@ move_and_collide:
 ; \ test collision /
 
 @@ending_loop:
-	ld hl, $0007
-	add hl, de
-	ld d,h
-	ld e,l
+	inc de
+	inc de
+	inc de
 	dec c
 	jr nz, @@loop
 ;   \\\\ collision X  loop ////
