@@ -98,6 +98,21 @@ The tricky part is that we need to recycle possibly different sprites at each li
 
 Here we setup the basic code for the jump (the opcodes that won't change)
 
+~~~arm
+push hl        //16
+jp REC         //16
+
+ld hl, NNnn    //12
+ld (hl), yy    //12
+ld l, nn+1     //8
+ld (hl), xx    //12
+
+//TOTAL : 76 cycles
+; after hblank
+pop hl
+reti
+~~~
+
 ## Init Color Palettes
 
 We initialize a basic color palette (in same order as colors) and set it on background and sprite.
