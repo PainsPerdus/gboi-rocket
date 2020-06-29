@@ -13,7 +13,7 @@ initHitBoxes:
     ld hl, global_.hitboxes_width
     ld a, $08
     ldi (hl), a
-	ld a, $10
+	ld a, $00
     ldi (hl), a
     ld a, $08
     ldi (hl), a
@@ -30,8 +30,9 @@ initHitBoxes:
     ld a, $08
     ldi (hl), a
     ldi (hl), a
-	ld a, $10
+	ld a, $00
     ldi (hl), a
+	ld a, $10
     ldi (hl), a
 	ld a, $08
 	ldi (hl), a
