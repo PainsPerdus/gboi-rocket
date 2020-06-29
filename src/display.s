@@ -1,5 +1,15 @@
 display:
 ; ////// UPDATE ANIMATION FRAMES AND TIMERS \\\\\\
+
+//Do pascal's useless stupid stuff
+xor a
+ld (display_.isaac.shoot_timer), a ; TODO hard coded
+; // Update fly animation frame \\
+ld a, (display_.fly.frame)
+inc a
+ld (display_.fly.frame), a
+; \\ Update fly animation frame //
+
 ; ///// Isaac \\\\\
         ld a, (global_.isaac.speed)
         and a ; update Z flag with value of a

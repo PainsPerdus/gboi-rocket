@@ -1,10 +1,5 @@
 ; ########## START DISPLAY CRITICAL SECTION ##########
 display_vbl:
-; ////// INIT DIRECTION \\\\\\
-
-xor a
-ld (display_.isaac.shoot_timer), a ; TODO hard coded
-
 
 ; ////// UPDATE SPRITES POSITION \\\\\\
 
@@ -199,6 +194,67 @@ ld (hl), a
 @endTears:
 
 ; \\\\\ Tears /////
+
+; //// ENNEMIES \\\\
+
+
+	ld e, n_enemies      ; loop iterator
+	ld hl, global_.enemies      ; address of first ennemy strucs
+	ld bc, OAM_ENNEMIES          ; OAM address of the first ennemy
+@next_ennemy:
+	ld a, (hl)                  ; charge info byte
+	bit 7, a                    ; "alive" bit
+	jp z, @dead
+	ld d, c                     ; saving OAM state
+	and ENEMY_ID_MASK
+	cp  %00010000
+	jp z, @fly
+	; cp %00110000...
+	
+	; MORE ENNEMIES OPTIONS HERE
+
+@fly:
+	inc l
+	ld a, (hl)
+	ld (bc), a
+	inc l
+	inc c
+	ld a, (hl)
+	ld (bc), a
+	inc c
+	ld a, FLY_SPRITESHEET
+	push hl
+	ld h, a
+	ld a, (display_.fly.frame)
+	and %00000010
+	sra a
+	add h
+	pop hl
+	ld (bc), a
+	inc c
+	inc c
+
+	jp @ennemy_updated
+	
+	
+	;...
+	; MORE ENNEMIES LABELS HERE
+	
+@dead:
+	inc hl
+	inc hl
+
+@ennemy_updated:
+	inc hl
+	inc hl
+	inc hl
+	inc hl
+	
+	dec e
+	jp nz, @next_ennemy
+
+; \\\\ ENNEMIES ////
+
 ; \\\\\\ UPDATE SPRITES POSITION //////
 
 
