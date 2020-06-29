@@ -6,6 +6,7 @@
 .INCLUDE "var/display.var.s"
 .INCLUDE "var/sprite.var.s"
 .INCLUDE "var/collision.var.s"
+.INCLUDE "var/rng.var.s"
 
 .ENUM $C000
 	global_ INSTANCEOF global_var
@@ -57,6 +58,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "init/global.init.s"
 .INCLUDE "init/room.init.s.stub"
 .INCLUDE "init/display.init.s"
+.INCLUDE "init/rng.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 ; //// VBlank_lock \\\\
 	xor a
@@ -130,4 +132,5 @@ endVBlank:
 .INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/CollisionSolverIsaac.lib.s"
 .INCLUDE "lib/collision.lib.s"
+.INCLUDE "lib/rng.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
