@@ -26,11 +26,11 @@ display_test_init:
 ; // Add hurting rock
 	ld de, global_.enemies
 	ld c, n_enemies
-@looptodisplayrocks:
+@looptodisplayhurtingrocks:
 
 	ld a,(de)
 	cp HURTING_ROCK_INFO		; test if the element is a living hurting rock
-	jp nz, @ending_of_looptodisplayrocks
+	jp nz, @ending_of_looptodisplayhurtingrocks
 
 	ld h,d
 	ld l,e
@@ -39,13 +39,13 @@ display_test_init:
 	ld b, (hl) ;y position in pixels (must be a multiple of 8)
 	ld l,ROCKS_SPRITESHEET ;start tile id
 	call displayBackgroundTile
-@ending_of_looptodisplayrocks:
+@ending_of_looptodisplayhurtingrocks:
 	ld hl, 6
 	add hl, de
 	ld d, h
 	ld e, l
 	dec c
-	jr nz, @looptodisplayrocks
+	jr nz, @looptodisplayhurtingrocks
 
 ; ld l,ROCKS_SPRITESHEET+8 ;start tile id
 ; ld a, 7*8 ;X position in pixels (must be a multiple of 8)

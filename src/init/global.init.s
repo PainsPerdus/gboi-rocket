@@ -114,7 +114,7 @@ global_init:
 	ldi (hl), a
 	ld a, 1
 	ldi (hl), a
-	ld a, 10
+	ld a, 2
 	ldi (hl), a
 	xor a
 	ld (global_.speeds + 1), a
