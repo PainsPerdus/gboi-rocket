@@ -94,6 +94,7 @@ global_init:
 
 
 .DEFINE VOID_ENEMY_INFO %00000000 ; not alive, ID 0, size 0
+.DEFINE HURTING_ROCK_INFO %10001000 ; alive, ID 1, size 0
 
 	ld hl, global_.enemy_inits
 
@@ -106,6 +107,18 @@ global_init:
 	ldi (hl), a ; void enemy doesn't exist, it can't hurt you
 	ld (global_.speeds), a ; no speed
 	; \\\ void enemy ///
+
+@hurting_rock:
+	; /// hurting rock \\\
+	ld a, HURTING_ROCK_INFO
+	ldi (hl), a
+	ld a, 1
+	ldi (hl), a
+	ld a, 2
+	ldi (hl), a
+	xor a
+	ld (global_.speeds + 1), a
+	; \\\ hurting rock ///
 
 	ld hl, global_.enemies
 	ld b, n_enemies
