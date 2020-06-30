@@ -2,25 +2,7 @@
 .DEFINE ISAAC_FEET_HITBOX 4
 .DEFINE RECOVERY_TIME 30
 
-test_vectorisation:
-	ld a,(global_.isaac.speed)
-	and a
-	jp nz,move_and_collide
-
-	ld a,(global_.isaac.x)
-	ld (vectorisation_.p.1.x),a
-	ld a,(global_.isaac.y)
-	ld (vectorisation_.p.1.y),a
-	ld a,$50
-	ld (vectorisation_.p.2.x),a
-	ld a,$50
-	ld (vectorisation_.p.2.y),a
-
-	call vectorisation
-	ld (global_.isaac.speed),a
-
 move_and_collide:
-
 @y:
 ; //////// MOVE ISAAC  Y \\\\\\\
 	ld a,(global_.isaac.speed)
