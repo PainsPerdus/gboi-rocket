@@ -49,7 +49,7 @@ RL = [(hline, OAM_id, newX, newY), ... ] //Recycling List
 char OAM_id = 0; //Current free OAM_id for initialization
 
 //TODO : optimize hline start and end. 
-for(char hline = 16*4; hline <= 144-16-5; hline++) { //We iterate over all screen lines, and look what sprite to recycle at each line
+for(char hline = 16+4; hline <= 144-16-5; hline++) { //We iterate over all screen lines, and look what sprite to recycle at each line
 
 	/* First, we look for a source bullet to recycle.
 	   We look from the top of the screen to hline-4. */  
@@ -58,7 +58,7 @@ for(char hline = 16*4; hline <= 144-16-5; hline++) { //We iterate over all scree
 	for(char j=1; j<len(BL); j++) {
 		if(BL[j].posY >= BL[min_index.posY]) //We compute a minimum, this tests if posY is lower than what we currently found
 			continue;
-		if(BL(j).posY == 0) //If posY is 0, it means the bullet is not used (out of screen)
+		if(BL[j].posY == 0) //If posY is 0, it means the bullet is not used (out of screen)
 			continue;
 		if(BL[j].posY-16 > hline-4) //The bullet must be above the hline-4 to be able to start recycling it. The +16 offset is due to GB screen offset. 
 			continue;

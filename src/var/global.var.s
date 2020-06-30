@@ -87,8 +87,8 @@
 .ENDST
 
 .STRUCT tear
-	x DB
 	y DB
+	x DB
 	id DB
 	speed DB
 	ttl DB

@@ -8,6 +8,7 @@
 
 .STRUCT blackmagic_var
 	OAM_id_counter DB
+	RL_counter DB
 	source DB
 	target DB
 	RL INSTANCEOF RL_blackmagic n_isaac_tears*2
