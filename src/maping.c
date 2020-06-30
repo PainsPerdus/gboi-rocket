@@ -273,7 +273,7 @@ void addRoomsToList(){//This function load the visitable rooms in the list list,
       //Set coordinates in first byte
       unsigned char x = i % width;
       x++;//to start at 1 and not 0
-      x*=16;//to put in higher wieght bits
+      x = x << 4;//to put in higher wieght bits
       unsigned char y = i / width;
       y++;//to start at 1 and not 0
       list[compteur*3] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
@@ -323,7 +323,7 @@ void display(){//to show the map of rooms, each room is represented by a byte
 void displayList(){
   for (int k = 0 ; k < openedRooms ; k++){
     for (int l = 0 ; l < 3 ; l++){
-      binaryDisplay(list[k * width + l]);
+      binaryDisplay(list[k * 3 + l]);
       printf("    ");
     }
     printf("\n");
