@@ -5,7 +5,7 @@ enemys_turn:
 	ld h,d
 	ld l,e
 	call AI
-	ld hl,$06
+	ld hl,_sizeof_enemy
 	add hl,de
 	ld d,h
 	ld e,l
