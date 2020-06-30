@@ -13,3 +13,30 @@
 |Si | 8 | 11 | 494.59013984520743	| 1783 | 0b11011110111 |
 |Do	| 9 | 12 | 524.0 | 1798 | 0b11100000110 |
 |Mi | A | 16 | 660.1986301449135 | 1849	| 0b11100111001 |
+
+## Period
+| Rythm | Value | Frac | Bynary period |
+| ----- | ----- | ---- | ------------- |
+| Croche | 0 | 1 | 0b10101001000 |
+| Croche pointee | 1 | 1.5 | 0b11111101100 |
+| Double croche | 2 | 0.5 | 0b1010100100 |
+| Triple croche | 3 | 0.25 | 0b101010010 |
+| Noire | 4 | 2 | 0b101010001111 |
+| Noire pointee | 5 | 3 | 0b111111010111 |
+
+~~~ Python
+import math
+
+def note(ind):
+    do3 = 262
+    multip = pow(2, ind/12)
+    freq = 262 * multip
+    print(freq)
+    x = 2048 - (131072/freq)
+    print(round(x))
+    return bin(round(x))
+
+def duree(frac):
+    t = 4096 * 0.33 * frac
+    return bin(round(t))
+~~~
