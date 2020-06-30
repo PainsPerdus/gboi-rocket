@@ -59,7 +59,7 @@ start:
 ; \\\\\\\ DISABLE INTERRUPTIONS ///////
 
 ; /////// TURN THE SCREEN AND SOUND OFF \\\\\\\
-	ld sp,$FFF4     ; set the StackPointer
+	ld sp,$E000     ; set the StackPointer
 	xor a						; a=0
 	ldh ($26),a     ; ($FF26) = 0, turn the sound off
 waitvlb: 					; wait for the line 144 to be refreshed:
@@ -155,4 +155,5 @@ endVBlank:
 .INCLUDE "lib/collision.lib.s"
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
+.INCLUDE "lib/ai.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
