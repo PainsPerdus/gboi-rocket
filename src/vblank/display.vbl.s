@@ -204,9 +204,8 @@ ld (hl), a
 	ld bc, OAM_ENNEMIES          ; OAM address of the first ennemy
 @next_ennemy:
 	ldi a, (hl)                  ; charge info byte
-	bit 7, a                    ; "alive" bit
+	bit ALIVE_FLAG, a            ; "alive" bit
 	jp z, @dead
-	ld d, c                     ; saving OAM state
 	and ENEMY_ID_MASK
 	cp  %00010000
 	jp z, @fly
@@ -241,18 +240,25 @@ ld (hl), a
 	; MORE ENNEMIES LABELS HERE
 
 @dead:
-	inc hl
-
-@ennemy_updated:
-	inc hl
-	inc hl
-	inc hl
-	inc hl
-	inc hl
-	inc hl
+	push bc				; 48 cycles, less than 7 inc hl...
+	ld bc,_sizeof_enemy-1
+	add hl,bc
+	pop bc
 
 	dec e
 	jp nz, @next_ennemy
+	jp @end_loop
+
+@ennemy_updated:
+	push bc				; 48 cycles, same as 6 inc hl...
+	ld bc,_sizeof_enemy-2
+	add hl,bc
+	pop bc
+
+	dec e
+	jp nz, @next_ennemy
+
+@end_loop:
 
 ; \\\\ ENNEMIES ////
 
