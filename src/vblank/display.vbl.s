@@ -167,7 +167,6 @@ ld (hl), a
 ; ///// Tears \\\\\
 
 	//Show the OAM_ISAAC_TEARS_SIZE first active tears
-	ld b,b
 	ld d, n_isaac_tears ;loop counter
 	ld bc, OAM_ISAAC_TEARS ;Pointer to the start of the tears in OAM
 	ld hl, global_.isaac_tears ;Pointer to the start of the tears
@@ -187,8 +186,10 @@ ld (hl), a
 	inc c ;next tear address in OAM
 @disabledTear:
 	//Get pointer to next tear Y position in hl
-	inc hl ;tear speed
-	inc hl ;next tear Y
+	ld a,d ;Save d
+	ld de,_sizeof_tear-1
+	add hl, de ;Next tear Y
+	ld d,a ;Restore d
 	dec d ;loop counter --
 	jr nz, @loopUpdateTears //} while((--d)!=0) 
 @endTears:
