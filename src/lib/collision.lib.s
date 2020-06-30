@@ -85,7 +85,7 @@ collision_obstacles:
   push bc
 ;   //// collision Y  loop \\\\
 	ld de, global_.blockings
-	ld c, n_blockings+1
+	ld c, n_blockings
 	@@loop:
 ; /// loop start \\\
 	ld h,d

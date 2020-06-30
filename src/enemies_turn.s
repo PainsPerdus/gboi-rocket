@@ -1,6 +1,6 @@
 enemys_turn:
 	ld de,global_.enemies
-	ld c,n_enemies+1
+	ld c,n_enemies
 @loop:
 	ld h,d
 	ld l,e
