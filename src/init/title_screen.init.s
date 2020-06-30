@@ -2,18 +2,28 @@ title_screen:
 
 ; ///// Copy Tiles \\\\\
 	
-; ///// BANK 1 \\\\\
+; ///// BLOCK 0 \\\\\
+ld bc,_sizeof_IntroScreenTiles0
+ld de,IntroScreenTiles0
+ld hl,$8000 ;Block 0
+@loopTiles0: ; while bc != 0
+    ld a,(de)
+    ldi (hl),a 
+    inc de         
+    dec bc 
+    ld a,b
+    or c
+    jr nz,@loopTiles0  ; end while
+; \\\\\ BLOCK 0 /////
 
-; \\\\\ BANK 1 /////
 
+; ///// BLOCK 1 \\\\\
 
-; ///// BANK 2 \\\\\
+; \\\\\ BLOCK 1 /////
 
-; \\\\\ BANK 2 /////
+; ///// BLOCK 2 \\\\\
 
-; ///// BANK 3 \\\\\
-
-; \\\\\ BANK 3 /////
+; \\\\\ BLOCK 2 /////
 
     ld bc,(BACKGROUND_TILES_NUMBER+1)*16
     ld de,BackgroundTiles

@@ -15,3 +15,4 @@ IntroScreenTiles1:
 .INCLUDE "sprites/intro_screen_1.sprite"
 IntroScreenTiles2:
 .INCLUDE "sprites/intro_screen_2.sprite"
+IntroScreenEnd:
