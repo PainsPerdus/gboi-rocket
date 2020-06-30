@@ -21,10 +21,14 @@ level_gen_init:
     dec b
     jr nz, @mult_loop ; for (b=height-1; b > 0; b--) a += l
     ; a = width * height
+    ; initialize map
     ld b, a
     xor a
     ld HL, level_gen_.map
 @init_map_loop:
+    ldi (HL), a
+    dec b
+    jr nz, @init_map_loop
     
 
 
