@@ -203,7 +203,7 @@ ld (hl), a
 	ld hl, global_.enemies      ; address of first ennemy strucs
 	ld bc, OAM_ENNEMIES          ; OAM address of the first ennemy
 @next_ennemy:
-	ld a, (hl)                  ; charge info byte
+	ldi a, (hl)                  ; charge info byte
 	bit 7, a                    ; "alive" bit
 	jp z, @dead
 	ld d, c                     ; saving OAM state
@@ -215,7 +215,6 @@ ld (hl), a
 	; MORE ENNEMIES OPTIONS HERE
 
 @fly:
-	inc l
 	ld a, (hl)
 	ld (bc), a
 	inc l
@@ -242,7 +241,6 @@ ld (hl), a
 	; MORE ENNEMIES LABELS HERE
 
 @dead:
-	inc hl
 	inc hl
 
 @ennemy_updated:
