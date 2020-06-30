@@ -1,6 +1,5 @@
 ; ########## START DISPLAY CRITICAL SECTION ##########
 display_vbl:
-ld b,b
 
 ; ////// UPDATE SPRITES POSITION \\\\\\
 
@@ -295,6 +294,5 @@ ld (global_.isaac.hp),a
 ; \\\\ ENNEMIES ////
 
 ; \\\\\\ UPDATE SPRITES POSITION //////
-ld b,b
 
 ; ########## END DISPLAY CRITICAL SECTION ##########

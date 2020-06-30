@@ -145,12 +145,15 @@ char *hp = (global_.isaac.hp) // in a
 sprite ++        // passing to full heart sprite
 while (hp != 0 ) //draw full and half hearts
 {
+	if(hl==0) {
+		break;
+	}
 	hp --;
-	if (hp ==0) ;
+	if (hp == 0) ;
 	{
-	sprite ++          // passing to half heart sprite
-	set(sprite);
-	break;              // ending loop
+		sprite ++          // passing to half heart sprite
+		set(sprite);
+		break;              // ending loop
 	}
 	hp --;
 	set(sprite);
