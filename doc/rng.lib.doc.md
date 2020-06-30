@@ -1,6 +1,9 @@
 # Description of rng.lib.s
 
 Modifies : A, B, H
+
+Returns : A : pseudo-randomly generated value
+
 No arguments
 
 This uses a xorshift algorithm, more precisely, one based on the c version of this one : https://github.com/edrosten/8bit_rng .
