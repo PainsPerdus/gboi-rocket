@@ -86,15 +86,15 @@ load_map:
     jp z, @end_first
     ; \ case floor /
 
-;     ; / case pit \
-;     ld a, d
-;     cp $01
-;     jr nz, @@not_pit
-;     ld e, PIT_INFO
-;.INCLUDE "lib/load_blocking.lib.s"
-;     jp @end_first
-;     ; \ case pit /
-; @@not_pit:
+    ; / case pit \
+    ld a, d
+    cp $01
+    jr nz, @@not_pit
+    ld e, PIT_INFO
+.INCLUDE "lib/load_blocking.lib.s"
+    jp @end_first
+    ; \ case pit /
+@@not_pit:
 
     ; / case rock \
     ld a, d
@@ -144,15 +144,15 @@ load_map:
     jp z, @end_second
     ; \ case floor /
 
-;     ; / case pit \
-;     ld a, d
-;     cp $01
-;     jr nz, @@not_pit
-;     ld e, PIT_INFO
-;.INCLUDE "lib/load_blocking.lib.s"
-;     jp @end_second
-;     ; \ case pit /
-; @@not_pit:
+    ; / case pit \
+    ld a, d
+    cp $01
+    jr nz, @@not_pit
+    ld e, PIT_INFO
+.INCLUDE "lib/load_blocking.lib.s"
+    jp @end_second
+    ; \ case pit /
+@@not_pit:
 
     ; / case rock \
     ld a, d
