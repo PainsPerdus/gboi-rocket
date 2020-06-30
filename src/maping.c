@@ -82,55 +82,54 @@ int main(int argc, char const *argv[]) {
   start = j * width + i;
   map[start] = 0b00001100;//Put the start room as a start and visited room
 
-  //Boss's room with a Way of a length between width/3 and height
-
-  unsigned char diff = height - width/3 ;
+  //Boss's room with a Way of a length between width - 2 and width + 2
+  //width + 1 - 2^2
+  unsigned char diff = 4;
   randomNumber();
-  unsigned char c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
-  c = c + 1 + width/3;
+  unsigned char c = a % diff  ;//generate a random length of the way between the limits mentionned above
+  c = width - c + 2;
 
   createWay(c);
 
   map[current] = map[current] & 0b11111000;
   map[current] = map[current] | 0b00000010;//Put the final room as the boss's room
+  boss = current;
 
   for (int i = 0; i < height*width; i++){
-    if (i != start){
+    if ((i != start)&&(i != boss)){
       map[i] = map[i] & 0b11110111; //put back all room as unvisited rooms except the start room
     }
   }
 
-  //Item's room with way of a length between width/6 and height/2
-  diff = height/2 - width/6 ;
+  //Item's room with way of a length between width - 4 and width
   randomNumber();
-  c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
-  c = c + width/6;
+  c = a % diff ;//generate a random length of the way between the limits mentionned above
+  c = width - c ;
 
   createWay(c);
 
   map[current] = map[current] & 0b11111000;
   map[current] = map[current] | 0b00000001;//Put the final room as the boss's room
+  item =  current ;
 
   for (int i = 0; i < height*width; i++){
-    if (i != start){
+    if ((i != start) && (i != boss) && (i != item)){
       map[i] = map[i] & 0b11110111;//Put back all the rooms unvisited rooms except the start room
     }
   }
 
-  //Dead ends between height/2 and max 3*height/4
+  //Dead ends between width - 4 and width
   //First dead end
-  diff = 3*height/4 - height/2 ;
   randomNumber();
-  c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
-  c = c + height/2;
+  c = a % diff  ;//generate a random length of the way between the limits mentionned above
+  c = width - c;
 
   createWay(c);
 
   //Second dead end
-  diff = height/2 - width/6 ;
   randomNumber();
-  c = a % (diff + 1) ;//generate a random length of the way between the limits mentionned above
-  c = c + width/6;
+  c = a % diff  ;//generate a random length of the way between the limits mentionned above
+  c = width - c;
 
   createWay(c);
   display();
