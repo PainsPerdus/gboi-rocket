@@ -15,7 +15,7 @@
 .DEFINE ISAAC_A_FLAG $7
 .DEFINE ISAAC_B_FLAG $6
 
-.DEFINE n_blockings $0E
+.DEFINE n_blockings $20
 .DEFINE n_enemies $0A
 .DEFINE n_objects $0A
 .DEFINE n_isaac_tears $0A
