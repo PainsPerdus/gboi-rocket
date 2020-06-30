@@ -78,3 +78,50 @@ collision:
   ret
 ; \\\ COMPARE ///
 ; \\\\ Collision function ////
+
+; //// Collision function \\\\
+collision_obstacles:
+  push de
+  push bc
+;   //// collision Y  loop \\\\
+	ld de, global_.blockings
+	ld c, n_blockings
+	@@loop:
+; /// loop start \\\
+	ld h,d
+	ld l,e
+
+; / set hitbox and position as parameter \
+	ldi a, (hl)
+	bit ALIVE_FLAG, a
+	jr z,@@noCollision ; check if element is alive
+	and BLOCKING_SIZE_MASK
+	ld (collision_.hitbox2), a
+	ldi a, (hl)
+	ld (collision_.p.2.y), a
+	ld a, (hl)
+	ld (collision_.p.2.x), a
+; \ set hitbox and position as parameter /
+
+; / test collision \
+	call collision
+	and a
+	jr z, @@noCollision
+  pop bc
+  pop de
+  ret
+@@noCollision:
+; \ test collision /
+
+@@ending_loop:
+	inc de
+	inc de
+	inc de
+	dec c
+	jr nz, @@loop
+;   \\\\ collision Y  loop ////
+
+  pop bc
+  pop de
+  ret
+; \\\\ Collision function ////

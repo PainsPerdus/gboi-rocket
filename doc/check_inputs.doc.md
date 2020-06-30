@@ -102,17 +102,17 @@ b = (check_inputs_.keys_values);
 speed_x = 0;
 speed_y = 0;
 if (down_arrow(b)){
-	speed_y = 1;
+	speed_y = 2;
 	direction = %11;
 }else if (up_arrow(b)){
-	speed_x = -1;
+	speed_x = -2;
 	direction = %00;
 }
 if (right_arrow(b)){
-	speed_x = 1;
+	speed_x = 2;
 	direction = %01;
 }else if (left_arrow(b)){
-	speed_x = -1;
+	speed_x = -2;
 	direction = %10;
 }
 global_.isaac.speed = [speed_x, speed_y];

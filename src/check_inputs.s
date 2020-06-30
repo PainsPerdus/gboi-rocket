@@ -15,24 +15,24 @@ check_input:
 	xor a 				; speed_x = 0; speed_y = 0;
 	bit DW_KEY,b		 	; Test third bit (down)
 	jr nz,@nod
-	or VALUE_4LSB_1 	; a [3:0] = 1
+	or VALUE_4LSB_2 	; a [3:0] = 2
 	ld c,ORIENTATION_DW; orientation = %11;
 	jr @nou
 @nod:
 	bit UP_KEY,b			; Test second bit (up)
 	jr nz,@nou
-	or VALUE_4LSB_minus_1 	; a [3:0] = -1
+	or VALUE_4LSB_minus_2 	; a [3:0] = -2
 	ld c,ORIENTATION_UP; orientation = %00;
 @nou:
 	bit RG_KEY,b			; Test Oth bit (right)
 	jr nz,@nor
-	or VALUE_4MSB_1	; a [7:4] = 1
+	or VALUE_4MSB_2	; a [7:4] = 2
 	ld c,ORIENTATION_RG; orientation = %01;
 	jr @nol
 @nor:
 	bit LF_KEY,b			; Test 1th bit (left arrow)
 	jr nz,@nol
-	or VALUE_4MSB_minus_1 	; a [7:4] = -1
+	or VALUE_4MSB_minus_2 	; a [7:4] = -2
 	ld c,ORIENTATION_LF; orientation = %10;
 @nol:
 	ld (global_.isaac.speed),a
