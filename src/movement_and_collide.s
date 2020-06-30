@@ -3,6 +3,30 @@
 .DEFINE RECOVERY_TIME 30
 
 move_and_collide:
+	ld hl,global_.isaac.lagCounter
+	dec (hl)
+	jp nz,@no_move
+	ld a,(global_.isaac.speedFreq)
+	ld (global_.isaac.lagCounter),a
+
+	ld a,(global_.isaac.speed)
+	and MASK_4_LSB
+	jr z,@no_diag_move
+	ld a,(global_.isaac.speed)
+	and MASK_4_MSB
+	jr z,@no_diag_move
+
+	ld a,(global_.isaac.speedFreq)
+	bit 1,a
+	jp nz,@multiple_of_2
+	inc a
+@multiple_of_2:
+	srl a
+	add (hl)
+	ld (global_.isaac.lagCounter),a
+@no_diag_move:
+
+
 @y:
 ; //////// MOVE ISAAC  Y \\\\\\\
 	ld a,(global_.isaac.speed)
@@ -72,8 +96,6 @@ move_and_collide:
 ;   \\\\ collision Y  loop ////
 ; \\\\\\\ MOVE ISAAC  Y ////////
 
-
-
 @x:
 ; //////// MOVE ISAAC  X \\\\\\\
 	ld a,(global_.isaac.speed)
@@ -136,6 +158,8 @@ move_and_collide:
 	jr nz, @@loop
 ;   \\\\ collision X  loop ////
 ; \\\\\\\ MOVE ISAAC  X ////////
+@no_move:
+
 
 
 @enemies_collide:
