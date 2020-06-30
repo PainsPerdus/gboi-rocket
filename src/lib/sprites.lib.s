@@ -8,3 +8,10 @@ BackgroundTiles:
 .INCLUDE "sprites/doors_spritesheet.sprite"
 .INCLUDE "sprites/rocks_spritesheet.sprite"
 .INCLUDE "sprites/hearts_spritesheet.sprite"
+
+IntroScreenTiles0:
+.INCLUDE "sprites/intro_screen_0.sprite"
+IntroScreenTiles1:
+.INCLUDE "sprites/intro_screen_1.sprite"
+IntroScreenTiles2:
+.INCLUDE "sprites/intro_screen_2.sprite"
