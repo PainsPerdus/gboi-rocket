@@ -301,8 +301,6 @@ void addRoomsToList(){//This function load the visitable rooms in the list list,
 
       //Set door flags in third byte
       list[compteur*3+2] = map[i];
-      list[compteur*3+2] &= 0b11110000;
-
       compteur++;
     }
   }
