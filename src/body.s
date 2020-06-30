@@ -1,4 +1,4 @@
 .INCLUDE "check_inputs.s"
-;.INCLUDE "enemies_turn.s"
+.INCLUDE "enemies_turn.s"
 .INCLUDE "move_isaac.s"
-;.INCLUDE "check_collisions_isaac_enemies.s"
+.INCLUDE "check_collisions_isaac_enemies.s"
