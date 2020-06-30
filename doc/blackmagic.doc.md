@@ -41,6 +41,8 @@ for (int i=0; i<len(BL); i++) {
 }
 ~~~
 
+/!\ For this to work, BL (_global.isaac_tears) start address must be XX00, and BL must be between XX00 and XXFF.
+
 Here is the new algorithm (better, more vanilla, less sugar) :
 ~~~C
 BL = [(posY, posX, recycled, inChain, init, OAM_id), ...] //Bullet list
