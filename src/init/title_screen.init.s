@@ -16,26 +16,34 @@ ld hl,$8000 ;Block 0
     jr nz,@loopTiles0  ; end while
 ; \\\\\ BLOCK 0 /////
 
-
 ; ///// BLOCK 1 \\\\\
-
+ld bc,_sizeof_IntroScreenTiles1
+ld de,IntroScreenTiles1
+ld hl,$8800 ;Block 1
+@loopTiles1: ; while bc != 0
+    ld a,(de)
+    ldi (hl),a 
+    inc de         
+    dec bc 
+    ld a,b
+    or c
+    jr nz,@loopTiles1 ; end while
 ; \\\\\ BLOCK 1 /////
 
 ; ///// BLOCK 2 \\\\\
-
-; \\\\\ BLOCK 2 /////
-
-    ld bc,(BACKGROUND_TILES_NUMBER+1)*16
-    ld de,BackgroundTiles
-    ld hl,BACKGROUND_TILES_START_ADDRESS
-@loopBackgroundTiles: ; while bc != 0
+ld bc,_sizeof_IntroScreenTiles2
+ld de,IntroScreenTiles2
+ld hl,$9000 ;Block 2
+@loopTiles2: ; while bc != 0
     ld a,(de)
-    ldi (hl),a  ; *hl <- *de; hl++
-    inc de          ; de ++
-    dec bc ; bc--
+    ldi (hl),a 
+    inc de         
+    dec bc 
     ld a,b
     or c
-    jr nz,@loopBackgroundTiles  ; end while
+    jr nz,@loopTiles2 ; end while
+; \\\\\ BLOCK 2 /////
+
 ; \\\\\ Copy Background Tiles /////
 
 ; /////// CLEAR BG \\\\\\\
@@ -73,6 +81,6 @@ ldh ($49),a ; sprite 1 palette
 ; \\\\\\\ INIT COLOR PALETTES ///////
 
 ; /////// ENABLE SCREEN \\\\\\\
-ld a,%10000011  ; screen on, bg on, tiles at $8000
+ld a,%10010001  ; screen on, bg on, tiles at $8000
 ldh ($40),a
 ; \\\\\\\ ENABLE SCREEN ///////
