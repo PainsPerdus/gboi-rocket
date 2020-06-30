@@ -60,8 +60,9 @@ level_gen_init:
     add h
     dec b
     jr nz, @@mult_loop
-
-    
+    add 
+    ; a = j * width + i
+    ; line 82
 
     pop DE
 
