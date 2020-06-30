@@ -28,6 +28,7 @@
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
 	VBlank_lock DB
+	level_gen_ INSTANCEOF level_gen_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
