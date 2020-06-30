@@ -140,9 +140,9 @@
 .ENDST
 
 .STRUCT global_var
+isaac_tears INSTANCEOF tear n_isaac_tears
 	blockings INSTANCEOF blocking n_blockings
 	enemies INSTANCEOF enemy n_enemies
-	isaac_tears INSTANCEOF tear n_isaac_tears
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
 	objects INSTANCEOF object n_objects
 	hitboxes_width DSB 8
