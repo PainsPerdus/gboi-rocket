@@ -195,9 +195,9 @@ IstateTitleScreen:
 	.INCLUDE "init/title_screen.init.s"
 	jp Iend
 IstatePlaying:
-	.INCLUDE "init/display.init.s"
 	.INCLUDE "init/global.init.s"
 	.INCLUDE "init/room.init.s.stub"
+	.INCLUDE "init/display.init.s"
 	.INCLUDE "init/rng.init.s"
 	.INCLUDE "init/check_inputs.init.s"
 	jp Iend
