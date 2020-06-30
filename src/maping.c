@@ -254,13 +254,13 @@ void createWay(unsigned char c){//create a random way from the start to a specif
   }
 }
 
-void addRoomsToList(){//This function load the rooms in the list list, here the rooms will be represented in 3 bytes : 1 for coordinates, 1 for room ID, 1 for door flags
+void addRoomsToList(){//This function load the visitable rooms in the list list, here the rooms will be represented in 3 bytes : 1 for coordinates, 1 for room ID, 1 for door flags
   unsigned char compteur = 0;//to count opened rooms
   for (int i = 0; i < height*width; i++){
     unsigned char temp = map[i];
     temp &= 0b11110000;//check if one of the door flags is 1 to know if the room is opened
     if (temp > 0){
-      map[i] |= 0b00001000;
+      map[i] |= 0b00001000;//set the flag to 1 when the room is visitable
       compteur++;
     }
   }
@@ -268,17 +268,18 @@ void addRoomsToList(){//This function load the rooms in the list list, here the 
   list = (unsigned char *) malloc (compteur*3);//3 bytes by room
   compteur = 0;
   for (int i = 0; i < height*width; i++){
-    if (map[i] &= 0b00001000 > 0){
+    unsigned char temp = map[i] & 0b00001000;
+    if (temp > 0){
       //Set coordinates in first byte
       unsigned char x = i % width;
-      x++;
-      x*=16;
+      x++;//to start at 1 and not 0
+      x*=16;//to put in higher wieght bits
       unsigned char y = i / width;
-      y++;
+      y++;//to start at 1 and not 0
       list[compteur*3] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
 
       //Set ID of a random corresponding room in second byte
-      int type = map[i] & 0b00000111;
+      unsigned char type = map[i] & 0b00000111;
       if (type == 0){//if it is a basic room
         randomNumber();
         unsigned char c = a % basicNumber;
