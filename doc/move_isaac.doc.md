@@ -43,5 +43,7 @@ isaac.lagCounter --;
      isaac.speed.x = 0
   }
   // \\\\\\\ MOVE ISAAC  X ////////
+}else{
+  isaac.speed = 0; // Avoid gltychy behaviour with display
 }
 ~~~
