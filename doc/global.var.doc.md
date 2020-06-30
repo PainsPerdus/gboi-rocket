@@ -87,7 +87,9 @@ Content of struct "tear" :
 | ----- | ---- | ----------- |
 | x | 1 byte | abscissa of the tear |
 | y | 1 byte | ordinate of the tear |
-| direction | 1 byte | 2 x 3 bits (x (pos 5:3) and y (pos 2:0)) + 1 flag to know if the tear is alive (pos 7) + 1 flag to know if the tear is upgraded (pos 6)|
+| id | 1 byte | 1 flag for "does it need to be recycled" (pos 7), 1 flag for "is it in the recycling chain" (pos 6), 1 flag for "is it the first in the recycling chain" (pos 5), 5 bits for OAM ID (pos 4:0) |
+| speed | 1 byte | 4 bits for x speed (pos 7:4) and 4 bits for (pos 3:0) |
+| ttl | 1 byte | Nb of iteration before the death of the tear (time to live) |
 
 # Defines
 
@@ -99,7 +101,7 @@ Content of struct "tear" :
 | n_isaac_tears | 10 | number max of issac'stears |
 | n_ennemy_tears | 10 | number max of ennemy's tears |
 
-Moreover, flag bits, masks and right shifts to apply to extract an info are given by the values : 
+Moreover, flag bits, masks and right shifts to apply to extract an info are given by the values :
 ALIVE_FLAG, BOMB_FLAG
 BLOCKING_ID_MASK, BLOCKING_ID_RIGHT_SHIFT
 ENEMY_ID_MASK, ENEMY_ID_RIGHT_SHIFT
