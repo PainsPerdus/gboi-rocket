@@ -129,21 +129,28 @@ do {
 #### Hearts
 
 We show the hearts on the background, in the upper left corner.
+/!\ undefined behaviour if ISAAC_MAX_HP%2 != 0 /!\
 
 ~~~C
-char *BACKGROUND_HEARTS_POS = $9800 //Background first heart pos in background map
-char hp=0;
-do {
-	heart_sprite = HEARTS_SPRITESHEET //Sprite id in VRAM
-	if(global_.isaac.hp>hp) {
-		heart_sprite++;
+char *BACKGROUND_HEARTS_POS = $9800   //Background first heart pos in background map
+char *hp = (global_.isaac.hp);
+char max_hp = ISAAC_MAX_HP
+while (max_hp > 0 ) //draw all empty hearts
+{
+	hp = hp - 2
+	draw(full_heart)
+}
+while (hp != 0 ) //draw full and half hearts
+{
+	hp --
+	if (hp ==0) 
+	{
+	draw(half_heart)
+	break
 	}
-	if(global_.isaac.hp>hp+1) {
-		heart_sprite++;
-	}
-	
-	*(BACKGROUND_HEARTS_POS+hp/2)=heart_sprite
-	hp+=2;
+	hp --
+	draw(full_heart)
 
-} while(hp<ISAAC_MAX_HP)
+}
+
 ~~~C

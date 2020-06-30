@@ -82,8 +82,8 @@ global_init:
 	ldi (hl),a; x = 32
 	ld a,$40
 	ldi (hl),a; y = 64
-	ld a,$7F
-	ldi (hl),a; hp = $7F
+	ld a, ISAAC_MAX_HP
+	ldi (hl),a; hp = ISAAC_MAX_HP
 	ld a,1
 	ldi (hl),a; dmg = 1
 	xor a

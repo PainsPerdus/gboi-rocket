@@ -197,27 +197,34 @@ ld (hl), a
 ; \\\\\ Tears /////
 
 ; ///// Hearts \\\\\
-
-	ld e, 0 ;hp
-@loopHearts:
-	ld d, HEARTS_SPRITESHEET	
-	ld a, (global_isaac.hp)
-	cp e
-	jp c
-
-
-
-	ld a,e
-	add 2
-	ld e,a
-	cp ISAAC_MAX_HP
-	jr c, @loopHearts
-
-
+	ld d, HEARTS_SPRITESHEET  ; set sprite to empty heart
+	ld e, ISAAC_MAX_HP
+	ld hl, $9800
+@loopEmptyHearts:
+	ld (hl), d                ; draw an empty heart
+	inc l
+	dec e
+	dec e
+	jr nz, @loopEmptyHearts
+	
+	ld a,(global_.isaac.hp)   ;hp
+	ld hl, $9800
+	inc d                     ; set sprite to full heart
+@loopFullHearts:
+	dec a
+	jr z, @HalfHeart
+	ld (hl), d                ; draw a full heart
+	inc l
+	dec a
+	jr z, @EndHearts
+	jr @loopFullHearts
+@HalfHeart:
+	inc d                       ; now sprite half heart
+	ld (hl), d
+@EndHearts:
 ; \\\\\ Hearts /////
 
 ; //// ENNEMIES \\\\
-
 
 	ld e, n_enemies      ; loop iterator
 	ld hl, global_.enemies      ; address of first ennemy strucs
