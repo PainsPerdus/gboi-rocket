@@ -67,6 +67,16 @@ start:
 	di							; disable interrupt
 ; \\\\\\\ DISABLE INTERRUPTIONS ///////
 
+; //// VBlank_lock \\\\
+	xor a
+	ld (VBlank_lock),a    ; VBlank_lock = 0
+; \\\\ VBlank_lock ////
+
+; //// Game State \\\\
+	ld a, GAMESTATE_TITLESCREEN
+	ld (GameState), a 
+; \\\\ Game State //// 
+
 ; /////// TURN THE SCREEN AND SOUND OFF \\\\\\\
 	ld sp,$E000     ; set the StackPointer
 	xor a						; a=0
@@ -83,15 +93,6 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 ; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
 
-; //// VBlank_lock \\\\
-	xor a
-	ld (VBlank_lock),a    ; VBlank_lock = 0
-; \\\\ VBlank_lock ////
-
-; //// Game State \\\\
-	ld a, GAMESTATE_TITLESCREEN
-	ld (GameState), a 
-; \\\\ Game State //// 
 
 ; /////// INCLUDE .INIT \\\\\\\
 	call init
@@ -186,6 +187,8 @@ endVBlank:
 
 ; ////////// Init Handler \\\\\\\\\\
 init:
+	push bc
+	push de
 	ld a, (GameState)
 	cp GAMESTATE_TITLESCREEN
 	jp z, IstateTitleScreen
@@ -202,6 +205,8 @@ IstatePlaying:
 	.INCLUDE "init/check_inputs.init.s"
 	jp Iend
 Iend:
+	pop de
+	pop bc
 	ret
 
 ; \\\\\\\\\\ Init Handler //////////
