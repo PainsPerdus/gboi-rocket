@@ -2,10 +2,24 @@ enemys_turn:
 	ld de,global_.enemies
 	ld c,n_enemies
 @loop:
+
+; //// IA \\\\
 	ld h,d
 	ld l,e
 	call AI
+; \\\\ IA ////
 
+; //// Move the enemy \\\\
+
+	ld b,b
+	ld hl,$0006
+	add hl,de
+	dec (hl)
+	jp nz,@@no_move
+	inc hl
+	ld a,(hl)
+	dec hl
+	ld (hl),a
 
 	ld hl,$0004
 	add hl,de
@@ -34,6 +48,8 @@ enemys_turn:
 @@posit_x:
 	add (hl)
 	ld (hl),a
+; \\\\ Move the enemy ////
+@@no_move:
 
 	ld hl,_sizeof_enemy
 	add hl,de
