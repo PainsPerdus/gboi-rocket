@@ -56,10 +56,16 @@ load_map:
 @x_loop:
     ; \\ start x loop //
 
+
+
+
+
+
     ; // first element switch \\
     ld a, (hl)
     ld e, a
     and %11110000
+    swap a
     ld d, a
 
     ; / case floor \
@@ -69,13 +75,24 @@ load_map:
 
     ; / case rock \
     ld a, d
-    cp $20
+    cp $02
     jr nz, @@not_rock
     ld a, (load_map_.next_blocking)
     ld h, a
     ld a, (load_map_.next_blocking + 1)
+
     ld l, a
-    ld a, 
+    ld a, ROCK_INFO
+    ldi (hl), a
+    ld a, b
+    ldi (hl), a
+    ld a, c
+    ldi (hl), a
+
+    ld a, h
+    ld (load_map_.next_blocking), a
+    ld a, l
+    ld (load_map_.next_blocking), a
     ld hl, load_map_.blockings_written
     inc (hl)
     jp @end_first
@@ -84,14 +101,65 @@ load_map:
     ; \\ first element switch //
 @end_first:
 
+
+
+
+
+
+
+    ; // transition \\
     ld a, c
     add $10
     ld c, a
+    ; \\ transition //
+
+
+
+
+
 
     ; // second element switch \\
+    ld a, e
+    and %00001111
+    ld d, a
 
+    ; / case floor \
+    and a
+    jp z, @end_second
+    ; \ case floor /
+
+    ; / case rock \
+    ld a, d
+    cp $02
+    jr nz, @@not_rock
+    ld a, (load_map_.next_blocking)
+    ld h, a
+    ld a, (load_map_.next_blocking + 1)
+
+    ld l, a
+    ld a, ROCK_INFO
+    ldi (hl), a
+    ld a, b
+    ldi (hl), a
+    ld a, c
+    ldi (hl), a
+    
+    ld a, h
+    ld (load_map_.next_blocking), a
+    ld a, l
+    ld (load_map_.next_blocking), a
+    ld hl, load_map_.blockings_written
+    inc (hl)
+    jp @end_second
+    ; \ case rock /
+@@not_rock
     ; \\ second element switch //
 @end_second:
+
+
+
+
+
 
     ; // end x loop \\
     ld a, (load_map_.map_address)

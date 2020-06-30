@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/load_map.var.s"
 
 ; $C000 to $C0FF is reserved for dynamic opcode
 
@@ -28,6 +29,7 @@
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
 	VBlank_lock DB
+	load_map_ INSTANCEOF load_map_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
 
@@ -76,7 +78,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 
 ; /////// INCLUDE .INIT \\\\\\\
 .INCLUDE "init/global.init.s"
-.INCLUDE "init/room.init.s.stub"
+;.INCLUDE "init/room.init.s.stub"
 .INCLUDE "init/display.init.s"
 .INCLUDE "init/rng.init.s"
 .INCLUDE "init/check_inputs.init.s"
@@ -156,4 +158,5 @@ endVBlank:
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
+.INCLUDE "lib/load_map.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////

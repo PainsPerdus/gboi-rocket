@@ -201,3 +201,38 @@ global_init:
 	ldi (hl), a
 	dec b
 	jp nz, @object_loop
+
+@wall_inits
+   ld hl, global_.blockings+(_sizeof_blocking * (n_blockings - 4))
+
+; // init top wall
+    ld a, (global_.blocking_inits.3.info)
+    ldi (hl), a
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
+
+; // init bottom wall
+    ld a, (global_.blocking_inits.3.info)
+    ldi (hl), a
+    ld a, 144
+    ldi (hl), a ; y = 144
+    ld a, 8
+    ldi (hl), a ; x = 8
+
+; // init left wall
+    ld a, (global_.blocking_inits.4.info)
+    ldi (hl), a
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
+
+; // init right wall
+    ld a, (global_.blocking_inits.4.info)
+    ldi (hl), a ; 1 hp
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld a, 160-8
+    ldi (hl), a ; x = 160-8
