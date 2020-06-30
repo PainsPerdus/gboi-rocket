@@ -33,7 +33,7 @@ enemys_turn:
 	ld a,b
 	and MASK_4_MSB
 	jr z,@@no_diag_move
-	ld b,b
+	//ld b,b
 
 	ld hl,$0007
 	add hl,de
@@ -49,7 +49,7 @@ enemys_turn:
 ; \\ If move is diag, increase lag counter //
 @@no_diag_move:
 ; \\\ Check lagcounter ///
-
+;
 ; /// y += dy \\\
 	ld hl,$0001
 	add hl,de

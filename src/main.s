@@ -127,7 +127,10 @@ VBlank:
 ; //// CHECK IF THE LOOP FINISHED \\\\
 	ld a,(VBlank_lock)
 	and a
-	jp z,endVBlank
+	jr nz,noSkipFrame
+	ld b,b
+	jp endVBlank
+noSkipFrame:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
 
 .INCLUDE "vblank/display.vbl.s"
