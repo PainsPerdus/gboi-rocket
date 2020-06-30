@@ -92,7 +92,7 @@ int main(int argc, char const *argv[]) {
   createWay(c);
 
   map[current] = map[current] & 0b11111000;
-  map[current] = map[current] | 0b00000010;//Put the final room as the boss's room
+  map[current] = map[current] | 0b00001010;//Put the final room as the boss's room
   boss = current;
 
   for (int i = 0; i < height*width; i++){
@@ -109,7 +109,7 @@ int main(int argc, char const *argv[]) {
   createWay(c);
 
   map[current] = map[current] & 0b11111000;
-  map[current] = map[current] | 0b00000001;//Put the final room as the boss's room
+  map[current] = map[current] | 0b00001001;//Put the final room as the boss's room
   item =  current ;
 
   for (int i = 0; i < height*width; i++){
@@ -122,14 +122,14 @@ int main(int argc, char const *argv[]) {
   //First dead end
   randomNumber();
   c = a % diff  ;//generate a random length of the way between the limits mentionned above
-  c = width - c;
+  c = width - c - 1;
 
   createWay(c);
 
   //Second dead end
   randomNumber();
   c = a % diff  ;//generate a random length of the way between the limits mentionned above
-  c = width - c;
+  c = width - c - 1;
 
   createWay(c);
   display();
@@ -157,56 +157,65 @@ unsigned char unvisitedNeighbour(unsigned char k){
   int compteur = 0;//will count accessible unvisited rooms
   unsigned char neighbour;
   char bool[4];//will contain booleans about if the room is (accessible and unvisited)
+
   //For the room above
   neighbour = possibleNeighbours[0];
-  if (!(map[neighbour] & (1u << 3))){//check if it is unvisited
-    if (k < width){//check if it is accessible
-      bool[0] = 0;
-    } else{
-      bool[0] = 1;
-      compteur++;//count unvisited accessible rooms
-    }
+  unsigned char circle = map[neighbour] & 0b00001000;
+  if (!(circle == 0) || (k < width)){//check if it is unvisited and accessible
+    bool[0] = 0;
+  } else{
+    bool[0] = 1;
+    compteur++;//count unvisited accessible rooms
   }
+
   //For the room on the left
   neighbour = possibleNeighbours[1];
-  if (!(map[neighbour] & (1u << 3))){//check if it is unvisited
-    if (k % width == 0){//check if it is accessible
-      bool[1] = 0;
-    } else{
-      bool[1] = 1;
-      compteur++;//count unvisited accessible rooms
-    }
+  circle = map[neighbour] & 0b00001000;
+  if (!(circle == 0) || (k % width == 0)){//check if it is unvisited and accessible
+    bool[1] = 0;
+  } else{
+    bool[1] = 1;
+    compteur++;//count unvisited accessible rooms
   }
+
   //for the room on the right
   neighbour = possibleNeighbours[2];
-  if (!(map[neighbour] & (1u << 3))){//check if it is unvisited
-    if (k % width == width - 1){//check if it is accessible
-      bool[2] = 0;
-    } else{
-      bool[2] = 1;
-      compteur++;//count unvisited accessible rooms
-    }
+  circle = map[neighbour] & 0b00001000;
+  if (!(circle == 0) || (k % width == width - 1)){//check if it is unvisited and accessible
+    bool[2] = 0;
+  } else{
+    bool[2] = 1;
+    compteur++;//count unvisited accessible rooms
   }
+
   //for the room below
   neighbour = possibleNeighbours[3];
-  if (!(map[neighbour] & (1u << 3))){//check if it is unvisited
-    if (k >= (height - 1) * width){//check if it is accessible
-      bool[3] = 0;
-    } else{
-      bool[3] = 1;
-      compteur++;//count unvisited accessible rooms
-    }
+  circle = map[neighbour] & 0b00001000;
+  if (!(circle == 0) || (k >= (height - 1) * width)){//check if it is unvisited and accessible
+    bool[3] = 0;
+  } else{
+    bool[3] = 1;
+    compteur++;//count unvisited accessible rooms
   }
-  randomNumber();
-  char alea = a % compteur;//chose a random room in thos unvisited and accessible
-  int i = 0;
-  char chose;
-  while(alea >= 0){//Circle to find the alea-nd unvisited accessible rooms
-    if (bool[i] == 1){
-      chose = possibleNeighbours[i];
-      alea--;
+  char chose;//will contain the final choice
+  if (compteur == 0){
+    chose = current;
+  }
+  else{
+    randomNumber();
+    char alea = a % 4;//chose a random room in thos unvisited and accessible
+    while (alea >= compteur){
+      randomNumber();
+      alea = a % 4;
     }
-    i++;
+    int i = 0;
+    while(alea >= 0){//Circle to find the alea-nd unvisited accessible rooms
+      if (bool[i] == 1){
+        chose = possibleNeighbours[i];
+        alea--;
+      }
+      i++;
+    }
   }
   return chose;
 }
@@ -249,6 +258,7 @@ void createWay(unsigned char c){//create a random way from the start to a specif
     }
     map[current] |= b;
     map[next] |= a;
+    map[next] |= 0b00001000;
     current = next;//Move on next room
   }
 }
@@ -266,41 +276,45 @@ void addRoomsToList(){//This function load the visitable rooms in the list list,
   openedRooms = compteur;
   list = (unsigned char *) malloc (compteur*3);//3 bytes by room
   compteur = 0;
-  for (int i = 0; i < height*width; i++){
-    unsigned char temp = map[i] & 0b00001000;
-    if (temp > 0){
-      //Set coordinates in first byte
-      unsigned char x = i % width;
-      x++;//to start at 1 and not 0
-      x = x << 4;//to put in higher wieght bits
-      unsigned char y = i / width;
-      y++;//to start at 1 and not 0
-      list[compteur*3] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
+  int i = 0;
+  for (int k = 0; k < height; k++){
+    for (int l = 0; l < width; l++){
+      unsigned char temp = map[i] & 0b00001000;
+      if (temp > 0){
+        //Set coordinates in first byte
+        unsigned char x = i % width;
+        x++;//to start at 1 and not 0
+        x = x << 4;//to put in higher wieght bits
+        unsigned char y = i / width;
+        y++;//to start at 1 and not 0
+        list[compteur*3] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
 
-      //Set ID of a random corresponding room in second byte
-      unsigned char type = map[i] & 0b00000111;
-      if (type == 0){//if it is a basic room
-        randomNumber();
-        unsigned char c = a % basicNumber;
-        list[compteur*3+1] = c;//TODO : = c + (first ID of basic room)
-      }
-      if (type == 1){//if it is an item's room
-        randomNumber();
-        unsigned char c = a % itemNumber;
-        list[compteur*3+1] = c;//TODO : = c + (first ID of item's room)
-      }
-      if (type == 2){//if it is a boss's room
-        randomNumber();
-        unsigned char c = a % bossNumber;
-        list[compteur*3+1] = c;//TODO : = c + (first ID of boss's room)
-      }
-      if (type == 4){//if it is a start room
-        list[compteur*3+1] = 0;//0 is the ID of the start room
-      }
+        //Set ID of a random corresponding room in second byte
+        unsigned char type = map[i] & 0b00000111;
+        if (type == 0){//if it is a basic room
+          randomNumber();
+          unsigned char c = a % basicNumber;
+          list[compteur*3+1] = c;//TODO : = c + (first ID of basic room)
+        }
+        if (type == 1){//if it is an item's room
+          randomNumber();
+          unsigned char c = a % itemNumber;
+          list[compteur*3+1] = c;//TODO : = c + (first ID of item's room)
+        }
+        if (type == 2){//if it is a boss's room
+          randomNumber();
+          unsigned char c = a % bossNumber;
+          list[compteur*3+1] = c;//TODO : = c + (first ID of boss's room)
+        }
+        if (type == 4){//if it is a start room
+          list[compteur*3+1] = 0;//0 is the ID of the start room
+        }
 
-      //Set door flags in third byte
-      list[compteur*3+2] = map[i];
-      compteur++;
+        //Set door flags in third byte
+        list[compteur*3+2] = map[i];
+        compteur++;
+      }
+      i++;
     }
   }
 }
