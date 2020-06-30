@@ -132,9 +132,18 @@ endVBlank:
 ; \\\\\\\\\ VBlank Interuption /////////
 ~~~
 
+## Init Handler
+
+| Argument | Size | Description |
+| -- | -- | -- |
+| a  | 1 byte | Old State (equals to the new state if first time init is called) |
+
+This will run the init code for the current state. We can add some logic there to run different init code based on the previous state (to save isaac state between runs for instance). 
 ## Change State
 
-Takes a as argument : a is new State. 
+| Argument | Size | Description |
+| -- | -- | -- |
+| a | 1 byte | New State |
 Changes state to new state, waits for VBlank and runs init.
 
 ## Include .lib

@@ -209,7 +209,11 @@ Iend:
 ; ///////// CHANGE STATE \\\\\\\\\\\
 changeState:
 	di
-	ld (GameState), a
+	ld l, a ; Save new GameState
+	ld a, (GameState)
+	ld b, a ; Save old GameState b=oldGameState
+	ld a, l ; Restore new GameState 
+	ld (GameState), a ; GameState = a
 	;//We wait for VBlank to allow init scripts to run
 waitvlb2: 					; wait for the line 144 to be refreshed:
 	ldh a,($44)
@@ -219,6 +223,7 @@ waitvlb2: 					; wait for the line 144 to be refreshed:
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 
 
+	ld a, b ;a argument to init is old GameState
 	call init
 
 	reti
