@@ -6,17 +6,22 @@ load_map:
     ; /// init cursor positions \\\
     ; // element cursors \\
     ld de, global_.blockings
-    ld hl, load_map_.next_blocking
-    ldi (hl), d
-    ld (hl), e
+    ld a, d
+    ld (load_map_.next_blocking), a
+    ld a, e
+    ld (load_map_.next_blocking + 1), a
+
     ld de, global_.enemies
-    ld hl, load_map_.next_enemy
-    ldi (hl), d
-    ld (hl), e
+    ld a, d
+    ld (load_map_.next_enemy), a
+    ld a, e
+    ld (load_map_.next_enemy + 1), a
+    
     ld de, global_.objects
-    ld hl, load_map_.next_object
-    ldi (hl), d
-    ld (hl), e
+    ld a, d
+    ld (load_map_.next_object), a
+    ld a, e
+    ld (load_map_.next_object + 1), a
     ; \\ element cursors //
 
     ; // next enemy to load \\

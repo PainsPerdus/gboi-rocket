@@ -160,3 +160,5 @@ endVBlank:
 .INCLUDE "lib/ai.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
+
+.INCLUDE "rooms/basic.room"

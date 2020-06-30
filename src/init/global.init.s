@@ -236,3 +236,12 @@ global_init:
     ldi (hl), a ; y = 16
     ld a, 160-8
     ldi (hl), a ; x = 160-8
+
+
+; load simple_room
+	ld de, basic_room
+	ld a, d
+	ld (load_map_.map_address), a
+	ld a, e
+	ld (load_map_.map_address + 1), a
+	call load_map
