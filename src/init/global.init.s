@@ -65,9 +65,9 @@ global_init:
 @isaac_init:
 	ld hl, global_.isaac
 	ld a,$20
-	ldi (hl),a; x = 32
+	ldi (hl),a; x = 48
 	ld a,$40
-	ldi (hl),a; y = 64
+	ldi (hl),a; y = 80
 	ld a,$7F
 	ldi (hl),a; hp = $7F
 	ld a,1
