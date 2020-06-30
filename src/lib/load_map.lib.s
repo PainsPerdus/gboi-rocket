@@ -16,7 +16,7 @@ load_map:
     ld (load_map_.next_enemy), a
     ld a, e
     ld (load_map_.next_enemy + 1), a
-    
+
     ld de, global_.objects
     ld a, d
     ld (load_map_.next_object), a
@@ -50,6 +50,13 @@ load_map:
     ld h, a
     ld a, (load_map_.map_address + 1)
     ld l, a
+    inc hl
+    inc hl
+    inc hl
+    ld a, h
+    ld (load_map_.map_address), a
+    ld a, l
+    ld (load_map_.map_address + 1), a
     ld a, $20
     ld b, a
 @y_loop:
@@ -78,6 +85,32 @@ load_map:
     jp z, @end_first
     ; \ case floor /
 
+;     ; / case pit \
+;     ld a, d
+;     cp $01
+;     jr nz, @@not_pit
+;     ld a, (load_map_.next_blocking)
+;     ld h, a
+;     ld a, (load_map_.next_blocking + 1)
+
+;     ld l, a
+;     ld a, PIT_INFO
+;     ldi (hl), a
+;     ld a, b
+;     ldi (hl), a
+;     ld a, c
+;     ldi (hl), a
+
+;     ld a, h
+;     ld (load_map_.next_blocking), a
+;     ld a, l
+;     ld (load_map_.next_blocking + 1), a
+;     ld hl, load_map_.blockings_written
+;     inc (hl)
+;     jp @end_first
+;     ; \ case pit /
+; @@not_pit
+
     ; / case rock \
     ld a, d
     cp $02
@@ -97,7 +130,7 @@ load_map:
     ld a, h
     ld (load_map_.next_blocking), a
     ld a, l
-    ld (load_map_.next_blocking), a
+    ld (load_map_.next_blocking + 1), a
     ld hl, load_map_.blockings_written
     inc (hl)
     jp @end_first
@@ -133,6 +166,32 @@ load_map:
     jp z, @end_second
     ; \ case floor /
 
+;     ; / case pit \
+;     ld a, d
+;     cp $01
+;     jr nz, @@not_pit
+;     ld a, (load_map_.next_blocking)
+;     ld h, a
+;     ld a, (load_map_.next_blocking + 1)
+
+;     ld l, a
+;     ld a, PIT_INFO
+;     ldi (hl), a
+;     ld a, b
+;     ldi (hl), a
+;     ld a, c
+;     ldi (hl), a
+
+;     ld a, h
+;     ld (load_map_.next_blocking), a
+;     ld a, l
+;     ld (load_map_.next_blocking + 1), a
+;     ld hl, load_map_.blockings_written
+;     inc (hl)
+;     jp @end_second
+;     ; \ case pit /
+; @@not_pit
+
     ; / case rock \
     ld a, d
     cp $02
@@ -148,11 +207,11 @@ load_map:
     ldi (hl), a
     ld a, c
     ldi (hl), a
-    
+
     ld a, h
     ld (load_map_.next_blocking), a
     ld a, l
-    ld (load_map_.next_blocking), a
+    ld (load_map_.next_blocking + 1), a
     ld hl, load_map_.blockings_written
     inc (hl)
     jp @end_second
