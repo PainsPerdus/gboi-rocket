@@ -63,8 +63,11 @@ char collision(
                             isaac.x,
                             isaac.y
                           );
-  enemy.x += direction.dx
-  enemy.y += direction.dy
+  enemy.speed = direction
+
+  if (random.proba(0.5)){
+    enemy.speed = random.direction(); // directions[random()%8]
+  }
 
 }
 ~~~
