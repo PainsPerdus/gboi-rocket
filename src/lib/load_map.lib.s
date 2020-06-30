@@ -76,6 +76,7 @@ load_map:
     ; // first element switch \\
     ld a, (hl)
     ld e, a
+    push de
     and %11110000
     swap a
     ld d, a
@@ -89,53 +90,29 @@ load_map:
 ;     ld a, d
 ;     cp $01
 ;     jr nz, @@not_pit
-;     ld a, (load_map_.next_blocking)
-;     ld h, a
-;     ld a, (load_map_.next_blocking + 1)
-
-;     ld l, a
-;     ld a, PIT_INFO
-;     ldi (hl), a
-;     ld a, b
-;     ldi (hl), a
-;     ld a, c
-;     ldi (hl), a
-
-;     ld a, h
-;     ld (load_map_.next_blocking), a
-;     ld a, l
-;     ld (load_map_.next_blocking + 1), a
-;     ld hl, load_map_.blockings_written
-;     inc (hl)
+;     ld e, PIT_INFO
+;.INCLUDE "lib/load_blocking.lib.s"
 ;     jp @end_first
 ;     ; \ case pit /
-; @@not_pit
+; @@not_pit:
 
     ; / case rock \
     ld a, d
     cp $02
     jr nz, @@not_rock
-    ld a, (load_map_.next_blocking)
-    ld h, a
-    ld a, (load_map_.next_blocking + 1)
-
-    ld l, a
-    ld a, ROCK_INFO
-    ldi (hl), a
-    ld a, b
-    ldi (hl), a
-    ld a, c
-    ldi (hl), a
-
-    ld a, h
-    ld (load_map_.next_blocking), a
-    ld a, l
-    ld (load_map_.next_blocking + 1), a
-    ld hl, load_map_.blockings_written
-    inc (hl)
+    ld e, ROCK_INFO
+.INCLUDE "lib/load_blocking.lib.s"
     jp @end_first
     ; \ case rock /
-@@not_rock
+@@not_rock:
+
+    ; / case enemy \
+    ld a, d
+    cp $0F
+    jr nz, @@not_enemy
+.INCLUDE "lib/load_enemy.lib.s"
+    ; \ case enemy /
+@@not_enemy:
     ; \\ first element switch //
 @end_first:
 
@@ -157,6 +134,7 @@ load_map:
 
 
     ; // second element switch \\
+    pop de
     ld a, e
     and %00001111
     ld d, a
@@ -170,53 +148,30 @@ load_map:
 ;     ld a, d
 ;     cp $01
 ;     jr nz, @@not_pit
-;     ld a, (load_map_.next_blocking)
-;     ld h, a
-;     ld a, (load_map_.next_blocking + 1)
-
-;     ld l, a
-;     ld a, PIT_INFO
-;     ldi (hl), a
-;     ld a, b
-;     ldi (hl), a
-;     ld a, c
-;     ldi (hl), a
-
-;     ld a, h
-;     ld (load_map_.next_blocking), a
-;     ld a, l
-;     ld (load_map_.next_blocking + 1), a
-;     ld hl, load_map_.blockings_written
-;     inc (hl)
+;     ld e, PIT_INFO
+;.INCLUDE "lib/load_blocking.lib.s"
 ;     jp @end_second
 ;     ; \ case pit /
-; @@not_pit
+; @@not_pit:
 
     ; / case rock \
     ld a, d
     cp $02
     jr nz, @@not_rock
-    ld a, (load_map_.next_blocking)
-    ld h, a
-    ld a, (load_map_.next_blocking + 1)
-
-    ld l, a
-    ld a, ROCK_INFO
-    ldi (hl), a
-    ld a, b
-    ldi (hl), a
-    ld a, c
-    ldi (hl), a
-
-    ld a, h
-    ld (load_map_.next_blocking), a
-    ld a, l
-    ld (load_map_.next_blocking + 1), a
-    ld hl, load_map_.blockings_written
-    inc (hl)
+    ld e, ROCK_INFO
+.INCLUDE "lib/load_blocking.lib.s"
     jp @end_second
     ; \ case rock /
-@@not_rock
+@@not_rock:
+
+    ; / case enemy \
+    ld a, d
+    cp $0F
+    jr nz, @@not_enemy
+.INCLUDE "lib/load_enemy.lib.s"
+    ; \ case enemy /
+@@not_enemy:
+
     ; \\ second element switch //
 @end_second:
 
