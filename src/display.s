@@ -1,7 +1,7 @@
 display:
 ; ////// UPDATE ANIMATION FRAMES AND TIMERS \\\\\\
 
-//Do pascal's useless stupid stuff
+;//Do pascal's useless stupid stuff
 xor a
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
 ; // Update fly animation frame \\
@@ -44,4 +44,3 @@ ld (display_.fly.frame), a
 ; \\\\ Not Moving ////
 ; \\\\\ Isaac /////
 ; \\\\\\ UPDATE ANIMATION FRAMES AND TIMERS //////
-                                                       

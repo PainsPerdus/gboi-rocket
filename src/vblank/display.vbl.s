@@ -27,7 +27,7 @@ display_vbl:
 		add d
 		add e
 		ld (hl), a
-; \\\ Left ///	
+; \\\ Left ///
 ; /// Right \\\
 		ld hl,OAM_ISAAC+$4
 		ld a,(global_.isaac.y)
@@ -78,7 +78,7 @@ display_vbl:
 ; \\ Moving //
 
 ; // Not Moving \\
-@notMoving: 
+@notMoving:
 	//Left sprite id
 		ld a, (global_.isaac.direction)
 		and %00000010
@@ -105,7 +105,7 @@ display_vbl:
 		ld a, (global_.isaac.x)
 		ld (hl), a ;posX
 		inc l
-		ld (hl), d ;Chosen bottom left sprite 
+		ld (hl), d ;Chosen bottom left sprite
 
 //bottom right
 		ld hl,OAM_ISAAC+$C
@@ -191,7 +191,7 @@ ld (hl), a
 	add hl, de ;Next tear Y
 	ld d,a ;Restore d
 	dec d ;loop counter --
-	jr nz, @loopUpdateTears //} while((--d)!=0) 
+	jr nz, @loopUpdateTears //} while((--d)!=0)
 @endTears:
 
 ; \\\\\ Tears /////
@@ -240,19 +240,18 @@ ld (global_.isaac.hp),a
 	ld hl, global_.enemies      ; address of first ennemy strucs
 	ld bc, OAM_ENNEMIES          ; OAM address of the first ennemy
 @next_ennemy:
-	ld a, (hl)                  ; charge info byte
-	bit 7, a                    ; "alive" bit
+	ldi a, (hl)                  ; charge info byte
+	bit ALIVE_FLAG, a            ; "alive" bit
 	jp z, @dead
-	ld d, c                     ; saving OAM state
 	and ENEMY_ID_MASK
 	cp  %00010000
-	jp z, @fly
+	jr z, @fly
 	; cp %00110000...
-	
+
 	; MORE ENNEMIES OPTIONS HERE
+	jp @dead
 
 @fly:
-	inc l
 	ld a, (hl)
 	ld (bc), a
 	inc l
@@ -273,23 +272,31 @@ ld (global_.isaac.hp),a
 	inc c
 
 	jp @ennemy_updated
-	
-	
+
+
 	;...
 	; MORE ENNEMIES LABELS HERE
-	
-@dead:
-	inc hl
-	inc hl
 
-@ennemy_updated:
-	inc hl
-	inc hl
-	inc hl
-	inc hl
-	
+@dead:
+	push bc				; 48 cycles, less than 7 inc hl...
+	ld bc,_sizeof_enemy-1
+	add hl,bc
+	pop bc
+
 	dec e
 	jp nz, @next_ennemy
+	jp @end_loop
+
+@ennemy_updated:
+	push bc				; 48 cycles, same as 6 inc hl...
+	ld bc,_sizeof_enemy-2
+	add hl,bc
+	pop bc
+
+	dec e
+	jp nz, @next_ennemy
+
+@end_loop:
 
 ; \\\\ ENNEMIES ////
 
