@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/ai.var.s"
 
 ; $C000 to $C0FF is reserved for dynamic opcode
 
@@ -27,6 +28,7 @@
 	vectorisation_ INSTANCEOF vectorisation_var
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
+	ai_ INSTANCEOF ai_var
 	VBlank_lock DB
 .ENDE
 ; \\\\\\\\\ Mapping /////////
@@ -80,6 +82,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "init/display.init.s"
 .INCLUDE "init/rng.init.s"
 .INCLUDE "init/check_inputs.init.s"
+.INCLUDE "init/ai.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 ; //// VBlank_lock \\\\
 	xor a
