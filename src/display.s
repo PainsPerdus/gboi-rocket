@@ -44,10 +44,3 @@ ld (display_.fly.frame), a
 ; \\\\ Not Moving ////
 ; \\\\\ Isaac /////
 ; \\\\\\ UPDATE ANIMATION FRAMES AND TIMERS //////
-
-; ////// Tears opcode injection preparation \\\\\\
-
-
-
-; \\\\\\ Tears opcode injection preparation //////
-                                                       

@@ -17,8 +17,12 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/blackmagic.var.s"
 
 ; $C000 to $C0FF is reserved for dynamic opcode
+.ENUM $C020
+	blackmagic_ INSTANCEOF blackmagic_var
+.ENDE
 
 .ENUM $C100
 	global_ INSTANCEOF global_var
@@ -80,6 +84,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "init/display.init.s"
 .INCLUDE "init/rng.init.s"
 .INCLUDE "init/check_inputs.init.s"
+.INCLUDE "init/blackmagic.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 ; //// VBlank_lock \\\\
 	xor a
@@ -108,6 +113,7 @@ loop:
 
 .INCLUDE "body.s"
 .INCLUDE "display.s"
+.INCLUDE "blackmagic.s"
 
 ; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
 	ld a,1
