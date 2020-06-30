@@ -208,10 +208,11 @@ ld (hl), a
 	jp z, @dead
 	and ENEMY_ID_MASK
 	cp  %00010000
-	jp z, @fly
+	jr z, @fly
 	; cp %00110000...
 
 	; MORE ENNEMIES OPTIONS HERE
+	jp @dead
 
 @fly:
 	ld a, (hl)

@@ -203,7 +203,7 @@ move_and_collide:
 ; \ test collision /
 
 @@ending_loop:
-	ld hl, 6
+	ld hl, _sizeof_enemy
 	add hl, de
 	ld d,h
 	ld e,l

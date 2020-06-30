@@ -77,6 +77,7 @@ ld hl, global_.blockings
 initEnemies:
 ld hl, global_.enemies
 
+
 ; // hurting rock 1
     ld a, (global_.enemy_inits.2.info)
     ldi (hl), a
@@ -109,66 +110,67 @@ ld hl, global_.enemies
     ldi (hl), a
     ldi (hl), a
 
+
 ; // fly 1
-    ld a, %10010000
+    ld a, FLY_INFO
     ldi (hl), a
     ld a,50
     ldi (hl), a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.hp)
+    ld a, FLY_HP
     ldi (hl), a
     xor a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.dmg)
+    ld a, FLY_DMG
     ldi (hl), a
-    ld a, $03
+    ld a, FLY_SPEED_FREQ
     ldi (hl), a
     ldi (hl), a
 
 ; // fly 2
-    ld a, %10010000
+    ld a, FLY_INFO
     ldi (hl), a
     ld a, 96
     ldi (hl), a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.hp)
+    ld a, FLY_HP
     ldi (hl), a
     xor a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.dmg)
+    ld a, FLY_DMG
     ldi (hl), a
-    ld a, $03
+    ld a, FLY_SPEED_FREQ
     ldi (hl), a
     ldi (hl), a
 
 ; // fly 3
-    ld a, %10010000
+    ld a, FLY_INFO
     ldi (hl), a
     ld a, 120
     ldi (hl), a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.hp)
+    ld a, FLY_HP
     ldi (hl), a
     xor a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.dmg)
+    ld a, FLY_DMG
     ldi (hl), a
-    ld a, $03
+    ld a, FLY_SPEED_FREQ
     ldi (hl), a
     ldi (hl), a
 
 ; // fly 4
-    ld a, %10010000
+    ld a, FLY_INFO
     ldi (hl), a
     ld a, 50
     ldi (hl), a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.hp)
+    ld a, FLY_HP
     ldi (hl), a
     xor a
     ldi (hl), a
-    ld a, (global_.enemy_inits.2.dmg)
+    ld a, FLY_DMG
     ldi (hl), a
-    ld a, $03
+    ld a, FLY_SPEED_FREQ
     ldi (hl), a
     ldi (hl), a
