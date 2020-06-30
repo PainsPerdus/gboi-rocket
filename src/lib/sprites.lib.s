@@ -8,3 +8,4 @@ BackgroundTiles:
 .INCLUDE "sprites/doors_spritesheet.sprite"
 .INCLUDE "sprites/rocks_spritesheet.sprite"
 .INCLUDE "sprites/pit_spritesheet.sprite"
+.INCLUDE "sprites/hearts_spritesheet.sprite"

@@ -195,9 +195,46 @@ ld (hl), a
 @endTears:
 
 ; \\\\\ Tears /////
+//Quick fix to avoid isaac HP being <0...
+ld a,(global_.isaac.hp)
+bit 7,a
+jr z,@noreset
+ld a,ISAAC_MAX_HP
+ld (global_.isaac.hp),a
+@noreset
+
+
+; ///// Hearts \\\\\
+	ld d, HEARTS_SPRITESHEET  ; set sprite to empty heart
+	ld e, ISAAC_MAX_HP
+	ld hl, $9800
+@loopEmptyHearts:
+	ld (hl), d                ; draw an empty heart
+	inc hl
+	dec e
+	dec e
+	jr nz, @loopEmptyHearts
+	ld a,(global_.isaac.hp)   ;hp
+	and a
+	jr z, @EndHearts
+	ld hl, $9800
+	inc d                     ; set sprite to full heart
+@loopFullHearts:
+	dec a
+	jr z, @HalfHeart
+	ld (hl), d                ; draw a full heart
+	inc hl
+	dec a
+	jr z, @EndHearts
+	jr @loopFullHearts
+@HalfHeart:
+	inc d                       ; now sprite half heart
+	ld (hl), d
+@EndHearts:
+
+; \\\\\ Hearts /////
 
 ; //// ENNEMIES \\\\
-
 
 	ld e, n_enemies      ; loop iterator
 	ld hl, global_.enemies      ; address of first ennemy strucs
@@ -264,6 +301,5 @@ ld (hl), a
 ; \\\\ ENNEMIES ////
 
 ; \\\\\\ UPDATE SPRITES POSITION //////
-
 
 ; ########## END DISPLAY CRITICAL SECTION ##########
