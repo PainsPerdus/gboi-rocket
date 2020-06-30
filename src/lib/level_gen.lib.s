@@ -60,10 +60,16 @@ level_gen_init:
     add h
     dec b
     jr nz, @@mult_loop
-    add 
-    ; a = j * width + i
+    add l
+    ; a = j * width + i = start
     ; line 82
+    ld HL, level_gen_.map
+    ld c, a
+    ld b, $00
+    add HL, BC ; HL = map + start
+    ld (HL), %0000110
 
     pop DE
+    ret
 
 
