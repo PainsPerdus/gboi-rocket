@@ -7,3 +7,4 @@ BackgroundTiles:
 .INCLUDE "sprites/walls_spritesheet.sprite"
 .INCLUDE "sprites/doors_spritesheet.sprite"
 .INCLUDE "sprites/rocks_spritesheet.sprite"
+.INCLUDE "sprites/pit_spritesheet.sprite"
