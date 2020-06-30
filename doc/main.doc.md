@@ -13,8 +13,8 @@ Include specifications for the generation of the binary file.
 ~~~
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "global.var.s"
-...
-.ENUM $C000
+; $C000 to $C0FF is reserved for dynamic opcode 
+.ENUM $C100
 	global_ INSTANCEOF global_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
@@ -44,6 +44,10 @@ Links the interruption `VBLank` to the function `VBLank` and the starting point 
 	call VBlank
 	reti
 
+.ORG $0048              ; Write at the address $0048 (hblank interruption)
+    push hl ;Save the hl registery that we're going to use
+    jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
+ 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
 	jp start
@@ -64,28 +68,58 @@ Each module `xxx` has a `xxx.init.s` file with its initialization code.
 
 ## Main Loop
 
-Do nothing, we work in `VBlank`.
+The main logic in included in `body.s`.
+
+We use a lock to synchronize the update of the values with the update of the screen. After each iteration we wait for a VBlank, and if we didn't finished the iteration, the VBlank interruption do nothing.
 ~~~
 ; ///////// MAIN LOOP \\\\\\\\\
 loop:
-	jr loop
+; //// WAIT FOR VBLANK \\\\
+	halt
+	ld a,(lock)
+	and a
+  jp nz,loop			; wait until lock = 0
+; \\\\ WAIT FOR VBLANK ////
+
+.INCLUDE "body.s"
+
+; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
+	ld a,1
+	ld (lock),a    ; lock = 1
+; \\\\ ALLOW VBLANK TO UPDATE THE SCREEN ////
+; \\\\\\\\\ MAIN LOOP /////////
+	jp loop
 ; \\\\\\\\\ MAIN LOOP /////////
 ~~~
 
 ## VBlank
 
-The VBLank function. **We include the `display` module first.**. The VLblank is a save time to edit the screen, and after this time, we can't edit the screen anymore, but we can still compute the values for the next frame.
-
-If the module `xxx` (`display` aside) needs to execute code at each iteration, the file `xxx.s` is included inside the file `body.s`.
+The VBlank function. This function is called with VBlank interrupt, but we only update the screen after each iteration of the loop. So, when the lock is not in the right state, we return at once. Else we run the code include in `xxx.vbl.s` files (the display module first, since we can only update the screen during the vblank time). The code included here has to be really fast. Long computations should be done in the loop.
 
 ~~~
 ; ///////// VBlank Interuption \\\\\\\\\
 VBlank:
 	push af
+	push bc
+	push de
 	push hl
-.INCLUDE "display.s"
-.INCLUDE "body.s"
+; //// CHECK IF THE LOOP FINISHED \\\\
+	ld a,(lock)
+	and a
+	jp z,endVBlank
+; \\\\ CHECK IF THE LOOP FINISHED ////
+
+.INCLUDE "vblank/display.vbl.s"
+.INCLUDE "vblank/check_inputs.vbl.s"
+
+; //// REALLOW THE LOOP \\\\
+	xor a
+	ld (lock),a    ; lock = 0
+; \\\\ REALLOW THE LOOP ////
+endVBlank:
 	pop hl
+	pop bc
+	pop de
 	pop af
 	ret
 ; \\\\\\\\\ VBlank Interuption /////////

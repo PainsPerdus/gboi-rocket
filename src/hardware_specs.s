@@ -1,6 +1,6 @@
 ; ///////// Hardware Spec \\\\\\\\\
 .ROMDMG
-.NAME "PONGDEMO"
+.NAME "ISAAC"
 .CARTRIDGETYPE 0
 .RAMSIZE 0
 .COMPUTEGBCHECKSUM
