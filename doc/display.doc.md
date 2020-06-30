@@ -28,7 +28,7 @@ else { //Not Moving
 }
 ~~~
 
-## Bullets
+## Tears opcode injection preparation
 
 /!\ This section is a work in progress!
 
