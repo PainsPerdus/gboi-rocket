@@ -119,9 +119,13 @@ global_init:
 	ld hl, global_.isaac_tears
 	ld b,n_isaac_tears
 @isaac_tears_loop:
-	ldi (hl),a ; x = 0
-	ldi (hl),a ; y = 0
-	ldi (hl),a ; not alive, not upgraded, speed x = 0, speed y = 0
+	ld a,30
+	ldi (hl),a ; x = 30
+	ldi (hl),a ; y = 30
+	xor a
+	ldi (hl),a ;id 
+	ldi (hl),a ;speed
+	ldi (hl),a ;ttl
 	dec b
 	jp nz,@isaac_tears_loop
 

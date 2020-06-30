@@ -18,7 +18,9 @@
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
 
-.ENUM $C000
+; $C000 to $C0FF is reserved for dynamic opcode
+
+.ENUM $C100
 	global_ INSTANCEOF global_var
 	display_ INSTANCEOF display_var
 	collision_ INSTANCEOF collision_var
@@ -35,6 +37,11 @@
 .ORG $0040 				; Write at the address $0040 (vblank interuption)
 	call VBlank
 	reti
+
+.ORG $0048 				; Write at the address $0048 (hblank interruption)
+	push hl	;Save the hl registery that we're going to use
+	jp DISPLAY_RAM_OPCODE_START
+;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
@@ -80,15 +87,14 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; \\\\ VBlank_lock ////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
-	ld a,%00000000
-	ldh ($41),a		; Disable LCD STAT interruptions
-	ld a,%00000001
-	ldh ($FF),a		; Enable VBlank global interruption
+	ld a,%00001000
+	ldh ($41),a		; enable STAT HBlank interrupt
+	ld a,%00000011
+	ldh ($FF),a		; enable VBlank interrupt and STAT interrupt
 	ei						; interrutions are back!
-; \\\\\\\ ENABLE INTERRUPTIONSS ///////
+; \\\\\\\ ENABLE INTERRUPTIONS ///////
 
 ; \\\\\\\\\ INIT /////////
-
 
 
 ; ///////// MAIN LOOP \\\\\\\\\
@@ -101,6 +107,7 @@ loop:
 ; \\\\ WAIT FOR VBLANK ////
 
 .INCLUDE "body.s"
+.INCLUDE "display.s"
 
 ; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
 	ld a,1
@@ -109,7 +116,6 @@ loop:
 ; \\\\\\\\\ MAIN LOOP /////////
 	jp loop
 ; \\\\\\\\\ MAIN LOOP /////////
-
 
 ; ///////// VBlank Interuption \\\\\\\\\
 

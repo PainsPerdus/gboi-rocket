@@ -13,8 +13,8 @@ Include specifications for the generation of the binary file.
 ~~~
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "global.var.s"
-...
-.ENUM $C000
+; $C000 to $C0FF is reserved for dynamic opcode 
+.ENUM $C100
 	global_ INSTANCEOF global_var
 .ENDE
 ; \\\\\\\\\ Mapping /////////
@@ -44,6 +44,10 @@ Links the interruption `VBLank` to the function `VBLank` and the starting point 
 	call VBlank
 	reti
 
+.ORG $0048              ; Write at the address $0048 (hblank interruption)
+    push hl ;Save the hl registery that we're going to use
+    jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
+ 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
 	jp start

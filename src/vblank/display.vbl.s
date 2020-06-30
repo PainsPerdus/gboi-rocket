@@ -1,15 +1,5 @@
 ; ########## START DISPLAY CRITICAL SECTION ##########
-display:
-; ////// INIT DIRECTION \\\\\\
-
-xor a
-ld (display_.isaac.shoot_timer), a ; TODO hard coded
-
-; // Update fly animation frame \\
-ld a, (display_.fly.frame)
-inc a
-ld (display_.fly.frame), a
-; \\ Update fly animation frame //
+display_vbl:
 
 ; ////// UPDATE SPRITES POSITION \\\\\\
 
@@ -19,7 +9,7 @@ ld (display_.fly.frame), a
 
 ; //// Top Tiles \\\\
 ; /// Left \\\\
-		ld hl,$FE00
+		ld hl,OAM_ISAAC
 		ld a, (global_.isaac.y)
 		ld (hl), a ;posY
 		inc l
@@ -39,7 +29,7 @@ ld (display_.fly.frame), a
 		ld (hl), a
 ; \\\ Left ///	
 ; /// Right \\\
-		ld hl,$FE04
+		ld hl,OAM_ISAAC+$4
 		ld a,(global_.isaac.y)
 		ld (hl),a ;posY
 		inc l
@@ -107,7 +97,7 @@ ld (display_.fly.frame), a
 ; /// Update OAM \\\
 
 //bottom left
-		ld hl,$FE08
+		ld hl,OAM_ISAAC+$8
 		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY
@@ -118,7 +108,7 @@ ld (display_.fly.frame), a
 		ld (hl), d ;Chosen bottom left sprite 
 
 //bottom right
-		ld hl,$FE0C
+		ld hl,OAM_ISAAC+$C
 		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY
@@ -164,15 +154,48 @@ ld (hl), a
 	bit 2,a
 	jp z, @no_recover
 	xor a
-	ld ($FE00), a
-	ld ($FE04), a
-	ld ($FE08), a
-	ld ($FE0C), a
+	ld (OAM_ISAAC), a
+	ld (OAM_ISAAC+$4), a
+	ld (OAM_ISAAC+$8), a
+	ld (OAM_ISAAC+$C), a
 
 	@no_recover:
 
 ; \\\ Recover time ///
 ; \\\\\ Isaac /////
+
+; ///// Tears \\\\\
+
+	//Show the OAM_ISAAC_TEARS_SIZE first active tears
+	ld d, n_isaac_tears ;loop counter
+	ld bc, OAM_ISAAC_TEARS ;Pointer to the start of the tears in OAM
+	ld hl, global_.isaac_tears ;Pointer to the start of the tears
+@loopUpdateTears: //do {
+	ldi a, (hl) ;tear posY
+	and a
+	jr z, @disabledTear ;if a==0 then tear is disabled
+	ld (bc), a ;tear pos Y in OAM
+	inc c
+	ld a, (hl) ;tear posX
+	ld (bc), a ;tear pos X in OAM
+	ld a,c
+	cp OAM_ISAAC_TEARS-$FE00+4*(OAM_ISAAC_TEARS_SIZE-1)+1 ;check if c is last tear sprite pos X in OAM
+	jr z, @endTears
+	inc c
+	inc c
+	inc c ;next tear address in OAM
+@disabledTear:
+	//Get pointer to next tear Y position in hl
+	ld a,d ;Save d
+	ld de,_sizeof_tear-1
+	add hl, de ;Next tear Y
+	ld d,a ;Restore d
+	dec d ;loop counter --
+	jr nz, @loopUpdateTears //} while((--d)!=0) 
+@endTears:
+
+; \\\\\ Tears /////
+
 ; //// ENNEMIES \\\\
 
 
@@ -232,52 +255,8 @@ ld (hl), a
 	jp nz, @next_ennemy
 
 ; \\\\ ENNEMIES ////
+
 ; \\\\\\ UPDATE SPRITES POSITION //////
 
 
 ; ########## END DISPLAY CRITICAL SECTION ##########
-displayNonCritical: 
-
-
-; ////// UPDATE ANIMATION FRAMES AND TIMERS \\\\\\
-
-; ///// Isaac \\\\\
-		ld a, (global_.isaac.speed)
-		and a ; update Z flag with value of a
-		jp z, @notMoving ; Isaac is not moving if its speed is 0
-; //// Moving \\\\
-
-; /// Update Timer \\\
-		ld a,(display_.isaac.walk_timer)
-		and a
-  		jr nz,@end_timer ;Reset timer and update frame when timer is 0
-
-; // Update animation frame \\
-		ld a, (display_.isaac.frame)
-		xor %00000001 ;bit0(a)=!bit0(a)
-		ld (display_.isaac.frame),a
-; \\ Update animation frame //
-
-
-		//Timer is 0 so we reset the timer
-  		ld a,20 
-@end_timer:
-		//We decrease the timer
-		dec a
-  		ld (display_.isaac.walk_timer), a
-; \\\ Update Timer ///
-
-		jr @endMoving
-; \\\\ Moving ////
-; //// Not Moving \\\\
-@notMoving
-		xor a
-	//Reset the timer
-		ld (display_.isaac.walk_timer), a
-	//Reset walking animation frame
-		ld (display_.isaac.frame), a
-@endMoving
-; \\\\ Not Moving ////
-; \\\\\ Isaac /////
-
-; \\\\\\ UPDATE ANIMATION FRAMES AND TIMERS //////
