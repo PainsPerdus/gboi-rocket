@@ -1,5 +1,11 @@
 # Description of main.s
 
+Main works like a state machine to decide which code to run based on the current state.   
+We have 3 types of code to run:
+- Init code, at the start of the state
+- Loop code, during the main loop
+- VBlank code, during VBlank. 
+
 ## Header
 Include defines for the game boy architecture.
 ~~~
@@ -56,6 +62,7 @@ Links the interruption `VBLank` to the function `VBLank` and the starting point 
 ## Init
 
 See the pandoc for more info about what's done here. Basically clear the screen and initialize the modules.
+Each init must be in its gamestate section in Init Handler.
 
 Each module `xxx` has a `xxx.init.s` file with its initialization code.
 ~~~
@@ -124,6 +131,11 @@ endVBlank:
 	ret
 ; \\\\\\\\\ VBlank Interuption /////////
 ~~~
+
+## Change State
+
+Takes a as argument : a is new State. 
+Changes state to new state, waits for VBlank and runs init.
 
 ## Include .lib
 

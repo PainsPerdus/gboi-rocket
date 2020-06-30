@@ -28,9 +28,17 @@
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
 	VBlank_lock DB
+	GameState DB
 .ENDE
+
 ; \\\\\\\\\ Mapping /////////
 
+; ///////// Game States \\\\\\\\\\
+.DEFINE GAMESTATE_TITLESCREEN $00
+.DEFINE GAMESTATE_PLAYING $01
+.DEFINE GAMESTATE_CHANGINGROOM $03
+.DEFINE GAMESTATE_GAMEMENU $02
+; \\\\\\\\\ Game States //////////
 
 
 ; ///////// DEFINE INTERRUPTIONS \\\\\\\\\
@@ -39,8 +47,9 @@
 	reti
 
 .ORG $0048 				; Write at the address $0048 (hblank interruption)
-	push hl	;Save the hl registery that we're going to use
-	jp DISPLAY_RAM_OPCODE_START
+	reti
+	;push hl	;Save the hl registery that we're going to use
+	;jp DISPLAY_RAM_OPCODE_START
 ;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
@@ -74,17 +83,19 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 ; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
 
-; /////// INCLUDE .INIT \\\\\\\
-.INCLUDE "init/global.init.s"
-.INCLUDE "init/room.init.s.stub"
-.INCLUDE "init/display.init.s"
-.INCLUDE "init/rng.init.s"
-.INCLUDE "init/check_inputs.init.s"
-; \\\\\\\ INCLUDE .INIT ///////
 ; //// VBlank_lock \\\\
 	xor a
 	ld (VBlank_lock),a    ; VBlank_lock = 0
 ; \\\\ VBlank_lock ////
+
+; //// Game State \\\\
+	ld a, GAMESTATE_TITLESCREEN
+	ld (GameState), a 
+; \\\\ Game State //// 
+
+; /////// INCLUDE .INIT \\\\\\\
+	call init
+; \\\\\\\ INCLUDE .INIT ///////
 
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
 	ld a,%00001000
@@ -106,8 +117,21 @@ loop:
   jp nz,loop			; wait until VBlank_lock = 0
 ; \\\\ WAIT FOR VBLANK ////
 
-.INCLUDE "body.s"
-.INCLUDE "display.s"
+; //// STATE MACHINE FOR MAIN LOOP \\\\
+	ld a, (GameState)
+	cp GAMESTATE_TITLESCREEN
+	jp z, MLstateTitleScreen
+	cp GAMESTATE_PLAYING
+	jp z, MLstatePlaying
+MLstateTitleScreen:
+	jp MLend
+MLstatePlaying:
+	.INCLUDE "body.s"
+	.INCLUDE "display.s"
+	jp MLend
+MLend:
+ 
+ ; \\\\ STATE MACHINE FOR MAIN LOOP ////
 
 ; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
 	ld a,1
@@ -116,6 +140,7 @@ loop:
 ; \\\\\\\\\ MAIN LOOP /////////
 	jp loop
 ; \\\\\\\\\ MAIN LOOP /////////
+
 
 ; ///////// VBlank Interuption \\\\\\\\\
 
@@ -128,13 +153,23 @@ VBlank:
 	ld a,(VBlank_lock)
 	and a
 	jr nz,noSkipFrame
-	ld b,b
 	jp endVBlank
 noSkipFrame:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
 
-.INCLUDE "vblank/display.vbl.s"
-.INCLUDE "vblank/check_inputs.vbl.s"
+	ld a, (GameState)
+	cp GAMESTATE_TITLESCREEN
+	jp z, VstateTitleScreen
+	cp GAMESTATE_PLAYING
+	jp z, VstatePlaying
+VstateTitleScreen:
+	.INCLUDE "vblank/title_screen.vbl.s"
+	jp Vend
+VstatePlaying:
+	.INCLUDE "vblank/display.vbl.s"
+	.INCLUDE "vblank/check_inputs.vbl.s"
+	jp Vend
+Vend:
 
 ; //// REALLOW THE LOOP \\\\
 	xor a
@@ -149,7 +184,47 @@ endVBlank:
 ; \\\\\\\\\ VBlank Interuption /////////
 
 
+; ////////// Init Handler \\\\\\\\\\
+init:
+	ld a, (GameState)
+	cp GAMESTATE_TITLESCREEN
+	jp z, IstateTitleScreen
+	cp GAMESTATE_PLAYING
+	jp z, IstatePlaying
+IstateTitleScreen:
+	.INCLUDE "init/title_screen.init.s"
+	jp Iend
+IstatePlaying:
+	.INCLUDE "init/display.init.s"
+	.INCLUDE "init/global.init.s"
+	.INCLUDE "init/room.init.s.stub"
+	.INCLUDE "init/rng.init.s"
+	.INCLUDE "init/check_inputs.init.s"
+	jp Iend
+Iend:
+	ret
 
+; \\\\\\\\\\ Init Handler //////////
+
+; ///////// CHANGE STATE \\\\\\\\\\\
+changeState:
+	di
+	ld (GameState), a
+	;//We wait for VBlank to allow init scripts to run
+waitvlb2: 					; wait for the line 144 to be refreshed:
+	ldh a,($44)
+	cp 144          ; if a < 144 jump to waitvlb
+	jr c, waitvlb2
+	xor a
+	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+
+
+	call init
+
+	reti
+
+; \\\\\\\\\ CHANGE STATE ///////////
+ 
 ; ///////// INCLUDE .LIB \\\\\\\\\
 .INCLUDE "lib/display_background_tile.lib.s"
 .INCLUDE "lib/display_doors.lib.s"
