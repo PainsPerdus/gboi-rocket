@@ -92,8 +92,4 @@ move_and_collide:
 	; \\\\ CANCEL MOUVEMENT ////
 	@@noCollision:
 ; \\\\\\\ MOVE ISAAC  X ////////
-	jr @move_done
-@no_move:	; Set speed to 0 while lagframe, to avoid gltychy behaviour with display
-	xor a
-	ld (global_.isaac.speed),a
-@move_done:
+@no_move:
