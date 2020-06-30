@@ -196,6 +196,26 @@ ld (hl), a
 
 ; \\\\\ Tears /////
 
+; ///// Hearts \\\\\
+
+	ld e, 0 ;hp
+@loopHearts:
+	ld d, HEARTS_SPRITESHEET	
+	ld a, (global_isaac.hp)
+	cp e
+	jp c
+
+
+
+	ld a,e
+	add 2
+	ld e,a
+	cp ISAAC_MAX_HP
+	jr c, @loopHearts
+
+
+; \\\\\ Hearts /////
+
 ; //// ENNEMIES \\\\
 
 

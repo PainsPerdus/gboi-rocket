@@ -125,3 +125,25 @@ do {
 	}
 	bc++;
 } while(--d!=0)
+
+#### Hearts
+
+We show the hearts on the background, in the upper left corner.
+
+~~~C
+char *BACKGROUND_HEARTS_POS = $9800 //Background first heart pos in background map
+char hp=0;
+do {
+	heart_sprite = HEARTS_SPRITESHEET //Sprite id in VRAM
+	if(global_.isaac.hp>hp) {
+		heart_sprite++;
+	}
+	if(global_.isaac.hp>hp+1) {
+		heart_sprite++;
+	}
+	
+	*(BACKGROUND_HEARTS_POS+hp/2)=heart_sprite
+	hp+=2;
+
+} while(hp<ISAAC_MAX_HP)
+~~~C
