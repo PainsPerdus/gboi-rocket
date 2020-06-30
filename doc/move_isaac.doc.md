@@ -13,6 +13,8 @@
 isaac.lagCounter --;
   if (!isaac.lagCounter){
     isaac.lagCounter = isaac.speedFreq
+    if (isaac.speed.x != 0 and isaac.speed.y != 0)
+      isaac.lagCounter += int(isaac.speedFreq/2 +0.5);
 
    //////// MOVE ISAAC  Y \\\\\\\
   isaac.y += isaac.speed.y

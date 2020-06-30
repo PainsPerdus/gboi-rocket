@@ -11,7 +11,7 @@ enemys_turn:
 
 ; //// Move the enemy \\\\
 
-	ld b,b
+; /// Check lagcounter \\\
 	ld hl,$0006
 	add hl,de
 	dec (hl)
@@ -21,14 +21,38 @@ enemys_turn:
 	dec hl
 	ld (hl),a
 
-	ld hl,$0004
+; // If move is diag, increase lag counter \\
+	ld hl,$0004 ; B = V
 	add hl,de
 	ld b,(hl)
-	ld a,b
 
+
+	ld a,b
+	and MASK_4_LSB
+	jr z,@@no_diag_move
+	ld a,b
+	and MASK_4_MSB
+	jr z,@@no_diag_move
+	ld b,b
+
+	ld hl,$0007
+	add hl,de
+	ld a,(hl)
+	bit 1,a
+	jp nz,@@multiple_of_2
+	inc a
+@@multiple_of_2:
+	srl a
+	add (hl)
+	dec hl
+	ld (hl),a
+; \\ If move is diag, increase lag counter //
+@@no_diag_move:
+; \\\ Check lagcounter ///
+
+; /// y += dy \\\
 	ld hl,$0001
 	add hl,de
-
 
   ld a,b
   and %00001111
@@ -38,7 +62,9 @@ enemys_turn:
 @@posit_y:
   add (hl)
   ldi (hl),a
+; \\\ y += dy ///
 
+; /// x += dx \\\
 	ld a,b
 	swap a
 	and %00001111
@@ -48,6 +74,7 @@ enemys_turn:
 @@posit_x:
 	add (hl)
 	ld (hl),a
+; \\\ x += dx ///
 ; \\\\ Move the enemy ////
 @@no_move:
 
