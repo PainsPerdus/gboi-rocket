@@ -133,24 +133,27 @@ We show the hearts on the background, in the upper left corner.
 
 ~~~C
 char *BACKGROUND_HEARTS_POS = $9800   //Background first heart pos in background map
-char *hp = (global_.isaac.hp);
-char max_hp = ISAAC_MAX_HP
-while (max_hp > 0 ) //draw all empty hearts
+char max_hp = ISAAC_MAX_HP            // in e
+char sprite = HEART_SPRITESHEET       // in d
+do                                    //draw all empty hearts
 {
-	hp = hp - 2
-	draw(full_heart)
-}
+	hp = hp - 2;
+	set(sprite);
+} while (max_hp > 0 ) ;
+
+char *hp = (global_.isaac.hp) // in a
+sprite ++        // passing to full heart sprite
 while (hp != 0 ) //draw full and half hearts
 {
-	hp --
-	if (hp ==0) 
+	hp --;
+	if (hp ==0) ;
 	{
-	draw(half_heart)
-	break
+	sprite ++          // passing to half heart sprite
+	set(sprite);
+	break;              // ending loop
 	}
-	hp --
-	draw(full_heart)
-
+	hp --;
+	set(sprite);
 }
 
 ~~~C
