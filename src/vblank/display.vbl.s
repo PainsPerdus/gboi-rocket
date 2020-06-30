@@ -27,7 +27,7 @@ display_vbl:
 		add d
 		add e
 		ld (hl), a
-; \\\ Left ///	
+; \\\ Left ///
 ; /// Right \\\
 		ld hl,OAM_ISAAC+$4
 		ld a,(global_.isaac.y)
@@ -78,7 +78,7 @@ display_vbl:
 ; \\ Moving //
 
 ; // Not Moving \\
-@notMoving: 
+@notMoving:
 	//Left sprite id
 		ld a, (global_.isaac.direction)
 		and %00000010
@@ -105,7 +105,7 @@ display_vbl:
 		ld a, (global_.isaac.x)
 		ld (hl), a ;posX
 		inc l
-		ld (hl), d ;Chosen bottom left sprite 
+		ld (hl), d ;Chosen bottom left sprite
 
 //bottom right
 		ld hl,OAM_ISAAC+$C
@@ -191,7 +191,7 @@ ld (hl), a
 	add hl, de ;Next tear Y
 	ld d,a ;Restore d
 	dec d ;loop counter --
-	jr nz, @loopUpdateTears //} while((--d)!=0) 
+	jr nz, @loopUpdateTears //} while((--d)!=0)
 @endTears:
 
 ; \\\\\ Tears /////
@@ -211,7 +211,7 @@ ld (hl), a
 	cp  %00010000
 	jp z, @fly
 	; cp %00110000...
-	
+
 	; MORE ENNEMIES OPTIONS HERE
 
 @fly:
@@ -236,11 +236,11 @@ ld (hl), a
 	inc c
 
 	jp @ennemy_updated
-	
-	
+
+
 	;...
 	; MORE ENNEMIES LABELS HERE
-	
+
 @dead:
 	inc hl
 	inc hl
@@ -250,7 +250,9 @@ ld (hl), a
 	inc hl
 	inc hl
 	inc hl
-	
+	inc hl
+	inc hl
+
 	dec e
 	jp nz, @next_ennemy
 

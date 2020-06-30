@@ -17,6 +17,9 @@ Content of the struct "isaac" :
 | recover | 1 byte | recovery time |
 | bombs | 1 byte | number of bombs Isaac has |
 | direction | 1 byte | 2 bits indicate Isaac's direction (00 = up, 11 = down, 10 = right, 01 = left) (pos 1:0), 6 other bits are free |
+| lagCounter | 1 byte | Number of iteration of loop before next movement. |
+| speedFreq | 1 byte | Number of iteration of loop between each movement. |
+
 
 ## Blocking
 
@@ -48,7 +51,10 @@ Content of struct "enemy" :
 | hp | 1 byte | health of the enemy |
 | speed | 1 byte | 4 bits for x speed (pos 7:4), 4 bits for y speed (pos 3:0) |
 | dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
+| lagCounter | 1 byte | Number of iteration of loop before next movement. |
+| speedFreq | 1 byte | Number of iteration of loop between each movement. |
 
+speedFreq
 ## Enemy Init
 
 Content of struct "enemy_init"
@@ -58,6 +64,7 @@ Content of struct "enemy_init"
 | info | 1 byte | 1 flag "alive" (pos 7), 4 bits for ID (pos 6:3), 3 bit for the size (pos 2:0) |
 | hp | 1 byte | health of the enemy |
 | dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
+| speedFreq | 1 byte | Number of iteration of loop between each movement. |
 
 ## Object
 
