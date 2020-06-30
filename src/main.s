@@ -77,34 +77,29 @@ start:
 	ld (GameState), a 
 ; \\\\ Game State //// 
 
-; /////// TURN THE SCREEN AND SOUND OFF \\\\\\\
+; //// Stack pointer \\\\
 	ld sp,$E000     ; set the StackPointer
+; \\\\ Stack pointer ////
+
+; /////// TURN THE SOUND OFF \\\\\\\
 	xor a						; a=0
 	ldh ($26),a     ; ($FF26) = 0, turn the sound off
-waitvlb: 					; wait for the line 144 to be refreshed:
-	ldh a,($44)
-	cp 144          ; if a < 144 jump to waitvlb
-	jr c, waitvlb
-                  ; now we are in the vblank,
-                  ; the screen is not eddited for a few
-                  ; cycles.
-									; turn the screen off:
-	xor a
-	ldh ($40), a    ; ($FF40) = 0, turn the screen off
-; \\\\\\\ TURN THE SCREEN AND SOUND OFF ///////
+; \\\\\\\ TURN THE SOUND OFF ///////
 
-
-; /////// INCLUDE .INIT \\\\\\\
-	call init
-; \\\\\\\ INCLUDE .INIT ///////
-
-; /////// ENABLE INTERRUPTIONS \\\\\\\
+; /////// SETUP INTERRUPTIONS \\\\\\\
 	ld a,%00001000
 	ldh ($41),a		; enable STAT HBlank interrupt
 	ld a,%00000011
 	ldh ($FF),a		; enable VBlank interrupt and STAT interrupt
-	ei						; interrutions are back!
-; \\\\\\\ ENABLE INTERRUPTIONS ///////
+;	ei						; interrutions are back! (they're gonna be back after initial game state setup)
+; \\\\\\\ SETUP INTERRUPTIONS ///////
+
+; //// SET INITIAL GAME STATE \\\\
+    ;//We set the initial game state, this will first wait for vblank and turn off the screen. 
+	;//It will then reti and enable interrupts.
+	ld a, GAMESTATE_TITLESCREEN
+	call setGameState ; Set initial gamestate
+; \\\\ SET INITIAL GAME STATE ////
 
 ; \\\\\\\\\ INIT /////////
 
@@ -212,21 +207,21 @@ Iend:
 ; \\\\\\\\\\ Init Handler //////////
 
 ; ///////// CHANGE STATE \\\\\\\\\\\
-changeState:
-	di
+setGameState:
+	di ;we don't want interrupts when we change up game states
 	ld l, a ; Save new GameState
 	ld a, (GameState)
 	ld b, a ; Save old GameState b=oldGameState
 	ld a, l ; Restore new GameState 
 	ld (GameState), a ; GameState = a
 	;//We wait for VBlank to allow init scripts to run
-waitvlb2: 					; wait for the line 144 to be refreshed:
+waitvlb: 					; wait for the line 144 to be refreshed:
 	ldh a,($44)
 	cp 144          ; if a < 144 jump to waitvlb
-	jr c, waitvlb2
+	jr c, waitvlb
+	//We're in vblank we can turn the screen off!
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
-
 
 	ld a, b ;a argument to init is old GameState
 	call init
