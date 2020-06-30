@@ -30,10 +30,10 @@ move_and_collide:
 @y:
 ; //////// MOVE ISAAC  Y \\\\\\\
 	ld a,(global_.isaac.speed)
-	and %00001111
+	and MASK_4_LSB
 	bit $3,a
 	jr z,@@posit
-	or %11110000
+	or MASK_4_MSB
 @@posit:
 	ld b,a									; B = SPEED Y
 	ld hl,global_.isaac.y
@@ -50,29 +50,8 @@ move_and_collide:
 	ld a, ISAAC_FEET_HITBOX
 	ld (collision_.hitbox1), a
 ;   \\\\ collision Y  init ////
-
-;   //// collision Y  loop \\\\
-	ld de, global_.blockings
-	ld c, n_blockings
-	@@loop:
-; /// loop start \\\
-	ld h,d
-	ld l,e
-
-; / set hitbox and position as parameter \
-	ldi a, (hl)
-	bit ALIVE_FLAG, a
-	jr z,@@noCollision ; check if element is alive
-	and BLOCKING_SIZE_MASK
-	ld (collision_.hitbox2), a
-	ldi a, (hl)
-	ld (collision_.p.2.y), a
-	ld a, (hl)
-	ld (collision_.p.2.x), a
-; \ set hitbox and position as parameter /
-
-; / test collision \
-	call collision
+	call collision_obstacles
+	; //// CANCEL MOUVEMENT \\\\
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.y)
@@ -81,29 +60,20 @@ move_and_collide:
 	add $08
 	ld (collision_.p.1.y),a
 	ld a,(global_.isaac.speed)
-	and %11110000
-	ld b,0
+	and MASK_4_MSB
 	ld (global_.isaac.speed),a ; speed y = 0
+	; \\\\ CANCEL MOUVEMENT ////
 @@noCollision:
-; \ test collision /
-
-@@ending_loop:
-	inc de
-	inc de
-	inc de
-	dec c
-	jr nz, @@loop
-;   \\\\ collision Y  loop ////
 ; \\\\\\\ MOVE ISAAC  Y ////////
 
 @x:
 ; //////// MOVE ISAAC  X \\\\\\\
 	ld a,(global_.isaac.speed)
-	and %11110000
+	and MASK_4_MSB
 	swap a
 	bit $3,a
 	jp z,@@posit
-	or %11110000
+	or MASK_4_MSB
 @@posit:
 	ld b,a									; B = SPEED X
 	ld hl,global_.isaac.x
@@ -114,51 +84,22 @@ move_and_collide:
 	ld a, (global_.isaac.x)
 	ld (collision_.p.1.x), a
 ;   \\\\ collision X  init ////
-
-;   //// collision X  loop \\\\
-	ld de, global_.blockings
-	ld c, n_blockings
-	@@loop:
-; /// loop start \\\
-	ld h,d
-	ld l,e
-
-; / set hitbox and position as parameter \
-	ldi a, (hl)
-	bit ALIVE_FLAG, a
-	jr z,@@noCollision ; check if element is alive
-	and BLOCKING_SIZE_MASK
-	ld (collision_.hitbox2), a
-	ldi a, (hl)
-	ld (collision_.p.2.y), a
-	ld a, (hl)
-	ld (collision_.p.2.x), a
-; \ set hitbox and position as parameter /
-
-; / test collision \
-	call collision
+	call collision_obstacles
+	; //// CANCEL MOUVEMENT \\\\
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.x)
 	sub b
 	ld (global_.isaac.x),a ; isaac.x -= speed x
-	ld (collision_.p.1.x),a
 	ld a,(global_.isaac.speed)
-	and %00001111
-	ld b,0
-	ld (global_.isaac.speed),a ; speed x = 0
-@@noCollision:
-; \ test collision /
-
-@@ending_loop:
-	inc de
-	inc de
-	inc de
-	dec c
-	jr nz, @@loop
-;   \\\\ collision X  loop ////
+	and MASK_4_MSB
+	ld (global_.isaac.speed),a ; speed y = 0
+	; \\\\ CANCEL MOUVEMENT ////
+	@@noCollision:
 ; \\\\\\\ MOVE ISAAC  X ////////
 @no_move:
+
+
 
 
 
