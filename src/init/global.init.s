@@ -239,7 +239,7 @@ global_init:
 
 
 ; load floor
-	ld a, _sizeof_current_floor_var - 1
+	ld a, _sizeof_current_floor_var - 2
 	ld b, a
 	ld de, first_floor
 	ld hl, current_floor_
@@ -302,7 +302,7 @@ findStartLoop:
 	ld (load_map_.map_address + 1), a
 	ldi a, (hl)
 	ld (load_map_.map_address), a
-	
+
 	call load_map
 
 	ld a, (global_.enemies)
