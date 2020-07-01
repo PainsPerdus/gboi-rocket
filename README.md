@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a university project at Télécom Paris (PAF, see https://paf.telecom-paris.fr/projets/game-boy-isaac)
+This is a university project at Télécom Paris (PAF, see [here](https://paf.telecom-paris.fr/projets/game-boy-isaac))
 
 This project aims at remaking the popular game *The Binding of Isaac* for Gameboy classic, in assembly.
 
