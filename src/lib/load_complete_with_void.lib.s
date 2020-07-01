@@ -1,9 +1,6 @@
 ; /// load the arrays with void elements \\\
     ld b, n_blockings - 4
-    ld a, (global_.blockings)
-    ld h, a
-    ld a, (global_.blockings + 1)
-    ld l, a
+	ld hl, global_.blockings
 @resetBlockingLoop:
     ld (hl), VOID_INFO
     ld de, _sizeof_blocking
@@ -12,10 +9,7 @@
     jr nz, @resetBlockingLoop
 
     ld b, n_enemies
-    ld a, (global_.enemies)
-    ld h, a
-    ld a, (global_.enemies + 1)
-    ld l, a
+	ld hl, global_.enemies
 @resetEnemyLoop:
     ld (hl), VOID_ENEMY_INFO
     ld de, _sizeof_enemy
@@ -24,10 +18,13 @@
     jr nz, @resetEnemyLoop
 
     ld b, n_objects
+	/* OMG THIS WAS A HUGE BUG THX GOD ITS FIXED
     ld a, (global_.objects)
     ld h, a
     ld a, (global_.objects + 1)
     ld l, a
+	*/
+	ld hl, global_.objects
 @resetObjectLoop:
     ld (hl), VOID_OBJECT_INFO
     ld de, _sizeof_object
