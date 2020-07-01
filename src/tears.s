@@ -8,7 +8,7 @@ isaac_tears:
 	ld hl,$0000
 	add hl,de
 	ld a,(hl)
-	cp 1 ; DURTY WORK AROUND FOR THE DISPLAY GITCH
+	and a
 	jr z,@@no_move
 
 	ld hl,$0002
@@ -62,7 +62,6 @@ isaac_tears:
 	and a
 	jr z,@@no_collision
 	xor a
-	inc a
 	ld h,d
 	ld l,e
 	ld (hl),a
