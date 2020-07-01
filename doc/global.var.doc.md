@@ -92,8 +92,8 @@ Content of struct "tear" :
 
 | Label | Size | Description |
 | ----- | ---- | ----------- |
-| x | 1 byte | abscissa of the tear |
 | y | 1 byte | ordinate of the tear |
+| x | 1 byte | abscissa of the tear |
 | id | 1 byte | 1 flag for "does it need to be recycled" (pos 7), 1 flag for "is it in the recycling chain" (pos 6), 1 flag for "is it the first in the recycling chain" (pos 5), 5 bits for OAM ID (pos 4:0) |
 | speed | 1 byte | 4 bits for x speed (pos 7:4) and 4 bits for (pos 3:0) |
 | ttl | 1 byte | Nb of iteration before the death of the tear (time to live) |

@@ -57,12 +57,12 @@ ld (display_.fly.frame),a
 
 ; /////// DRAWING WALLS \\\\\\\
 ;    ///// UPPER WALL \\\\\
-	
+
 	ld de,20       ; loop iterator
 	ld hl,$9800
 	@wall_up_line1:			; while de != 0
 	ld a, FLAT_BACKGROUND_WALL
-	ldi (hl),a	 
+	ldi (hl),a
 	dec de		; de --
 	ld a,e
 	or d
@@ -93,13 +93,13 @@ ld (display_.fly.frame),a
 	ld bc, $000C   ; next line distance
 	add hl, bc     ;next line
 	ld a, FLAT_BACKGROUND_WALL ;
-	ldi (hl),a	 
+	ldi (hl),a
 	ld a, LEFT_BACKGROUND_WALL ;
 	ldi (hl), a
 	ld bc, $0010
 	add hl, bc
 	ld a, RIGHT_BACKGROUND_WALL
-	ldi (hl),a	
+	ldi (hl),a
 	ld a, FLAT_BACKGROUND_WALL
 	ldi (hl), a
 	dec de		; de --
@@ -116,7 +116,7 @@ ld (display_.fly.frame),a
 	ldi (hl),a
 	ld de,16       ; loop iterator
 	@wall_down_line1:			; while de != 0
-	ld a, DOWN_BACKGROUND_WALL 
+	ld a, DOWN_BACKGROUND_WALL
 	ldi (hl),a	; *hl <- 0; hl++
 	dec de		; de --
 	ld a,e
@@ -187,7 +187,7 @@ ld (display_.fly.frame),a
 	inc a
 	ld hl, $9A0D
 	ld (hl),a
-	
+
 
 ;    \\\\\ DETAILING /////
 
@@ -232,7 +232,7 @@ ld (display_.fly.frame),a
 	inc l
 	add 10 ;add to X pos
 	dec b
-	jp nz,@loopSetupIsaacTears 
+	jp nz,@loopSetupIsaacTears
 ; \\ SETUP ISAAC TEARS SPRITES //
 
 .INCLUDE "init/display_test.init.s"
@@ -250,7 +250,7 @@ ld (hl), c  ; nn //Tear sprite Y pos address in OAM low byte
 inc l
 ld (hl), b  ; NN //Tear sprite Y pos address in OAM high byte
 inc l
-ld (hl), $36  ; ld (hl), yy 
+ld (hl), $36  ; ld (hl), yy
 inc l
 ld (hl), $35   ; yy //Tear new Y position
 inc l
@@ -269,6 +269,19 @@ ld (hl), $D9 ; reti
 
 ; \\\\\\\ SETUP TEARS HBLANK OPCODE ///////
 
+
+; ////// TESTTTTTT \\\\\\
+	ld hl,global_.isaac_tears
+	ld a,$56
+	ldi (hl),a
+	ld a,$20
+	ldi (hl),a
+	xor a
+	ldi (hl),a
+	ld a,%00010000
+	xor a
+	ldi (hl),a
+; \\\\\\ TESTTTTTT //////
 
 ; /////// INIT COLOR PALETTES \\\\\\\
 ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt

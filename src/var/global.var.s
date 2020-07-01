@@ -82,6 +82,8 @@
 
 .DEFINE DIST_KNOCK_BACK 5
 
+.DEFINE TEMP_n_isaac_tears 5
+
 .STRUCT isaac
 	x DB
 	y DB
@@ -139,15 +141,15 @@
 .ENDST
 
 .STRUCT tear
-	x DB
 	y DB
+	x DB
 	id DB
 	speed DB
 	ttl DB
 .ENDST
 
 .STRUCT global_var
-isaac_tears INSTANCEOF tear n_isaac_tears
+	isaac_tears INSTANCEOF tear n_isaac_tears
 	blockings INSTANCEOF blocking n_blockings
 	enemies INSTANCEOF enemy n_enemies
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
