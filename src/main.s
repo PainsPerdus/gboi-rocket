@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
 
 ; $C000 to $C0FF is reserved for dynamic opcode
@@ -28,6 +29,7 @@
 	vectorisation_ INSTANCEOF vectorisation_var
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
+	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
 	VBlank_lock DB
 	GameState DB
@@ -50,9 +52,6 @@
 
 .ORG $0048 				; Write at the address $0048 (hblank interruption)
 	jp HBlank
-	;push hl	;Save the hl registery that we're going to use
-	;jp DISPLAY_RAM_OPCODE_START
-;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
@@ -218,6 +217,7 @@ IstatePlaying:
 	.INCLUDE "init/display.init.s"
 	.INCLUDE "init/rng.init.s"
 	.INCLUDE "init/check_inputs.init.s"
+	.INCLUDE "init/ai.init.s"
 	jp Iend
 Iend:
 	pop de

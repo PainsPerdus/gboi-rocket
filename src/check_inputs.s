@@ -9,6 +9,10 @@ check_input:
 	ld b,a
 
 ; /////// CHECK ARROWS \\\\\\\
+	ld a,(global_.isaac.lagCounter) ; Avoid glitchy behavior with display and collisions
+	cp 1
+	jp nz,@no_refresh_speed
+
 	ld a,(global_.isaac.direction)
 	and MASK_2_LSB
 	ld c,a
@@ -40,6 +44,7 @@ check_input:
 	and MASK_6_MSB
 	or c
 	ld (global_.isaac.direction),a
+@no_refresh_speed:
 ; \\\\\\\ CHECK ARROWS ///////
 
 ; /////// CHECK AB \\\\\\\
