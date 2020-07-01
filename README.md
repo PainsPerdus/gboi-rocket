@@ -2,7 +2,9 @@
 
 ## Description
 
-This project aims at remaking the popular game *The Binding of Isaac* for Gameboy classic, in assembly. 
+This is a university project at Télécom Paris (PAF, see https://paf.telecom-paris.fr/projets/game-boy-isaac)
+
+This project aims at remaking the popular game *The Binding of Isaac* for Gameboy classic, in assembly.
 
 Checkout our [blog](https://painsperdus.github.io/gboi-rocket) !
 
@@ -31,5 +33,5 @@ Checkout our [blog](https://painsperdus.github.io/gboi-rocket) !
 ### Install to SD Card (for Everdrive cartridge)
 
 You need to modify the `makefile` and change `INSTALL=""` to your SD card mounting point.  
-  
+
 	make install
