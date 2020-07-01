@@ -1,8 +1,10 @@
-timer_interrupt :
+timer_interrupt:
     push AF
     push BC
     push DE
     push HL
+    nop
+    ld b,b
 ;    //// CHANNEL 1 \\\\
     ;check if the note is finished on channel 1
     ld a, (music_state_.rest1)
@@ -41,7 +43,7 @@ timer_interrupt :
     ld c, (hl)    ;take lower weight bits
     ld l, a
     sla l
-    xor h
+    ld h, 0
     add hl, bc    ;find the real scale linked to the note
     ld a, (hl)
     ld d, a     ;save the frequency of the note to play in d
@@ -55,7 +57,7 @@ timer_interrupt :
     ld c, (hl)    ;take lower weight bits
     ld l, a
     sla l
-    xor h
+    ld h, 0
     add hl, bc
     ld a, h
     ld (music_state_.rest1),a ;set the time of the note to play in rest1, this line may not be useful
@@ -79,7 +81,7 @@ timer_interrupt :
     ldh ($25),a
 
 @silence:
-
+    nop
 @continueCurrentNote1:
 
 ;    \\\\ CHANNEL 1 ////
@@ -89,10 +91,12 @@ timer_interrupt :
 
 ;\\\\ TIMER INTERUPT LOOP ////
 ;\\\\ MUSIC PLAYER ///
+ld b,b
     pop HL
     pop DE
     pop BC
     pop AF
+    ld b,b
   ret
 
 music_start: ; HL -> pointer to music
