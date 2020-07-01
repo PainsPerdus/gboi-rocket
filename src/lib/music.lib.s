@@ -1,4 +1,4 @@
-timer_interupt :
+timer_interrupt :
     push AF
     push BC
     push DE
