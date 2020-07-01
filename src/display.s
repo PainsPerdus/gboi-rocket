@@ -1,7 +1,6 @@
 display:
 ; ////// UPDATE SHADOW OAM \\\\\\
 
-; ///// Isaac \\\\\
 
 updateShadowOAM:
 
@@ -10,11 +9,14 @@ updateShadowOAM:
 		ld (display_.OAM_pointer), a
 ; \\ Init OAM pointer //
 
-/*
+
+; ///// Isaac \\\\\
+
 
 ; //// Top Tiles \\\\
 ; /// Left \\\\
-		ld hl,OAM_ISAAC
+		ld hl, SHADOW_OAM_START
+		ld l,a ;OAM_pointer
 		ld a, (global_.isaac.y)
 		ld (hl), a ;posY
 		inc l
@@ -33,8 +35,9 @@ updateShadowOAM:
 		add e
 		ld (hl), a
 ; \\\ Left ///
+		inc l
+		inc l ;next sprite in OAM
 ; /// Right \\\
-		ld hl,OAM_ISAAC+$4
 		ld a,(global_.isaac.y)
 		ld (hl),a ;posY
 		inc l
@@ -53,6 +56,8 @@ updateShadowOAM:
 		add e
 		ld (hl), a
 ; \\\ Right ///
+		inc l
+		inc l ; next isaac sprite
 
 ; \\\\ Top Tiles ////
 
@@ -102,7 +107,6 @@ updateShadowOAM:
 ; /// Update OAM \\\
 
 //bottom left
-		ld hl,OAM_ISAAC+$8
 		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY
@@ -112,8 +116,9 @@ updateShadowOAM:
 		inc l
 		ld (hl), d ;Chosen bottom left sprite
 
+		inc l
+		inc l ;next sprite
 //bottom right
-		ld hl,OAM_ISAAC+$C
 		ld a, (global_.isaac.y)
 		add 8
 		ld (hl), a ;posY
@@ -126,9 +131,13 @@ updateShadowOAM:
 
 
 ; \\\ Update OAM ///
+
+ld a,l
+ld (display_.OAM_pointer), a
+
 ; \\\\ Bottom Tiles ////
 
-
+/*
 ; /// Recover time \\\
 
 	ld a, (global_.isaac.recover)
@@ -143,9 +152,11 @@ updateShadowOAM:
 	@no_recover:
 
 ; \\\ Recover time ///
+*/
+
 ; \\\\\ Isaac /////
 
-; ///// Tears \\\\\
+/*; ///// Tears \\\\\
 
 	//Show the OAM_ISAAC_TEARS_SIZE first active tears
 	
@@ -177,10 +188,8 @@ updateShadowOAM:
 @endTears:
 
 
-; \\\\\ Tears /////
+; \\\\\ Tears ///// */
 
-
-*/
 ; //// ENNEMIES \\\\
 
 	ld e, n_enemies      ; loop iterator
