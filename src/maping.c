@@ -15,7 +15,7 @@ unsigned char x=0;
 unsigned char y=0;
 unsigned char z=0;
 unsigned char a=1;
-unsigned char level = 5;//level of the stage to generate
+unsigned char level = 1;//level of the stage to generate
 unsigned char height;//height of the arrayof rooms
 unsigned char width;//width of the array of rooms
 unsigned char * map;//array of rooms
@@ -25,7 +25,7 @@ unsigned char temp[4];//subscript of theoric accessible rooms for a specifi room
 unsigned char start;//subscript of start room
 unsigned char boss;//subscript of boss's room
 unsigned char item;//subscript of item's room
-unsigned char basicNumber = 7; //numer² of basic rooms
+unsigned char basicNumber = 8; //numer² of basic rooms
 unsigned char itemNumber = 1; //number of item's rooms
 unsigned char bossNumber = 1; //number of boss's rooms
 unsigned char openedRooms; //number of visitable rooms
@@ -88,6 +88,7 @@ int main(int argc, char const *argv[]) {
   randomNumber();
   unsigned char c = a % diff  ;//generate a random length of the way between the limits mentionned above
   c = width - c + 2;
+  printf("%d\n", c);
 
   createWay(c);
 
@@ -104,7 +105,8 @@ int main(int argc, char const *argv[]) {
   //Item's room with way of a length between width - 4 and width
   randomNumber();
   c = a % diff ;//generate a random length of the way between the limits mentionned above
-  c = width - c ;
+  c = width - c - 1;
+  printf("%d\n", c);
 
   createWay(c);
 
@@ -120,16 +122,18 @@ int main(int argc, char const *argv[]) {
 
   //Dead ends between width - 4 and width
   //First dead end
-  randomNumber();
+  /*randomNumber();
   c = a % diff  ;//generate a random length of the way between the limits mentionned above
   c = width - c - 1;
+  printf("%d\n", c);
 
-  createWay(c);
+  createWay(c);*/
 
   //Second dead end
   randomNumber();
   c = a % diff  ;//generate a random length of the way between the limits mentionned above
   c = width - c - 1;
+  printf("%d\n", c);
 
   createWay(c);
   display();
@@ -274,7 +278,7 @@ void addRoomsToList(){//This function load the visitable rooms in the list list,
     }
   }
   openedRooms = compteur;
-  list = (unsigned char *) malloc (compteur*3);//3 bytes by room
+  list = (unsigned char *) malloc (openedRooms*10);//10 bytes by room
   compteur = 0;
   int i = 0;
   for (int k = 0; k < height; k++){
@@ -287,31 +291,37 @@ void addRoomsToList(){//This function load the visitable rooms in the list list,
         x = x << 4;//to put in higher wieght bits
         unsigned char y = i / width;
         y++;//to start at 1 and not 0
-        list[compteur*3] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
+        list[compteur*10] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
 
         //Set ID of a random corresponding room in second byte
         unsigned char type = map[i] & 0b00000111;
         if (type == 0){//if it is a basic room
           randomNumber();
           unsigned char c = a % basicNumber;
-          list[compteur*3+1] = c;//TODO : = c + (first ID of basic room)
+          list[compteur*10+1] = c + 1;//TODO : = c + (first ID of basic room)
         }
         if (type == 1){//if it is an item's room
-          randomNumber();
-          unsigned char c = a % itemNumber;
-          list[compteur*3+1] = c;//TODO : = c + (first ID of item's room)
+          //randomNumber();
+          //unsigned char c = a % itemNumber;
+          list[compteur*10+1] = 0;//TODO : = c + (first ID of item's room)
         }
         if (type == 2){//if it is a boss's room
-          randomNumber();
-          unsigned char c = a % bossNumber;
-          list[compteur*3+1] = c;//TODO : = c + (first ID of boss's room)
+          //randomNumber();
+          //unsigned char c = a % bossNumber;
+          list[compteur*10+1] = 0;//TODO : = c + (first ID of boss's room)
         }
         if (type == 4){//if it is a start room
-          list[compteur*3+1] = 0;//0 is the ID of the start room
+          list[compteur*10+1] = 0;//0 is the ID of the start room
         }
 
         //Set door flags in third byte
-        list[compteur*3+2] = map[i];
+        list[compteur*10+2] = map[i];
+
+        //Set flags in 7 last bytes
+        for (int ind = 0; ind < 7; ind++){
+          list[compteur*10+3+ind] = 0b11111111;
+        }
+
         compteur++;
       }
       i++;
@@ -333,9 +343,12 @@ void display(){//to show the map of rooms, each room is represented by a byte
 
 void displayList(){
   for (int k = 0 ; k < openedRooms ; k++){
-    for (int l = 0 ; l < 3 ; l++){
-      binaryDisplay(list[k * 3 + l]);
-      printf("    ");
+    printf(".DB ");
+    for (int l = 0 ; l < 10 ; l++){
+      binaryDisplay(list[k * 10 + l]);
+      if (l != 9){
+        printf(",");
+      }
     }
     printf("\n");
   }
@@ -344,6 +357,7 @@ void displayList(){
 
 void binaryDisplay(unsigned char n) {//to show a char in its binary form
   int i = 7;
+  printf("%%");
   while (i >= 0){
     printf("%d", (n >> i ) & 1);
     i--;
