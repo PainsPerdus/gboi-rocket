@@ -20,6 +20,8 @@
 .INCLUDE "var/load_map.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
+.INCLUDE "var/current_floor.var.s"
+
 
 ; $C000 to $C0FF is reserved for dynamic opcode
 
@@ -34,6 +36,7 @@
 	title_screen_ INSTANCEOF title_screen_var
 	VBlank_lock DB
 	load_map_ INSTANCEOF load_map_var
+	current_floor_ INSTANCEOF current_floor_var
 	GameState DB
 .ENDE
 
@@ -272,4 +275,17 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/display_room.lib.s" 
 ; \\\\\\\\\ INCLUDE .LIB /////////
 
-.INCLUDE "rooms/basic.room"
+.INCLUDE "rooms/start.room"
+.INCLUDE "rooms/basic1.room"
+.INCLUDE "rooms/basic2.room"
+.INCLUDE "rooms/basic3.room"
+.INCLUDE "rooms/basic4.room"
+.INCLUDE "rooms/basic5.room"
+.INCLUDE "rooms/basic6.room"
+.INCLUDE "rooms/basic7.room"
+.INCLUDE "rooms/basic8.room"
+
+first_floor:
+.INCLUDE "maps/map1.level1"
+room_index:
+.INCLUDE "rooms/correspondingIDAdress.room"
