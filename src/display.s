@@ -10,6 +10,10 @@ updateShadowOAM:
 		ld (display_.OAM_pointer), a
 ; \\ Init OAM pointer //
 	
+ld a, (global_.isaac.recover)
+bit 2,a
+jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we don't need to show it.
+
 ; //// Top Tiles \\\\
 ; /// Left \\\\
 		ld hl, SHADOW_OAM_START
@@ -125,30 +129,18 @@ updateShadowOAM:
 		ld (hl), a ;posX
 		inc l
 		ld (hl), e ;Chosen bottom right sprite
+		inc l
+		inc l; next sprite
 
 
 ; \\\ Update OAM ///
 
-ld a,l
-ld (display_.OAM_pointer), a
-
 ; \\\\ Bottom Tiles ////
 
+	ld a,l
+	ld (display_.OAM_pointer), a
 
-; /// Recover time \\\
-
-	ld a, (global_.isaac.recover)
-	bit 2,a
-	jp z, @no_recover
-	xor a
-	ld (OAM_ISAAC), a
-	ld (OAM_ISAAC+$4), a
-	ld (OAM_ISAAC+$8), a
-	ld (OAM_ISAAC+$C), a
-
-	@no_recover:
-
-; \\\ Recover time ///
+@no_isaac
 
 ; \\\\\ Isaac /////
 
