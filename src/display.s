@@ -9,7 +9,9 @@ updateShadowOAM:
 		xor a
 		ld (display_.OAM_pointer), a
 ; \\ Init OAM pointer //
-	
+
+/*
+
 ; //// Top Tiles \\\\
 ; /// Left \\\\
 		ld hl,OAM_ISAAC
@@ -177,11 +179,15 @@ updateShadowOAM:
 
 ; \\\\\ Tears /////
 
+
+*/
 ; //// ENNEMIES \\\\
 
 	ld e, n_enemies      ; loop iterator
 	ld hl, global_.enemies      ; address of first ennemy strucs
-	ld bc, OAM_ENNEMIES          ; OAM address of the first ennemy
+	ld bc, SHADOW_OAM_START
+	ld a, (display_.OAM_pointer)  
+	ld c, a                   ; OAM address of the first ennemy
 @next_ennemy:
 	ldi a, (hl)                  ; charge info byte
 	bit ALIVE_FLAG, a            ; "alive" bit
@@ -240,6 +246,8 @@ updateShadowOAM:
 	jp nz, @next_ennemy
 
 @end_loop:
+	ld a, c
+	ld (display_.OAM_pointer), a
 
 ; \\\\ ENNEMIES ////
 
@@ -251,6 +259,7 @@ updateShadowOAM:
 updateAnimaton:
 xor a
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
+
 ; // Update fly animation frame \\
 ld a, (display_.fly.frame)
 inc a

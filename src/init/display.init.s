@@ -240,6 +240,7 @@ ld (display_.fly.frame),a
 ; // ISAAC SPRITES \\
 ; \\ ISAAC SPRITES //
 
+/*
 ; // SETUP ISAAC TEARS SPRITES \\
 	ld hl, OAM_ISAAC_TEARS
 	ld b, OAM_ISAAC_TEARS_SIZE
@@ -257,7 +258,7 @@ ld (display_.fly.frame),a
 	dec b
 	jp nz,@loopSetupIsaacTears 
 ; \\ SETUP ISAAC TEARS SPRITES //
-
+*/
 .INCLUDE "init/display_test.init.s"
 
 ; \\\\\\\ LOAD SPRITES ///////
