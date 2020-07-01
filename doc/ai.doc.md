@@ -56,12 +56,12 @@ A simple IA that follow Isaac.
 ### Pseudo code
 
 ~~~C
-char collision(
+char ia(
   enemy* enemy_p)
   direction = vectorisation(enemy_p->x,
                             enemy_p->y,
-                            isaac.x,
-                            isaac.y
+                            isaac.x+center_offset_y,
+                            isaac.y+center_offset_x
                           );
   enemy.speed = direction
 
