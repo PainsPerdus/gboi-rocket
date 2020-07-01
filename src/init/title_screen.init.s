@@ -92,7 +92,7 @@ ld hl,$9000 ;Block 2
 	ld d,20 ;first loop counter
 	ld e,_sizeof_IntroMap2/20 ;second loop counter
 	ld bc,IntroMap2 ;data to copy
-	ld hl,$9800 ;Background Map 1 (to copy to)
+	ld hl,$9C00 ;Background Map 2 (to copy to)
 @map2:
 	ld a,(bc)
 	ldi (hl),a ;copy data
