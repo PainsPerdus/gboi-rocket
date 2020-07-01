@@ -1,8 +1,5 @@
 ; /// add the doors as activable items in a room \\\
-    ld a, (load_map_.map_address)
-    ld h, a
-    ld a, (load_map_.map_address + 1)
-    ld l, a
+    ld hl, load_map_.doors
     ld b, (hl)
     ld a, (load_map_.next_object)
     ld h, a
@@ -10,8 +7,8 @@
     ld l, a
 
     ;top door
-;    bit 7, b
-;    jr z, @noTopDoor
+    bit 7, b
+    jr z, @noTopDoor
     ld a, VDOOR_INFO
     ldi (hl), a
     ld a, $00+$13
@@ -26,8 +23,8 @@
 @noTopDoor:
 
     ;bottom door
-;    bit 6, b
-;    jr z, @noBottomDoor
+    bit 6, b
+    jr z, @noBottomDoor
     ld a, VDOOR_INFO
     ldi (hl), a
     ld a, $A0-$13
@@ -42,8 +39,8 @@
 @noBottomDoor:
 
     ;left door
-;    bit 5, b
-;    jr z, @noLeftDoor
+    bit 5, b
+    jr z, @noLeftDoor
     ld a, HDOOR_INFO
     ldi (hl), a
     ld a, $54
@@ -58,8 +55,8 @@
 @noLeftDoor:
 
     ;right door
-;    bit 4, b
-;    jr z, @noRightDoor
+    bit 4, b
+    jr z, @noRightDoor
     ld a, HDOOR_INFO
     ldi (hl), a
     ld a, $54

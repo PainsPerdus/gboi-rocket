@@ -3,6 +3,9 @@ load_map:
     push bc
     push de
 
+    ld hl, load_map_.doors
+    ld (hl), %10000000 
+
     ; /// init cursor positions \\\
     ; // element cursors \\
     ld de, global_.blockings

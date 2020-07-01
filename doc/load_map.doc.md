@@ -5,16 +5,19 @@
 | Label | Type | Size/Struct |  Description  |
 | ------------- | ------------- | ---------- | ----------- |
 | load_map_.map_address | fixed address | 2 bytes | address of the map file |
+| load_map_.doors | fixed address | 1 byte | location of doors |
 
 ## Reserved memory
 
 | Label | Size/Struct |  Description  |
 | ------------- | ---------- | ----------- |
 | load_map_.map_address | 2 bytes | address of the map file |
+| load_map_.doors | fixed address | 1 byte | location of doors |
 | load_map_.next_blocking | 2 bytes | address of the next blocking element to use |
 | load_map_.next_enemy | 2 bytes | address of the next enemy to use |
 | load_map_.next_object | 2 bytes | address of the next object to use |
 | load_map_.next_to_load | 2 bytes | address of the next enemy to load |
+
 ## Pseudo Code
 
 ~~~C
