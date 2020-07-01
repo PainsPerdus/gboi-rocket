@@ -104,7 +104,7 @@ music_start: ; HL -> pointer to music
     ld d, h
     ld e, l
 
-    ld hl, (music_state_.scale1) ; write pointer in state struct
+    ld hl, music_state_.scale1 ; write pointer in state struct
     ld (hl), b
     inc hl
     ld (hl), c
@@ -119,7 +119,7 @@ music_start: ; HL -> pointer to music
     ld d, h
     ld e, l
 
-    ld hl, (music_state_.timing1) ; write pointer in state struct
+    ld hl, music_state_.timing1 ; write pointer in state struct
     ld (hl), b
     inc hl
     ld (hl), c
@@ -134,13 +134,13 @@ music_start: ; HL -> pointer to music
     ld d, h
     ld e, l
 
-    ld hl, (music_state_.curs1) ; write pointer in state struct
+    ld hl, music_state_.curs1 ; write pointer in state struct
     ld (hl), b
     inc hl
     ld (hl), c
 
     xor a
-    ld hl, (music_state_.rest1)
+    ld hl, music_state_.rest1
     ld (hl), a
     inc hl
     ld (hl), a
