@@ -5,9 +5,9 @@ timer_interupt :
     push HL
 ;    //// CHANNEL 1 \\\\
     ;check if the note is finished on channel 1
-    ld a, (rest1)
+    ld a, (music_state_.rest1)
     ld b, a
-    ld a, (rest1+1)
+    ld a, (music_state_.rest1+1)
     ld c, a
     dec bc
     jp nz, @continueCurrentNote1
@@ -20,7 +20,7 @@ timer_interupt :
   	ldh ($12),a
 
     ;get the next note to play
-    ld hl, curs1
+    ld hl, music_state_.curs1
     ld b, (hl)    ; take higher weight bits
     inc hl
     ld c, (hl)    ;take lower weight bits
@@ -32,7 +32,7 @@ timer_interupt :
     ;take the scale of the note to play
     and $F0 ;take higher weight bits which takes the scale of the note
     swap a
-    ld hl, scale1
+    ld hl, music_state_.scale1
     ld b, (hl)    ;take higher weight bits
     inc hl
     ld c, (hl)    ;take lower weight bits
@@ -40,14 +40,13 @@ timer_interupt :
     sla l
     xor h
     add hl, bc    ;find the real scale linked to the note
-    ld bc, hl
-    ld a, (bc)
+    ld a, (hl)
     ld d, a     ;save the frequency of the note to play in d
 
     ;take the time of the note to play
     ld a, e    ;take the note to play previously saved
     and $0F    ;take lower weight bits which takes the time of the note
-    ld hl, timing1
+    ld hl, music_state_.timing1
     ld b, (hl)    ;take higher weight bits
     inc hl
     ld c, (hl)    ;take lower weight bits
@@ -55,7 +54,10 @@ timer_interupt :
     sla l
     xor h
     add hl, bc
-    //ld rest1, hl ;set the time of the note to play in rest1, this line may not be useful
+    ld a, h
+    ld (music_state_.rest1),a ;set the time of the note to play in rest1, this line may not be useful
+    ld a, l
+    ld (music_state_.rest1+1),a
 
     ;play the frequency of the note
   	ld a, d
@@ -73,7 +75,7 @@ timer_interupt :
     or %00000001
     ldh ($25),a
 
-@Silence:
+@silence:
 
 @continueCurrentNote1:
 

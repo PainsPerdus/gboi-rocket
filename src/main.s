@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/music.var.s"
 
 ; $C000 to $C0FF is reserved for dynamic opcode
 
@@ -27,6 +28,7 @@
 	vectorisation_ INSTANCEOF vectorisation_var
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
+	music_state_ INSTANCEOF music_state_var
 	VBlank_lock DB
 .ENDE
 ; \\\\\\\\\ Mapping /////////

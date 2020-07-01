@@ -11,9 +11,9 @@ timer_interupt :
 
     //// CHANNEL 1 \\\\
     ;check if the note is finished on channel 1
-    ld a, (rest1)
+    ld a, (music_state_.rest1)
     ld b, a
-    ld a, (rest1+1)
+    ld a, (music_state_.rest1+1)
     ld c, a
     dec bc
     jp nz, @continueCurrentNote1
@@ -26,7 +26,7 @@ timer_interupt :
   	ldh ($12),a
 
     ;get the next note to play
-    ld hl, curs1
+    ld hl, music_state_.curs1
     ld b, (hl)    ; take higher weight bits
     inc hl
     ld c, (hl)    ;take lower weight bits
@@ -38,7 +38,7 @@ timer_interupt :
     ;take the scale of the note to play
     and $F0 ;take higher weight bits which takes the scale of the note
     swap
-    ld hl, scale1
+    ld hl, music_state_.scale1
     ld b, (hl)    ;take higher weight bits
     inc hl
     ld c, (hl)    ;take lower weight bits
@@ -51,7 +51,7 @@ timer_interupt :
     ;take the time of the note to play
     ld a, e    ;take the note to play previously saved
     and $0F    ;take lower weight bits which takes the time of the note
-    ld hl, timing1
+    ld hl, music_state_.timing1
     ld b, (hl)    ;take higher weight bits
     inc hl
     ld c, (hl)    ;take lower weight bits
