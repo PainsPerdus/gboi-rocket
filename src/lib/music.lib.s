@@ -10,6 +10,13 @@ timer_interrupt:
     ld a, (music_state_.rest1+1)
     ld c, a
     dec bc
+    ld a, b
+    ld (music_state_.rest1), a
+    or 0
+    jp nz, @continueCurrentNote1
+    ld a, c
+    ld (music_state_.rest1+1), a
+    or 0
     jp nz, @continueCurrentNote1
 
     ;switch off channel 1
@@ -65,7 +72,7 @@ timer_interrupt:
     ;play the frequency of the note
   	ld a, d
     bit 7, a
-    jp z, @silence
+    jp nz, @silence
     and %00000111
     or %11000000
     ldh ($14),a    ;set the 3 higher weight bits of the frequency
@@ -142,6 +149,7 @@ music_start: ; HL -> pointer to music
     xor a
     ld hl, music_state_.rest1
     ld (hl), a
+    inc a
     inc hl
     ld (hl), a
     
