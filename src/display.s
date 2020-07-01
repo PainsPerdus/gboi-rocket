@@ -1,7 +1,6 @@
 display:
 ; ////// UPDATE SHADOW OAM \\\\\\
 
-; ///// Isaac \\\\\
 
 updateShadowOAM:
 
@@ -9,7 +8,9 @@ updateShadowOAM:
 		xor a
 		ld (display_.OAM_pointer), a
 ; \\ Init OAM pointer //
-	
+
+; ///// Isaac \\\\\
+
 ld a, (global_.isaac.recover)
 bit 2,a
 jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we don't need to show it.
@@ -17,7 +18,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 ; //// Top Tiles \\\\
 ; /// Left \\\\
 		ld hl, SHADOW_OAM_START
-		ld l,a ;OAM_pointer
+		ld a,(display_.OAM_pointer)
+		ld l,a 
 		ld a, (global_.isaac.y)
 		ld (hl), a ;posY
 		inc l
@@ -176,13 +178,15 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 @endTears:
 
 
-; \\\\\ Tears /////
-*/
+; \\\\\ Tears ///// */
+
 ; //// ENNEMIES \\\\
 
 	ld e, n_enemies      ; loop iterator
 	ld hl, global_.enemies      ; address of first ennemy strucs
-	ld bc, OAM_ENNEMIES          ; OAM address of the first ennemy
+	ld bc, SHADOW_OAM_START
+	ld a, (display_.OAM_pointer)  
+	ld c, a                   ; OAM address of the first ennemy
 @next_ennemy:
 	ldi a, (hl)                  ; charge info byte
 	bit ALIVE_FLAG, a            ; "alive" bit
@@ -241,6 +245,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	jp nz, @next_ennemy
 
 @end_loop:
+	ld a, c
+	ld (display_.OAM_pointer), a
 
 ; \\\\ ENNEMIES ////
 
@@ -252,6 +258,7 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 updateAnimaton:
 xor a
 ld (display_.isaac.shoot_timer), a ; TODO hard coded
+
 ; // Update fly animation frame \\
 ld a, (display_.fly.frame)
 inc a

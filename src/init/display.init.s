@@ -235,6 +235,7 @@ ld (display_.fly.frame),a
 	jr nz, @loopCopyDmaProcedure
 ; \\\\\\ Copy DMA code into HRAM ///////
 
+
 ; /////// LOAD SPRITES \\\\\\\
 
 .INCLUDE "init/display_test.init.s"
