@@ -212,6 +212,29 @@ ld (display_.fly.frame),a
 	ldh ($43),a
 ; \\\\\\\ CLEAR OAM ///////
 
+; ////// Clear shadow OAM \\\\\\\
+	ld hl, SHADOW_OAM_START
+	ld b,40*4 ; Shadow OAM size (= OAM size)
+@loopClearShadowOAM:			
+	ld (hl),$00	
+	inc l	
+	dec b		; b --
+	jr nz,@loopClearShadowOAM	; end while
+; \\\\\\ Clear shadow OAM ///////
+
+; ////// Copy DMA code into HRAM \\\\\\\
+	ld hl, HRAM_DMA_PROCEDURE ;Place to copy the HRAM DMA start code
+	ld bc, start_dma_in_ROM ;Procedure in ROM to copy
+	ld e, DMA_PROCEDURE_SIZE ;Size of the procedure
+@loopCopyDmaProcedure:
+	ld a, (bc)
+	ld (hl), a
+	inc bc
+	inc hl
+	dec e 
+	jr nz, @loopCopyDmaProcedure
+; \\\\\\ Copy DMA code into HRAM ///////
+
 ; /////// LOAD SPRITES \\\\\\\
 
 ; // ISAAC SPRITES \\
@@ -224,7 +247,7 @@ ld (display_.fly.frame),a
 @loopSetupIsaacTears
 	ld (hl), 50 ;posY
 	inc l
-	ld (hl), a
+	ld (hl), a ;posX
 	inc l
 	ld (hl), TEAR_SPRITESHEET
 	inc l
@@ -239,30 +262,6 @@ ld (display_.fly.frame),a
 
 ; \\\\\\\ LOAD SPRITES ///////
 
-
-; ////// Copy DMA code into HRAM \\\\\\\
-	ld b,b
-	ld hl, HRAM_DMA_PROCEDURE ;Place to copy the HRAM DMA start code
-	ld bc, start_dma_in_ROM ;Procedure in ROM to copy
-	ld e, DMA_PROCEDURE_SIZE ;Size of the procedure
-@loopCopyDmaProcedure:
-	ld a, (bc)
-	ld (hl), a
-	inc bc
-	inc hl
-	dec e 
-	jr nz, @loopCopyDmaProcedure
-; \\\\\\ Copy DMA code into HRAM ///////
-
-; ////// Clear shadow OAM \\\\\\\
-	ld hl, SHADOW_OAM_START
-	ld b,40*4 ; Shadow OAM size (= OAM size)
-@loopClearShadowOAM:			
-	ld (hl),$00	
-	inc l	
-	dec b		; b --
-	jr nz,@loopClearShadowOAM	; end while
-; \\\\\\ Clear shadow OAM ///////
 
 ; /////// INIT COLOR PALETTES \\\\\\\
 ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt

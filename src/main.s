@@ -119,7 +119,7 @@ MLstateTitleScreen:
 	jp MLend
 MLstatePlaying:
 	.INCLUDE "body.s"
-	.INCLUDE "display.s"
+	;.INCLUDE "display.s"
 	jp MLend
 MLend:
 
