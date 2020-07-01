@@ -168,7 +168,6 @@ displayRoom:
 	ld a,(de)
 	cp ROCK_INFO		; test if the element is a living rock
 	jp nz, @not_rock
-
 	ld h,d
 	ld l,e
 	inc hl
@@ -211,6 +210,32 @@ displayRoom:
 	ld a, (load_map_.doors)
 	and %11110000
 	call displayDoors
+
+; // objects
+	ld de, global_.objects
+	ld c, n_objects
+@looptodisplayObjects:
+
+	ld a,(de)
+	cp STAIRS_INFO		; test if the element is a living rock
+	jp nz, @not_stairs
+
+	ld h,d
+	ld l,e
+	inc hl
+	ld b, (hl) ;y position in pixels (must be a multiple of 8)
+	inc hl
+	ld a, (hl) ;x position in pixels (must be a multiple of 8)
+	ld l,ROCKS_SPRITESHEET ;start tile id
+	call displayBackgroundTile
+@not_stairs:
+
+	ld hl, _sizeof_object
+	add hl, de
+	ld d, h
+	ld e, l
+	dec c
+	jr nz, @looptodisplayObjects
 
 	pop de
 	pop bc ;Restore callee saved registers

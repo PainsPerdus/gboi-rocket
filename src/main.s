@@ -304,6 +304,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/door_functions.lib.s"
 .INCLUDE "lib/maps.lib.s"
 .INCLUDE "lib/display_room.lib.s" 
+.INCLUDE "lib/stairs_function.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
 
 .INCLUDE "rooms/start.room"
