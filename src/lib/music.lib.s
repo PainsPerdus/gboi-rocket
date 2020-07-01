@@ -27,6 +27,7 @@ timer_interrupt:
     ld a,%11110000
   	ldh ($12),a
 
+
     ;get the next note to play
     ld hl, music_state_.curs1
     ld b, (hl)    ; take higher weight bits
@@ -34,7 +35,27 @@ timer_interrupt:
     ld c, (hl)    ;take lower weight bits
     ld a,(bc)    ; save the note to play
     inc bc    ;take the address of the next note
-    ld (hl), c
+
+    push af
+    push de
+    push hl
+
+    ld hl, music_state_.max1 ; find out if we got to the end
+    ld d, (hl)
+    inc hl
+    ld a, (hl)
+    sub c
+    ld e, a
+    ld a, d
+    sub b
+    or e
+    jp z, @endofpart
+
+    pop hl
+    pop de
+    pop af
+
+    ld (hl), c ; load the next note address in memory
     dec hl
     ld (hl), b
     
@@ -64,8 +85,8 @@ timer_interrupt:
     ld l, a
     sla l
     ld h, 0
-    add hl, bc
-    ldi a, (hl)
+    add hl, bc ; get adress of frequency
+    ldi a, (hl) ; get frequency
     ld (music_state_.rest1),a ;set the time of the note to play in rest1, this line may not be useful
     ld a, (hl)
     ld (music_state_.rest1+1),a
@@ -93,6 +114,8 @@ timer_interrupt:
 ;    \\\\ CHANNEL 1 ////
 
 ;    //// CHANNEL 2 \\\\
+
+
 ;    \\\\ CHANNEL 2 ////
 
 ;\\\\ TIMER INTERUPT LOOP ////
@@ -103,9 +126,37 @@ timer_interrupt:
     pop AF
   ret
 
+@endofpart:
+    pop hl
+    pop de
+    pop af
+    ld hl, sacrificial_music
+    call music_start
+    pop HL
+    pop DE
+    pop BC
+    pop AF
+    ret
+
 music_start: ; HL -> pointer to music
     push BC
     push DE
+
+    ld c, (hl)
+    inc hl
+    ld b, (hl) ; load max pointer in bc
+    ld d, h
+    ld e, l
+
+    ld hl, music_state_.max1 ; write pointer in state struct
+    ld (hl), b
+    inc hl
+    ld (hl), c
+
+    ld h, d
+    ld l, e
+    inc hl
+
     ld c, (hl)
     inc hl
     ld b, (hl) ; load scale pointer in bc
