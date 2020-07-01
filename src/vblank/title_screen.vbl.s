@@ -1,10 +1,10 @@
 titleScreen:
 
-; /////// SETUP LCDC TILE DATA BANK \\\\\\\
+; /////// SETUP LCDC TILE DATA BLOCK \\\\\\\
     ldh a,($40) ;LCDC
     set 4,a ;Switch to tile data banks 0-1
 	ldh ($40),a
-; \\\\\\\ SETUP LCDC TILE DATA BANK ///////
+; \\\\\\\ SETUP LCDC TILE DATA BLOCK ///////
 
 ; /////// Update Animation \\\\\\\
 	ld a, (title_screen_.animation_counter)
