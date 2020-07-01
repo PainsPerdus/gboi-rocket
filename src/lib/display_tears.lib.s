@@ -2,7 +2,9 @@ displayIsaacTears:
 	push bc 
 	push de ;save callee saved registers
 
-	;ld e, a ;OAM fill direction
+	bit 0,a
+	jr nz, @reverseOrder
+
 	ld d, n_isaac_tears ;loop counter
 	ld hl, global_.isaac_tears
 	ld bc, SHADOW_OAM_START
@@ -32,6 +34,12 @@ displayIsaacTears:
 	ld d,a ;Restore d
 	jr nz, @loopFillTears
 @endLoopFillTears:
+	jr @endTears
+
+@reverseOrder:
+
+
+@endTears:
 
 	;//Update the OAM_pointer
 	ld a, c
