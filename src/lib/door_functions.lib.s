@@ -1,8 +1,6 @@
 ; /// all the door functions \\\
 ; /// top door function \\\
 top_door_fun:
-	push bc
-	push de
 
 	ld a, $90+$10-$15-$10
 	ld (global_.isaac.y), a
@@ -63,28 +61,9 @@ top_door_fun:
 	ldi a, (hl)
 	ld (load_map_.map_address), a
 	
-	call load_map
-
-	ld a, (global_.enemies)
-	bit 7, a
-	jr nz, @thereAreEnemies
-	ld a, (load_map_.doors)
-	and %11110111
-	ld (load_map_.doors), a
-@thereAreEnemies:
-
-@waitvlb:           ; wait for the line 144 to be refreshed:
-    ldh a,($44)
-    cp 144          ; if a < 144 jump to waitvlb
-    jr c, @waitvlb
-
-	di
-	call displayRoom
-	ei
-
-	pop de
-	pop bc
-    ret
+	pop bc ;don't return so we pop something instead
+	ld a, GAMESTATE_CHANGINGROOM
+	jp setGameState
 ; \\\ top door function ///
 
 
@@ -98,8 +77,6 @@ top_door_fun:
 
 ; /// bottom door function \\\
 bot_door_fun:
-	push bc
-	push de
 
 	ld a, $15+$10
 	ld (global_.isaac.y), a
@@ -160,28 +137,9 @@ bot_door_fun:
 	ldi a, (hl)
 	ld (load_map_.map_address), a
 	
-	call load_map
-
-	ld a, (global_.enemies)
-	bit 7, a
-	jr nz, @thereAreEnemies
-	ld a, (load_map_.doors)
-	and %11110111
-	ld (load_map_.doors), a
-@thereAreEnemies:
-
-@waitvlb:           ; wait for the line 144 to be refreshed:
-    ldh a,($44)
-    cp 144          ; if a < 144 jump to waitvlb
-    jr c, @waitvlb
-
-	di
-	call displayRoom
-	ei
-
-	pop de
-	pop bc
-    ret
+	pop bc ;don't return so we pop something instead
+	ld a, GAMESTATE_CHANGINGROOM
+	jp setGameState
 ; \\\ bottom door function ///
 
 
@@ -196,8 +154,6 @@ bot_door_fun:
 
 ; /// left door function \\\
 left_door_fun:
-	;push bc
-	;push de
 
 	ld a, $A0-$15+$08-$10
 	ld (global_.isaac.x), a
@@ -263,24 +219,6 @@ left_door_fun:
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
 	jp setGameState
-	
-	//call load_map
-	
-
-
-/*@waitvlb:           ; wait for the line 144 to be refreshed:
-    ldh a,($44)
-    cp 144          ; if a < 144 jump to waitvlb
-    jr c, @waitvlb
-
-	di*/
-	
-	;call displayRoom
-//	ei
-
-	;pop de
-	;pop bc
-    ;ret
 ; \\\ left door function ///
 
 
@@ -295,11 +233,10 @@ left_door_fun:
 
 ; /// right door function \\\
 right_door_fun:
-	push bc
-	push de
-
-	ld a, $15+$08
+	ld a, $08+$15
 	ld (global_.isaac.x), a
+	ld a, $10+($90/2)-$10
+	ld (global_.isaac.y), a
 
 	; load x, y
 	ld a, (current_floor_.current_room)
@@ -359,27 +296,8 @@ right_door_fun:
 	ldi a, (hl)
 	ld (load_map_.map_address), a
 	
-	call load_map
-
-	ld a, (global_.enemies)
-	bit 7, a
-	jr nz, @thereAreEnemies
-	ld a, (load_map_.doors)
-	and %11110111
-	ld (load_map_.doors), a
-@thereAreEnemies:
-
-@waitvlb:           ; wait for the line 144 to be refreshed:
-    ldh a,($44)
-    cp 144          ; if a < 144 jump to waitvlb
-    jr c, @waitvlb
-
-	di
-	call displayRoom
-	ei
-
-	pop de
-	pop bc
-    ret
+	pop bc ;don't return so we pop something instead
+	ld a, GAMESTATE_CHANGINGROOM
+	jp setGameState
 ; \\\ right door function ///
 ; \\\ all the door functions ///
