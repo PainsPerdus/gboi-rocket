@@ -80,7 +80,6 @@ ld hl,$9000 ;Block 2
 	ld d,20 ;reset d
 	dec e 
 	jr nz, @map1; second loop on rows
-
 ; \\\\\ MAP 1 /////
 
 ; ///// MAP 2 \\\\\
