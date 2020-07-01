@@ -21,7 +21,7 @@ timer_interrupt:
     jp nz, @continueCurrentNote1
 
     ;switch off channel 1
-    ld a,($25)
+    ldh a,($25)
     and %00100000
     ldh ($25),a
     ld a,%11110000
@@ -51,8 +51,8 @@ timer_interrupt:
     sla l
     ld h, 0
     add hl, bc    ;find the real scale linked to the note
-    ld a, (hl)
-    ld d, a     ;save the frequency of the note to play in d
+    push hl
+    
 
     ;take the time of the note to play
     ld a, e    ;take the note to play previously saved
@@ -65,21 +65,21 @@ timer_interrupt:
     sla l
     ld h, 0
     add hl, bc
-    ld a, h
+    ldi a, (hl)
     ld (music_state_.rest1),a ;set the time of the note to play in rest1, this line may not be useful
-    ld a, l
+    ld a, (hl)
     ld (music_state_.rest1+1),a
 
     ;play the frequency of the note
-  	ld a, d
+    pop hl
+    ldi a, (hl)
     bit 7, a
     jp nz, @silence
     and %00000111
-    or %11000000
-    ldh ($14),a    ;set the 3 higher weight bits of the frequency
-    inc d
-    ld a, d
-    ldh ($13), a     ;set the 5 lower weight bits
+    or %10000000
+    ldh (SND_CHAN1_FREQ_HI_FLAGS_LOW), a
+    ld a, (hl)
+    ldh (SND_CHAN1_FREQ_LO_LOW), a
 
     ;switch on channel 1
     ld a,($25)
