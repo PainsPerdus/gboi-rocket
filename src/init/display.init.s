@@ -193,9 +193,19 @@ ld (display_.fly.frame),a
 
 ; \\\\\\\ DRAWING WALLS ///////
 
+; /////// CLEARING ROOM \\\\\\\
+
+call displayRoom
+
+; \\\\\\\ CLEARING ROOM ///////
+
+; /////// DRAWING DOORS \\\\\\\
+
 	ld a, %00000101
 	ld b, %00000000
 	call displayDoors
+
+; \\\\\\\ DRAWING DOORS ///////
 
 ; /////// CLEAR OAM \\\\\\\
 	ld hl,$FE00

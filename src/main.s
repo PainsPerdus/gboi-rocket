@@ -263,6 +263,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/ai.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/maps.lib.s"
+.INCLUDE "lib/display_room.lib.s" 
 ; \\\\\\\\\ INCLUDE .LIB /////////
 
 .INCLUDE "rooms/basic.room"
