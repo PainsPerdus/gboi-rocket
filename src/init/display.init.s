@@ -237,27 +237,6 @@ ld (display_.fly.frame),a
 
 ; /////// LOAD SPRITES \\\\\\\
 
-; // ISAAC SPRITES \\
-; \\ ISAAC SPRITES //
-
-; // SETUP ISAAC TEARS SPRITES \\
-	ld hl, OAM_ISAAC_TEARS
-	ld b, OAM_ISAAC_TEARS_SIZE
-	ld a,10 ;initial posX
-@loopSetupIsaacTears
-	ld (hl), 50 ;posY
-	inc l
-	ld (hl), a ;posX
-	inc l
-	ld (hl), TEAR_SPRITESHEET
-	inc l
-	ld (hl), $00 ;Flags
-	inc l
-	add 10 ;add to X pos
-	dec b
-	jp nz,@loopSetupIsaacTears 
-; \\ SETUP ISAAC TEARS SPRITES //
-
 .INCLUDE "init/display_test.init.s"
 
 ; \\\\\\\ LOAD SPRITES ///////
