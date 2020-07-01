@@ -19,6 +19,7 @@ Content of the struct "isaac" :
 | direction | 1 byte | 2 bits indicate Isaac's direction (00 = up, 11 = down, 10 = right, 01 = left) (pos 1:0), 6 other bits are free |
 | lagCounter | 1 byte | Number of iteration of loop before next movement. |
 | speedFreq | 1 byte | Number of iteration of loop between each movement. |
+| cooldown | 1 byte | Number of iteration of loop before re-allowing shooting. |
 
 
 ## Blocking
@@ -94,7 +95,7 @@ Content of struct "tear" :
 | ----- | ---- | ----------- |
 | y | 1 byte | ordinate of the tear |
 | x | 1 byte | abscissa of the tear |
-| id | 1 byte | 1 flag for "does it need to be recycled" (pos 7), 1 flag for "is it in the recycling chain" (pos 6), 1 flag for "is it the first in the recycling chain" (pos 5), 5 bits for OAM ID (pos 4:0) |
+| lagFrame | 1 byte | number of iteration before next move |
 | speed | 1 byte | 4 bits for x speed (pos 7:4) and 4 bits for (pos 3:0) |
 | ttl | 1 byte | Nb of iteration before the death of the tear (time to live) |
 

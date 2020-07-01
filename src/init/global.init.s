@@ -90,6 +90,8 @@ global_init:
   ld a,2
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
+  ld a,ISAAC_COOLDOWN
+  ldi (hl),a  ; shootCounter
 
 	ld b,n_blockings
 	ld hl, global_.blockings
