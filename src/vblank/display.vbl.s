@@ -179,7 +179,7 @@ ld (hl), a
 	ld a, (hl) ;tear posX
 	ld (bc), a ;tear pos X in OAM
 	ld a,c
-	cp OAM_ISAAC_TEARS-$FE00+4*(OAM_ISAAC_TEARS_SIZE-1)+1 ;check if c is last tear sprite pos X in OAM
+	cp OAM_ISAAC_TEARS-OAM_ISAAC+4*(OAM_ISAAC_TEARS_SIZE-1)+1 ;check if c is last tear sprite pos X in OAM
 	jr z, @endTears
 	inc c
 	inc c
