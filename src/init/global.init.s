@@ -64,10 +64,10 @@ global_init:
 
 @isaac_init:
 	ld hl, global_.isaac
-	ld a,$20
-	ldi (hl),a; x = 32
-	ld a,$40
-	ldi (hl),a; y = 64
+	ld a,$30
+	ldi (hl),a; x = 48
+	ld a,$50
+	ldi (hl),a; y = 80
 	ld a, ISAAC_MAX_HP
 	ldi (hl),a; hp = ISAAC_MAX_HP
 	ld a,1
@@ -201,3 +201,47 @@ global_init:
 	ldi (hl), a
 	dec b
 	jp nz, @object_loop
+
+@wall_inits
+   ld hl, global_.blockings+(_sizeof_blocking * (n_blockings - 4))
+
+; // init top wall
+    ld a, (global_.blocking_inits.3.info)
+    ldi (hl), a
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
+
+; // init bottom wall
+    ld a, (global_.blocking_inits.3.info)
+    ldi (hl), a
+    ld a, 144
+    ldi (hl), a ; y = 144
+    ld a, 8
+    ldi (hl), a ; x = 8
+
+; // init left wall
+    ld a, (global_.blocking_inits.4.info)
+    ldi (hl), a
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld a, 8
+    ldi (hl), a ; x = 8
+
+; // init right wall
+    ld a, (global_.blocking_inits.4.info)
+    ldi (hl), a ; 1 hp
+    ld a, 16
+    ldi (hl), a ; y = 16
+    ld a, 160-8
+    ldi (hl), a ; x = 160-8
+
+
+; load simple_room
+	ld de, basic_room
+	ld a, d
+	ld (load_map_.map_address), a
+	ld a, e
+	ld (load_map_.map_address + 1), a
+	call load_map

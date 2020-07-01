@@ -1,4 +1,5 @@
 move_and_collide:
+
 	ld hl,global_.isaac.lagCounter
 	dec (hl)
 	jp nz,@no_move
@@ -86,7 +87,7 @@ move_and_collide:
 	sub b
 	ld (global_.isaac.x),a ; isaac.x -= speed x
 	ld a,(global_.isaac.speed)
-	and MASK_4_MSB
+	and MASK_4_LSB
 	ld (global_.isaac.speed),a ; speed y = 0
 	; \\\\ CANCEL MOUVEMENT ////
 	@@noCollision:
