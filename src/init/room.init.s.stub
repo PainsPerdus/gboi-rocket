@@ -128,7 +128,7 @@ ld hl, global_.enemies
 ; // fly 4
     ld a, FLY_INFO
     ldi (hl), a
-    ld a, 50
+    ld a, 70
     ldi (hl), a
     ldi (hl), a
     ld a, FLY_HP

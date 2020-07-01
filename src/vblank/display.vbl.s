@@ -27,41 +27,17 @@ ld (hl), a
 @face_left:
 ; \\\ Isaac Mouth Pixel ///
 
-//Quick fix to avoid isaac HP being <0...
-ld a,(global_.isaac.hp)
-bit 7,a
-jr z,@noreset
-ld a,ISAAC_MAX_HP
-ld (global_.isaac.hp),a
-@noreset
-
 ; ///// Hearts \\\\\
-	ld d, HEARTS_SPRITESHEET  ; set sprite to empty heart
-	ld e, ISAAC_MAX_HP
-	ld hl, $9800
-@loopEmptyHearts:
-	ld (hl), d                ; draw an empty heart
-	inc hl
-	dec e
-	dec e
-	jr nz, @loopEmptyHearts
-	ld a,(global_.isaac.hp)   ;hp
-	and a
-	jr z, @EndHearts
-	ld hl, $9800
-	inc d                     ; set sprite to full heart
-@loopFullHearts:
-	dec a
-	jr z, @HalfHeart
-	ld (hl), d                ; draw a full heart
-	inc hl
-	dec a
-	jr z, @EndHearts
-	jr @loopFullHearts
-@HalfHeart:
-	inc d                       ; now sprite half heart
-	ld (hl), d
-@EndHearts:
+ld hl, $9800                     ; start of background
+ld b, ISAAC_MAX_HP/2               ; loop iterator
+ld de, display_.Heart_shadow     ; stored hearts data
+@display_hearts:
+ld a, (de)
+ld (hl), a
+inc hl
+inc de
+dec b
+jr nz, @display_hearts
 
 ; \\\\\ Hearts /////
 

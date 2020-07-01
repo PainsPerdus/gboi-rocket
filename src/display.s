@@ -4,17 +4,6 @@ display:
 
 updateShadowOAM:
 
-//TODO : only clear what's not used, quick for to avoid dead sprites
-; ////// Clear shadow OAM \\\\\\\
-	ld hl, SHADOW_OAM_START
-	ld b,40*4 ; Shadow OAM size (= OAM size)
-@loopClearShadowOAM:			
-	ld (hl),$00	
-	inc l	
-	dec b		; b --
-	jr nz,@loopClearShadowOAM	; end while
-; \\\\\\ Clear shadow OAM ///////
-
 ; // Init OAM pointer \\
 		xor a
 		ld (display_.OAM_pointer), a
@@ -157,6 +146,9 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 ; \\\\\ Isaac /////
 
+ld a,0 ;Display not reversed
+call displayIsaacTears
+
 /*; ///// Tears \\\\\
 
 
@@ -196,8 +188,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 	ld e, n_enemies      ; loop iterator
 	ld hl, global_.enemies      ; address of first ennemy strucs
+	ld a, (display_.OAM_pointer)
 	ld bc, SHADOW_OAM_START
-	ld a, (display_.OAM_pointer)  
 	ld c, a                   ; OAM address of the first ennemy
 @next_ennemy:
 	ldi a, (hl)                  ; charge info byte
@@ -206,7 +198,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	and ENEMY_ID_MASK
 	cp  %00010000
 	jr z, @fly
-	; cp %00110000...
+	;cp %00011000
+	;jr z, @wasp
 
 	; MORE ENNEMIES OPTIONS HERE
 	jp @dead
@@ -223,7 +216,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	push hl
 	ld h, a
 	ld a, (display_.fly.frame)
-	and %00000010
+	and %00000100                   ; checking animation frame
+	sra a
 	sra a
 	add h
 	pop hl
@@ -232,8 +226,30 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	inc c
 
 	jp @ennemy_updated
+/*
+@wasp:
+	ld a, (hl)
+	ld (bc), a
+	inc l
+	inc c
+	ld a, (hl)
+	ld (bc), a
+	inc c
+	ld a, WASP_SPRITESHEET
+	push hl
+	ld h, a
+	ld a, (display_.fly.frame)
+	and %00000100
+	sra a
+	sra a
+	add h
+	pop hl
+	ld (bc), a
+	inc c
+	inc c
 
-
+	jp @ennemy_updated
+*/
 	;...
 	; MORE ENNEMIES LABELS HERE
 
@@ -262,14 +278,48 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 ; \\\\ ENNEMIES ////
 
-; //// TEARS \\\\
-ld a,0 ;Display not reversed
-call displayIsaacTears
-
-; \\\\ TEARS ////
-
-
 ; \\\\\\ UPDATE SHADOW OAM \\\\\\
+
+
+
+; ///// Hearts \\\\\
+//Quick fix to avoid isaac HP being <0...
+ld a,(global_.isaac.hp)
+bit 7,a
+jr z,@noreset
+ld a,ISAAC_MAX_HP
+ld (global_.isaac.hp),a
+@noreset
+
+	ld d, HEARTS_SPRITESHEET  ; set sprite to empty heart
+	ld e, ISAAC_MAX_HP
+	ld hl, display_.Heart_shadow
+@loopEmptyHearts:
+	ld (hl), d                ; draw an empty heart
+	inc hl
+	dec e
+	dec e
+	jr nz, @loopEmptyHearts
+	ld a,(global_.isaac.hp)   ;hp
+	and a
+	jr z, @EndHearts
+	ld hl, display_.Heart_shadow
+	inc d                     ; set sprite to full heart
+@loopFullHearts:
+	dec a
+	jr z, @HalfHeart
+	ld (hl), d                ; draw a full heart
+	inc hl
+	dec a
+	jr z, @EndHearts
+	jr @loopFullHearts
+@HalfHeart:
+	inc d                       ; now sprite half heart
+	ld (hl), d
+@EndHearts:
+; \\\\\ Hearts /////
+
+
 
 ; ////// UPDATE ANIMATION FRAMES AND TIMERS \\\\\\
 
