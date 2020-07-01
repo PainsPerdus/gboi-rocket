@@ -36,7 +36,6 @@
 .DEFINE OBJECT_ID_RIGHT_SHIFT 2
 .DEFINE BLOCKING_SIZE_MASK %00000111
 .DEFINE ENEMY_SIZE_MASK %00000111
-.DEFINE OBJECT_SIZE_MASK %00000011
 .DEFINE SHOOT_FLAG 7
 .DEFINE DMG_MASK %01111111
 
@@ -153,8 +152,8 @@
 
 .STRUCT global_var
 	isaac_tears INSTANCEOF tear n_isaac_tears
-	blockings INSTANCEOF blocking n_blockings
 	enemies INSTANCEOF enemy n_enemies
+	blockings INSTANCEOF blocking n_blockings
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
 	objects INSTANCEOF object n_objects
 	hitboxes_width DSB 8

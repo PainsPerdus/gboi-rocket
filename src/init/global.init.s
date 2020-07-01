@@ -266,7 +266,7 @@ global_init:
 ; ////// TESTTTTTT \\\\\\
 	ld hl,global_.isaac_tears
 
-	ld a,$20
+	ld a,$00
 	ldi (hl),a
 	ld a,$50
 	ldi (hl),a
@@ -277,7 +277,7 @@ global_init:
 	xor a
 	ldi (hl),a
 
-	ld a,$30
+	ld a,$00
 	ldi (hl),a
 	ld a,$50
 	ldi (hl),a
@@ -288,7 +288,7 @@ global_init:
 	xor a
 	ldi (hl),a
 
-	ld a,$40
+	ld a,$00
 	ldi (hl),a
 	ld a,$50
 	ldi (hl),a
@@ -299,7 +299,7 @@ global_init:
 	xor a
 	ldi (hl),a
 
-	ld a,$50
+	ld a,$00
 	ldi (hl),a
 	ld a,$50
 	ldi (hl),a
@@ -310,7 +310,7 @@ global_init:
 	xor a
 	ldi (hl),a
 
-	ld a,$60
+	ld a,$00
 	ldi (hl),a
 	ld a,$50
 	ldi (hl),a

@@ -20,6 +20,7 @@
 .INCLUDE "var/load_map.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
+.INCLUDE "var/tears.var.s"
 
 ; $C000 to $C0FF is reserved for shadow OAM
 
@@ -32,9 +33,10 @@
 	check_inputs_ INSTANCEOF check_inputs_var
 	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
-	VBlank_lock DB
 	load_map_ INSTANCEOF load_map_var
+	tears_ INSTANCEOF tears_var
 	GameState DB
+	VBlank_lock DB
 .ENDE
 
 ; \\\\\\\\\ Mapping /////////
@@ -161,7 +163,7 @@ VBlank:
 	ld a,(VBlank_lock)
 	and a
 	jr nz,noSkipFrame
-	ld b,b ;Breakpoint to test if frame was skipped
+	;ld b,b ;Breakpoint to test if frame was skipped
 	jp endVBlank
 noSkipFrame:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
