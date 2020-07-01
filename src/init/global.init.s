@@ -311,6 +311,6 @@ findStartLoop:
 	ld a, (load_map_.doors)
 	and %11110111
 	ld (load_map_.doors), a
-@thereAreEnemies
+@thereAreEnemies:
 
 	call displayRoom

@@ -285,6 +285,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "rooms/basic7.room"
 .INCLUDE "rooms/basic8.room"
 
+.INCLUDE "rooms/basic.room"
 first_floor:
 .INCLUDE "maps/map1.level1"
 room_index:
