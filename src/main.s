@@ -96,7 +96,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; /////// ENABLE INTERRUPTIONS \\\\\\\
 	ld a,%00001000
 	ldh ($41),a		; enable STAT HBlank interrupt
-	ld a,%00000011
+	ld a,%00000111
 	ldh ($FF),a		; enable VBlank interrupt and STAT interrupt
 	ei						; interrutions are back!
 ; \\\\\\\ ENABLE INTERRUPTIONS ///////

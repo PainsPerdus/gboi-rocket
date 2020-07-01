@@ -98,9 +98,9 @@ timer_interrupt :
 music_start: ; HL -> pointer to music
     push BC
     push DE
-    ld b, (hl)
+    ld c, (hl)
     inc hl
-    ld c, (hl) ; load scale pointer in bc
+    ld b, (hl) ; load scale pointer in bc
     ld d, h
     ld e, l
 
@@ -113,9 +113,9 @@ music_start: ; HL -> pointer to music
     ld l, e
     inc hl
 
-    ld b, (hl)
+    ld c, (hl)
     inc hl
-    ld c, (hl) ; load timings pointer in bc
+    ld b, (hl) ; load timings pointer in bc
     ld d, h
     ld e, l
 
@@ -128,9 +128,9 @@ music_start: ; HL -> pointer to music
     ld l, e
     inc hl
 
-    ld b, (hl)
+    ld c, (hl)
     inc hl
-    ld c, (hl) ; load melody pointer in bc
+    ld b, (hl) ; load melody pointer in bc
     ld d, h
     ld e, l
 
