@@ -9,7 +9,7 @@ isaac_tears_dmg:
 @loop_tears:
 	ld h,d
 	ld l,e
-	ldi a,(hl)
+	ld a,(hl)
 	and a
 	jr z,@ending_loop_tears
 
