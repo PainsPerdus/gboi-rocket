@@ -261,6 +261,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
+.INCLUDE "lib/knockback.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/door_functions.lib.s"
 .INCLUDE "lib/maps.lib.s"
