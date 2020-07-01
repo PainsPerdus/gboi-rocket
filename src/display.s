@@ -157,12 +157,6 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 ; \\\\\ Isaac /////
 
-
-; ///// Tears \\\\\
-	ld a,0 ;Display not reversed
-	call displayIsaacTears
-; \\\\\ Tears /////
-
 ; //// ENNEMIES \\\\
 
 
@@ -257,6 +251,11 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	ld (display_.OAM_pointer), a
 
 ; \\\\ ENNEMIES ////
+
+; ///// Tears \\\\\
+	ld a,0 ;Display not reversed
+	call displayIsaacTears
+; \\\\\ Tears /////
 
 ; \\\\\\ UPDATE SHADOW OAM \\\\\\
 
