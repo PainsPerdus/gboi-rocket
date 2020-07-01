@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/load_map.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
 
@@ -32,6 +33,7 @@
 	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
 	VBlank_lock DB
+	load_map_ INSTANCEOF load_map_var
 	GameState DB
 .ENDE
 
@@ -239,7 +241,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 	ldh a,($44)
 	cp 144          ; if a < 144 jump to waitvlb
 	jr c, waitvlb
-	;//We're in vblank we can turn the screen off!
+	;We're in vblank we can turn the screen off!
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 
@@ -260,5 +262,8 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
 .INCLUDE "lib/knockback.lib.s"
+.INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/maps.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
+
+.INCLUDE "rooms/basic.room"

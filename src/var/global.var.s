@@ -20,7 +20,7 @@
 .DEFINE ISAAC_A_FLAG $7
 .DEFINE ISAAC_B_FLAG $6
 
-.DEFINE n_blockings $0E
+.DEFINE n_blockings $20
 .DEFINE n_enemies $0A
 .DEFINE n_objects $0A
 .DEFINE n_isaac_tears $0A
@@ -61,6 +61,7 @@
 .DEFINE VOID_INFO %00001000	; not alive, not hurt by bombs, ID 1; size 0
 .DEFINE HWALL_INFO %10010110 ; alive, not hurt by bombs, ID 2, size 6
 .DEFINE VWALL_INFO %10011111 ; alive, not hurt by bombs, ID 3, size 7
+.DEFINE PIT_INFO %10100011 ; alive, not hurt by bombs, ID 4, size 3
 
 .DEFINE VOID_ENEMY_INFO %00000000 ; not alive, ID 0, size 0
 .DEFINE VOID_ENEMY_HP $00
