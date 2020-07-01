@@ -6,8 +6,10 @@ AI:
   ldi a,(hl)
   ld (vectorisation_.p.1.x),a
   ld a,(global_.isaac.y)
+  add ISAAC_Y_CENTER-3
   ld (vectorisation_.p.2.y),a
   ld a,(global_.isaac.x)
+  add ISAAC_X_CENTER-3
   ld (vectorisation_.p.2.x),a
   call vectorisation ;   direction = vectorisation(enemy_p->x, enemy_p->y,isaac.x,isaac.y)
   inc hl
