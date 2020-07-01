@@ -62,17 +62,25 @@ ld hl,$9000 ;Block 2
 ; /////// COPY BACKGROUND MAPS \\\\\\\\
 
 ; ///// MAP 1 \\\\\
-	ld de,_sizeof_IntroMap1
-	ld bc,IntroMap1
-	ld hl,$9800 ;Background Map 1
+;We need to copy the data (20*18) array, to the first top left bytes of the background map (32*32 array)
+	ld d,20 ;first loop counter
+	ld e,_sizeof_IntroMap1/20 ;second loop counter
+	ld bc,IntroMap1 ;data to copy
+	ld hl,$9800 ;Background Map 1 (to copy to)
 @map1:
 	ld a,(bc)
-	ldi (hl),a
-	inc bc
-	dec de
-	ld a,e
-	or d
-	jr nz,@map1
+	ldi (hl),a ;copy data
+	inc bc ;setup next byte to copy 
+	dec d 
+	jr nz,@map1 ;first loop on columns
+	ld a,e ;save e
+	ld de, 12
+	add hl, de ;jump to next bg line
+	ld e,a ;restore e
+	ld d,20 ;reset d
+	dec e 
+	jr nz, @map1; second loop on rows
+
 ; \\\\\ MAP 1 /////
 
 ; ///// MAP 2 \\\\\

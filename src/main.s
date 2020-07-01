@@ -239,4 +239,5 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
+.INCLUDE "lib/maps.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
