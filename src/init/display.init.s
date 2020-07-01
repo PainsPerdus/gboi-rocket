@@ -254,8 +254,6 @@ ld (display_.fly.frame),a
 	jr nz, @loopCopyDmaProcedure
 ; \\\\\\ Copy DMA code into HRAM ///////
 
-
-
 ; ////// Clear shadow OAM \\\\\\\
 	ld hl, SHADOW_OAM_START
 	ld b,40*4 ; Shadow OAM size (= OAM size)

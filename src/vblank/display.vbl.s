@@ -302,4 +302,10 @@ ld (global_.isaac.hp),a
 
 ; \\\\\\ UPDATE SPRITES POSITION //////
 
+; ////// Start DMA \\\\\\
+
+call HRAM_DMA_PROCEDURE
+
+; \\\\\\ Start DMA //////
+
 ; ########## END DISPLAY CRITICAL SECTION ##########
