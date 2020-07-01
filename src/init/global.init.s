@@ -249,61 +249,75 @@ global_init:
 	ld (load_map_.map_address + 1), a
 	call load_map
 
-  ; ////// TESTTTTTT \\\\\\
-  	ld hl,global_.isaac_tears
 
-  	ld a,$20
-  	ldi (hl),a
-  	ld a,$50
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
+	ld hl,global_.isaac_tears
+  ld c,n_isaac_tears
+  xor a
+@loop_isaac_tears:
+  ldi (hl),a
+  ldi (hl),a
+  ldi (hl),a
+  ldi (hl),a
+  ldi (hl),a
+  dec c
+  jr nz,@loop_isaac_tears
 
-  	ld a,$30
-  	ldi (hl),a
-  	ld a,$50
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
 
-  	ld a,$40
-  	ldi (hl),a
-  	ld a,$50
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
+; ////// TESTTTTTT \\\\\\
+	ld hl,global_.isaac_tears
 
-  	ld a,$50
-  	ldi (hl),a
-  	ld a,$50
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
+	ld a,$20
+	ldi (hl),a
+	ld a,$50
+	ldi (hl),a
+	ld a,TEARS_SPEED_FREQ
+	ldi (hl),a
+	ld a,%00010000
+	ldi (hl),a
+	xor a
+	ldi (hl),a
 
-  	ld a,$60
-  	ldi (hl),a
-  	ld a,$50
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
-  ; \\\\\\ TESTTTTTT //////
+	ld a,$30
+	ldi (hl),a
+	ld a,$50
+	ldi (hl),a
+	ld a,TEARS_SPEED_FREQ
+	ldi (hl),a
+	ld a,%00010000
+	ldi (hl),a
+	xor a
+	ldi (hl),a
+
+	ld a,$40
+	ldi (hl),a
+	ld a,$50
+	ldi (hl),a
+	ld a,TEARS_SPEED_FREQ
+	ldi (hl),a
+	ld a,%00010000
+	ldi (hl),a
+	xor a
+	ldi (hl),a
+
+	ld a,$50
+	ldi (hl),a
+	ld a,$50
+	ldi (hl),a
+	ld a,TEARS_SPEED_FREQ
+	ldi (hl),a
+	ld a,%00010000
+	ldi (hl),a
+	xor a
+	ldi (hl),a
+
+	ld a,$60
+	ldi (hl),a
+	ld a,$50
+	ldi (hl),a
+	ld a,TEARS_SPEED_FREQ
+	ldi (hl),a
+	ld a,%00010000
+	ldi (hl),a
+	xor a
+	ldi (hl),a
+; \\\\\\ TESTTTTTT //////

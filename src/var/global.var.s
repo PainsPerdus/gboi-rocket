@@ -23,7 +23,7 @@
 .DEFINE n_blockings $20
 .DEFINE n_enemies $0A
 .DEFINE n_objects $0A
-.DEFINE n_isaac_tears $05
+.DEFINE n_isaac_tears $0A
 .DEFINE n_ennemy_tears $0A
 
 .DEFINE ALIVE_FLAG 7

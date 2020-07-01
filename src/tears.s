@@ -8,6 +8,7 @@ isaac_tears:
 	add hl,de
 	ld a,(hl)
 	and a
+	
 	jr z,@@no_move
 
 	ld hl,$0002
