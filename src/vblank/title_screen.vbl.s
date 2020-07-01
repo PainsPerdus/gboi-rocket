@@ -6,6 +6,21 @@ titleScreen:
 	ldh ($40),a
 ; \\\\\\\ SETUP LCDC TILE DATA BANK ///////
 
+; /////// Update Animation \\\\\\\
+	ld a, (title_screen_.animation_counter)
+	inc a
+	ld (title_screen_.animation_counter), a ;animation_counter++
+	cp 7 ;Wait some frames before updating animation
+	jp nz,@noUpdateAnimation
+	xor a
+	ld (title_screen_.animation_counter),a ;reset counter
+	; Update animation 
+    ldh a,($40) ;LCDC
+	xor %00001000
+	ldh ($40),a
+@noUpdateAnimation
+; \\\\\\\ Update Animation ///////
+
 
 ; /////// CHECK SELECT PRESSED \\\\\\\	
 	ld a,%00010000 ;Select button (non direction) 
