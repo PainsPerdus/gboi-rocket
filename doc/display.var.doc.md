@@ -15,6 +15,7 @@
 | ------ | ----------- | ----------- |
 | OAM_CACHE_START | 2 bytes | Cache of the OAM for DMA |
 | HRAM_DMA_PROCEDURE | 2 bytes | Place in HRAM where DMA procedure will be copied |
+| HRAM_DMA_PROCEDURE_SIZE | 1 byte | Size of the DAM procedure opcodes in bytes |
 
 # Display vars
 

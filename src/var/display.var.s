@@ -18,7 +18,6 @@
 .DEFINE DMA_PROCEDURE_SIZE 10
 
 
-
 .STRUCT isaac_display
 	frame DB
 	shoot_timer DB

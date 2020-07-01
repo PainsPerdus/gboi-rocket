@@ -244,13 +244,13 @@ ld (display_.fly.frame),a
 	ld b,b
 	ld hl, HRAM_DMA_PROCEDURE ;Place to copy the HRAM DMA start code
 	ld bc, start_dma_in_ROM ;Procedure in ROM to copy
-	ld de, DMA_PROCEDURE_SIZE ;Size of the procedure
+	ld e, DMA_PROCEDURE_SIZE ;Size of the procedure
 @loopCopyDmaProcedure:
 	ld a, (bc)
 	ld (hl), a
 	inc bc
 	inc hl
-	dec e ;only using the low byte because procedure smaller than 256 bytes
+	dec e 
 	jr nz, @loopCopyDmaProcedure
 ; \\\\\\ Copy DMA code into HRAM ///////
 
