@@ -255,6 +255,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; ///////// INCLUDE .LIB \\\\\\\\\
 .INCLUDE "lib/display_background_tile.lib.s"
 .INCLUDE "lib/display_doors.lib.s"
+.INCLUDE "lib/display_tears.lib.s"
 .INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/CollisionSolverIsaac.lib.s"
 .INCLUDE "lib/collision.lib.s"

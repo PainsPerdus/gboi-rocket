@@ -146,7 +146,10 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 ; \\\\\ Isaac /////
 
+call displayIsaacTears
+
 /*; ///// Tears \\\\\
+
 
 	//Show the OAM_ISAAC_TEARS_SIZE first active tears
 	
