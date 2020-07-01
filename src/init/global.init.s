@@ -1,15 +1,15 @@
 initHitBoxes:
 
 ; // init hitboxes
-    ld hl, global_.hitboxes_width
-    ld a, $08
-    ldi (hl), a
+  ld hl, global_.hitboxes_width
+  ld a, $08
+  ldi (hl), a
 	ld a, $00
-    ldi (hl), a
-    ld a, $08
-    ldi (hl), a
+  ldi (hl), a
+  ld a, $08
+  ldi (hl), a
 	ld a, $10
-    ldi (hl), a
+  ldi (hl), a
 	ldi (hl), a
 	ld a, $08
 	ldi (hl), a
@@ -17,14 +17,15 @@ initHitBoxes:
 	ldi (hl), a
 	ld a, $10
 	ldi (hl), a
-    ld hl, global_.hitboxes_height
-    ld a, $08
-    ldi (hl), a
-    ldi (hl), a
+
+  ld hl, global_.hitboxes_height
+  ld a, $08
+  ldi (hl), a
+  ldi (hl), a
 	ld a, $00
-    ldi (hl), a
+  ldi (hl), a
 	ld a, $10
-    ldi (hl), a
+  ldi (hl), a
 	ld a, $08
 	ldi (hl), a
 	ld a, $10
@@ -245,3 +246,117 @@ global_init:
 	ld a, e
 	ld (load_map_.map_address + 1), a
 	call load_map
+
+  ; ////// TESTTTTTT \\\\\\
+  	ld hl,global_.isaac_tears
+
+  	ld a,$26
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$36
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$46
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$56
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$66
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$76
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$86
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$96
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$A6
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$B6
+  	ldi (hl),a
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+  ; \\\\\\ TESTTTTTT //////

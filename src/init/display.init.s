@@ -270,19 +270,6 @@ ld (hl), $D9 ; reti
 ; \\\\\\\ SETUP TEARS HBLANK OPCODE ///////
 
 
-; ////// TESTTTTTT \\\\\\
-	ld hl,global_.isaac_tears
-	ld a,$56
-	ldi (hl),a
-	ld a,$20
-	ldi (hl),a
-	xor a
-	ldi (hl),a
-	ld a,%00010000
-	xor a
-	ldi (hl),a
-; \\\\\\ TESTTTTTT //////
-
 ; /////// INIT COLOR PALETTES \\\\\\\
 ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt
 ldh ($47),a	; background palette
