@@ -3,8 +3,6 @@ timer_interrupt:
     push BC
     push DE
     push HL
-    nop
-    ld b,b
 ;    //// CHANNEL 1 \\\\
     ;check if the note is finished on channel 1
     ld a, (music_state_.rest1)
@@ -91,12 +89,10 @@ timer_interrupt:
 
 ;\\\\ TIMER INTERUPT LOOP ////
 ;\\\\ MUSIC PLAYER ///
-ld b,b
     pop HL
     pop DE
     pop BC
     pop AF
-    ld b,b
   ret
 
 music_start: ; HL -> pointer to music
