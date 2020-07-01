@@ -36,14 +36,10 @@ load_map:
     ld a, l
     ld (load_map_.next_to_load + 1), a
     ; \\ next enemy to load //
-
-    ; // reset counters \\
-    xor a
-    ld (load_map_.blockings_written), a
-    ld (load_map_.enemies_written), a
-    ld (load_map_.objects_written), a
-    ; \\ reset counters //
     ; \\\ init cursor positions ///
+
+.INCLUDE "lib/load_complete_with_void.lib.s"
+.INCLUDE "lib/load_doors.lib.s"
 
     ; /// start y loop \\\
     ld a, (load_map_.map_address)
@@ -205,7 +201,6 @@ load_map:
     cp $90
     jp nz, @y_loop
     ; \\\ end y loop ///
-
 
     pop de
     pop bc

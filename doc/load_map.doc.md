@@ -15,14 +15,22 @@
 | load_map_.next_enemy | 2 bytes | address of the next enemy to use |
 | load_map_.next_object | 2 bytes | address of the next object to use |
 | load_map_.next_to_load | 2 bytes | address of the next enemy to load |
-| load_map_.blockings_written | 1 byte | number of blocking elements in the room |
-| load_map_.enemies_written | 1 byte | number of enemies in the room |
-| load_map_.objects_written | 1 byte | number of objects elements in the room |
-
 ## Pseudo Code
 
 ~~~C
 load_map(char[] map_address) {
+    for (b = 0, b < global_.n_blockings - 4, b ++){
+        // load void
+    }
+
+    for (b = 0, b < global_.n_enemies, b ++){
+        // load void enemy
+    }
+    
+    for (b = 0, b < global_.n_objects, b ++) {
+        // load void object
+    }
+
     // add doors
     if (map_address[0] and 0b10000000)
         //load top door
@@ -56,18 +64,5 @@ load_map(char[] map_address) {
             index ++
         }
     }
-    
-    for (b = blockings_written, b < global_.n_blockings, b ++){
-        // load void
-    }
-
-    for (b = enemies_written, b < global_.n_enemies, b ++){
-        // load void enemy
-    }
-    
-    for (b = objects_written, b < global_.n_objects, b ++) {
-        // load void object
-    }
-    
 }
 ~~~

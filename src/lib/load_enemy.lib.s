@@ -83,6 +83,4 @@
     ld (load_map_.next_enemy), a
     ld a, l
     ld (load_map_.next_enemy + 1), a
-    ld hl, load_map_.enemies_written
-    inc (hl)
 ; \\\ add an enemy ///
