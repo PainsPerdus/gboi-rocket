@@ -1,6 +1,7 @@
 # Display structs:
 
-## Isaac
+
+## isaac_display
 
 | Label       | Size/Struct | Description                                                      |
 | ----------- | ----------- | ---------------------------------------------------------------- |
@@ -8,8 +9,24 @@
 | shoot_timer | 1 byte      | Number of game frames before the end of shooting animation       |
 | walk_timer  | 1 byte      | Number of game frames before the next frame of walking animation |
 
+## hblank_preloaded_opcode
+
+| Label  | Size/Struct | Description |
+| ------ | ----------- | ----------- |
+| address | 38 bytes   | Contains the address of the dynamically updated op code stored in RAM and called during HBlank interrupt. The address is actually 2 bytes but we need to allocate the bytes for the opcode. [See more](display.init.doc.md). |
+
 # Display vars
 
 | Label          | Size/Struct | Description                  |
 | -------------- | ----------- | ---------------------------- |
 | display_.isaac | isaac       | Isaac's animation properties |
+
+# Display Constants
+| Label          | Size        | Description |
+| -------------- | ----------- | ----------- |
+| OAM_ISAAC      | 2 bytes     | Address of Isaac's sprites in OAM |
+| OAM_ISAAC_SIZE | 1 byte      | Number of sprites for Isaac in OAM |
+| OAM_ISAAC_BULLETS | 2 bytes | Address of Isaac's bullets pool in the OAM |
+| OAM_ISAAC_BULLETS_SIZE | 1 byte | Number of sprites for the ennemies bullets in the OAM |
+| OAM_ENNEMY_BULLETS | 2 bytes | Address of Isaac's bullets pool in the OAM |
+| OAM_ENNEMY_BULLETS_SIZE | 1 byte | Number of sprites for the ennemis bullets in the OAM |

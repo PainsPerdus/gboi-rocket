@@ -1,64 +1,65 @@
-/*
-	states INSTANCEOF state n_states*/
+initHitBoxes:
+
+; // init hitboxes
+    ld hl, global_.hitboxes_width
+    ld a, $08
+    ldi (hl), a
+	ld a, $00
+    ldi (hl), a
+    ld a, $08
+    ldi (hl), a
+	ld a, $10
+    ldi (hl), a
+	ldi (hl), a
+	ld a, $08
+	ldi (hl), a
+	ld a, $A0
+	ldi (hl), a
+	ld a, $10
+	ldi (hl), a
+    ld hl, global_.hitboxes_height
+    ld a, $08
+    ldi (hl), a
+    ldi (hl), a
+	ld a, $00
+    ldi (hl), a
+	ld a, $10
+    ldi (hl), a
+	ld a, $08
+	ldi (hl), a
+	ld a, $10
+	ldi (hl), a
+	ldi (hl), a
+	ld a, $90
+	ldi (hl), a
+
 
 global_init:
-	ld hl,global_.sheets
-	ld b,n_sheets
+
+	ld hl,global_.blocking_inits
 
 @rock:
 ; ////// ROCK \\\\\\
-	ld a,%10010000	; size = 0, block, hurt by bombs.
+	ld a,ROCK_INFO
 	ldi (hl),a
-	ld a,0	; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no funtion pointer or whatever
-	ldi (hl),a ; speed = 0
-	ld a,0
-	ldi (hl),a ; 0 HP
 ; \\\\\\ ROCK //////
 
 @void:
 ; ////// VOID \\\\\\
-	ld a,%00010000	; size = 0, no block, hurt by bombs.
+	ld a, VOID_INFO
 	ldi (hl),a
-	ld a,0	; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no funtion pointer or whatever
-	ldi (hl),a ; speed = 0, that a rock, duh
-	ld a,1
-	ldi (hl),a ; a rock has 1 HP
 ; \\\\\\ VOID //////
 
 @hwall:
 ; ////// horizontal wall \\\\\\
-	ld a, %10000010 ; size = 2, block only
+	ld a, HWALL_INFO
 	ldi (hl),a
-	ld a,0 ; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no function pointer or whatever
-	ldi (hl),a ; speed = 0, walls can't run... for now
-	ld a,1
-	ldi (hl),a ; hp = 1
 ; \\\\\\ horizontal wall //////
 
 @vwall:
 ; ////// vertical wall \\\\\\
-	ld a, %10000011 ; size = 3, block only
+	ld a, VWALL_INFO
 	ldi (hl),a
-	ld a,0 ; dmg = 0
-	ldi (hl),a
-	ld a,0
-	ldi (hl),a
-	ldi (hl),a ; no function pointer or whatever
-	ldi (hl),a ; speed = 0, walls can't run... for now
-	ld a,1
-	ldi (hl),a ; hp = 1
 ; \\\\\\ vertical wall //////
 
 @isaac_init:
@@ -67,8 +68,8 @@ global_init:
 	ldi (hl),a; x = 32
 	ld a,$40
 	ldi (hl),a; y = 64
-	ld a,10
-	ldi (hl),a; hp = 10
+	ld a, ISAAC_MAX_HP
+	ldi (hl),a; hp = ISAAC_MAX_HP
 	ld a,1
 	ldi (hl),a; dmg = 1
 	xor a
@@ -85,47 +86,118 @@ global_init:
 	ldi (hl),a; bombs=0
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
+  ld a,2
+  ldi (hl),a  ; lagCounter
+  ldi (hl),a  ; speedFreq
 
-	ld b,n_elements
-	ld de,global_.states
-@elements_loop: ; they are no element for now
+	ld b,n_blockings
+	ld hl, global_.blockings
+@blocking_loop: ; they are no element for now
+	ld a, (global_.blocking_inits.2.info)
+	ldi (hl), a
 	xor a
-	ldi (hl),a ; hp = 0
-	ldi (hl),a ; x = 0
-	ldi (hl),a ; y = 0
-	ldi (hl),a ; sheet = 0
-	ld a,0
-	ldi (hl),a ; speed x = 0, speed y = 0
-	ld a,d
-	ldi (hl),a
-	ld a,e
-	ldi (hl),a ; state
-	inc de
+	ldi (hl), a
+	ldi (hl), a
 	dec b
-	jp nz,@elements_loop
+	jp nz,@blocking_loop
 
 	; tears
+	ld hl, global_.issac_tear_pointer
 	xor a
 	ldi (hl),a	; issac_tear_pointer = 0
+	ld hl, global_.isaac_tears
 	ld b,n_isaac_tears
 @isaac_tears_loop:
-	ldi (hl),a ; x = 0
-	ldi (hl),a ; y = 0
-	ldi (hl),a ; not alive, not upgraded, speed x = 0, speed y = 0
+	ld a,30
+	ldi (hl),a ; x = 30
+	ldi (hl),a ; y = 30
+	xor a
+	ldi (hl),a ;id
+	ldi (hl),a ;speed
+	ldi (hl),a ;ttl
 	dec b
 	jp nz,@isaac_tears_loop
 
 	ldi (hl),a	; ennemy_tear_pointer = 0
 	ld b,n_ennemy_tears
 @ennemy_tears_loop:
-	ldi (hl),a ; x = 0
-	ldi (hl),a ; y = 0
-	ldi (hl),a ;  not alive, not upgraded, speed x = 0, speed y = 0
+  xor a
+  ldi (hl),a ; x = 30
+  ldi (hl),a ; y = 30
+  ldi (hl),a ;id
+  ldi (hl),a ;speed
+  ldi (hl),a ;ttl
 	dec b
 	jp nz,@ennemy_tears_loop
 
-	ld b,n_states
-@states_loop:
-	ldi (hl),a ; placeholder = O (they are no element for now)
+	ld hl, global_.enemy_inits
+
+@void_enemy:
+	; /// void enemy \\\
+	ld a, VOID_ENEMY_INFO
+	ldi (hl),a
+	ld a,VOID_ENEMY_HP
+	ldi (hl), a ; no hp
+  ld a,VOID_ENEMY_DMG
+	ldi (hl), a ; void enemy doesn't exist, it can't hurt you
+	ld a,VOID_ENEMY_SPEED_FREQ
+  ldi (hl),a
+	; \\\ void enemy ///
+
+@hurting_rock:
+	; /// hurting rock \\\
+	ld a, HURTING_ROCK_INFO
+	ldi (hl), a
+	ld a, HURTING_ROCK_HP
+	ldi (hl), a
+	ld a, HURTING_ROCK_DMG
+	ldi (hl), a
+  ld a,HURTING_ROCK_SPEED_FREQ
+  ldi (hl),a
+	; \\\ hurting rock ///
+
+	ld hl, global_.enemies
+	ld b, n_enemies
+@enemy_loop:
+	ld a, (global_.enemy_inits.1.info)
+	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ldi (hl), a
+	ld a, (global_.enemy_inits.1.hp)
+	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ld a, (global_.enemy_inits.1.dmg)
+	ldi (hl), a
+  ld a, (global_.enemy_inits.1.speedFreq)
+  ldi (hl), a
+  ldi (hl), a
 	dec b
-	jp nz,@states_loop
+	jp nz, @enemy_loop
+
+	ld hl, global_.object_inits
+
+@void_object:
+	; /// void object \\\
+	ld a, VOID_OBJECT_INFO
+	ldi (hl),a
+	xor a
+	ldi (hl), a
+	ldi (hl), a ; no function
+	; \\\ void object ///
+
+	ld hl, global_.objects
+	ld b, n_objects
+@object_loop:
+	ld a, (global_.object_inits.1.info)
+	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ldi (hl), a
+	ld a, (global_.object_inits.1.function)
+	ldi (hl), a
+	ld a, (global_.object_inits.1.function + 1)
+	ldi (hl), a
+	dec b
+	jp nz, @object_loop

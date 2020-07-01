@@ -44,20 +44,7 @@ We can have a maximum of 128 background tiles.
 ## Clear BG
 
 BG currently contains the Nitendo Logo, so we need to clear it. 
-The BG is 32*32 tiles. $9800 where the first background map is defined. We need to fill all tiles with tile id 0 because the background sprite is the sprite with id 0.  
-WARN: this could change later
-
-Here is the description of the 8 bits of each background map byte (from PanDocs) :
-| Bit     | Name                      | Description                             |
-|---------|---------------------------|-----------------------------------------|
-| Bit 0-2 | Background Palette number | (BGP0-7)                                | 
-| Bit 3   | Tile VRAM Bank number     | (0=Bank 0, 1=Bank 1)                    |
-| Bit 4   | Not used                  |                                         |
-| Bit 5   | Horizontal Flip           | (0=Normal, 1=Mirror horizontally)       |
-| Bit 6   | Vertical Flip             | (0=Normal, 1=Mirror vertically)         |
-| Bit 7   | BG-to-OAM Priority        | (0=Use OAM priority bit, 1=BG Priority) |
-
-We set everything to 0. 
+The BG is 32*32 tiles. $9800 where the first background map is defined. We need to fill all tiles with background tile id 0. We'll add later actual tiles, this is just for safety so that all the background is cleared and doesn't contain random tiles in real hardware.  
 
 ## Drawing walls
 We have to draw 16px large walls around the room. We work in a 20x18 area in the BG grid.
@@ -94,6 +81,37 @@ There are 40 sprites in the OAM, each sprites take up 4 bytes, so we need to cle
 ### Isaac Sprites
 
 As we change the sprites values in OAM, we don't need to set them up here. All flags are set to $00 when we clear the OAM.
+
+### Setup Isaac Tears Sprites
+
+We setup the OAM tears sprites.   
+There are OAM_ISAAC_TEARS_SIZE bullets, and we start storing them at address OAM_ISAAC_TEARS.   
+Here is what we're going to do (hold on to your assembly)   
+We're going to reserve only OAM_ISAAC_TEARS_SIZE sprites for the bullets. However, we want to display way more than that!  
+So during the HBlank interrupt, we're going to reuse those sprites and update the positions to show more sprites. Please see [display.s](display.doc.md) for more info. 
+
+## Setup Tear HBlank Opcode
+
+We want to execute code in the HBlank to update the sprites. However, we only have at 85 clock cycles.  
+So we're going to write that code in WRAM and jump to it in HBLANK. The code that modifies the OAM needs to be less than 85 cycle. Then we can have some (a bit) longer reset code.  
+The tricky part is that we need to recycle possibly different sprites at each line.  
+
+Here we setup the basic code for the jump (the opcodes that won't change)
+
+~~~arm
+push hl        //16
+jp REC         //16
+
+ld hl, NNnn    //12
+ld (hl), yy    //12
+ld l, nn+1     //8
+ld (hl), xx    //12
+
+//TOTAL : 76 cycles
+; after hblank
+pop hl
+reti
+~~~
 
 ## Init Color Palettes
 
