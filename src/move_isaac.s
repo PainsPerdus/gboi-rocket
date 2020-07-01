@@ -93,3 +93,34 @@ move_and_collide:
 	@@noCollision:
 ; \\\\\\\ MOVE ISAAC  X ////////
 @no_move:
+
+; /////// FIRE BULLETS \\\\\\\
+@fire_bullet:
+	ld hl,global_.isaac.cooldown
+	dec (hl)
+	jr nz,@@no_fire
+	ld a,ISAAC_COOLDOWN
+	ld (global_.isaac.cooldown),a
+	ld a,(global_.isaac.tears)
+	bit ISAAC_A_FLAG, a
+	jr z,@@no_fire
+	ld hl,global_.isaac_tears
+	ld a,(global_.issac_tear_pointer)
+	ld d,0
+	ld e,a
+	add hl,de
+	add _sizeof_tear
+	cp n_isaac_tears*_sizeof_tear
+	jr nz,@@pointer_overflow
+	xor a
+@@pointer_overflow:
+	ld (global_.issac_tear_pointer),a
+	ld a,(global_.isaac.y)
+	add ISAAC_Y_CENTER
+	ldi (hl),a
+	ld a,(global_.isaac.x)
+	add ISAAC_X_CENTER
+	ldi (hl),a
+@@no_fire:
+
+; \\\\\\\ FIRE BULLETS ///////

@@ -1,15 +1,15 @@
 initHitBoxes:
 
 ; // init hitboxes
-    ld hl, global_.hitboxes_width
-    ld a, $08
-    ldi (hl), a
+  ld hl, global_.hitboxes_width
+  ld a, $08
+  ldi (hl), a
 	ld a, $00
-    ldi (hl), a
-    ld a, $08
-    ldi (hl), a
+  ldi (hl), a
+  ld a, $08
+  ldi (hl), a
 	ld a, $10
-    ldi (hl), a
+  ldi (hl), a
 	ldi (hl), a
 	ld a, $08
 	ldi (hl), a
@@ -17,14 +17,15 @@ initHitBoxes:
 	ldi (hl), a
 	ld a, $10
 	ldi (hl), a
-    ld hl, global_.hitboxes_height
-    ld a, $08
-    ldi (hl), a
-    ldi (hl), a
+
+  ld hl, global_.hitboxes_height
+  ld a, $08
+  ldi (hl), a
+  ldi (hl), a
 	ld a, $00
-    ldi (hl), a
+  ldi (hl), a
 	ld a, $10
-    ldi (hl), a
+  ldi (hl), a
 	ld a, $08
 	ldi (hl), a
 	ld a, $10
@@ -89,6 +90,8 @@ global_init:
   ld a,2
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
+  ld a,ISAAC_COOLDOWN
+  ldi (hl),a  ; shootCounter
 
 	ld b,n_blockings
 	ld hl, global_.blockings
@@ -245,3 +248,62 @@ global_init:
 	ld a, e
 	ld (load_map_.map_address + 1), a
 	call load_map
+
+  ; ////// TESTTTTTT \\\\\\
+  	ld hl,global_.isaac_tears
+
+  	ld a,$20
+  	ldi (hl),a
+  	ld a,$50
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$30
+  	ldi (hl),a
+  	ld a,$50
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$40
+  	ldi (hl),a
+  	ld a,$50
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$50
+  	ldi (hl),a
+  	ld a,$50
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+
+  	ld a,$60
+  	ldi (hl),a
+  	ld a,$50
+  	ldi (hl),a
+  	ld a,TEARS_SPEED_FREQ
+  	ldi (hl),a
+  	ld a,%00010000
+  	ldi (hl),a
+  	xor a
+  	ldi (hl),a
+  ; \\\\\\ TESTTTTTT //////

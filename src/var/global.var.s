@@ -23,7 +23,7 @@
 .DEFINE n_blockings $20
 .DEFINE n_enemies $0A
 .DEFINE n_objects $0A
-.DEFINE n_isaac_tears $0A
+.DEFINE n_isaac_tears $05
 .DEFINE n_ennemy_tears $0A
 
 .DEFINE ALIVE_FLAG 7
@@ -42,8 +42,12 @@
 
 .DEFINE ISAAC_HITBOX 3
 .DEFINE ISAAC_FEET_HITBOX 4
-.DEFINE RECOVERY_TIME 30
+.DEFINE RECOVERY_TIME 60
 .DEFINE ISAAC_MAX_HP 16
+.DEFINE ISAAC_COOLDOWN  $20
+
+.DEFINE ISAAC_X_CENTER 8
+.DEFINE ISAAC_Y_CENTER 8
 
 .DEFINE 8_8_HB 0
 .DEFINE H_DOOR_HB 1
@@ -77,6 +81,11 @@
 
 .DEFINE VOID_OBJECT_INFO %00000000 ; not alive, ID 0, size 0
 
+.DEFINE DIST_KNOCK_BACK 5
+
+.DEFINE TEARS_SPEED_FREQ 2
+.DEFINE TEARS_HITBOX 0
+
 .STRUCT isaac
 	x DB
 	y DB
@@ -91,6 +100,7 @@
 	direction DB
 	lagCounter DB
 	speedFreq DB
+	cooldown  DB
 .ENDST
 
 .STRUCT blocking
@@ -134,15 +144,15 @@
 .ENDST
 
 .STRUCT tear
-	x DB
 	y DB
+	x DB
 	id DB
 	speed DB
 	ttl DB
 .ENDST
 
 .STRUCT global_var
-isaac_tears INSTANCEOF tear n_isaac_tears
+	isaac_tears INSTANCEOF tear n_isaac_tears
 	blockings INSTANCEOF blocking n_blockings
 	enemies INSTANCEOF enemy n_enemies
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
