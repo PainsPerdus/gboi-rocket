@@ -188,8 +188,8 @@ call displayIsaacTears
 
 	ld e, n_enemies      ; loop iterator
 	ld hl, global_.enemies      ; address of first ennemy strucs
+	ld a, (display_.OAM_pointer)
 	ld bc, SHADOW_OAM_START
-	ld a, (display_.OAM_pointer)  
 	ld c, a                   ; OAM address of the first ennemy
 @next_ennemy:
 	ldi a, (hl)                  ; charge info byte
@@ -198,7 +198,8 @@ call displayIsaacTears
 	and ENEMY_ID_MASK
 	cp  %00010000
 	jr z, @fly
-	; cp %00110000...
+	cp %00011000
+	jr z, @wasp
 
 	; MORE ENNEMIES OPTIONS HERE
 	jp @dead
@@ -215,7 +216,8 @@ call displayIsaacTears
 	push hl
 	ld h, a
 	ld a, (display_.fly.frame)
-	and %00000010
+	and %00000100
+	sra a
 	sra a
 	add h
 	pop hl
@@ -224,7 +226,31 @@ call displayIsaacTears
 	inc c
 
 	jp @ennemy_updated
+@wasp
+	push bc
+	ld a, (hl)
+	ld (bc), a
+	inc l
+	inc c
+	ld a, (hl)
+	ld (bc), a
+	inc c
+	
+	ld a, WASP_SPRITESHEET
+	push hl
+	ld h, a
+	ld a, (display_.fly.frame)
+	and %00000100
+	sra a
+	sra a
+	add h
+	pop hl
+	ld (bc), a
+	inc c
+	inc c
 
+
+	jp @ennemy_updated
 
 	;...
 	; MORE ENNEMIES LABELS HERE
