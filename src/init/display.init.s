@@ -239,36 +239,32 @@ ld (display_.fly.frame),a
 
 ; \\\\\\\ LOAD SPRITES ///////
 
-; /////// SETUP TEARS HBLANK OPCODE \\\\\\\
-ld bc, OAM_ISAAC_TEARS ;OAM position of isaac bullets
 
-ld hl, DISPLAY_RAM_OPCODE_START ; Start OAM critical section
-ld (hl), $00 ; NOP
-/*ld (hl), $21  ; ld hl, NNnn
-inc l
-ld (hl), c  ; nn //Tear sprite Y pos address in OAM low byte
-inc l
-ld (hl), b  ; NN //Tear sprite Y pos address in OAM high byte
-inc l
-ld (hl), $36  ; ld (hl), yy 
-inc l
-ld (hl), $35   ; yy //Tear new Y position
-inc l
-ld (hl), $2E  ; ld l, nn+1 (trick to inc l without changing flags)
-inc l
-inc c
-ld (hl), c  ; nn+1 //Tear sprite X pos address in OAM low byte
-inc l
-ld (hl), $36  ; ld(hl), xx
-inc l
-ld (hl), $20   ; xx //Tear new X position*/
-inc l ; Out of OAM critical section
-ld (hl), $E1 ; pop hl
-inc l ; We can do inc l instead of inc hl because we only have $00FF bytes avaliable
-ld (hl), $D9 ; reti
+; ////// Copy DMA code into HRAM \\\\\\\
+	ld b,b
+	ld hl, HRAM_DMA_PROCEDURE ;Place to copy the HRAM DMA start code
+	ld bc, start_dma_in_ROM ;Procedure in ROM to copy
+	ld de, DMA_PROCEDURE_SIZE ;Size of the procedure
+@loopCopyDmaProcedure:
+	ld a, (bc)
+	ld (hl), a
+	inc bc
+	inc hl
+	dec e ;only using the low byte because procedure smaller than 256 bytes
+	jr nz, @loopCopyDmaProcedure
+; \\\\\\ Copy DMA code into HRAM ///////
 
-; \\\\\\\ SETUP TEARS HBLANK OPCODE ///////
 
+
+; ////// Clear shadow OAM \\\\\\\
+	ld hl, SHADOW_OAM_START
+	ld b,40*4 ; Shadow OAM size (= OAM size)
+@loopClearShadowOAM:			
+	ld (hl),$00	
+	inc l	
+	dec b		; b --
+	jr nz,@loopClearShadowOAM	; end while
+; \\\\\\ Clear shadow OAM ///////
 
 ; /////// INIT COLOR PALETTES \\\\\\\
 ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt

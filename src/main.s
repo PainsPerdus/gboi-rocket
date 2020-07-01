@@ -21,7 +21,7 @@
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
 
-; $C000 to $C0FF is reserved for dynamic opcode
+; $C000 to $C0FF is reserved for shadow OAM
 
 .ENUM $C100
 	global_ INSTANCEOF global_var
@@ -82,7 +82,7 @@ start:
 ; \\\\ Game State ////
 
 ; //// Stack pointer \\\\
-	ld sp,$E000     ; set the StackPointer
+	ld sp,$E000     ; set the StackPointer in WRAM
 ; \\\\ Stack pointer ////
 
 ; /////// TURN THE SOUND OFF \\\\\\\
@@ -162,6 +162,7 @@ VBlank:
 	ld a,(VBlank_lock)
 	and a
 	jr nz,noSkipFrame
+	ld b,b ;Breakpoint to test if frame was skipped
 	jp endVBlank
 noSkipFrame:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
@@ -263,6 +264,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/ai.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/maps.lib.s"
+.INCLUDE "lib/display_dma.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
 
 .INCLUDE "rooms/basic.room"
