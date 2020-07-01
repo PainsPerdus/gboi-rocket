@@ -45,36 +45,36 @@ ld hl, global_.enemies
 
 
 ; // hurting rock 1
-    ld a, (global_.enemy_inits.2.info)
-    ldi (hl), a
-    ld a, 80
-    ldi (hl), a
-    ldi (hl), a
-    ld a, (global_.enemy_inits.2.hp)
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld a, (global_.enemy_inits.2.dmg)
-    ldi (hl), a
-    ld a, (global_.enemy_inits.2.speedFreq)
-    ldi (hl), a
-    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.info)
+;    ldi (hl), a
+;    ld a, 80
+;    ldi (hl), a
+;    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.hp)
+;    ldi (hl), a
+;    xor a
+;    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.dmg)
+;    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.speedFreq)
+;    ldi (hl), a
+;    ldi (hl), a
 
 ; // hurting rock 2
-    ld a, (global_.enemy_inits.2.info)
-    ldi (hl), a
-    ld a, 96
-    ldi (hl), a
-    ldi (hl), a
-    ld a, (global_.enemy_inits.2.hp)
-    ldi (hl), a
-    xor a
-    ldi (hl), a
-    ld a, (global_.enemy_inits.2.dmg)
-    ldi (hl), a
-    ld a, (global_.enemy_inits.2.speedFreq)
-    ldi (hl), a
-    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.info)
+;    ldi (hl), a
+;    ld a, 96
+;    ldi (hl), a
+;    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.hp)
+;    ldi (hl), a
+;    xor a
+;    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.dmg)
+;    ldi (hl), a
+;    ld a, (global_.enemy_inits.2.speedFreq)
+;    ldi (hl), a
+;    ldi (hl), a
 
 
 ; // fly 1

@@ -99,25 +99,26 @@ Content of the struct "isaac" :
 b = (check_inputs_.keys_values);
 // CHECK ARROWS
 // speed_x = a[7:4], speed_y = a [3:0]
-speed_x = 0;
-speed_y = 0;
-if (down_arrow(b)){
-	speed_y = 1;
-	direction = %11;
-}else if (up_arrow(b)){
-	speed_x = -1;
-	direction = %00;
+if (global_.isaac.lagCounter == 1){ // Avoid glitchy behavior with display and collisions
+	speed_x = 0;
+	speed_y = 0;
+	if (down_arrow(b)){
+		speed_y = 2;
+		direction = %11;
+	}else if (up_arrow(b)){
+		speed_x = -2;
+		direction = %00;
+	}
+	if (right_arrow(b)){
+		speed_x = 2;
+		direction = %01;
+	}else if (left_arrow(b)){
+		speed_x = -2;
+		direction = %10;
+	}
+	global_.isaac.speed = [speed_x, speed_y];
+	global_.isaac.direction = [global_.isaac.direction[7:3],direction]
 }
-if (right_arrow(b)){
-	speed_x = 1;
-	direction = %01;
-}else if (left_arrow(b)){
-	speed_x = -1;
-	direction = %10;
-}
-global_.isaac.speed = [speed_x, speed_y];
-global_.isaac.direction = [global_.isaac.direction[7:3],direction]
-
 // SET AB
 if (A(b))	// bit $0,b
 	set(global_.isaac.tears.a);

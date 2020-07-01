@@ -103,3 +103,81 @@ This function is critical. It has to be optimized.
 * Can we efficiently detect the side of the collision?
 
 * Does using a point instead of a hitbox for ine element improve the performance?
+
+
+
+## collision_obstacles function
+
+This function test the rectangles in argument collide with any obstacle.
+
+### Label:
+
+`collision_obstacles`
+
+### Parameters:
+
+| Label | Type | Size/Struct |  Description  |
+| ------------- | ------------- | ---------- | ----------- |
+| collision_.p.1 | fixed address | point | Left Top corner of the first element checked |
+| collision_.hitbox1 | fixed address | 1 byte | Id of the hitbox of the first element checked |
+
+### Return:
+
+| Label | Type | Size |  Description  |
+| ------------- | ------------- | ---------- | ----------- |
+| a | register |1 byte| 1 if collision detected, 0 else. |
+
+### Modified values:
+
+| Label | Type | Size/Struc |
+| ------------- | ------------- | ---------- |
+| a | register | 1 byte |
+| hl | register | 2 bytes |
+| collision_.p.1 | fixed address | point |
+| collision_.p.2 | fixed address | point |
+
+### Global variables used
+
+| Label | Size |  Description  |
+| ------------- | ---------- | ----------- |
+| hitboxs_width[2]| 2*1 bytes| Array of the hitboxes width |
+| hitboxs_height[2]| 2*1 bytes| Array of the hitboxes height |
+
+### Global structs used
+
+#### point
+
+| Label | Size |  Description  |
+| ------------- | ---------- | ----------- |
+| x | 1 byte | abscissa of the point |
+| y | 1 byte | ordinate of the point |
+
+### Reserved memory:
+
+| Label | Size/Struct |  Description  |
+| ------------- | ---------- | ----------- |
+| collision_.p.1 | point | Left Top corner of the first element checked |
+| collision_.p.2 | point | Left Top corner of the second element checked |
+| collision_.hitbox1| 1 bytes| Id of the hitbox of the first element checked |
+| collision_.hitbox2| 1 bytes| Id of the hitbox of the second element checked |
+| collision_.p_RD.1 | point | Right Down corner of the first element checked |
+| collision_.p_RD.2 | point | Right Down corner of the second element checked |
+
+
+### Pseudo code
+
+~~~C
+char collision_obstacles(
+  char collision_.p.1,
+  char collision_.hitbox1){
+  for (obstacle : global_.blockings){
+    a = collision(collision_.p.1,
+                  (obstacle.x,obstacle,y),
+                  collision_.hitbox1,
+                  obstacle.hitbox);
+    if (a)
+      return a;
+  }
+  return 0;
+}
+~~~
