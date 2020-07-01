@@ -27,6 +27,9 @@ objects_collide:
 	and a
 	jr z, @noCollision
 
+	ld a, $10
+	ld (global_.isaac.recover), a
+
 	push de
 	ld de, @object_ret
 	push de
