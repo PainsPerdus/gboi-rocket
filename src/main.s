@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/load_map.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
 
@@ -32,6 +33,7 @@
 	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
 	VBlank_lock DB
+	load_map_ INSTANCEOF load_map_var
 	GameState DB
 .ENDE
 
@@ -76,8 +78,8 @@ start:
 
 ; //// Game State \\\\
 	ld a, GAMESTATE_TITLESCREEN
-	ld (GameState), a 
-; \\\\ Game State //// 
+	ld (GameState), a
+; \\\\ Game State ////
 
 ; //// Stack pointer \\\\
 	ld sp,$E000     ; set the StackPointer
@@ -89,7 +91,7 @@ start:
 ; \\\\\\\ TURN THE SOUND OFF ///////
 
 ; //// SET INITIAL GAME STATE \\\\
-    ;//We set the initial game state, this will first wait for vblank and turn off the screen. 
+    ;//We set the initial game state, this will first wait for vblank and turn off the screen.
 	;//It will then reti and enable interrupts.
 	ld a, GAMESTATE_TITLESCREEN
 	call setGameState ; Set initial gamestate
@@ -120,7 +122,7 @@ MLstatePlaying:
 	.INCLUDE "display.s"
 	jp MLend
 MLend:
- 
+
  ; \\\\ STATE MACHINE FOR MAIN LOOP ////
 
 ; //// ALLOW VBLANK TO UPDATE THE SCREEN \\\\
@@ -132,7 +134,7 @@ MLend:
 ; \\\\\\\\\ MAIN LOOP /////////
 
 ; ///////// HBlank Interuption \\\\\\\\\
-HBlank: ;/!\ WARNING : LIMITED TO 85 CYCLES WITH ALL SPRITES, 200 WITH NO SPRITES 
+HBlank: ;/!\ WARNING : LIMITED TO 85 CYCLES WITH ALL SPRITES, 200 WITH NO SPRITES
 	; //jp: 16
 	push af ; //16
 	ldh a,($44) ; //12
@@ -211,7 +213,7 @@ IstatePlaying:
 	ld a,%00000000
 	ldh ($41),a		; disable STAT HBlank interrupt
 	ld a,%00000001
-	ldh ($FF),a		; enable VBlank interrupt only (nothing in HBlank) 
+	ldh ($FF),a		; enable VBlank interrupt only (nothing in HBlank)
 	.INCLUDE "init/global.init.s"
 	.INCLUDE "init/room.init.s.stub"
 	.INCLUDE "init/display.init.s"
@@ -232,14 +234,14 @@ setGameState:
 	ld l, a ; Save new GameState
 	ld a, (GameState)
 	ld b, a ; Save old GameState b=oldGameState
-	ld a, l ; Restore new GameState 
+	ld a, l ; Restore new GameState
 	ld (GameState), a ; GameState = a
 	;//We wait for VBlank to allow init scripts to run
 waitvlb: 					; wait for the line 144 to be refreshed:
 	ldh a,($44)
 	cp 144          ; if a < 144 jump to waitvlb
 	jr c, waitvlb
-	//We're in vblank we can turn the screen off!
+	;We're in vblank we can turn the screen off!
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 
@@ -249,7 +251,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 	reti
 
 ; \\\\\\\\\ CHANGE STATE ///////////
- 
+
 ; ///////// INCLUDE .LIB \\\\\\\\\
 .INCLUDE "lib/display_background_tile.lib.s"
 .INCLUDE "lib/display_doors.lib.s"
@@ -259,5 +261,8 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
+.INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/maps.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
+
+.INCLUDE "rooms/basic.room"
