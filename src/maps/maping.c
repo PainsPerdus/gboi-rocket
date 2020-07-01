@@ -278,9 +278,10 @@ void addRoomsToList(){//This function load the visitable rooms in the list list,
     }
   }
   openedRooms = compteur;
-  list = (unsigned char *) malloc (openedRooms*10);//10 bytes by room
+  list = (unsigned char *) malloc (openedRooms*10 + 1);//10 bytes by room
   compteur = 0;
   int i = 0;
+  list[0] = openedRooms;
   for (int k = 0; k < height; k++){
     for (int l = 0; l < width; l++){
       unsigned char temp = map[i] & 0b00001000;
@@ -291,35 +292,35 @@ void addRoomsToList(){//This function load the visitable rooms in the list list,
         x = x << 4;//to put in higher wieght bits
         unsigned char y = i / width;
         y++;//to start at 1 and not 0
-        list[compteur*10] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
+        list[compteur*10 + 1] = x | y;//put x and y coordinates (each on 4 bits) together in one byte
 
         //Set ID of a random corresponding room in second byte
         unsigned char type = map[i] & 0b00000111;
         if (type == 0){//if it is a basic room
           randomNumber();
           unsigned char c = a % basicNumber;
-          list[compteur*10+1] = c + 1;//TODO : = c + (first ID of basic room)
+          list[compteur*10 + 2] = c + 1;//TODO : = c + (first ID of basic room)
         }
         if (type == 1){//if it is an item's room
           //randomNumber();
           //unsigned char c = a % itemNumber;
-          list[compteur*10+1] = 0;//TODO : = c + (first ID of item's room)
+          list[compteur*10 + 2] = 0;//TODO : = c + (first ID of item's room)
         }
         if (type == 2){//if it is a boss's room
           //randomNumber();
           //unsigned char c = a % bossNumber;
-          list[compteur*10+1] = 0;//TODO : = c + (first ID of boss's room)
+          list[compteur*10 + 2] = 0;//TODO : = c + (first ID of boss's room)
         }
         if (type == 4){//if it is a start room
-          list[compteur*10+1] = 0;//0 is the ID of the start room
+          list[compteur*10 + 2] = 0;//0 is the ID of the start room
         }
 
         //Set door flags in third byte
-        list[compteur*10+2] = map[i];
+        list[compteur*10 + 3] = map[i];
 
         //Set flags in 7 last bytes
         for (int ind = 0; ind < 7; ind++){
-          list[compteur*10+3+ind] = 0b11111111;
+          list[compteur*10 + 4 + ind] = 0b11111111;
         }
 
         compteur++;
@@ -342,10 +343,14 @@ void display(){//to show the map of rooms, each room is represented by a byte
 }
 
 void displayList(){
+  printf("%d\n", list[0]);
+  printf(".DB ");
+  binaryDisplay(list[0]);
+  printf("\n");
   for (int k = 0 ; k < openedRooms ; k++){
     printf(".DB ");
     for (int l = 0 ; l < 10 ; l++){
-      binaryDisplay(list[k * 10 + l]);
+      binaryDisplay(list[k * 10 + l + 1]);
       if (l != 9){
         printf(",");
       }
