@@ -94,3 +94,41 @@ sacrificial_music:
 @sacrificial_1_lo_end:
 
 .DB $00, $00
+
+@sacrificial_2_hi_scale:
+
+@sacrificial_2_hi_timings:
+
+@sacrificial_2_hi_melody:
+
+@sacrificial_2_hi_end:
+
+.DB $00, $00
+
+@sacrificial_2_lo_scale:
+
+@sacrificial_2_lo_timings:
+
+@sacrificial_2_lo_melody:
+
+@sacrificial_2_lo_end:
+
+.DB $00, $00
+
+@sacrificial_3_hi_scale:
+
+@sacrificial_3_hi_timings:
+
+@sacrificial_3_hi_melody:
+
+@sacrificial_3_hi_end:
+
+.DB $00, $00
+
+@sacrificial_3_lo_scale:
+
+@sacrificial_3_lo_timings:
+
+@sacrificial_3_lo_melody:
+
+@sacrificial_3_lo_end:
