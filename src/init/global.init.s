@@ -4,14 +4,13 @@ initHitBoxes:
     ld hl, global_.hitboxes_width
     ld a, $08
     ldi (hl), a
-	ld a, $00
-    ldi (hl), a
-    ld a, $08
-    ldi (hl), a
 	ld a, $10
     ldi (hl), a
 	ldi (hl), a
 	ld a, $08
+	ldi (hl), a
+	xor a
+	ldi (hl), a
 	ldi (hl), a
 	ld a, $A0
 	ldi (hl), a
@@ -20,15 +19,16 @@ initHitBoxes:
     ld hl, global_.hitboxes_height
     ld a, $08
     ldi (hl), a
-    ldi (hl), a
-	ld a, $00
-    ldi (hl), a
 	ld a, $10
     ldi (hl), a
 	ld a, $08
 	ldi (hl), a
 	ld a, $10
 	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ldi (hl), a
+	ld a, $10
 	ldi (hl), a
 	ld a, $90
 	ldi (hl), a

@@ -14,11 +14,11 @@
     jr z, @noTopDoor
     ld a, VDOOR_INFO
     ldi (hl), a
-    ld a, $10
+    ld a, $0 + $13
     ldi (hl), a
     ld a, $54
     ldi (hl), a
-    ld de, $0000 ; // TODO add door function
+    ld de, top_door_fun
     ld a, d
     ldi (hl), a
     ld a, e
@@ -30,11 +30,11 @@
     jr z, @noBottomDoor
     ld a, VDOOR_INFO
     ldi (hl), a
-    ld a, $A0
+    ld a, $A0 - $13
     ldi (hl), a
     ld a, $54
     ldi (hl), a
-    ld de, $0000 ; // TODO add door function
+    ld de, bot_door_fun
     ld a, d
     ldi (hl), a
     ld a, e
@@ -48,9 +48,9 @@
     ldi (hl), a
     ld a, $54
     ldi (hl), a
-    ld a, $08
+    ld a, $00 + $0B
     ldi (hl), a
-    ld de, $0000 ; // TODO add door function
+    ld de, left_door_fun
     ld a, d
     ldi (hl), a
     ld a, e
@@ -64,9 +64,9 @@
     ldi (hl), a
     ld a, $54
     ldi (hl), a
-    ld a, $A8
+    ld a, $A0 + $0B
     ldi (hl), a
-    ld de, $0000 ; // TODO add door function
+    ld de, right_door_fun
     ld a, d
     ldi (hl), a
     ld a, e

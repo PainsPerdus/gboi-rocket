@@ -158,6 +158,7 @@ endVBlank:
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
 .INCLUDE "lib/load_map.lib.s"
+.INCLUDE "lib/door_functions.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
 
 .INCLUDE "rooms/basic.room"
