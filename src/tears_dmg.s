@@ -38,14 +38,21 @@ isaac_tears_dmg:
 	jp z,@ending_loop_ennemies
 
 ; //// DEAL DMG \\\\
-	ld hl,1
+	ld hl,3
 	add hl,de
-	ld h,d
-	ld l,e
-	xor a
-	ldi (hl),a
-	ldi (hl),a
+	ld a, (hl)
+	ld hl, global_.isaac.dmg
+	sub (hl)
+	ld hl,3
+	add hl, de
+	ld (hl), a
+	cp 1
+	jp nc, @@notDead
+	ld a, (de)
+	and %01111111
+	ld (de), a
 ; \\\\ DEAL DMG ////
+@@notDead
 
 @ending_loop_ennemies:
 	ld hl,_sizeof_enemy
