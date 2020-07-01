@@ -1,6 +1,6 @@
 title_screen:
 
-; ///// Copy Tiles \\\\\
+; ////// Copy Tiles \\\\\\
 	
 ; ///// BLOCK 0 \\\\\
 ld bc,_sizeof_IntroScreenTiles0
@@ -44,7 +44,7 @@ ld hl,$9000 ;Block 2
     jr nz,@loopTiles2 ; end while
 ; \\\\\ BLOCK 2 /////
 
-; \\\\\ Copy Background Tiles /////
+; \\\\\\ Copy Background Tiles //////
 
 ; /////// CLEAR BG \\\\\\\
     ld de,32*32
@@ -58,6 +58,27 @@ ld hl,$9000 ;Block 2
     jr nz,@clmap    ; end while
     ; The Z flag can't be used when dec on 16bit reg :(
 ; \\\\\\\ CLEAR BG ///////
+
+; /////// COPY BACKGROUND MAPS \\\\\\\\
+
+; ///// MAP 1 \\\\\
+	ld de,_sizeof_IntroMap1
+	ld bc,IntroMap1
+	ld hl,$9800 ;Background Map 1
+@map1:
+	ld a,(bc)
+	ldi (hl),a
+	inc bc
+	dec de
+	ld a,e
+	or d
+	jr nz,@map1
+; \\\\\ MAP 1 /////
+
+; ///// MAP 2 \\\\\
+; \\\\\ MAP 2 /////
+
+; \\\\\\\ COPY BACKGROUND MAPS ////////
 
 ; /////// CLEAR OAM \\\\\\\
     ld hl,$FE00
