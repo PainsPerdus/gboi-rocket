@@ -1,4 +1,4 @@
-# PART 1
+# PART 1 (1-12)
 ## Channel 1
 ### Scale
 |Note | Value |Indice	|RL Frequency |GB Frequency |Binary Frequency |
@@ -44,7 +44,7 @@
 | Noire | 1 | 2 | 0b101010001111 |
 | Noire pointee | 2 | 3 | 0b111111010111 |
 
-# PART 2
+# PART 2 (13-17)
 ## Channel 1
 ### Scale
 |Note | Value |Indice	|Binary Frequency |
