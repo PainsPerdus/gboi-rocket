@@ -4,17 +4,6 @@ display:
 
 updateShadowOAM:
 
-//TODO : only clear what's not used, quick for to avoid dead sprites
-; ////// Clear shadow OAM \\\\\\\
-	ld hl, SHADOW_OAM_START
-	ld b,40*4 ; Shadow OAM size (= OAM size)
-@loopClearShadowOAM:			
-	ld (hl),$00	
-	inc l	
-	dec b		; b --
-	jr nz,@loopClearShadowOAM	; end while
-; \\\\\\ Clear shadow OAM ///////
-
 ; // Init OAM pointer \\
 		xor a
 		ld (display_.OAM_pointer), a
@@ -157,6 +146,9 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 ; \\\\\ Isaac /////
 
+ld a,0 ;Display not reversed
+call displayIsaacTears
+
 /*; ///// Tears \\\\\
 
 
@@ -206,8 +198,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	and ENEMY_ID_MASK
 	cp  %00010000
 	jr z, @fly
-	cp %00011000
-	jr z, @wasp
+	;cp %00011000
+	;jr z, @wasp
 
 	; MORE ENNEMIES OPTIONS HERE
 	jp @dead
@@ -224,7 +216,7 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	push hl
 	ld h, a
 	ld a, (display_.fly.frame)
-	and %00000100
+	and %00000100                   ; checking animation frame
 	sra a
 	sra a
 	add h
@@ -234,8 +226,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	inc c
 
 	jp @ennemy_updated
-@wasp
-	push bc
+/*
+@wasp:
 	ld a, (hl)
 	ld (bc), a
 	inc l
@@ -243,7 +235,6 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	ld a, (hl)
 	ld (bc), a
 	inc c
-	
 	ld a, WASP_SPRITESHEET
 	push hl
 	ld h, a
@@ -257,9 +248,8 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	inc c
 	inc c
 
-
 	jp @ennemy_updated
-
+*/
 	;...
 	; MORE ENNEMIES LABELS HERE
 
@@ -287,13 +277,6 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	ld (display_.OAM_pointer), a
 
 ; \\\\ ENNEMIES ////
-
-; //// TEARS \\\\
-ld a,0 ;Display not reversed
-call displayIsaacTears
-
-; \\\\ TEARS ////
-
 
 ; \\\\\\ UPDATE SHADOW OAM \\\\\\
 

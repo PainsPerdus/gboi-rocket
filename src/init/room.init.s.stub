@@ -125,10 +125,10 @@ ld hl, global_.enemies
     ldi (hl), a
     ldi (hl), a
 
-; // bee
-    ld a, %10011000
+; // fly 4
+    ld a, FLY_INFO
     ldi (hl), a
-    ld a, 50
+    ld a, 70
     ldi (hl), a
     ldi (hl), a
     ld a, FLY_HP
