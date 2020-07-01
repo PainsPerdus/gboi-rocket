@@ -10,11 +10,11 @@
     ld l, a
 
     ;top door
-    bit 7, b
-    jr z, @noTopDoor
+;    bit 7, b
+;    jr z, @noTopDoor
     ld a, VDOOR_INFO
     ldi (hl), a
-    ld a, $0 + $13
+    ld a, $00+$13
     ldi (hl), a
     ld a, $54
     ldi (hl), a
@@ -23,14 +23,14 @@
     ldi (hl), a
     ld a, e
     ldi (hl), a
-@noTopDoor
+@noTopDoor:
 
     ;bottom door
-    bit 6, b
-    jr z, @noBottomDoor
+;    bit 6, b
+;    jr z, @noBottomDoor
     ld a, VDOOR_INFO
     ldi (hl), a
-    ld a, $A0 - $13
+    ld a, $A0-$13
     ldi (hl), a
     ld a, $54
     ldi (hl), a
@@ -42,13 +42,13 @@
 @noBottomDoor:
 
     ;left door
-    bit 5, b
-    jr z, @noLeftDoor
+;    bit 5, b
+;    jr z, @noLeftDoor
     ld a, HDOOR_INFO
     ldi (hl), a
     ld a, $54
     ldi (hl), a
-    ld a, $00 + $0B
+    ld a, $00+$0B
     ldi (hl), a
     ld de, left_door_fun
     ld a, d
@@ -58,13 +58,13 @@
 @noLeftDoor:
 
     ;right door
-    bit 4, b
-    jr z, @noRightDoor
+;    bit 4, b
+;    jr z, @noRightDoor
     ld a, HDOOR_INFO
     ldi (hl), a
     ld a, $54
     ldi (hl), a
-    ld a, $A0 + $0B
+    ld a, $A0-$0B
     ldi (hl), a
     ld de, right_door_fun
     ld a, d
