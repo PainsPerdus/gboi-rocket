@@ -245,3 +245,4 @@ global_init:
 	ld a, e
 	ld (load_map_.map_address + 1), a
 	call load_map
+	call displayRoom

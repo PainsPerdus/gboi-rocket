@@ -214,12 +214,16 @@ IstatePlaying:
 	ldh ($41),a		; disable STAT HBlank interrupt
 	ld a,%00000001
 	ldh ($FF),a		; enable VBlank interrupt only (nothing in HBlank)
-	.INCLUDE "init/global.init.s"
-	.INCLUDE "init/room.init.s.stub"
 	.INCLUDE "init/display.init.s"
+	.INCLUDE "init/global.init.s"
 	.INCLUDE "init/rng.init.s"
 	.INCLUDE "init/check_inputs.init.s"
 	.INCLUDE "init/ai.init.s"
+	; /////// ENABLE SCREEN \\\\\\\
+	ld a,%10000011 	; screen on, bg on, tiles at $8000
+	ldh ($40),a
+	; \\\\\\\ ENABLE SCREEN ///////
+
 	jp Iend
 Iend:
 	pop de

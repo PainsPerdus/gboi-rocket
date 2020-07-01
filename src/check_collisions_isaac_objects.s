@@ -27,16 +27,16 @@ objects_collide:
 	and a
 	jr z, @noCollision
 
-	push de
-	ld de, @object_ret
-	push de
-	ldi a, (hl)
-	ld d, a
-	ldi a, (hl)
-	ld e, a
-	push de
-	ret
-	pop de
+	; push de
+	; ld de, @object_ret
+	; push de
+	; ldi a, (hl)
+	; ld d, a
+	; ldi a, (hl)
+	; ld e, a
+	; push de
+	; ret
+	; pop de
 @object_ret:
 
 @noCollision:
