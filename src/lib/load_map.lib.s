@@ -3,6 +3,11 @@ load_map:
     push bc
     push de
 
+	; by default, open doors
+    ld a, (load_map_.doors)
+    and %11110111
+    ld (load_map_.doors), a
+	
     ; /// init cursor positions \\\
     ; // element cursors \\
     ld de, global_.blockings

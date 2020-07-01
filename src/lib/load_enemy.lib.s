@@ -78,9 +78,14 @@
     jp @@end_enemy
 @@notFly:
 
-@@end_enemy
+@@end_enemy:
     ld a, h
     ld (load_map_.next_enemy), a
     ld a, l
     ld (load_map_.next_enemy + 1), a
+
+	//If there is an ennemy, close doors
+    ld a, (load_map_.doors)
+    or %00001000
+    ld (load_map_.doors), a
 ; \\\ add an enemy ///

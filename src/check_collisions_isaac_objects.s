@@ -27,17 +27,17 @@ objects_collide:
 	and a
 	jr z, @noCollision
 
-	push de
-	ld de, @object_ret
-	push de
+	push de ;save de
+	ld de, @object_ret ;return address
+	push de ;push return address
 	ldi a, (hl)
 	ld d, a
 	ldi a, (hl)
 	ld e, a
-	push de
-	ret
-	pop de
+	push de ;push call address
+	ret ;go to call address (== jp de)
 @object_ret:
+	pop de ; restore de
 
 @noCollision:
 ; \ test collision /
