@@ -89,7 +89,6 @@ ld hl,$9000 ;Block 2
 ; \\\\\ MAP 1 /////
 
 ; ///// MAP 2 \\\\\
-/*
 	ld d,20 ;first loop counter
 	ld e,_sizeof_IntroMap2/20 ;second loop counter
 	ld bc,IntroMap2 ;data to copy
@@ -107,7 +106,6 @@ ld hl,$9000 ;Block 2
 	ld d,20 ;reset d
 	dec e 
 	jr nz, @map2; second loop on rows
-	*/
 ; \\\\\ MAP 2 /////
 
 ; \\\\\\\ COPY BACKGROUND MAPS ////////
