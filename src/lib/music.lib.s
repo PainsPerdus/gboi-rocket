@@ -24,9 +24,12 @@ timer_interupt :
     ld b, (hl)    ; take higher weight bits
     inc hl
     ld c, (hl)    ;take lower weight bits
-    inc bc    ;take the address of the next note
-    ld (hl), b
     ld a,(bc)    ; save the note to play
+    inc bc    ;take the address of the next note
+    ld (hl), c
+    dec hl
+    ld (hl), b
+    
     ld e, a
 
     ;take the scale of the note to play
@@ -91,6 +94,64 @@ timer_interupt :
     pop BC
     pop AF
   reti
+
+music_start: ; HL -> pointer to music
+    push BC
+    push DE
+    ld b, (hl)
+    inc hl
+    ld c, (hl) ; load scale pointer in bc
+    ld d, h
+    ld e, l
+
+    ld hl, (music_state_.scale1) ; write pointer in state struct
+    ld (hl), b
+    inc hl
+    ld (hl), c
+
+    ld h, d
+    ld l, e
+    inc hl
+
+    ld b, (hl)
+    inc hl
+    ld c, (hl) ; load timings pointer in bc
+    ld d, h
+    ld e, l
+
+    ld hl, (music_state_.timing1) ; write pointer in state struct
+    ld (hl), b
+    inc hl
+    ld (hl), c
+
+    ld h, d
+    ld l, e
+    inc hl
+
+    ld b, (hl)
+    inc hl
+    ld c, (hl) ; load melody pointer in bc
+    ld d, h
+    ld e, l
+
+    ld hl, (music_state_.curs1) ; write pointer in state struct
+    ld (hl), b
+    inc hl
+    ld (hl), c
+
+    xor a
+    ld hl, (music_state_.rest1)
+    ld (hl), a
+    inc hl
+    ld (hl), a
+    
+    pop DE
+    pop BC
+
+    ret
+
+
+
 
 
 .INCLUDE "music/sacrificial.gbscore"
