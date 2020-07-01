@@ -88,3 +88,4 @@ timer_interupt :
 
 \\\\ TIMER INTERUPT LOOP ////
 \\\\ MUSIC PLAYER ///
+  reti

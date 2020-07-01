@@ -156,4 +156,5 @@ endVBlank:
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
+.INCLUDE "lib/music.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
