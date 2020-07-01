@@ -64,9 +64,10 @@
 | Croche | 0 | 1 | 0b10101001000 |
 | Croche pointee | 1 | 1.5 | 0b11111101100 |
 | Double croche | 2 | 0.5 | 0b1010100100 |
-| Triple croche | 3 | 0.25 | 0b101010010 |
-| Noire | 4 | 2 | 0b101010001111 |
-| Noire pointee | 5 | 3 | 0b111111010111 |
+| Double croche pointee | 3 | 0.75 | 0b1111110110 |
+| Triple croche | 4 | 0.25 | 0b101010010 |
+| Noire | 5 | 2 | 0b101010001111 |
+| Noire pointee | 6 | 3 | 0b111111010111 |
 
 ## channel 2
 |Note | Value |Indice	|Binary Frequency |
@@ -94,9 +95,10 @@
 | Croche | 0 | 1 | 0b10101001000 |
 | Croche pointee | 1 | 1.5 | 0b11111101100 |
 | Double croche | 2 | 0.5 | 0b1010100100 |
-| Triple croche | 3 | 0.25 | 0b101010010 |
-| Noire | 4 | 2 | 0b101010001111 |
-| Noire pointee | 5 | 3 | 0b111111010111 |
+| Double croche pointee | 3 | 0.75 | 0b1111110110 |
+| Triple croche | 4 | 0.25 | 0b101010010 |
+| Noire | 5 | 2 | 0b101010001111 |
+| Noire pointee | 6 | 3 | 0b111111010111 |
 
 ~~~ Python
 import math
