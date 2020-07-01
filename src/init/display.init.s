@@ -55,20 +55,6 @@ ld (display_.fly.frame),a
 	; The Z flag can't be used when dec on 16bit reg :(
 ; \\\\\\\ CLEAR BG ///////
 
-; /////// CLEARING ROOM \\\\\\\
-
-;call displayRoom
-
-; \\\\\\\ CLEARING ROOM ///////
-
-; /////// DRAWING DOORS \\\\\\\
-
-	ld a, %00000101
-	ld b, %00000000
-	call displayDoors
-
-; \\\\\\\ DRAWING DOORS ///////
-
 ; /////// CLEAR OAM \\\\\\\
 	ld hl,$FE00
 	ld b,40*4
@@ -106,8 +92,6 @@ ld (display_.fly.frame),a
 	dec b
 	jp nz,@loopSetupIsaacTears 
 ; \\ SETUP ISAAC TEARS SPRITES //
-
-;.INCLUDE "init/display_test.init.s"
 
 ; \\\\\\\ LOAD SPRITES ///////
 
