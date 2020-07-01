@@ -146,45 +146,15 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 ; \\\\\ Isaac /////
 
-ld a,0 ;Display not reversed
-call displayIsaacTears
 
-/*; ///// Tears \\\\\
+; ///// Tears \\\\\
+	ld a,0 ;Display not reversed
+	call displayIsaacTears
+; \\\\\ Tears /////
 
-
-	//Show the OAM_ISAAC_TEARS_SIZE first active tears
-	
-	ld d, n_isaac_tears ;loop counter
-	ld bc, OAM_ISAAC_TEARS ;Pointer to the start of the tears in OAM
-	ld hl, global_.isaac_tears ;Pointer to the start of the tears
-@loopUpdateTears: //do {
-	ldi a, (hl) ;tear posY
-	and a
-	jr z, @disabledTear ;if a==0 then tear is disabled
-	ld (bc), a ;tear pos Y in OAM
-	inc c
-	ld a, (hl) ;tear posX
-	ld (bc), a ;tear pos X in OAM
-	ld a,c
-	cp OAM_ISAAC_TEARS-OAM_ISAAC+4*(OAM_ISAAC_TEARS_SIZE-1)+1 ;check if c is last tear sprite pos X in OAM
-	jr z, @endTears
-	inc c
-	inc c
-	inc c ;next tear address in OAM
-@disabledTear:
-	//Get pointer to next tear Y position in hl
-	ld a,d ;Save d
-	ld de,_sizeof_tear-1
-	add hl, de ;Next tear Y
-	ld d,a ;Restore d
-	dec d ;loop counter --
-	jr nz, @loopUpdateTears //} while((--d)!=0)
-@endTears:
-
-
-; \\\\\ Tears ///// */
-
+jr @endennemies
 ; //// ENNEMIES \\\\
+
 
 	ld e, n_enemies      ; loop iterator
 	ld hl, global_.enemies      ; address of first ennemy strucs
@@ -280,7 +250,7 @@ call displayIsaacTears
 
 ; \\\\\\ UPDATE SHADOW OAM \\\\\\
 
-
+@endennemies
 
 ; ///// Hearts \\\\\
 //Quick fix to avoid isaac HP being <0...
