@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/title_screen.var.s"
 
 ; $C000 to $C0FF is reserved for dynamic opcode
 
@@ -27,6 +28,7 @@
 	vectorisation_ INSTANCEOF vectorisation_var
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
+	title_screen_ INSTANCEOF title_screen_var
 	VBlank_lock DB
 	GameState DB
 .ENDE
@@ -135,10 +137,11 @@ HBlank: ;/!\ WARNING : LIMITED TO 85 CYCLES WITH ALL SPRITES, 200 WITH NO SPRITE
 	; //jp: 16
 	push af ; //16
 	ldh a,($44) ; //12
-	cp 13*8-16 ; Switch to tile banks 1-2 at this line  //8
+	cp 13*8-16 ; Switch to tile blocks 1-2 at this line  //8
+	; //We can switch where we want if we started drawing block 1 (before drawing block 2)
 	jr nz,HBlankEnd ; //12
 	ldh a,($40) ;LCDC //12
-	res 4,a ;Switch to tile data banks 1-2 //8
+	res 4,a ;Switch to tile data blocks 1-2 //8
 	ldh ($40),a ; //12
 	//total: 96 < 200, with few sprites it should be ok.
 HBlankEnd

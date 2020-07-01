@@ -1,5 +1,11 @@
 title_screen:
 
+; ////// Init Variables \\\\\\
+	xor a
+	ld (title_screen_.animation_counter), a ;Reset animation counter
+
+; \\\\\\ Init Variables //////
+
 ; ////// Copy Tiles \\\\\\
 	
 ; ///// BLOCK 0 \\\\\
@@ -83,6 +89,25 @@ ld hl,$9000 ;Block 2
 ; \\\\\ MAP 1 /////
 
 ; ///// MAP 2 \\\\\
+/*
+	ld d,20 ;first loop counter
+	ld e,_sizeof_IntroMap2/20 ;second loop counter
+	ld bc,IntroMap2 ;data to copy
+	ld hl,$9800 ;Background Map 1 (to copy to)
+@map2:
+	ld a,(bc)
+	ldi (hl),a ;copy data
+	inc bc ;setup next byte to copy 
+	dec d 
+	jr nz,@map2 ;first loop on columns
+	ld a,e ;save e
+	ld de, 12
+	add hl, de ;jump to next bg line
+	ld e,a ;restore e
+	ld d,20 ;reset d
+	dec e 
+	jr nz, @map2; second loop on rows
+	*/
 ; \\\\\ MAP 2 /////
 
 ; \\\\\\\ COPY BACKGROUND MAPS ////////
