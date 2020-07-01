@@ -3,3 +3,6 @@ music_init:
     ldh ($26),a    ;open sound circuits
     ld a,%01110111
     ldh ($24),a    ;set channels' volume to the maximum
+
+    ld hl, sacrificial_music
+    call music_start

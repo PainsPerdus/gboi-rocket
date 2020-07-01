@@ -45,6 +45,10 @@
 	jp DISPLAY_RAM_OPCODE_START
 ;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
 
+.ORG $0050
+	call timer_interrupt
+	reti
+
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
 	jp start

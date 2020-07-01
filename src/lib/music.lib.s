@@ -93,7 +93,7 @@ timer_interupt :
     pop DE
     pop BC
     pop AF
-  reti
+  ret
 
 music_start: ; HL -> pointer to music
     push BC
