@@ -47,7 +47,7 @@
 	reti
 
 .ORG $0048 				; Write at the address $0048 (hblank interruption)
-	reti
+	jp HBlank
 	;push hl	;Save the hl registery that we're going to use
 	;jp DISPLAY_RAM_OPCODE_START
 ;	jp display_.hblank_preloaded_opcode.address ;Jump to a zone in RAM with pre loaded op code
@@ -63,6 +63,7 @@
 
 ; /////// DISABLE INTERRUPTIONS \\\\\\\
 .org $0150 				; Write after $0150. Safe zone after the header.
+
 start:
 	di							; disable interrupt
 ; \\\\\\\ DISABLE INTERRUPTIONS ///////
@@ -85,14 +86,6 @@ start:
 	xor a						; a=0
 	ldh ($26),a     ; ($FF26) = 0, turn the sound off
 ; \\\\\\\ TURN THE SOUND OFF ///////
-
-; /////// SETUP INTERRUPTIONS \\\\\\\
-	ld a,%00001000
-	ldh ($41),a		; enable STAT HBlank interrupt
-	ld a,%00000011
-	ldh ($FF),a		; enable VBlank interrupt and STAT interrupt
-;	ei						; interrutions are back! (they're gonna be back after initial game state setup)
-; \\\\\\\ SETUP INTERRUPTIONS ///////
 
 ; //// SET INITIAL GAME STATE \\\\
     ;//We set the initial game state, this will first wait for vblank and turn off the screen. 
@@ -137,6 +130,22 @@ MLend:
 	jp loop
 ; \\\\\\\\\ MAIN LOOP /////////
 
+; ///////// HBlank Interuption \\\\\\\\\
+HBlank: ;/!\ WARNING : LIMITED TO 85 CYCLES WITH ALL SPRITES, 200 WITH NO SPRITES 
+	; //jp: 16
+	push af ; //16
+	ldh a,($44) ; //12
+	cp 13*8-16 ; Switch to tile banks 1-2 at this line  //8
+	jr nz,HBlankEnd ; //12
+	ldh a,($40) ;LCDC //12
+	res 4,a ;Switch to tile data banks 1-2 //8
+	ldh ($40),a ; //12
+	//total: 96 < 200, with few sprites it should be ok.
+HBlankEnd
+	pop af
+	reti
+
+; \\\\\\\\\ HBlank Interuption /////////
 
 ; ///////// VBlank Interuption \\\\\\\\\
 
@@ -190,9 +199,17 @@ init:
 	cp GAMESTATE_PLAYING
 	jp z, IstatePlaying
 IstateTitleScreen:
+	ld a,%00001000
+	ldh ($41),a		; enable STAT HBlank interrupt
+	ld a,%00000011
+	ldh ($FF),a		; enable VBlank interrupt and STAT interrupt (for HBlank)
 	.INCLUDE "init/title_screen.init.s"
 	jp Iend
 IstatePlaying:
+	ld a,%00000000
+	ldh ($41),a		; disable STAT HBlank interrupt
+	ld a,%00000001
+	ldh ($FF),a		; enable VBlank interrupt only (nothing in HBlank) 
 	.INCLUDE "init/global.init.s"
 	.INCLUDE "init/room.init.s.stub"
 	.INCLUDE "init/display.init.s"
