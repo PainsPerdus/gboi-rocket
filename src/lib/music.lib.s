@@ -12,10 +12,11 @@ timer_interrupt:
     dec bc
     ld a, b
     ld (music_state_.rest1), a
-    or 0
-    jp nz, @continueCurrentNote1
     ld a, c
     ld (music_state_.rest1+1), a
+    or 0
+    jp nz, @continueCurrentNote1
+    ld a, b
     or 0
     jp nz, @continueCurrentNote1
 
