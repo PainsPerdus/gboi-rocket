@@ -4,8 +4,12 @@ display:
 ; ///// Isaac \\\\\
 
 updateShadowOAM:
-		ld hl, ISAAC_SPRITESHEET
 
+; // Init OAM pointer \\
+		xor a
+		ld (display_.OAM_pointer), a
+; \\ Init OAM pointer //
+	
 ; //// Top Tiles \\\\
 ; /// Left \\\\
 		ld hl,OAM_ISAAC

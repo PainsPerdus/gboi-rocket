@@ -21,7 +21,8 @@
 
 | Label          | Size/Struct | Description                  |
 | -------------- | ----------- | ---------------------------- |
-| display_.isaac | isaac       | Isaac's animation properties |
+| OAM_pointer    | 1 byte      | Current position in shadow OAM for filling sprites |
+| display_.isaac | isaac       | Isaac's animation properties | 
 
 # Display Constants
 | Label          | Size        | Description |
