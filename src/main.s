@@ -86,6 +86,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "init/display.init.s"
 .INCLUDE "init/rng.init.s"
 .INCLUDE "init/check_inputs.init.s"
+.INCLUDE "init/music.init.s"
 ; \\\\\\\ INCLUDE .INIT ///////
 ; //// VBlank_lock \\\\
 	xor a

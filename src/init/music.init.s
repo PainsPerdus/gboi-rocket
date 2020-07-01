@@ -4,9 +4,15 @@ music_init:
     ld a,%01110111
     ldh ($24),a    ;set channels' volume to the maximum
 
-    ldh a, ($FF) ; enable timer
+    ldh a, ($FF) ; enable timer interrupt
     or %00000100
     ldh ($FF), a
+
+    ld a, %00000111 ; enable timer
+    ldh ($07), a
+
+    ld a, %11111100 ; 
+    ldh ($06), a ; set TIMA for 4096 hz
 
     ld hl, sacrificial_music
     call music_start
