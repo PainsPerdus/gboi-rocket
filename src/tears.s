@@ -1,5 +1,4 @@
 isaac_tears:
-	ld b,b
 	ld de,global_.isaac_tears
 	ld c,n_isaac_tears
 @loop:

@@ -33,7 +33,6 @@ enemys_turn:
 	ld a,b
 	and MASK_4_MSB
 	jr z,@@no_diag_move
-	//ld b,b
 
 	ld hl,$0007
 	add hl,de
