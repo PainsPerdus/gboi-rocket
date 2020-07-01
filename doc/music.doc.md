@@ -1,4 +1,4 @@
-# Music
+# PART 1
 ## Channel 1
 ### Scale
 |Note | Value |Indice	|RL Frequency |GB Frequency |Binary Frequency |
@@ -43,6 +43,60 @@
 | Croche | 0 | 1 | 0b10101001000 |
 | Noire | 1 | 2 | 0b101010001111 |
 | Noire pointee | 2 | 3 | 0b111111010111 |
+
+# PART 2
+## Channel 1
+### Scale
+|Note | Value |Indice	|Binary Frequency |
+| --- | ----- | ----- | --------------- |
+| Si | 0 | 11 | 0b11011110111 |
+| Ré # | 1 | 15 | 0b11100101110 |
+| Mi | 2 | 16 | 0b11100111001 |
+| Fa # | 3 | 18 | 0b11101001111 |
+| Sol | 4 | 19 | 0b11101011001 |
+| La | 5 | 21 | 0b11101101011 |
+| Si | 6 | 23 | 0b11101111011 |
+| Do | 7 | 24 | 0b11110000011 |
+
+### Timing
+| Rythm | Value | Frac | Bynary period |
+| ----- | ----- | ---- | ------------- |
+| Croche | 0 | 1 | 0b10101001000 |
+| Croche pointee | 1 | 1.5 | 0b11111101100 |
+| Double croche | 2 | 0.5 | 0b1010100100 |
+| Triple croche | 3 | 0.25 | 0b101010010 |
+| Noire | 4 | 2 | 0b101010001111 |
+| Noire pointee | 5 | 3 | 0b111111010111 |
+
+## channel 2
+|Note | Value |Indice	|Binary Frequency |
+| --- | ----- | ----- | --------------- |
+| La | 0 |-15|0b1101011010|
+| Si | 1 |-13|0b1111011100|
+| Do | 2 |-12|0b10000010111|
+| Ré | 3 |-10|0b10010000101|
+| Ré # | 4 |-9|0b10010110111|
+| Mi | 5 |-8|0b10011100110|
+| Fa # | 6 |-6|0b10100111101|
+| La | 7 |-3|0b10110101101|
+| Si | 8 |-1|0b10111101110|
+| Do | 9 |0|0b11000001100|
+| Ré # | A |3|0b11001011011|
+| Mi | B |4|0b11001110011|
+| Fa # | C |6|0b11010011110|
+| Sol|D|7|0b11010110010|
+|La|E|9|0b11011010111|
+|Si|F|11|0b11011110111|
+
+### Timing
+| Rythm | Value | Frac | Bynary period |
+| ----- | ----- | ---- | ------------- |
+| Croche | 0 | 1 | 0b10101001000 |
+| Croche pointee | 1 | 1.5 | 0b11111101100 |
+| Double croche | 2 | 0.5 | 0b1010100100 |
+| Triple croche | 3 | 0.25 | 0b101010010 |
+| Noire | 4 | 2 | 0b101010001111 |
+| Noire pointee | 5 | 3 | 0b111111010111 |
 
 ~~~ Python
 import math
