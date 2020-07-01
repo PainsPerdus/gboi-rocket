@@ -8,7 +8,7 @@ isaac_tears:
 	ld hl,$0000
 	add hl,de
 	ld a,(hl)
-	and a
+	cp 1 ; DURTY WORK AROUND FOR THE DISPLAY GITCH
 	jr z,@@no_move
 
 	ld hl,$0002
@@ -49,7 +49,27 @@ isaac_tears:
 	ld (hl),a
 ; \\\ x += dx ///
 
-; \\\\ Move the enemy ////
+; /// destroy the tear on collision with obstacle \\\
+	ld h,d
+	ld l,e
+	ldi a, (hl)
+	ld (collision_.p.1.x), a
+	ld a,(hl)
+	ld (collision_.p.1.y), a
+	ld a, TEARS_HITBOX
+	ld (collision_.hitbox1), a
+	call collision_obstacles
+	and a
+	jr z,@@no_collision
+	xor a
+	inc a
+	ld h,d
+	ld l,e
+	ld (hl),a
+@@no_collision:
+; \\\ destroy the tear on collision with obstacle ///
+
+; \\\\ Move the tears ////
 @@no_move:
 	ld hl,_sizeof_tear
 	add hl,de

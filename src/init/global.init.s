@@ -250,9 +250,9 @@ global_init:
   ; ////// TESTTTTTT \\\\\\
   	ld hl,global_.isaac_tears
 
-  	ld a,$26
-  	ldi (hl),a
   	ld a,$20
+  	ldi (hl),a
+  	ld a,$50
   	ldi (hl),a
   	ld a,TEARS_SPEED_FREQ
   	ldi (hl),a
@@ -261,20 +261,9 @@ global_init:
   	xor a
   	ldi (hl),a
 
-  	ld a,$36
+  	ld a,$30
   	ldi (hl),a
-  	ld a,$20
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
-
-  	ld a,$46
-  	ldi (hl),a
-  	ld a,$20
+  	ld a,$50
   	ldi (hl),a
   	ld a,TEARS_SPEED_FREQ
   	ldi (hl),a
@@ -283,20 +272,9 @@ global_init:
   	xor a
   	ldi (hl),a
 
-  	ld a,$56
+  	ld a,$40
   	ldi (hl),a
-  	ld a,$20
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
-
-  	ld a,$66
-  	ldi (hl),a
-  	ld a,$20
+  	ld a,$50
   	ldi (hl),a
   	ld a,TEARS_SPEED_FREQ
   	ldi (hl),a
@@ -305,20 +283,9 @@ global_init:
   	xor a
   	ldi (hl),a
 
-  	ld a,$76
+  	ld a,$50
   	ldi (hl),a
-  	ld a,$20
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
-
-  	ld a,$86
-  	ldi (hl),a
-  	ld a,$20
+  	ld a,$50
   	ldi (hl),a
   	ld a,TEARS_SPEED_FREQ
   	ldi (hl),a
@@ -327,31 +294,9 @@ global_init:
   	xor a
   	ldi (hl),a
 
-  	ld a,$96
+  	ld a,$60
   	ldi (hl),a
-  	ld a,$20
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
-
-  	ld a,$A6
-  	ldi (hl),a
-  	ld a,$20
-  	ldi (hl),a
-  	ld a,TEARS_SPEED_FREQ
-  	ldi (hl),a
-  	ld a,%00010000
-  	ldi (hl),a
-  	xor a
-  	ldi (hl),a
-
-  	ld a,$B6
-  	ldi (hl),a
-  	ld a,$20
+  	ld a,$50
   	ldi (hl),a
   	ld a,TEARS_SPEED_FREQ
   	ldi (hl),a
