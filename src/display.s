@@ -4,17 +4,6 @@ display:
 
 updateShadowOAM:
 
-//TODO : only clear what's not used, quick for to avoid dead sprites
-; ////// Clear shadow OAM \\\\\\\
-    ld hl, SHADOW_OAM_START
-    ld b,40*4 ; Shadow OAM size (= OAM size)
-@loopClearShadowOAM:
-    ld (hl),$00
-    inc l
-    dec b       ; b --
-    jr nz,@loopClearShadowOAM   ; end while
-; \\\\\\ Clear shadow OAM ///////
-
 ; // Init OAM pointer \\
 		xor a
 		ld (display_.OAM_pointer), a
@@ -257,9 +246,25 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	call displayIsaacTears
 ; \\\\\ Tears /////
 
+
+; ////// Clear shadow OAM \\\\\\\
+	ld a, (display_.OAM_pointer)
+	ld hl, SHADOW_OAM_START
+	ld l, a
+	ld a,40*4 ; Shadow OAM size (= OAM size)
+	sub l
+@loopClearShadowOAM:
+	ld (hl),$00
+	inc hl
+	dec a                       ; a --
+	jr nz,@loopClearShadowOAM   ; end while
+
+; \\\\\\ Clear shadow OAM ///////
+
+
 ; \\\\\\ UPDATE SHADOW OAM \\\\\\
 
-@endennemies
+
 
 ; ///// Hearts \\\\\
 //Quick fix to avoid isaac HP being <0...
