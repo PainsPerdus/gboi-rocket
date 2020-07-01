@@ -17,6 +17,9 @@ Content of the struct "isaac" :
 | recover | 1 byte | recovery time |
 | bombs | 1 byte | number of bombs Isaac has |
 | direction | 1 byte | 2 bits indicate Isaac's direction (00 = up, 11 = down, 10 = right, 01 = left) (pos 1:0), 6 other bits are free |
+| lagCounter | 1 byte | Number of iteration of loop before next movement. |
+| speedFreq | 1 byte | Number of iteration of loop between each movement. |
+
 
 ## Blocking
 
@@ -48,7 +51,10 @@ Content of struct "enemy" :
 | hp | 1 byte | health of the enemy |
 | speed | 1 byte | 4 bits for x speed (pos 7:4), 4 bits for y speed (pos 3:0) |
 | dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
+| lagCounter | 1 byte | Number of iteration of loop before next movement. |
+| speedFreq | 1 byte | Number of iteration of loop between each movement. |
 
+speedFreq
 ## Enemy Init
 
 Content of struct "enemy_init"
@@ -58,6 +64,7 @@ Content of struct "enemy_init"
 | info | 1 byte | 1 flag "alive" (pos 7), 4 bits for ID (pos 6:3), 3 bit for the size (pos 2:0) |
 | hp | 1 byte | health of the enemy |
 | dmg | 1 byte | 1 flag "the enemy can shoot bullets" (pos 7), 7 bits for the amount of dmg (pos 6:0) |
+| speedFreq | 1 byte | Number of iteration of loop between each movement. |
 
 ## Object
 
@@ -87,7 +94,9 @@ Content of struct "tear" :
 | ----- | ---- | ----------- |
 | x | 1 byte | abscissa of the tear |
 | y | 1 byte | ordinate of the tear |
-| direction | 1 byte | 2 x 3 bits (x (pos 5:3) and y (pos 2:0)) + 1 flag to know if the tear is alive (pos 7) + 1 flag to know if the tear is upgraded (pos 6)|
+| id | 1 byte | 1 flag for "does it need to be recycled" (pos 7), 1 flag for "is it in the recycling chain" (pos 6), 1 flag for "is it the first in the recycling chain" (pos 5), 5 bits for OAM ID (pos 4:0) |
+| speed | 1 byte | 4 bits for x speed (pos 7:4) and 4 bits for (pos 3:0) |
+| ttl | 1 byte | Nb of iteration before the death of the tear (time to live) |
 
 # Defines
 
@@ -99,7 +108,7 @@ Content of struct "tear" :
 | n_isaac_tears | 10 | number max of issac'stears |
 | n_ennemy_tears | 10 | number max of ennemy's tears |
 
-Moreover, flag bits, masks and right shifts to apply to extract an info are given by the values : 
+Moreover, flag bits, masks and right shifts to apply to extract an info are given by the values :
 ALIVE_FLAG, BOMB_FLAG
 BLOCKING_ID_MASK, BLOCKING_ID_RIGHT_SHIFT
 ENEMY_ID_MASK, ENEMY_ID_RIGHT_SHIFT

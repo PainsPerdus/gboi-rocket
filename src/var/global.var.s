@@ -1,11 +1,16 @@
 .DEFINE MASK_4_LSB %00001111
 .DEFINE MASK_2_LSB %00000011
+.DEFINE MASK_4_MSB %11110000
 .DEFINE MASK_6_MSB %11111100
 
 .DEFINE VALUE_4LSB_1 %00000001
 .DEFINE VALUE_4LSB_minus_1 %00001111
 .DEFINE VALUE_4MSB_1 %00010000
 .DEFINE VALUE_4MSB_minus_1 %11110000
+.DEFINE VALUE_4LSB_2 %00000010
+.DEFINE VALUE_4LSB_minus_2 %00001110
+.DEFINE VALUE_4MSB_2 %00100000
+.DEFINE VALUE_4MSB_minus_2 %11100000
 
 .DEFINE ORIENTATION_UP %00000000
 .DEFINE ORIENTATION_DW %00000011
@@ -35,6 +40,42 @@
 .DEFINE SHOOT_FLAG 7
 .DEFINE DMG_MASK %01111111
 
+.DEFINE ISAAC_HITBOX 3
+.DEFINE ISAAC_FEET_HITBOX 4
+.DEFINE RECOVERY_TIME 30
+.DEFINE ISAAC_MAX_HP 16
+
+.DEFINE 8_8_HB 0
+.DEFINE H_DOOR_HB 1
+.DEFINE V_DOOR_HB 2
+.DEFINE 16_16_HB 3
+.DEFINE 16_8_HB 4
+.DEFINE 8_16_HB 5
+.DEFINE H_WALL_HB 6
+.DEFINE V_WALL_HB 7
+
+.DEFINE ROCK_INFO %11000011 ; alive, hurt by bombs, ID 0, size 3
+.DEFINE VOID_INFO %00001000	; not alive, not hurt by bombs, ID 1; size 0
+.DEFINE HWALL_INFO %10010110 ; alive, not hurt by bombs, ID 2, size 6
+.DEFINE VWALL_INFO %10011111 ; alive, not hurt by bombs, ID 3, size 7
+
+.DEFINE VOID_ENEMY_INFO %00000000 ; not alive, ID 0, size 0
+.DEFINE VOID_ENEMY_HP $00
+.DEFINE VOID_ENEMY_DMG $00
+.DEFINE VOID_ENEMY_SPEED_FREQ $00
+
+.DEFINE HURTING_ROCK_INFO %10001011 ; alive, ID 1, size 3
+.DEFINE HURTING_ROCK_HP $01
+.DEFINE HURTING_ROCK_DMG $02
+.DEFINE HURTING_ROCK_SPEED_FREQ $00
+
+.DEFINE FLY_INFO %10010000 ; alive, ID 2, size 0
+.DEFINE FLY_HP $01
+.DEFINE FLY_DMG $01
+.DEFINE FLY_SPEED_FREQ $03
+
+.DEFINE VOID_OBJECT_INFO %00000000 ; not alive, ID 0, size 0
+
 .STRUCT isaac
 	x DB
 	y DB
@@ -47,6 +88,8 @@
 	recover DB
 	bombs DB
 	direction DB
+	lagCounter DB
+	speedFreq DB
 .ENDST
 
 .STRUCT blocking
@@ -66,12 +109,15 @@
 	hp DB
 	speed DB
 	dmg DB
+	lagCounter DB
+	speedFreq DB
 .ENDST
 
 .STRUCT enemy_init
 	info DB
 	hp DB
 	dmg DB
+	speedFreq DB
 .ENDST
 
 .STRUCT object
@@ -95,12 +141,9 @@
 .ENDST
 
 .STRUCT global_var
+isaac_tears INSTANCEOF tear n_isaac_tears
 	blockings INSTANCEOF blocking n_blockings
-	isaac INSTANCEOF isaac
 	enemies INSTANCEOF enemy n_enemies
-	issac_tear_pointer DB
-	isaac_tears INSTANCEOF tear n_isaac_tears
-	ennemy_tear_pointer DB
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
 	objects INSTANCEOF object n_objects
 	hitboxes_width DSB 8
@@ -108,5 +151,7 @@
 	blocking_inits INSTANCEOF blocking_init 8
 	enemy_inits INSTANCEOF enemy_init 16
 	object_inits INSTANCEOF object_init 32
-	speeds DSB n_enemies
+	isaac INSTANCEOF isaac
+	issac_tear_pointer DB
+	ennemy_tear_pointer DB
 .ENDST

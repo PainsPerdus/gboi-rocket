@@ -1,14 +1,5 @@
 initHitBoxes:
 
-.DEFINE 8_8_HB 0
-.DEFINE H_DOOR_HB 1
-.DEFINE V_DOOR_HB 2
-.DEFINE 16_16_HB 3
-.DEFINE 16_8_HB 4
-.DEFINE 8_16_HB 5
-.DEFINE H_WALL_HB 6
-.DEFINE V_WALL_HB 7
-
 ; // init hitboxes
     ld hl, global_.hitboxes_width
     ld a, $08
@@ -45,11 +36,6 @@ initHitBoxes:
 
 global_init:
 
-.DEFINE ROCK_INFO %11000011 ; alive, hurt by bombs, ID 0, size 3
-.DEFINE VOID_INFO %00001000	; not alive, not hurt by bombs, ID 1; size 0
-.DEFINE HWALL_INFO %10010110 ; alive, not hurt by bombs, ID 2, size 6
-.DEFINE VWALL_INFO %10011111 ; alive, not hurt by bombs, ID 3, size 7
-
 	ld hl,global_.blocking_inits
 
 @rock:
@@ -82,8 +68,8 @@ global_init:
 	ldi (hl),a; x = 32
 	ld a,$40
 	ldi (hl),a; y = 64
-	ld a,$7F
-	ldi (hl),a; hp = $7F
+	ld a, ISAAC_MAX_HP
+	ldi (hl),a; hp = ISAAC_MAX_HP
 	ld a,1
 	ldi (hl),a; dmg = 1
 	xor a
@@ -100,6 +86,9 @@ global_init:
 	ldi (hl),a; bombs=0
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
+  ld a,2
+  ldi (hl),a  ; lagCounter
+  ldi (hl),a  ; speedFreq
 
 	ld b,n_blockings
 	ld hl, global_.blockings
@@ -123,7 +112,7 @@ global_init:
 	ldi (hl),a ; x = 30
 	ldi (hl),a ; y = 30
 	xor a
-	ldi (hl),a ;id 
+	ldi (hl),a ;id
 	ldi (hl),a ;speed
 	ldi (hl),a ;ttl
 	dec b
@@ -132,15 +121,14 @@ global_init:
 	ldi (hl),a	; ennemy_tear_pointer = 0
 	ld b,n_ennemy_tears
 @ennemy_tears_loop:
-	ldi (hl),a ; x = 0
-	ldi (hl),a ; y = 0
-	ldi (hl),a ;  not alive, not upgraded, speed x = 0, speed y = 0
+  xor a
+  ldi (hl),a ; x = 30
+  ldi (hl),a ; y = 30
+  ldi (hl),a ;id
+  ldi (hl),a ;speed
+  ldi (hl),a ;ttl
 	dec b
 	jp nz,@ennemy_tears_loop
-
-
-.DEFINE VOID_ENEMY_INFO %00000000 ; not alive, ID 0, size 0
-.DEFINE HURTING_ROCK_INFO %10001011 ; alive, ID 1, size 3
 
 	ld hl, global_.enemy_inits
 
@@ -148,22 +136,24 @@ global_init:
 	; /// void enemy \\\
 	ld a, VOID_ENEMY_INFO
 	ldi (hl),a
-	xor a
+	ld a,VOID_ENEMY_HP
 	ldi (hl), a ; no hp
+  ld a,VOID_ENEMY_DMG
 	ldi (hl), a ; void enemy doesn't exist, it can't hurt you
-	ld (global_.speeds), a ; no speed
+	ld a,VOID_ENEMY_SPEED_FREQ
+  ldi (hl),a
 	; \\\ void enemy ///
 
 @hurting_rock:
 	; /// hurting rock \\\
 	ld a, HURTING_ROCK_INFO
 	ldi (hl), a
-	ld a, 1
+	ld a, HURTING_ROCK_HP
 	ldi (hl), a
-	ld a, 2
+	ld a, HURTING_ROCK_DMG
 	ldi (hl), a
-	xor a
-	ld (global_.speeds + 1), a
+  ld a,HURTING_ROCK_SPEED_FREQ
+  ldi (hl),a
 	; \\\ hurting rock ///
 
 	ld hl, global_.enemies
@@ -180,11 +170,11 @@ global_init:
 	ldi (hl), a
 	ld a, (global_.enemy_inits.1.dmg)
 	ldi (hl), a
+  ld a, (global_.enemy_inits.1.speedFreq)
+  ldi (hl), a
+  ldi (hl), a
 	dec b
 	jp nz, @enemy_loop
-
-
-.DEFINE VOID_OBJECT_INFO %00000000 ; not alive, ID 0, size 0
 
 	ld hl, global_.object_inits
 
