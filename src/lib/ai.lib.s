@@ -3,34 +3,36 @@ AI:
   inc hl
   ldi a,(hl)
   ld (vectorisation_.p.1.y),a
-  ld a,(hl)
+  ldi a,(hl)
   ld (vectorisation_.p.1.x),a
   ld a,(global_.isaac.y)
   ld (vectorisation_.p.2.y),a
   ld a,(global_.isaac.x)
   ld (vectorisation_.p.2.x),a
   call vectorisation ;   direction = vectorisation(enemy_p->x, enemy_p->y,isaac.x,isaac.y)
-
-  ld b,a
-
-  swap a
-  and %00001111
-  bit $3,a
-  jr z,posit_x
-  or %11110000
-  posit_x:
-  add (hl)
+  inc hl
   ld (hl),a
-  dec hl
 
-  ld a,b
-  and %00001111
-  bit $3,a
-  jr z,posit_y
-  or %11110000
-  posit_y:
-  add (hl)
+; ///// RANDOM DIRECTION \\\\\
+  push hl
+  call rng
+  pop hl
+  bit 1,a
+  jp nz,@not_random ; p = 1/2
+  push hl
+  push de
+  call rng
+  and %00000111
+  ld e,a
+  ld d,0
+  ld hl,ai_.directions
+  add hl,de
+  ld a,(hl)
+  pop de
+  pop hl
   ld (hl),a
+@not_random:
+; \\\\\ RANDOM DIRECTION /////
 
   ret
-; //// IA function \\\\
+; \\\\ IA function ////
