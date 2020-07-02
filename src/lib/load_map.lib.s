@@ -41,6 +41,9 @@ load_map:
     ld a, l
     ld (load_map_.next_to_load + 1), a
     ; \\ next enemy to load //
+
+    xor a
+    ld (load_map_.mobs), a
     ; \\\ init cursor positions ///
 
 .INCLUDE "lib/load_complete_with_void.lib.s"
@@ -110,7 +113,14 @@ load_map:
     ; / case enemy \
     ld a, d
     cp $0F
-    jr nz, @@not_enemy
+    jp nz, @@not_enemy
+    ld a, (current_floor_.current_room)
+    ld h, a
+    ld a, (current_floor_.current_room + 1)
+    ld l, a
+    ld a, (hl)
+    bit 3, a
+    jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
 @@not_enemy:
@@ -168,7 +178,14 @@ load_map:
     ; / case enemy \
     ld a, d
     cp $0F
-    jr nz, @@not_enemy
+    jp nz, @@not_enemy
+    ld a, (current_floor_.current_room)
+    ld h, a
+    ld a, (current_floor_.current_room + 1)
+    ld l, a
+    ld a, (hl)
+    bit 3, a
+    jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
 @@not_enemy:
@@ -206,6 +223,33 @@ load_map:
     cp $90
     jp nz, @y_loop
     ; \\\ end y loop ///
+
+    ; /// add stairs if boss room \\\
+    ld a, (current_floor_.current_room)
+    ld h, a
+    ld a, (current_floor_.current_room + 1)
+    ld l, a
+    inc hl
+    inc hl
+    ld a, (hl)
+    and %00000111
+    cp 2
+    jp nz, @noStairs
+    ld a, (load_map_.next_object)
+    ld h, a
+    ld a, (load_map_.next_object + 1)
+    ld l, a
+    ld a, STAIRS_INFO
+    ldi (hl), a
+    ld a, $50
+    ldi (hl), a
+    ldi (hl), a
+    ld de, stairs_function
+    ld a, d
+    ldi (hl), a
+    ld a, e
+    ldi (hl), a
+@noStairs:
 
     pop de
     pop bc

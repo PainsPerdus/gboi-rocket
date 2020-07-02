@@ -2,6 +2,8 @@
 ; /// top door function \\\
 top_door_fun:
 
+	ld a, $08+($A0/2)-$08
+	ld (global_.isaac.x), a
 	ld a, $90+$10-$15-$10
 	ld (global_.isaac.y), a
 
@@ -78,6 +80,8 @@ top_door_fun:
 ; /// bottom door function \\\
 bot_door_fun:
 
+	ld a, $08+($A0/2)-$08
+	ld (global_.isaac.x), a
 	ld a, $15+$10
 	ld (global_.isaac.y), a
 
@@ -157,6 +161,8 @@ left_door_fun:
 
 	ld a, $A0-$15+$08-$10
 	ld (global_.isaac.x), a
+	ld a, $10+($90/2)-$0C
+	ld (global_.isaac.y), a
 
 	; load x, y
 	ld a, (current_floor_.current_room)
@@ -235,7 +241,7 @@ left_door_fun:
 right_door_fun:
 	ld a, $08+$15
 	ld (global_.isaac.x), a
-	ld a, $10+($90/2)-$10
+	ld a, $10+($90/2)-$0C
 	ld (global_.isaac.y), a
 
 	; load x, y

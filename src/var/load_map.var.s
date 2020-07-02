@@ -5,4 +5,5 @@
     next_enemy DW
     next_object DW
     next_to_load DW
+    mobs DB
 .ENDST
