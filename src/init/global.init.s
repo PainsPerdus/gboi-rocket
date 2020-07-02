@@ -87,7 +87,7 @@ global_init:
 	ldi (hl),a; bombs=0
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
-  ld a,2
+  ld a,1
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
   ld a,ISAAC_COOLDOWN
@@ -250,4 +250,3 @@ global_init:
 	ld a, e
 	ld (load_map_.map_address + 1), a
 	call load_map
-
