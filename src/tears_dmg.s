@@ -1,8 +1,5 @@
 
 isaac_tears_dmg:
-	ld a,TEARS_HITBOX
-	ld (collision_.hitbox1),a
-
 	ld de,global_.isaac_tears
 
 	ld c,n_isaac_tears
@@ -11,12 +8,16 @@ isaac_tears_dmg:
 	ld l,e
 	ld a,(hl)
 	and a
-	jr z,@ending_loop_tears
+	jp z,@ending_loop_tears
 
-	ldi a,(hl)
-	ld (collision_.p.1.y),a
-	ldi a,(hl)
-	ld (collision_.p.1.x),a
+	ldi a, (hl)
+	add TEARS_OFFSET_Y
+	ld (collision_.p.1.y), a
+	ld (collision_.p_RD.1.y), a
+	ld a,(hl)
+	add TEARS_OFFSET_X
+	ld (collision_.p.1.x), a
+	ld (collision_.p_RD.1.x), a
 
 	push de
 	ld de,global_.enemies
@@ -33,12 +34,25 @@ isaac_tears_dmg:
 	ld (collision_.p.2.y),a
 	ldi a,(hl)
 	ld (collision_.p.2.x),a
-	call collision
+	call preloaded_collision
 	and a
 	jp z,@ending_loop_ennemies
 
 ; //// DEAL DMG \\\\
+	; kill tear
+	ld h, d
+	ld l, e
+	pop de ; the hitting tear
+	push hl
+	ld h,d
+	ld l,e
+	xor a
+	ld (hl),a ; kill the tear
+
 	; hurt
+	pop hl
+	ld d, h
+	ld e, l
 	ld hl,3
 	add hl,de
 	ld a, (hl)
@@ -52,6 +66,7 @@ isaac_tears_dmg:
 	ld a, (de)
 	res 7, a
 	ld (de), a
+
 	; unlock room
 	ld a, (load_map_.mobs)
 	dec a
@@ -72,6 +87,7 @@ isaac_tears_dmg:
 	jp setGameState
 ; \\\\ DEAL DMG ////
 @@notDead:
+	jr @ending_loop_tears
 
 @ending_loop_ennemies:
 	ld hl,_sizeof_enemy
@@ -89,5 +105,4 @@ isaac_tears_dmg:
 	ld e,l
 
 	dec c
-	jr nz,@loop_tears
-
+	jp nz,@loop_tears

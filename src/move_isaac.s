@@ -37,23 +37,24 @@ move_and_collide:
 	add (hl)
 	ld (hl),a								; y += speed y
 ;   //// collision Y  init \\\\
-	ld a, (global_.isaac.x)
-	ld (collision_.p.1.x), a
-	ld a, (global_.isaac.y)
-	add $08
-	ld (collision_.p.1.y), a
-	ld a, ISAAC_FEET_HITBOX
-	ld (collision_.hitbox1), a
+	ld a,(global_.isaac.y)
+	add ISAAC_OFFSET_Y_FEET
+	ld (collision_.p.1.y),a
+	add ISAAC_HITBOX_Y_FEET
+	ld (collision_.p_RD.1.y),a
+	ld a,(global_.isaac.x)
+	add ISAAC_OFFSET_X
+	ld (collision_.p.1.x),a
+	add ISAAC_HITBOX_X
+	ld (collision_.p_RD.1.x),a
 ;   \\\\ collision Y  init ////
-	call collision_obstacles
+	call preloaded_collision_obstacles
 	; //// CANCEL MOUVEMENT \\\\
 	and a
 	jr z, @@noCollision
 	ld a,(global_.isaac.y)
 	sub b
 	ld (global_.isaac.y),a ; isaac.y -= speed y
-	add $08
-	ld (collision_.p.1.y),a
 	ld a,(global_.isaac.speed)
 	and MASK_4_MSB
 	ld (global_.isaac.speed),a ; speed y = 0
@@ -76,10 +77,18 @@ move_and_collide:
 	ld (hl),a								; x += speed x
 
 ;   //// collision X  init \\\\
-	ld a, (global_.isaac.x)
-	ld (collision_.p.1.x), a
+	ld a,(global_.isaac.y)
+	add ISAAC_OFFSET_Y_FEET
+	ld (collision_.p.1.y),a
+	add ISAAC_HITBOX_Y_FEET
+	ld (collision_.p_RD.1.y),a
+	ld a,(global_.isaac.x)
+	add ISAAC_OFFSET_X
+	ld (collision_.p.1.x),a
+	add ISAAC_HITBOX_X
+	ld (collision_.p_RD.1.x),a
 ;   \\\\ collision X  init ////
-	call collision_obstacles
+	call preloaded_collision_obstacles
 	; //// CANCEL MOUVEMENT \\\\
 	and a
 	jr z, @@noCollision
