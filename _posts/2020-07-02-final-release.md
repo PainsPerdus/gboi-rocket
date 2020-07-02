@@ -35,7 +35,10 @@ Thanks to the wonderful work of Pascal and Virgile, we have working annimations 
 
 Isaac walking :
 
+![walking](../../assets/images/graphics1/gboi_walking.gif)
+
 Flies :
+![flies](../../assets/images/graphics1/gboi_flies.gif)
 
 ## Music
 Melissa did the wonderful and tiresome work of transcribing the score made by Noel, our piano teacher, of the "Sacrificial" music, to our own custom format. I designed the sound driver and programmed most of it though the core code is still Melissa's.
@@ -57,6 +60,8 @@ I also implemented the RNG for this feature, though it ended up being used mostl
 
 ### Rooms
 But what are levels if you cannot switch between rooms ? Thanks to Thomas's work for room loading and Melissa for writing the room files.
+
+![rooms](../../assets/images/graphics1/gboi_rooms2.gif)
 
 ## Ennemies
 Now, the game would be quite boring without something to do, some challenge to accomplish. Well, the ennemies (only flies for now) are here to help you out on that one. Thanks for Jean-Marie for his work on collisions and ennemy movement !
