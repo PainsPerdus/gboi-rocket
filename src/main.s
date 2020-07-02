@@ -125,6 +125,8 @@ loop:
 	jp z, MLstatePlaying
 	cp GAMESTATE_CHANGINGROOM
 	jp z, MLstateChangingRoom
+	cp GAMESTATE_CHANGINGFLOOR
+	jp z, MLstateChangingFloor
 MLstateTitleScreen:
 	jp MLend
 MLstatePlaying:
@@ -132,6 +134,10 @@ MLstatePlaying:
 	.INCLUDE "display.s"
 	jp MLend
 MLstateChangingRoom:
+	ld a, GAMESTATE_PLAYING
+	jp setGameState ;Change gamestate to playing
+	jp MLend
+MLstateChangingFloor:
 	ld a, GAMESTATE_PLAYING
 	jp setGameState ;Change gamestate to playing
 	jp MLend
@@ -188,6 +194,8 @@ noSkipFrame:
 	jp z, VstatePlaying
 	cp GAMESTATE_CHANGINGROOM
 	jp z, VstateChangingRoom
+	cp GAMESTATE_CHANGINGFLOOR
+	jp z, VstateChangingFloor
 VstateTitleScreen:
 	.INCLUDE "vblank/title_screen.vbl.s"
 	jp Vend
@@ -196,6 +204,8 @@ VstatePlaying:
 	.INCLUDE "vblank/check_inputs.vbl.s"
 	jp Vend
 VstateChangingRoom:
+	jp Vend
+VstateChangingFloor:
 	jp Vend
 Vend:
 
@@ -223,14 +233,17 @@ init:
 	jp z, IstatePlaying
 	cp GAMESTATE_CHANGINGROOM
 	jp z, IstateChangingRoom
+	cp GAMESTATE_CHANGINGFLOOR
+	jp z, IstateChangingFloor
 IstateTitleScreen:
 ; /////// TURN THE SOUND OFF \\\\\\\
 	xor a						; a=0
 	ldh ($26),a     ; ($FF26) = 0, turn the sound off
 ; \\\\\\\ TURN THE SOUND OFF ///////
-
+; /////// DISABLE SCREEN \\\\\\\
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+; \\\\\\\ DISABLE SCREEN ///////
 	ld a,%00001000
 	ldh ($41),a		; enable STAT HBlank interrupt
 	ld a,%00000011
@@ -241,8 +254,12 @@ IstatePlaying:
 	ld a,(OldGameState)
 	cp GAMESTATE_CHANGINGROOM ;If changing room, we don't need to reinit everything
 	jp z, Iend
+	cp GAMESTATE_CHANGINGFLOOR ;If changing floor, don't reset
+	jp z, Iend
+	; /////// DISABLE SCREEN \\\\\\\
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+	; \\\\\\\ DISABLE SCREEN ///////
 	ld a,%00000000
 	ldh ($41),a		; disable STAT HBlank interrupt
 	ld a,%00000101
@@ -259,14 +276,28 @@ IstatePlaying:
 	; \\\\\\\ ENABLE SCREEN ///////
 	jp Iend
 IstateChangingRoom:
+	; /////// DISABLE SCREEN \\\\\\\
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+	; \\\\\\\ DISABLE SCREEN ///////
 	.INCLUDE "init/changeRoom.init.s"
 	; /////// ENABLE SCREEN \\\\\\\
 	ld a,%10000011 	; screen on, bg on, tiles at $8000
 	ldh ($40),a
 	; \\\\\\\ ENABLE SCREEN ///////
 	jp Iend
+IstateChangingFloor:
+	xor a
+	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+	ld a, (current_floor_.i_floor)
+	inc a
+	ld (current_floor_.i_floor), a
+	.INCLUDE "init/load_floor.init.s"
+	; /////// ENABLE SCREEN \\\\\\\
+	ld a,%10000011 	; screen on, bg on, tiles at $8000
+	ldh ($40),a
+	; \\\\\\\ ENABLE SCREEN ///////
+	
 Iend:
 	pop de
 	pop bc

@@ -322,12 +322,4 @@ findStartLoop:
 
 	call load_map
 
-	ld a, (global_.enemies)
-	bit 7, a
-	jr nz, @thereAreEnemies
-	ld a, (load_map_.doors)
-	and %11110111
-	ld (load_map_.doors), a
-@thereAreEnemies:
-
 	call displayRoom
