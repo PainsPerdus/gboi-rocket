@@ -20,3 +20,6 @@ IntroScreenTiles1:
 IntroScreenTiles2:
 .INCLUDE "sprites/intro_screen_2.sprite"
 IntroScreenEnd:
+GameOverTiles:
+.INCLUDE "sprites/death_screen_spritesheet.sprite"
+GameOverTilesEnd:

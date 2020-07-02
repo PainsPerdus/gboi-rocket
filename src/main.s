@@ -127,6 +127,8 @@ loop:
 	jp z, MLstateChangingRoom
 	cp GAMESTATE_CHANGINGFLOOR
 	jp z, MLstateChangingFloor
+	cp GAMESTATE_GAMEOVER
+	jp z, MLstateGameOver
 MLstateTitleScreen:
 	jp MLend
 MLstatePlaying:
@@ -140,6 +142,8 @@ MLstateChangingRoom:
 MLstateChangingFloor:
 	ld a, GAMESTATE_PLAYING
 	jp setGameState ;Change gamestate to playing
+	jp MLend
+MLstateGameOver:
 	jp MLend
 MLend:
 
@@ -196,6 +200,8 @@ noSkipFrame:
 	jp z, VstateChangingRoom
 	cp GAMESTATE_CHANGINGFLOOR
 	jp z, VstateChangingFloor
+	cp GAMESTATE_GAMEOVER
+	jp z, VstateGameOver
 VstateTitleScreen:
 	.INCLUDE "vblank/title_screen.vbl.s"
 	jp Vend
@@ -206,6 +212,8 @@ VstatePlaying:
 VstateChangingRoom:
 	jp Vend
 VstateChangingFloor:
+	jp Vend
+VstateGameOver:
 	jp Vend
 Vend:
 
@@ -235,6 +243,8 @@ init:
 	jp z, IstateChangingRoom
 	cp GAMESTATE_CHANGINGFLOOR
 	jp z, IstateChangingFloor
+	cp GAMESTATE_GAMEOVER
+	jp z, IstateGameOver
 IstateTitleScreen:
 ; /////// TURN THE SOUND OFF \\\\\\\
 	xor a						; a=0
@@ -295,7 +305,20 @@ IstateChangingFloor:
 	ld a,%10000011 	; screen on, bg on, tiles at $8000
 	ldh ($40),a
 	; \\\\\\\ ENABLE SCREEN ///////
-	
+	jp Iend
+IstateGameOver:
+; /////// TURN THE SOUND OFF \\\\\\\
+	xor a						; a=0
+	ldh ($26),a     ; ($FF26) = 0, turn the sound off
+; \\\\\\\ TURN THE SOUND OFF ///////
+; /////// DISABLE SCREEN \\\\\\\
+	xor a
+	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+; \\\\\\\ DISABLE SCREEN ///////
+	ld a,%00000001
+	ldh ($FF),a		; enable VBlank interrupt only
+	.INCLUDE "init/gameover_screen.init.s"
+	jp Iend
 Iend:
 	pop de
 	pop bc
@@ -333,7 +356,6 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/display_background_tile.lib.s"
 .INCLUDE "lib/display_doors.lib.s"
 .INCLUDE "lib/display_tears.lib.s"
-.INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/CollisionSolverIsaac.lib.s"
 .INCLUDE "lib/collision.lib.s"
 .INCLUDE "lib/vectorisation.lib.s"
@@ -343,7 +365,6 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/knockback.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/door_functions.lib.s"
-.INCLUDE "lib/maps.lib.s"
 .INCLUDE "lib/display_room.lib.s" 
 .INCLUDE "lib/stairs_function.lib.s"
 .INCLUDE "lib/display_dma.lib.s"
@@ -372,7 +393,10 @@ room_index:
 .ORG $3F00
 .DB %11101011, %11101111, %11101011, %11101111, %11100111, %11101111, %11100111, %11101111, %11101101, %11101111, %11101110, %11101111, %11101101, %11101111, %11101110, %11101111, %11011101, %11101111, %11011110, %11101111
 
+;//Load ressources in bank 1
 .BANK 1 SLOT 1
 .ORGA $4000
 .INCLUDE "lib/music.lib.s"
+.INCLUDE "lib/maps.lib.s"
+.INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/sfx.lib.s"
