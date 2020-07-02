@@ -161,12 +161,74 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	and ENEMY_ID_MASK
 	cp  %00010000
 	jr z, @fly
+	cp  %00001000
+	jr z, @spike
 	;cp %00011000
 	;jr z, @wasp
 
 	; MORE ENNEMIES OPTIONS HERE
-	jp @dead
+	jr @dead
+@spike:
+	;first sprite
+	ld a, (hl)
+	ld (bc), a ; posY
+	inc l
+	inc c
+	ld a, (hl)
+	ld (bc), a ; posX
+	inc c
+	ld a, SPIKES_SPRITESHEET
+	ld (bc), a ;sprite sheet
+	inc c
+	inc c ; next sprite
+	dec l
 
+	;second sprite
+	ld a, (hl)
+	ld (bc), a ; posY
+	inc l
+	inc c
+	ld a, (hl)
+	add 8
+	ld (bc), a ; posX
+	inc c
+	ld a, SPIKES_SPRITESHEET+1
+	ld (bc), a ;sprite sheet
+	inc c 
+	inc c ; next sprite
+	dec l
+
+	;third sprite
+	ld a, (hl)
+	add 8
+	ld (bc), a ; posY
+	inc l
+	inc c
+	ld a, (hl)
+	ld (bc), a ; posX
+	inc c
+	ld a, SPIKES_SPRITESHEET+2
+	ld (bc), a ;sprite sheet
+	dec l
+	inc c
+	inc c ; next sprite
+
+
+	;fourth sprite
+	ld a, (hl)
+	add 8
+	ld (bc), a ; posY
+	inc l
+	inc c
+	ld a, (hl)
+	add 8
+	ld (bc), a ; posX
+	inc c
+	ld a, SPIKES_SPRITESHEET+3
+	ld (bc), a ;sprite sheet
+	inc c
+	inc c ; next sprite
+jr @ennemy_updated
 @fly:
 	ld a, (hl)
 	ld (bc), a
@@ -188,7 +250,7 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 	inc c
 	inc c
 
-	jp @ennemy_updated
+	jr @ennemy_updated
 /*
 @wasp:
 	ld a, (hl)
