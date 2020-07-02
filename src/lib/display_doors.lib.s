@@ -6,7 +6,7 @@ displayDoors:
 	ld e, b	; doors status (opened/closed)
 	
 	
-	bit 0, d
+	bit 7, d
 	jp z, @no_up_door	
 
 ; ///// UP DOOR \\\\\
@@ -30,7 +30,7 @@ displayDoors:
 ; \\\\\ DOWN DOOR /////
 
 	@no_up_door:
-	bit 1,d
+	bit 5,d
 	jp z, @no_left_door	
 
 ; ///// LEFT DOOR \\\\\
@@ -55,7 +55,7 @@ displayDoors:
 ; \\\\\ LEFT DOOR /////
 
 	@no_left_door:
-	bit 2, d
+	bit 4, d
 	jp z, @no_right_door
 
 ; ///// RIGHT DOOR \\\\\
@@ -80,7 +80,7 @@ displayDoors:
 ; \\\\\ RIGHT DOOR /////
 	
 	@no_right_door:
-	bit 3, d
+	bit 6, d
 	jp z, @no_down_door	
 
 ; ///// DOWN DOOR \\\\\

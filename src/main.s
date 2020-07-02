@@ -20,6 +20,7 @@
 .INCLUDE "var/load_map.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
+.INCLUDE "var/current_floor.var.s"
 .INCLUDE "var/tears.var.s"
 
 ; $C000 to $C0FF is reserved for shadow OAM
@@ -34,8 +35,10 @@
 	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
 	load_map_ INSTANCEOF load_map_var
+	current_floor_ INSTANCEOF current_floor_var
 	tears_ INSTANCEOF tears_var
 	GameState DB
+	OldGameState DB
 	VBlank_lock DB
 .ENDE
 
@@ -80,6 +83,7 @@ start:
 ; //// Game State \\\\
 	ld a, GAMESTATE_TITLESCREEN
 	ld (GameState), a
+	ld (OldGameState), a
 ; \\\\ Game State ////
 
 ; //// Stack pointer \\\\
@@ -95,7 +99,7 @@ start:
     ;//We set the initial game state, this will first wait for vblank and turn off the screen.
 	;//It will then reti and enable interrupts.
 	ld a, GAMESTATE_TITLESCREEN
-	call setGameState ; Set initial gamestate
+	jp setGameState ; Set initial gamestate
 ; \\\\ SET INITIAL GAME STATE ////
 
 ; \\\\\\\\\ INIT /////////
@@ -116,11 +120,17 @@ loop:
 	jp z, MLstateTitleScreen
 	cp GAMESTATE_PLAYING
 	jp z, MLstatePlaying
+	cp GAMESTATE_CHANGINGROOM
+	jp z, MLstateChangingRoom
 MLstateTitleScreen:
 	jp MLend
 MLstatePlaying:
 	.INCLUDE "body.s"
 	.INCLUDE "display.s"
+	jp MLend
+MLstateChangingRoom:
+	ld a, GAMESTATE_PLAYING
+	jp setGameState ;Change gamestate to playing
 	jp MLend
 MLend:
 
@@ -173,12 +183,16 @@ noSkipFrame:
 	jp z, VstateTitleScreen
 	cp GAMESTATE_PLAYING
 	jp z, VstatePlaying
+	cp GAMESTATE_CHANGINGROOM
+	jp z, VstateChangingRoom
 VstateTitleScreen:
 	.INCLUDE "vblank/title_screen.vbl.s"
 	jp Vend
 VstatePlaying:
 	.INCLUDE "vblank/display.vbl.s"
 	.INCLUDE "vblank/check_inputs.vbl.s"
+	jp Vend
+VstateChangingRoom:
 	jp Vend
 Vend:
 
@@ -204,7 +218,11 @@ init:
 	jp z, IstateTitleScreen
 	cp GAMESTATE_PLAYING
 	jp z, IstatePlaying
+	cp GAMESTATE_CHANGINGROOM
+	jp z, IstateChangingRoom
 IstateTitleScreen:
+	xor a
+	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 	ld a,%00001000
 	ldh ($41),a		; enable STAT HBlank interrupt
 	ld a,%00000011
@@ -212,16 +230,33 @@ IstateTitleScreen:
 	.INCLUDE "init/title_screen.init.s"
 	jp Iend
 IstatePlaying:
+	ld a,(OldGameState)
+	cp GAMESTATE_CHANGINGROOM ;If changing room, we don't need to reinit everything
+	jp z, Iend
+	xor a
+	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 	ld a,%00000000
 	ldh ($41),a		; disable STAT HBlank interrupt
 	ld a,%00000001
 	ldh ($FF),a		; enable VBlank interrupt only (nothing in HBlank)
-	.INCLUDE "init/global.init.s"
-	.INCLUDE "init/room.init.s.stub"
 	.INCLUDE "init/display.init.s"
+	.INCLUDE "init/global.init.s"
 	.INCLUDE "init/rng.init.s"
 	.INCLUDE "init/check_inputs.init.s"
 	.INCLUDE "init/ai.init.s"
+	; /////// ENABLE SCREEN \\\\\\\
+	ld a,%10000011 	; screen on, bg on, tiles at $8000
+	ldh ($40),a
+	; \\\\\\\ ENABLE SCREEN ///////
+	jp Iend
+IstateChangingRoom:
+	xor a
+	ldh ($40), a    ; ($FF40) = 0, turn the screen off
+	.INCLUDE "init/changeRoom.init.s"
+	; /////// ENABLE SCREEN \\\\\\\
+	ld a,%10000011 	; screen on, bg on, tiles at $8000
+	ldh ($40),a
+	; \\\\\\\ ENABLE SCREEN ///////
 	jp Iend
 Iend:
 	pop de
@@ -235,22 +270,24 @@ setGameState:
 	di ;we don't want interrupts when we change up game states
 	ld l, a ; Save new GameState
 	ld a, (GameState)
-	ld b, a ; Save old GameState b=oldGameState
+	ld (OldGameState), a ; Save old GameState
 	ld a, l ; Restore new GameState
-	ld (GameState), a ; GameState = a
+	ld (GameState), a ; GameState = a //Set new Gamestate
 	;//We wait for VBlank to allow init scripts to run
 waitvlb: 					; wait for the line 144 to be refreshed:
 	ldh a,($44)
 	cp 144          ; if a < 144 jump to waitvlb
-	jr c, waitvlb
+	jr nz, waitvlb ; We want to be at the exact start of the vblank for safety
 	;We're in vblank we can turn the screen off!
-	xor a
-	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 
-	ld a, b ;a argument to init is old GameState
 	call init
 
-	reti
+	//Reset VBlank_lock
+	xor a
+	ld (VBlank_lock),a    ; VBlank_lock = 0
+
+	ei
+	jp loop //Return to main loop
 
 ; \\\\\\\\\ CHANGE STATE ///////////
 
@@ -266,8 +303,25 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/ai.lib.s"
 .INCLUDE "lib/knockback.lib.s"
 .INCLUDE "lib/load_map.lib.s"
+.INCLUDE "lib/door_functions.lib.s"
 .INCLUDE "lib/maps.lib.s"
+.INCLUDE "lib/display_room.lib.s" 
+.INCLUDE "lib/stairs_function.lib.s"
 .INCLUDE "lib/display_dma.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
 
+.INCLUDE "rooms/start.room"
+.INCLUDE "rooms/basic1.room"
+.INCLUDE "rooms/basic2.room"
+.INCLUDE "rooms/basic3.room"
+.INCLUDE "rooms/basic4.room"
+.INCLUDE "rooms/basic5.room"
+.INCLUDE "rooms/basic6.room"
+.INCLUDE "rooms/basic7.room"
+.INCLUDE "rooms/basic8.room"
+
 .INCLUDE "rooms/basic.room"
+first_floor:
+.INCLUDE "maps/map1.level1"
+room_index:
+.INCLUDE "rooms/correspondingIDAdress.room"
