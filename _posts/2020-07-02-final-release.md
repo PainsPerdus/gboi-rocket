@@ -46,8 +46,8 @@ Melissa did the wonderful and tiresome work of transcribing the score made by No
 Listen yourself :
 
 <audio controls>
-  <source src="../../assets/gameboy_of_isaac_soundtrack.mp3.mp3" type="audio/mpeg">
-  <p>Link to the audio file as your browser doesn't support audio embeddings : <a href="../../assets/gameboy_of_isaac_soundtrack.mp3.mp3">link</a> .</p>
+  <source src="../../assets/gameboy_of_isaac_soundtrack.mp3" type="audio/mpeg">
+  <p>Link to the audio file as your browser doesn't support audio embeddings : <a href="../../assets/gameboy_of_isaac_soundtrack.mp3">link</a> .</p>
 </audio>
 
 ## Sound FX
@@ -55,9 +55,24 @@ Melissa found some intersting Sound FX, and I tweaked and ported them to the gam
 
 Start effect :
 
+<audio controls>
+  <source src="../../assets/gboi_start.mp3" type="audio/mpeg">
+  <p>Link to the audio file as your browser doesn't support audio embeddings : <a href="../../assets/gboi_start.mp3">link</a> .</p>
+</audio>
+
 Hit by ennemy :
 
+<audio controls>
+  <source src="../../assets/gboi_hurt.mp3" type="audio/mpeg">
+  <p>Link to the audio file as your browser doesn't support audio embeddings : <a href="../../assets/gboi_hurt.mp3">link</a> .</p>
+</audio>
+
 Ennemy hit :
+
+<audio controls>
+  <source src="../../assets/gboi_tear.mp3" type="audio/mpeg">
+  <p>Link to the audio file as your browser doesn't support audio embeddings : <a href="../../assets/gboi_tear.mp3">link</a> .</p>
+</audio>
 
 ## Levels
 If you go through the trapdoor, you end up in another level (in which the only thing you can do is die, but shhhhhht). Thanks to Thomas for the amazing work he did on level loading and Melissa for her work on the level generation algorithm.
@@ -102,7 +117,9 @@ These are our goals for the future :
 - Make the level generation happen at run-time instead of preloading generated maps in the ROM.
 - ITEMS : isaac needs items to help him fight against his hug-loving foes !
 
-As you can see, we are far from finished ! These features will take time to implement, but we're still stoked about working on this game and we can say with absolute certainty this isn't the last blog post about this projet.
+As you can see, we are far from finished ! These features will take time to implement, but we're still stoked about working on this game and we can say with absolute certainty this isn't the last blog post about this project.
+
+A huge shout out to our friends at team kirby, check out their Pineapple of Doom there : https://github.com/PainsPerdus/gboi-kirby with their blog here : https://painsperdus.github.io/gboi-kirby/
 
 See you !
 
