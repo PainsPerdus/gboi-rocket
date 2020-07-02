@@ -30,6 +30,6 @@ titleScreen:
 	bit 3,a
 	jr nz, @noSelect
 	ld a, GAMESTATE_PLAYING
-	call setGameState
+	jp setGameState
 @noSelect:
 ; \\\\\\\ CHECK SELECT PRESSED ///////	

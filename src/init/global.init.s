@@ -1,35 +1,34 @@
 initHitBoxes:
 
 ; // init hitboxes
-  ld hl, global_.hitboxes_width
-  ld a, $08
-  ldi (hl), a
-	ld a, $00
-  ldi (hl), a
-  ld a, $08
-  ldi (hl), a
+    ld hl, global_.hitboxes_width
+    ld a, $08
+    ldi (hl), a
 	ld a, $10
   ldi (hl), a
 	ldi (hl), a
 	ld a, $08
+	ldi (hl), a
+	xor a
+	ldi (hl), a
 	ldi (hl), a
 	ld a, $A0
 	ldi (hl), a
 	ld a, $10
 	ldi (hl), a
-
-  ld hl, global_.hitboxes_height
-  ld a, $08
-  ldi (hl), a
-  ldi (hl), a
-	ld a, $00
-  ldi (hl), a
+    ld hl, global_.hitboxes_height
+    ld a, $08
+    ldi (hl), a
 	ld a, $10
   ldi (hl), a
 	ld a, $08
 	ldi (hl), a
 	ld a, $10
 	ldi (hl), a
+	xor a
+	ldi (hl), a
+	ldi (hl), a
+	ld a, $10
 	ldi (hl), a
 	ld a, $90
 	ldi (hl), a
@@ -65,10 +64,10 @@ global_init:
 
 @isaac_init:
 	ld hl, global_.isaac
-	ld a,$30
-	ldi (hl),a; x = 48
-	ld a,$50
-	ldi (hl),a; y = 80
+	ld a,160/2
+	ldi (hl),a; x = 160/2
+	ld a,144/2
+	ldi (hl),a; y = 144/2
 	ld a, ISAAC_MAX_HP
 	ldi (hl),a; hp = ISAAC_MAX_HP
 	ld a,1
@@ -87,7 +86,7 @@ global_init:
 	ldi (hl),a; bombs=0
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
-  ld a,2
+  ld a,3
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
   ld a,ISAAC_COOLDOWN
@@ -243,11 +242,79 @@ global_init:
     ldi (hl), a ; x = 160-8
 
 
-; load simple_room
-	ld de, basic_room
+; load floor
+	ld a, _sizeof_current_floor_var - 2
+	ld b, a
+	ld de, first_floor
+	ld hl, current_floor_
+initFloorLoop:
+	ld a, (de)
+	ld (hl), a
+	inc de
+	inc hl
+	dec b
+	jr nz, initFloorLoop
+
+; find first room
+	ld a, (current_floor_.number_rooms)
+	ld b, a
+	ld de, current_floor_.rooms
+findStartLoop:
+	ld h, d
+	ld l, e
+	inc hl
+	inc hl
+	ld a, (hl)
+	bit 2, a
+	jr nz, @startFound
+	ld hl, _sizeof_room
+	add hl, de
+	ld d, h
+	ld e, l
+	dec b
+	jr nz, findStartLoop
+@startFound:
 	ld a, d
-	ld (load_map_.map_address), a
+	ld (current_floor_.current_room), a
 	ld a, e
+	ld (current_floor_.current_room + 1), a
+
+; load first room
+	ld a, (current_floor_.current_room)
+	ld h, a
+	ld a, (current_floor_.current_room + 1)
+	ld l, a
+	inc hl
+	inc hl
+	ldi a, (hl)
+	ld (load_map_.doors), a
+
+	ld a, (current_floor_.current_room)
+	ld h, a
+	ld a, (current_floor_.current_room + 1)
+	ld l, a
+	inc hl
+	ld e, (hl)
+	xor a
+	ld d, a
+	ld h, d
+	ld l, e
+	add hl, de
+	ld de, room_index
+	add hl, de
+	ldi a, (hl)
 	ld (load_map_.map_address + 1), a
+	ldi a, (hl)
+	ld (load_map_.map_address), a
+
 	call load_map
 
+	ld a, (global_.enemies)
+	bit 7, a
+	jr nz, @thereAreEnemies
+	ld a, (load_map_.doors)
+	and %11110111
+	ld (load_map_.doors), a
+@thereAreEnemies:
+
+	call displayRoom
