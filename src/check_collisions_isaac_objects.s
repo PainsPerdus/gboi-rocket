@@ -1,5 +1,15 @@
 objects_collide:
 ; /////// implement item activations \\\\\\\
+	; /// load Isaac true position and hitbox \\\
+	ld a, (global_.isaac.x)
+	ld (collision_.p.1.x), a
+	ld a, (global_.isaac.y)
+	add $08
+	ld (collision_.p.1.y), a
+	ld a, ISAAC_FEET_HITBOX
+	ld (collision_.hitbox1), a
+	; \\\ load Isaac true position and hitbox ///
+
 ;   //// collision with objects loop \\\\
 	ld de, global_.objects
 	ld c, n_objects

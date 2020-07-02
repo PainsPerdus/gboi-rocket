@@ -82,7 +82,7 @@ bot_door_fun:
 
 	ld a, $08+($A0/2)-$08
 	ld (global_.isaac.x), a
-	ld a, $15+$10
+	ld a, $0D+$10
 	ld (global_.isaac.y), a
 
 	; load x, y
