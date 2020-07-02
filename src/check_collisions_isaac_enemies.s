@@ -60,6 +60,8 @@ enemies_collide:
 	push hl
 	call knockback
 	pop hl
+
+	call fly_hit_sfx
 ; \ Knockback /
 
 	; revcovery
