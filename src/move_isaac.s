@@ -112,13 +112,17 @@ move_and_collide:
 ; /////// FIRE BULLETS \\\\\\\
 @fire_bullet:
 	ld hl,global_.isaac.cooldown
+	ld a,(hl)
+	and a
+	jp z,@@can_shoot
 	dec (hl)
-	jp nz,@@no_fire
-	ld a,ISAAC_COOLDOWN
-	ld (global_.isaac.cooldown),a
+	jp nz,@@no_shoot
+@@can_shoot:
 	ld a,(global_.isaac.tears)
 	bit ISAAC_A_FLAG, a
-	jp z,@@no_fire
+	jp z,@@no_shoot
+	ld a,ISAAC_COOLDOWN
+	ld (global_.isaac.cooldown),a
 	ld hl,global_.isaac_tears
 	ld a,(global_.issac_tear_pointer)
 	ld d,0
@@ -172,7 +176,7 @@ move_and_collide:
 	dec (hl)
 	dec (hl) ;alternate between two eyes
 @@@noeye:
-	jr @@no_fire
+	jr @@no_shoot
 @@not_left:
 	cp ORIENTATION_RG
 	jr nz,@@not_right
@@ -187,7 +191,7 @@ move_and_collide:
 	dec (hl)
 	dec (hl) ;alternate between two eyes
 @@@noeye:
-	jr @@no_fire
+	jr @@no_shoot
 @@not_right:
 	cp ORIENTATION_UP
 	jr nz,@@not_up
@@ -208,7 +212,7 @@ move_and_collide:
 	dec (hl)
 	dec (hl) ;alternate between two eyes
 @@@noeye:
-	jr @@no_fire
+	jr @@no_shoot
 @@not_up:
 	cp ORIENTATION_DW
 	jr nz,@@not_down
@@ -222,9 +226,9 @@ move_and_collide:
 	dec (hl)
 	dec (hl)
 @@@noeye:
-	jr @@no_fire
+	jr @@no_shoot
 @@not_down:
 
-@@no_fire:
+@@no_shoot:
 
 ; \\\\\\\ FIRE BULLETS ///////
