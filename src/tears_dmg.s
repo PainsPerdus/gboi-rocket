@@ -50,6 +50,7 @@ isaac_tears_dmg:
 	ld (hl),a ; kill the tear
 
 	; hurt
+	call tear_hit_sfx
 	pop hl
 	ld d, h
 	ld e, l
