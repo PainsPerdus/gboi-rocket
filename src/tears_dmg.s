@@ -8,7 +8,7 @@ isaac_tears_dmg:
 	ld l,e
 	ld a,(hl)
 	and a
-	jr z,@ending_loop_tears
+	jp z,@ending_loop_tears
 
 	ldi a, (hl)
 	add TEARS_OFFSET_Y
@@ -39,7 +39,20 @@ isaac_tears_dmg:
 	jp z,@ending_loop_ennemies
 
 ; //// DEAL DMG \\\\
+	; kill tear
+	ld h, d
+	ld l, e
+	pop de ; the hitting tear
+	push hl
+	ld h,d
+	ld l,e
+	xor a
+	ld (hl),a ; kill the tear
 
+	; hurt
+	pop hl
+	ld d, h
+	ld e, l
 	ld hl,3
 	add hl,de
 	ld a, (hl)
@@ -51,17 +64,30 @@ isaac_tears_dmg:
 	cp 1
 	jp nc, @@notDead
 	ld a, (de)
-	and %01111111
+	res 7, a
 	ld (de), a
 
-	pop de ; the hitting tear
-	ld h,d
-	ld l,e
-	xor a
-	ld (hl),a ; kill the tear
-	jr @ending_loop_tears
+	; unlock room
+	ld a, (load_map_.mobs)
+	dec a
+	ld (load_map_.mobs), a
+	and a
+	jr nz, @@notDead
+	ld a, (current_floor_.current_room)
+	ld h, a
+	ld a, (current_floor_.current_room + 1)
+	ld l, a
+	inc hl
+	inc hl
+	ld a, (hl)
+	res 3, a
+	ld (hl), a
+	ld (load_map_.doors), a
+	ld a, GAMESTATE_CHANGINGROOM
+	jp setGameState
 ; \\\\ DEAL DMG ////
-@@notDead
+@@notDead:
+	jr @ending_loop_tears
 
 @ending_loop_ennemies:
 	ld hl,_sizeof_enemy
@@ -79,4 +105,4 @@ isaac_tears_dmg:
 	ld e,l
 
 	dec c
-	jr nz,@loop_tears
+	jp nz,@loop_tears
