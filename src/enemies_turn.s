@@ -6,6 +6,9 @@ enemys_turn:
 ; //// IA \\\\
 	ld h,d
 	ld l,e
+	ld a,(hl)	
+	bit ALIVE_FLAG,a ;Jump if ennemy is dead
+	jp z, @@no_move
 	call AI
 ; \\\\ IA ////
 

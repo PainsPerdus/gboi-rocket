@@ -1,11 +1,15 @@
 enemies_collide:
 	; /// load Isaac true position and hitbox \\\
-	ld a, (global_.isaac.x)
-	ld (collision_.p.1.x), a
-	ld a, (global_.isaac.y)
-	ld (collision_.p.1.y), a
-	ld a, ISAAC_HITBOX
-	ld (collision_.hitbox1), a
+	ld a,(global_.isaac.y)
+	add ISAAC_OFFSET_Y
+	ld (collision_.p.1.y),a
+	add ISAAC_HITBOX_Y
+	ld (collision_.p_RD.1.y),a
+	ld a,(global_.isaac.x)
+	add ISAAC_OFFSET_X
+	ld (collision_.p.1.x),a
+	add ISAAC_HITBOX_X
+	ld (collision_.p_RD.1.x),a
 	; \\\ load Isaac true position and hitbox ///
 
 	ld a, (global_.isaac.recover)
@@ -34,7 +38,7 @@ enemies_collide:
 
 ; / test collision \
 	push hl
-	call collision
+	call preloaded_collision
 	pop hl
 	and a
 	jr z, @noCollision
@@ -70,11 +74,14 @@ enemies_collide:
 	ld a, (global_.isaac.hp)
 	sub b
 	ld (global_.isaac.hp), a
-	bit 7, a
-	jr z, @noDeath
+	dec a
+	bit 7,a
+	jr z, @noDeath ; test if PV<=0
 	xor a
 	ld (global_.isaac.x), a
 	ld (global_.isaac.y), a 	; //// TODO implement death
+	ld a, GAMESTATE_TITLESCREEN
+	jp setGameState
 @noDeath:
 	jr @damageDone
 

@@ -29,9 +29,8 @@
     ldi (hl), a
     ld a, VOID_ENEMY_DMG
     ldi (hl), a
-    xor a
-    ldi (hl), a
     ld a, VOID_ENEMY_SPEED_FREQ
+    ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
 @@notVoid:
@@ -49,9 +48,8 @@
     ldi (hl), a
     ld a, HURTING_ROCK_DMG
     ldi (hl), a
-    xor a
-    ldi (hl), a
     ld a, HURTING_ROCK_SPEED_FREQ
+    ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
 @@notHurtingRock:
@@ -71,18 +69,18 @@
     ldi (hl), a
     ld a, FLY_DMG
     ldi (hl), a
-    xor a
-    ldi (hl), a
     ld a, FLY_SPEED_FREQ
+    ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
 @@notFly:
 
-@@end_enemy
+@@end_enemy:
     ld a, h
     ld (load_map_.next_enemy), a
     ld a, l
     ld (load_map_.next_enemy + 1), a
-    ld hl, load_map_.enemies_written
+
+    ld hl, load_map_.mobs
     inc (hl)
 ; \\\ add an enemy ///
