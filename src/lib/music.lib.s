@@ -24,7 +24,7 @@ timer_interrupt:
     ldh a,($25)
     and %11101110
     ldh ($25),a
-    ld a,%11110000
+    ld a,%10000000
   	ldh (SND_CHAN1_VOL_ENVEL_LOW),a
 
 
@@ -134,7 +134,7 @@ timer_interrupt:
     ldh a,($25)
     and %11011101
     ldh ($25),a
-    ld a,%11110000
+    ld a,%10000000
   	ldh (SND_CHAN2_VOL_ENVEL_LOW),a
 
 
