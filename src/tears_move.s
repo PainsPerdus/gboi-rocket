@@ -11,12 +11,27 @@ isaac_tears_moves:
 
 	jr z,@@no_move
 
+; /// TTL \\\
+	ld hl,$0004
+	add hl,de
+	dec (hl)
+	jp nz,@@end_ttl
+	ld h,d
+	ld l,e
+	xor a
+	ld (hl),a
+	jp @@no_move
+@@end_ttl:
+; \\\ TTL ///
+
+; /// LAG FRAME \\\
 	ld hl,$0002
 	add hl,de
 	dec (hl)
 	jp nz,@@no_move
 	ld a,TEARS_SPEED_FREQ
 	ld (hl),a
+; \\\ LAG FRAME ///
 
 ; //// Move the tears \\\\
 	ld hl,$0003 ; B = V

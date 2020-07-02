@@ -123,13 +123,23 @@ move_and_collide:
 	ld a,(global_.issac_tear_pointer)
 	ld d,0
 	ld e,a
-	add hl,de
+	add hl,de											; hl = &(new_tear)
 	add _sizeof_tear
 	cp n_isaac_tears*_sizeof_tear
 	jr nz,@@no_pointer_overflow
 	xor a
 @@no_pointer_overflow:
-	ld (global_.issac_tear_pointer),a
+	ld (global_.issac_tear_pointer),a ; issac_tear_pointer += sizeof(tear)
+
+	; TTL
+	ld de,$0004
+	add hl,de
+	ld (hl),TEARS_TTL
+	ld a,l
+	sub 4
+	ld l,a
+	; TTL
+
 	ld a,(global_.isaac.y)
 	add ISAAC_Y_CENTER
 	ldi (hl),a
@@ -167,12 +177,7 @@ move_and_collide:
 	cp ORIENTATION_DW
 	jr nz,@@not_down
 	ld (hl),DIRECTION_DW
-	jr @@no_fire
-	jr @@no_fire
 @@not_down:
-	cp ORIENTATION_LF
-	jr nz,@@not_left
-
 
 @@no_fire:
 
