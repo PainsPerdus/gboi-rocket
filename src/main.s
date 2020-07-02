@@ -309,7 +309,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
-.INCLUDE "lib/music.lib.s"
+
 .INCLUDE "lib/knockback.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/door_functions.lib.s"
@@ -337,3 +337,7 @@ room_index:
 
 .ORG $3F00
 .DB %11101011, %11101111, %11101011, %11101111, %11100111, %11101111, %11100111, %11101111, %11101101, %11101111, %11101110, %11101111, %11101101, %11101111, %11101110, %11101111, %11011101, %11101111, %11011110, %11101111
+
+.BANK 1 SLOT 1
+.ORGA $4000
+.INCLUDE "lib/music.lib.s"
