@@ -241,6 +241,10 @@ load_map:
     ldi (hl), a
     ld a, e
     ldi (hl), a
+    ld a, h
+    ld (load_map_.next_object), a
+    ld a, l
+    ld (load_map_.next_object + 1), a
 @noStairs:
 
     ld a, (load_map_.mobs)
