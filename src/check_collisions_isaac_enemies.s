@@ -74,8 +74,9 @@ enemies_collide:
 	ld a, (global_.isaac.hp)
 	sub b
 	ld (global_.isaac.hp), a
-	and a
-	jr nz, @noDeath
+	dec a
+	bit 7,a
+	jr z, @noDeath ; test if PV<=0
 	xor a
 	ld (global_.isaac.x), a
 	ld (global_.isaac.y), a 	; //// TODO implement death
