@@ -45,6 +45,10 @@ Flies :
 Melissa did the wonderful and tiresome work of transcribing the score made by Noel, our piano teacher, of the "Sacrificial" music, to our own custom format. I designed the sound driver and programmed most of it though the core code is still Melissa's.
 Listen yourself :
 
+<audio controls>
+  <source src="../../assets/gameboy_of_isaac_soundtrack.mp3.mp3" type="audio/mpeg">
+  <p>Link to the audio file as your browser doesn't support audio embeddings : <a href="../../assets/gameboy_of_isaac_soundtrack.mp3.mp3">link</a> .</p>
+</audio>
 
 ## Sound FX
 Melissa found some intersting Sound FX, and I tweaked and ported them to the game and made it work with our preexisting music driver.
