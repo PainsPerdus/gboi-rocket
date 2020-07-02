@@ -111,16 +111,16 @@ move_and_collide:
 	add hl,de
 	add _sizeof_tear
 	cp n_isaac_tears*_sizeof_tear
-	jr nz,@@pointer_overflow
+	jr nz,@@no_pointer_overflow
 	xor a
-@@pointer_overflow:
+@@no_pointer_overflow:
 	ld (global_.issac_tear_pointer),a
 	ld a,(global_.isaac.y)
 	add ISAAC_Y_CENTER
 	ldi (hl),a
 	ld a,(global_.isaac.x)
 	add ISAAC_X_CENTER
-	ldi (hl),a
+	ld (hl),a
 @@no_fire:
 
 ; \\\\\\\ FIRE BULLETS ///////

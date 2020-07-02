@@ -71,3 +71,4 @@ isaac_tears_dmg:
 
 	dec c
 	jr nz,@loop_tears
+
