@@ -268,11 +268,13 @@ jp nz, @no_isaac ;If isaac is recovering and should be in the hidden state, we d
 
 ; ///// Hearts \\\\\
 //Quick fix to avoid isaac HP being <0...
+/*
 ld a,(global_.isaac.hp)
 bit 7,a
 jr z,@noreset
 ld a,ISAAC_MAX_HP
 ld (global_.isaac.hp),a
+*/
 @noreset
 
 	ld d, HEARTS_SPRITESHEET  ; set sprite to empty heart
