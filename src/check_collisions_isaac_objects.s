@@ -1,13 +1,16 @@
 objects_collide:
 ; /////// implement item activations \\\\\\\
 	; /// load Isaac true position and hitbox \\\
-	ld a, (global_.isaac.x)
-	ld (collision_.p.1.x), a
-	ld a, (global_.isaac.y)
-	add $08
-	ld (collision_.p.1.y), a
-	ld a, ISAAC_FEET_HITBOX
-	ld (collision_.hitbox1), a
+	ld a,(global_.isaac.y)
+	add ISAAC_OFFSET_Y_FEET
+	ld (collision_.p.1.y),a
+	add ISAAC_HITBOX_Y_FEET
+	ld (collision_.p_RD.1.y),a
+	ld a,(global_.isaac.x)
+	add ISAAC_OFFSET_X
+	ld (collision_.p.1.x),a
+	add ISAAC_HITBOX_X
+	ld (collision_.p_RD.1.x),a
 	; \\\ load Isaac true position and hitbox ///
 
 ;   //// collision with objects loop \\\\
@@ -32,7 +35,7 @@ objects_collide:
 
 ; / test collision \
 	push hl
-	call collision
+	call preloaded_collision
 	pop hl
 	and a
 	jr z, @noCollision
