@@ -76,9 +76,10 @@ Thanks to Virgile for his state machine and Pascal for his work on graphics, we 
 
 See for yourself :
 
+![start](../../assets/images/graphics1/gboi_start.gif)
+
 ### Game over screen
 Not happy with just a title screen, they implemented a "game over" screen ! Take a look :
-
 
 ![death](../../assets/images/graphics1/gboi_death.gif)
 
