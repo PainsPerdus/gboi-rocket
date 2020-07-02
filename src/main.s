@@ -289,9 +289,6 @@ IstateChangingRoom:
 IstateChangingFloor:
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
-	ld a, (current_floor_.i_floor)
-	inc a
-	ld (current_floor_.i_floor), a
 	.INCLUDE "init/load_floor.init.s"
 	; /////// ENABLE SCREEN \\\\\\\
 	ld a,%10000011 	; screen on, bg on, tiles at $8000
