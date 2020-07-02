@@ -29,9 +29,8 @@
     ldi (hl), a
     ld a, VOID_ENEMY_DMG
     ldi (hl), a
-    xor a
-    ldi (hl), a
     ld a, VOID_ENEMY_SPEED_FREQ
+    ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
 @@notVoid:
@@ -49,9 +48,8 @@
     ldi (hl), a
     ld a, HURTING_ROCK_DMG
     ldi (hl), a
-    xor a
-    ldi (hl), a
     ld a, HURTING_ROCK_SPEED_FREQ
+    ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
 @@notHurtingRock:
@@ -71,9 +69,8 @@
     ldi (hl), a
     ld a, FLY_DMG
     ldi (hl), a
-    xor a
-    ldi (hl), a
     ld a, FLY_SPEED_FREQ
+    ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
 @@notFly:
