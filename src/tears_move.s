@@ -53,12 +53,14 @@ isaac_tears_moves:
 	ld h,d
 	ld l,e
 	ldi a, (hl)
-	ld (collision_.p.1.x), a
-	ld a,(hl)
+	add TEARS_OFFSET_Y
 	ld (collision_.p.1.y), a
-	ld a, TEARS_HITBOX
-	ld (collision_.hitbox1), a
-	call collision_obstacles
+	ld (collision_.p_RD.1.y), a
+	ld a,(hl)
+	add TEARS_OFFSET_X
+	ld (collision_.p.1.x), a
+	ld (collision_.p_RD.1.x), a
+	call preloaded_collision_obstacles
 	and a
 	jr z,@@no_collision
 	xor a
