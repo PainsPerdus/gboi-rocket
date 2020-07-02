@@ -161,6 +161,18 @@ global_init:
   ldi (hl),a
 	; \\\ hurting rock ///
 
+@fly_init:
+	; /// hurting rock \\\
+	ld a, FLY_INFO
+	ldi (hl), a
+	ld a, FLY_HP
+	ldi (hl), a
+	ld a, FLY_DMG
+	ldi (hl), a
+  ld a,FLY_SPEED_FREQ
+  ldi (hl),a
+	; \\\ hurting rock ///
+
 	ld hl, global_.enemies
 	ld b, n_enemies
 @enemy_loop:

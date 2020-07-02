@@ -31,4 +31,13 @@
     add hl, de
     dec b
     jr nz, @resetObjectLoop
+
+    ld b, n_isaac_tears
+    ld hl, global_.isaac_tears
+@resetIsaacTears:
+    ld (hl), 0
+    ld de, _sizeof_tear
+    add hl, de
+    dec b
+    jr nz, @resetIsaacTears
 ; \\\ load the arrays with void elements ///
