@@ -2,11 +2,6 @@
 load_map:
     push bc
     push de
-
-	; by default, open doors
-    ld a, (load_map_.doors)
-    and %11110111
-    ld (load_map_.doors), a
 	
     ; /// init cursor positions \\\
     ; // element cursors \\
@@ -47,7 +42,6 @@ load_map:
     ; \\\ init cursor positions ///
 
 .INCLUDE "lib/load_complete_with_void.lib.s"
-.INCLUDE "lib/load_doors.lib.s"
 
     ; /// start y loop \\\
     ld a, (load_map_.map_address)
@@ -114,11 +108,7 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (current_floor_.current_room)
-    ld h, a
-    ld a, (current_floor_.current_room + 1)
-    ld l, a
-    ld a, (hl)
+    ld a, (load_map_.doors)
     bit 3, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
@@ -179,11 +169,7 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (current_floor_.current_room)
-    ld h, a
-    ld a, (current_floor_.current_room + 1)
-    ld l, a
-    ld a, (hl)
+    ld a, (load_map_.doors)
     bit 3, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
@@ -250,6 +236,22 @@ load_map:
     ld a, e
     ldi (hl), a
 @noStairs:
+
+    ld a, (load_map_.doors)
+    ld b, a
+    ld a, (load_map_.mobs)
+    and a
+    jr z, @noEnemiesHere
+    ld a, b
+    or %00001000
+    jr @enemiesHere
+@noEnemiesHere:
+    ld a, b
+    and %11110111
+@enemiesHere:
+    ld (load_map_.doors), a
+
+.INCLUDE "lib/load_doors.lib.s"
 
     pop de
     pop bc

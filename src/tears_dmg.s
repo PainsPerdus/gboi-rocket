@@ -38,6 +38,7 @@ isaac_tears_dmg:
 	jp z,@ending_loop_ennemies
 
 ; //// DEAL DMG \\\\
+	; hurt
 	ld hl,3
 	add hl,de
 	ld a, (hl)
@@ -51,6 +52,16 @@ isaac_tears_dmg:
 	ld a, (de)
 	and %01111111
 	ld (de), a
+	; unlock room
+	ld a, (load_map_.mobs)
+	dec a
+	ld (load_map_.mobs), a
+	jr nz, @@notDead
+	ld a, (load_map_.doors)
+	and %11110111
+	ld (load_map_.doors), a
+	ld a, GAMESTATE_CHANGINGROOM
+	jp setGameState
 ; \\\\ DEAL DMG ////
 @@notDead
 
