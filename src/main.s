@@ -100,7 +100,7 @@ start:
 ; //// SET INITIAL GAME STATE \\\\
     ;//We set the initial game state, this will first wait for vblank and turn off the screen.
 	;//It will then reti and enable interrupts.
-	ld a, GAMESTATE_GAMEOVER
+	ld a, GAMESTATE_TITLESCREEN
 	jp setGameState ; Set initial gamestate
 ; \\\\ SET INITIAL GAME STATE ////
 
@@ -306,6 +306,10 @@ IstateChangingFloor:
 	; \\\\\\\ ENABLE SCREEN ///////
 	jp Iend
 IstateGameOver:
+; /////// TURN THE SOUND OFF \\\\\\\
+	xor a						; a=0
+	ldh ($26),a     ; ($FF26) = 0, turn the sound off
+; \\\\\\\ TURN THE SOUND OFF ///////
 ; /////// DISABLE SCREEN \\\\\\\
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off

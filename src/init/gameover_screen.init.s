@@ -19,8 +19,8 @@ ld hl,$8000 ;Block 0 start
     ld de,32*32
     ld hl,$9800
 @clmap:         ; while de != 0
-    xor a;
-    ldi (hl),a  ; *hl <- 0; hl++
+    ld a,220;
+    ldi (hl),a  ; *hl <- 220; hl++
     dec de      ; de --
     ld a,e
     or d

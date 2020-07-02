@@ -80,7 +80,7 @@ enemies_collide:
 	xor a
 	ld (global_.isaac.x), a
 	ld (global_.isaac.y), a 	; //// TODO implement death
-	ld a, GAMESTATE_TITLESCREEN
+	ld a, GAMESTATE_GAMEOVER
 	jp setGameState
 @noDeath:
 	jr @damageDone
