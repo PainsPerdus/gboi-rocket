@@ -15,6 +15,4 @@
     ld (load_map_.next_blocking), a
     ld a, l
     ld (load_map_.next_blocking + 1), a
-    ld hl, load_map_.blockings_written
-    inc (hl)
 ; \\\ add a blocking element ///

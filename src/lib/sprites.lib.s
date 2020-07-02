@@ -2,6 +2,7 @@ SpriteTiles:
 .INCLUDE "sprites/isaac_spritesheet.sprite"
 .INCLUDE "sprites/tear.sprite"
 .INCLUDE "sprites/fly_spritesheet.sprite"
+.INCLUDE "sprites/wasp_spritesheet.sprite"
 BackgroundTiles:
 .INCLUDE "sprites/background.sprite"
 .INCLUDE "sprites/walls_spritesheet.sprite"
@@ -9,6 +10,7 @@ BackgroundTiles:
 .INCLUDE "sprites/rocks_spritesheet.sprite"
 .INCLUDE "sprites/pit_spritesheet.sprite"
 .INCLUDE "sprites/hearts_spritesheet.sprite"
+.INCLUDE "sprites/trapdoor.sprite"
 
 IntroScreenTiles0:
 .INCLUDE "sprites/intro_screen_0.sprite"

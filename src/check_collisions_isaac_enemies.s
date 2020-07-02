@@ -1,11 +1,15 @@
 enemies_collide:
 	; /// load Isaac true position and hitbox \\\
-	ld a, (global_.isaac.x)
-	ld (collision_.p.1.x), a
-	ld a, (global_.isaac.y)
-	ld (collision_.p.1.y), a
-	ld a, ISAAC_HITBOX
-	ld (collision_.hitbox1), a
+	ld a,(global_.isaac.y)
+	add ISAAC_OFFSET_Y
+	ld (collision_.p.1.y),a
+	add ISAAC_HITBOX_Y
+	ld (collision_.p_RD.1.y),a
+	ld a,(global_.isaac.x)
+	add ISAAC_OFFSET_X
+	ld (collision_.p.1.x),a
+	add ISAAC_HITBOX_X
+	ld (collision_.p_RD.1.x),a
 	; \\\ load Isaac true position and hitbox ///
 
 	ld a, (global_.isaac.recover)
@@ -14,7 +18,7 @@ enemies_collide:
 ; /////// implement enemy damage \\\\\\\
 ;   //// collision with enemies loop \\\\
 	ld de, global_.enemies
-	ld c, n_enemies+1
+	ld c, n_enemies
 	@loop:
 ; /// loop start \\\
 	ld h,d
@@ -34,10 +38,29 @@ enemies_collide:
 
 ; / test collision \
 	push hl
-	call collision
+	call preloaded_collision
 	pop hl
 	and a
 	jr z, @noCollision
+
+; / Knockback \
+	ld a,(collision_.p.2.y)
+	ld (vectorisation_.p.1.y),a
+	ld a,(collision_.p.2.x)
+	ld (vectorisation_.p.1.x),a
+	ld a,(global_.isaac.y)
+	add ISAAC_Y_CENTER-2
+	ld (vectorisation_.p.2.y),a
+	ld a,(global_.isaac.x)
+	add ISAAC_X_CENTER-2
+	ld (vectorisation_.p.2.x),a
+
+	call vectorisation
+	ld b,a
+	push hl
+	call knockback
+	pop hl
+; \ Knockback /
 
 	; revcovery
 	ld a, RECOVERY_TIME

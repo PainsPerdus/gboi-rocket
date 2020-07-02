@@ -55,148 +55,6 @@ ld (display_.fly.frame),a
 	; The Z flag can't be used when dec on 16bit reg :(
 ; \\\\\\\ CLEAR BG ///////
 
-; /////// DRAWING WALLS \\\\\\\
-;    ///// UPPER WALL \\\\\
-	
-	ld de,20       ; loop iterator
-	ld hl,$9800
-	@wall_up_line1:			; while de != 0
-	ld a, FLAT_BACKGROUND_WALL
-	ldi (hl),a	 
-	dec de		; de --
-	ld a,e
-	or d
-	jr nz,@wall_up_line1	; end while
-	ld bc, $000C   ; next line distance
-	add hl, bc                      ;next line
-	ld a, FLAT_BACKGROUND_WALL ;
-	ldi (hl),a
-	ld a, UP_RIGHT_CORNER ;
-	ldi (hl),a
-	ld de,16
-	@wall_up_line2:			; while de != 0
-	ld a, UP_BACKGROUND_WALL ;
-	ldi (hl),a
-	dec de	; de --
-	ld a,e
-	or d
-	jr nz,@wall_up_line2	; end while
-	ld a, UP_LEFT_CORNER ;
-	ldi (hl),a
-	ld a, FLAT_BACKGROUND_WALL ;
-	ldi (hl),a
-;    \\\\\ UPPER WALL /////
-
-;    ///// SIDE WALLS \\\\\
-	ld de,14
-	@walls_sides:			; while de != 0
-	ld bc, $000C   ; next line distance
-	add hl, bc     ;next line
-	ld a, FLAT_BACKGROUND_WALL ;
-	ldi (hl),a	 
-	ld a, LEFT_BACKGROUND_WALL ;
-	ldi (hl), a
-	ld bc, $0010
-	add hl, bc
-	ld a, RIGHT_BACKGROUND_WALL
-	ldi (hl),a	
-	ld a, FLAT_BACKGROUND_WALL
-	ldi (hl), a
-	dec de		; de --
-	ld a,e
-	or d
-	jr nz,@walls_sides	; end while
-;    \\\\\ SIDE WALLS /////
-	ld bc, $000C   ; next line distance
-	add hl, bc                      ;next line
-;    ///// DOWN WALL \\\\\
-	ld a, FLAT_BACKGROUND_WALL
-	ldi (hl),a
-	ld a, DOWN_LEFT_CORNER ;
-	ldi (hl),a
-	ld de,16       ; loop iterator
-	@wall_down_line1:			; while de != 0
-	ld a, DOWN_BACKGROUND_WALL 
-	ldi (hl),a	; *hl <- 0; hl++
-	dec de		; de --
-	ld a,e
-	or d
-	jr nz,@wall_down_line1	; end while
-	ld a, DOWN_RIGHT_CORNER
-	ldi (hl),a
-	ld a, FLAT_BACKGROUND_WALL
-	ldi (hl),a
-
-	ld bc, $000C   ; next line distance
-	add hl, bc                      ;next line
-
-	ld de,20
-	@wall_down_line2:			; while de != 0
-	ld a, FLAT_BACKGROUND_WALL ;
-	ldi (hl),a	; *hl <- 0; hl++
-	dec de		; de --
-	ld a,e
-	or d
-	jr nz,@wall_down_line2	; end while
-;    \\\\\ DOWN WALL /////
-
-;    ///// DETAILING \\\\\
-
-	ld a, FIRST_WALL_DETAIL
-	ld hl, $9805
-	ld (hl),a
-	ld hl, $9A2F
-	ld (hl),a
-	inc a
-	ld hl, $9810
-	ld (hl),a
-	ld hl, $9A24
-	ld (hl),a
-	inc a
-	ld hl, $9880
-	ld (hl),a
-	ld hl, $99B3
-	ld (hl),a
-	inc a
-	ld hl, $9980
-	ld (hl),a
-	ld hl, $9873
-	ld (hl),a
-
-	inc a
-	ld hl, $9826
-	ld (hl),a
-	inc a
-	ld hl, $982D
-	ld (hl),a
-	inc a
-	ld hl, $98C1
-	ld (hl),a
-	inc a
-	ld hl, $98D2
-	ld (hl),a
-	inc a
-	ld hl, $9961
-	ld (hl),a
-	inc a
-	ld hl, $9992
-	ld (hl),a
-	inc a
-	ld hl, $9A06
-	ld (hl),a
-	inc a
-	ld hl, $9A0D
-	ld (hl),a
-	
-
-;    \\\\\ DETAILING /////
-
-; \\\\\\\ DRAWING WALLS ///////
-
-	ld a, %00000101
-	ld b, %00000000
-	call displayDoors
-
 ; /////// CLEAR OAM \\\\\\\
 	ld hl,$FE00
 	ld b,40*4
@@ -212,63 +70,28 @@ ld (display_.fly.frame),a
 	ldh ($43),a
 ; \\\\\\\ CLEAR OAM ///////
 
-; /////// LOAD SPRITES \\\\\\\
+; ////// Clear shadow OAM \\\\\\\
+	ld hl, SHADOW_OAM_START
+	ld b,40*4 ; Shadow OAM size (= OAM size)
+@loopClearShadowOAM:			
+	ld (hl),$00	
+	inc l	
+	dec b		; b --
+	jr nz,@loopClearShadowOAM	; end while
+; \\\\\\ Clear shadow OAM ///////
 
-; // ISAAC SPRITES \\
-; \\ ISAAC SPRITES //
-
-; // SETUP ISAAC TEARS SPRITES \\
-	ld hl, OAM_ISAAC_TEARS
-	ld b, OAM_ISAAC_TEARS_SIZE
-	ld a,10 ;initial posX
-@loopSetupIsaacTears
-	ld (hl), 50 ;posY
-	inc l
+; ////// Copy DMA code into HRAM \\\\\\\
+	ld hl, HRAM_DMA_PROCEDURE ;Place to copy the HRAM DMA start code
+	ld bc, start_dma_in_ROM ;Procedure in ROM to copy
+	ld e, DMA_PROCEDURE_SIZE ;Size of the procedure
+@loopCopyDmaProcedure:
+	ld a, (bc)
 	ld (hl), a
-	inc l
-	ld (hl), TEAR_SPRITESHEET
-	inc l
-	ld (hl), $00 ;Flags
-	inc l
-	add 10 ;add to X pos
-	dec b
-	jp nz,@loopSetupIsaacTears 
-; \\ SETUP ISAAC TEARS SPRITES //
-
-.INCLUDE "init/display_test.init.s"
-
-; \\\\\\\ LOAD SPRITES ///////
-
-; /////// SETUP TEARS HBLANK OPCODE \\\\\\\
-ld bc, OAM_ISAAC_TEARS ;OAM position of isaac bullets
-
-ld hl, DISPLAY_RAM_OPCODE_START ; Start OAM critical section
-ld (hl), $00 ; NOP
-/*ld (hl), $21  ; ld hl, NNnn
-inc l
-ld (hl), c  ; nn //Tear sprite Y pos address in OAM low byte
-inc l
-ld (hl), b  ; NN //Tear sprite Y pos address in OAM high byte
-inc l
-ld (hl), $36  ; ld (hl), yy 
-inc l
-ld (hl), $35   ; yy //Tear new Y position
-inc l
-ld (hl), $2E  ; ld l, nn+1 (trick to inc l without changing flags)
-inc l
-inc c
-ld (hl), c  ; nn+1 //Tear sprite X pos address in OAM low byte
-inc l
-ld (hl), $36  ; ld(hl), xx
-inc l
-ld (hl), $20   ; xx //Tear new X position*/
-inc l ; Out of OAM critical section
-ld (hl), $E1 ; pop hl
-inc l ; We can do inc l instead of inc hl because we only have $00FF bytes avaliable
-ld (hl), $D9 ; reti
-
-; \\\\\\\ SETUP TEARS HBLANK OPCODE ///////
-
+	inc bc
+	inc hl
+	dec e 
+	jr nz, @loopCopyDmaProcedure
+; \\\\\\ Copy DMA code into HRAM ///////
 
 ; /////// INIT COLOR PALETTES \\\\\\\
 ld a,%11100100	; 11=Black 10=Dark Grey 01=Grey 00=White/trspt
@@ -277,7 +100,3 @@ ldh ($48),a	; sprite 0 palette
 ldh ($49),a	; sprite 1 palette
 ; \\\\\\\ INIT COLOR PALETTES ///////
 
-; /////// ENABLE SCREEN \\\\\\\
-ld a,%10000011 	; screen on, bg on, tiles at $8000
-ldh ($40),a
-; \\\\\\\ ENABLE SCREEN ///////
