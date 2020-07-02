@@ -236,16 +236,23 @@ timer_interrupt:
     pop de
     pop af
     ld hl, sacrificial_music
+    ;jr @gothrough
     ld a, (music_state_.part)
+    ld e, a
+    inc a
+    ld (music_state_.part), a
+    ld a, e
+    sla a
     sla a
     sla a
     sla a
     ld e,a
     ld d,0
     add hl, de
-    ldi a, (hl)
+    ld a, (hl)
     xor $FF
     jp nz, @gothrough ; check if end of music and loop
+    inc hl
     ldd a, (hl)
     xor $FF
     jp nz, @gothrough
