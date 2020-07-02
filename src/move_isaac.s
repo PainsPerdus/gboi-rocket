@@ -113,12 +113,12 @@ move_and_collide:
 @fire_bullet:
 	ld hl,global_.isaac.cooldown
 	dec (hl)
-	jr nz,@@no_fire
+	jp nz,@@no_fire
 	ld a,ISAAC_COOLDOWN
 	ld (global_.isaac.cooldown),a
 	ld a,(global_.isaac.tears)
 	bit ISAAC_A_FLAG, a
-	jr z,@@no_fire
+	jp z,@@no_fire
 	ld hl,global_.isaac_tears
 	ld a,(global_.issac_tear_pointer)
 	ld d,0
@@ -137,6 +137,12 @@ move_and_collide:
 	add ISAAC_X_CENTER-2
 	ldi (hl),a
 	inc hl
+
+	ld a,(global_.isaac.tears)
+	xor %00100000
+	ld (global_.isaac.tears), a
+	ld b,a ;eye alternance
+
 	ld a,(global_.isaac.direction)
 	and DIRECTION_MASK
 	cp ORIENTATION_LF
@@ -148,11 +154,29 @@ move_and_collide:
 	dec (hl)
 	dec (hl)
 	dec (hl) ; durty fix to solve a display gitch
+	dec hl
+	bit 5,b
+	jr z, @@@noeye
+	dec (hl)
+	dec (hl)
+	dec (hl)
+	dec (hl) ;alternate between two eyes
+@@@noeye:
 	jr @@no_fire
 @@not_left:
 	cp ORIENTATION_RG
 	jr nz,@@not_right
 	ld (hl),DIRECTION_RG
+	dec hl
+	dec hl
+	dec hl
+	bit 5,b
+	jr z, @@@noeye
+	dec (hl)
+	dec (hl)
+	dec (hl)
+	dec (hl) ;alternate between two eyes
+@@@noeye:
 	jr @@no_fire
 @@not_right:
 	cp ORIENTATION_UP
@@ -162,12 +186,32 @@ move_and_collide:
 	dec hl
 	inc (hl)
 	inc (hl) ; durty fix for é
+	dec hl
+	dec (hl)
+	inc hl
+	bit 5,b
+	jr z, @@@noeye
+	dec (hl)
+	dec (hl)
+	dec (hl)
+	dec (hl)
+	dec (hl)
+	dec (hl) ;alternate between two eyes
+@@@noeye:
 	jr @@no_fire
 @@not_up:
 	cp ORIENTATION_DW
 	jr nz,@@not_down
 	ld (hl),DIRECTION_DW
-	jr @@no_fire
+	dec hl
+	dec hl
+	bit 5,b
+	jr z, @@@noeye
+	dec (hl)
+	dec (hl)
+	dec (hl)
+	dec (hl)
+@@@noeye:
 	jr @@no_fire
 @@not_down:
 	cp ORIENTATION_LF
