@@ -48,6 +48,9 @@ move_and_collide:
 	add ISAAC_HITBOX_X
 	ld (collision_.p_RD.1.x),a
 ;   \\\\ collision Y  init ////
+	ld a,(global_.isaac.tears) ; black magic
+	bit 0,a
+	jr nz, @@noCollision
 	call preloaded_collision_obstacles
 	; //// CANCEL MOUVEMENT \\\\
 	and a
@@ -88,6 +91,9 @@ move_and_collide:
 	add ISAAC_HITBOX_X
 	ld (collision_.p_RD.1.x),a
 ;   \\\\ collision X  init ////
+	ld a,(global_.isaac.tears) ; black magic
+	bit 0,a
+	jr nz, @@noCollision
 	call preloaded_collision_obstacles
 	; //// CANCEL MOUVEMENT \\\\
 	and a

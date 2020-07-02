@@ -226,7 +226,7 @@ displayRoom:
 	ld b, (hl) ;y position in pixels (must be a multiple of 8)
 	inc hl
 	ld a, (hl) ;x position in pixels (must be a multiple of 8)
-	ld l,ROCKS_SPRITESHEET ;start tile id
+	ld l,TRAPDOOR_SPRITESHEET ;start tile id
 	call displayBackgroundTile
 @not_stairs:
 

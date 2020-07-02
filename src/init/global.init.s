@@ -79,14 +79,15 @@ global_init:
 	ldi (hl),a; range = 16
 	ld a,0
 	ldi (hl),a; speed = 0
-	ld a,%00010000
+	ld a,(hl)
+	and %00111111
 	ldi (hl),a; tear x=2, tear y=0, a_flag = 0, b_flag = 0
 	xor a
 	ldi (hl),a; recover=0
 	ldi (hl),a; bombs=0
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
-  ld a,3
+  ld a,2
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
   ld a,ISAAC_COOLDOWN
