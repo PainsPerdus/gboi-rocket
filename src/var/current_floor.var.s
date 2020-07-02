@@ -9,4 +9,5 @@
     number_rooms DB
     rooms INSTANCEOF room 10
     current_room DW
+    i_floor DB
 .ENDST
