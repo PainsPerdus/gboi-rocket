@@ -19,7 +19,7 @@ Include specifications for the generation of the binary file.
 ~~~
 ; ///////// Mapping \\\\\\\\\
 .INCLUDE "global.var.s"
-; $C000 to $C0FF is reserved for dynamic opcode 
+; $C000 to $C0FF is reserved for shadow OAM 
 .ENUM $C100
 	global_ INSTANCEOF global_var
 .ENDE

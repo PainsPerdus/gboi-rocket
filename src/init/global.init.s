@@ -1,15 +1,15 @@
 initHitBoxes:
 
 ; // init hitboxes
-    ld hl, global_.hitboxes_width
-    ld a, $08
-    ldi (hl), a
+  ld hl, global_.hitboxes_width
+  ld a, $08
+  ldi (hl), a
 	ld a, $00
-    ldi (hl), a
-    ld a, $08
-    ldi (hl), a
+  ldi (hl), a
+  ld a, $08
+  ldi (hl), a
 	ld a, $10
-    ldi (hl), a
+  ldi (hl), a
 	ldi (hl), a
 	ld a, $08
 	ldi (hl), a
@@ -17,14 +17,15 @@ initHitBoxes:
 	ldi (hl), a
 	ld a, $10
 	ldi (hl), a
-    ld hl, global_.hitboxes_height
-    ld a, $08
-    ldi (hl), a
-    ldi (hl), a
+
+  ld hl, global_.hitboxes_height
+  ld a, $08
+  ldi (hl), a
+  ldi (hl), a
 	ld a, $00
-    ldi (hl), a
+  ldi (hl), a
 	ld a, $10
-    ldi (hl), a
+  ldi (hl), a
 	ld a, $08
 	ldi (hl), a
 	ld a, $10
@@ -89,6 +90,8 @@ global_init:
   ld a,2
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
+  ld a,ISAAC_COOLDOWN
+  ldi (hl),a  ; shootCounter
 
 	ld b,n_blockings
 	ld hl, global_.blockings
@@ -108,12 +111,14 @@ global_init:
 	ld hl, global_.isaac_tears
 	ld b,n_isaac_tears
 @isaac_tears_loop:
-	ld a,30
-	ldi (hl),a ; x = 30
-	ldi (hl),a ; y = 30
-	xor a
-	ldi (hl),a ;id
+	xor a ;make really sure a is 0
+	ldi (hl),a ; x = 0
+	ldi (hl),a ; y = 0
+	inc a
+	ldi (hl),a ;lagframe
+	ld a, 32
 	ldi (hl),a ;speed
+	xor a
 	ldi (hl),a ;ttl
 	dec b
 	jp nz,@isaac_tears_loop
@@ -245,3 +250,4 @@ global_init:
 	ld a, e
 	ld (load_map_.map_address + 1), a
 	call load_map
+

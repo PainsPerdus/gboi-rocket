@@ -20,8 +20,9 @@
 .INCLUDE "var/load_map.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
+.INCLUDE "var/tears.var.s"
 
-; $C000 to $C0FF is reserved for dynamic opcode
+; $C000 to $C0FF is reserved for shadow OAM
 
 .ENUM $C100
 	global_ INSTANCEOF global_var
@@ -32,9 +33,10 @@
 	check_inputs_ INSTANCEOF check_inputs_var
 	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
-	VBlank_lock DB
 	load_map_ INSTANCEOF load_map_var
+	tears_ INSTANCEOF tears_var
 	GameState DB
+	VBlank_lock DB
 .ENDE
 
 ; \\\\\\\\\ Mapping /////////
@@ -61,7 +63,6 @@
 ; \\\\\\\\\ DEFINE INTERRUPTIONS /////////
 
 
-
 ; ///////// INIT \\\\\\\\\
 
 ; /////// DISABLE INTERRUPTIONS \\\\\\\
@@ -82,7 +83,7 @@ start:
 ; \\\\ Game State ////
 
 ; //// Stack pointer \\\\
-	ld sp,$E000     ; set the StackPointer
+	ld sp,$E000     ; set the StackPointer in WRAM
 ; \\\\ Stack pointer ////
 
 ; /////// TURN THE SOUND OFF \\\\\\\
@@ -162,6 +163,7 @@ VBlank:
 	ld a,(VBlank_lock)
 	and a
 	jr nz,noSkipFrame
+	;ld b,b ;Breakpoint to test if frame was skipped
 	jp endVBlank
 noSkipFrame:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
@@ -255,6 +257,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 ; ///////// INCLUDE .LIB \\\\\\\\\
 .INCLUDE "lib/display_background_tile.lib.s"
 .INCLUDE "lib/display_doors.lib.s"
+.INCLUDE "lib/display_tears.lib.s"
 .INCLUDE "lib/sprites.lib.s"
 .INCLUDE "lib/CollisionSolverIsaac.lib.s"
 .INCLUDE "lib/collision.lib.s"
@@ -264,6 +267,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/knockback.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/maps.lib.s"
+.INCLUDE "lib/display_dma.lib.s"
 ; \\\\\\\\\ INCLUDE .LIB /////////
 
 .INCLUDE "rooms/basic.room"

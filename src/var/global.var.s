@@ -36,7 +36,6 @@
 .DEFINE OBJECT_ID_RIGHT_SHIFT 2
 .DEFINE BLOCKING_SIZE_MASK %00000111
 .DEFINE ENEMY_SIZE_MASK %00000111
-.DEFINE OBJECT_SIZE_MASK %00000011
 .DEFINE SHOOT_FLAG 7
 .DEFINE DMG_MASK %01111111
 
@@ -44,6 +43,7 @@
 .DEFINE ISAAC_FEET_HITBOX 4
 .DEFINE RECOVERY_TIME 60
 .DEFINE ISAAC_MAX_HP 16
+.DEFINE ISAAC_COOLDOWN  $10
 
 .DEFINE ISAAC_X_CENTER 8
 .DEFINE ISAAC_Y_CENTER 8
@@ -82,6 +82,9 @@
 
 .DEFINE DIST_KNOCK_BACK 5
 
+.DEFINE TEARS_SPEED_FREQ 2
+.DEFINE TEARS_HITBOX 0
+
 .STRUCT isaac
 	x DB
 	y DB
@@ -96,6 +99,7 @@
 	direction DB
 	lagCounter DB
 	speedFreq DB
+	cooldown  DB
 .ENDST
 
 .STRUCT blocking
@@ -139,17 +143,17 @@
 .ENDST
 
 .STRUCT tear
-	x DB
 	y DB
+	x DB
 	id DB
 	speed DB
 	ttl DB
 .ENDST
 
 .STRUCT global_var
-isaac_tears INSTANCEOF tear n_isaac_tears
-	blockings INSTANCEOF blocking n_blockings
+	isaac_tears INSTANCEOF tear n_isaac_tears
 	enemies INSTANCEOF enemy n_enemies
+	blockings INSTANCEOF blocking n_blockings
 	ennemy_tears INSTANCEOF tear n_ennemy_tears
 	objects INSTANCEOF object n_objects
 	hitboxes_width DSB 8
