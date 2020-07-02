@@ -12,7 +12,7 @@ fly_hit_sfx:
     ldh ($1C),a//output level
     ld a,%11011111
     ldh ($1D),a //load 8 lower weight bits of frequency
-    ld a,%11000111
+    ld a,%11000101
     ldh ($1E),a//3 higher weight bits
 
     ld a,%10000001
