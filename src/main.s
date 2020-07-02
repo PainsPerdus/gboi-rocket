@@ -17,6 +17,7 @@
 .INCLUDE "var/vectorisation.var.s"
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
+.INCLUDE "var/music.var.s"
 .INCLUDE "var/load_map.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
@@ -32,6 +33,7 @@
 	vectorisation_ INSTANCEOF vectorisation_var
 	rng_state INSTANCEOF rng_state_var
 	check_inputs_ INSTANCEOF check_inputs_var
+	music_state_ INSTANCEOF music_state_var
 	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
 	load_map_ INSTANCEOF load_map_var
@@ -60,6 +62,10 @@
 .ORG $0048 				; Write at the address $0048 (hblank interruption)
 	jp HBlank
 
+.ORG $0050
+	call timer_interrupt
+	reti
+
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
 	jp start
@@ -86,10 +92,9 @@ start:
 	ld (OldGameState), a
 ; \\\\ Game State ////
 
-; /////// TURN THE SOUND OFF \\\\\\\
-	xor a						; a=0
-	ldh ($26),a     ; ($FF26) = 0, turn the sound off
-; \\\\\\\ TURN THE SOUND OFF ///////
+; //// Stack pointer \\\\
+	ld sp,$E000     ; set the StackPointer in WRAM
+; \\\\ Stack pointer ////
 
 ; //// SET INITIAL GAME STATE \\\\
     ;//We set the initial game state, this will first wait for vblank and turn off the screen.
@@ -97,6 +102,7 @@ start:
 	ld a, GAMESTATE_TITLESCREEN
 	jp setGameState ; Set initial gamestate
 ; \\\\ SET INITIAL GAME STATE ////
+
 
 ; \\\\\\\\\ INIT /////////
 
@@ -217,6 +223,11 @@ init:
 	cp GAMESTATE_CHANGINGROOM
 	jp z, IstateChangingRoom
 IstateTitleScreen:
+; /////// TURN THE SOUND OFF \\\\\\\
+	xor a						; a=0
+	ldh ($26),a     ; ($FF26) = 0, turn the sound off
+; \\\\\\\ TURN THE SOUND OFF ///////
+
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 	ld a,%00001000
@@ -233,13 +244,14 @@ IstatePlaying:
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 	ld a,%00000000
 	ldh ($41),a		; disable STAT HBlank interrupt
-	ld a,%00000001
+	ld a,%00000101
 	ldh ($FF),a		; enable VBlank interrupt only (nothing in HBlank)
 	.INCLUDE "init/display.init.s"
 	.INCLUDE "init/global.init.s"
 	.INCLUDE "init/rng.init.s"
 	.INCLUDE "init/check_inputs.init.s"
 	.INCLUDE "init/ai.init.s"
+	.INCLUDE "init/music.init.s"
 	; /////// ENABLE SCREEN \\\\\\\
 	ld a,%10000011 	; screen on, bg on, tiles at $8000
 	ldh ($40),a
@@ -264,12 +276,6 @@ Iend:
 ; ///////// CHANGE STATE \\\\\\\\\\\
 setGameState:
 	di ;we don't want interrupts when we change up game states
-
-	;We reset the stack pointer here because setGameState never returns. 
-; //// Stack pointer \\\\
-	ld sp,$E000     ; set the StackPointer in WRAM
-; \\\\ Stack pointer ////
-
 	ld l, a ; Save new GameState
 	ld a, (GameState)
 	ld (OldGameState), a ; Save old GameState
@@ -303,6 +309,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/vectorisation.lib.s"
 .INCLUDE "lib/rng.lib.s"
 .INCLUDE "lib/ai.lib.s"
+
 .INCLUDE "lib/knockback.lib.s"
 .INCLUDE "lib/load_map.lib.s"
 .INCLUDE "lib/door_functions.lib.s"
@@ -330,3 +337,7 @@ room_index:
 
 .ORG $3F00
 .DB %11101011, %11101111, %11101011, %11101111, %11100111, %11101111, %11100111, %11101111, %11101101, %11101111, %11101110, %11101111, %11101101, %11101111, %11101110, %11101111, %11011101, %11101111, %11011110, %11101111
+
+.BANK 1 SLOT 1
+.ORGA $4000
+.INCLUDE "lib/music.lib.s"
