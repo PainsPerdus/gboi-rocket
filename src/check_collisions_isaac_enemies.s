@@ -74,11 +74,13 @@ enemies_collide:
 	ld a, (global_.isaac.hp)
 	sub b
 	ld (global_.isaac.hp), a
-	bit 7, a
-	jr z, @noDeath
+	and a
+	jr nz, @noDeath
 	xor a
 	ld (global_.isaac.x), a
 	ld (global_.isaac.y), a 	; //// TODO implement death
+	ld a, GAMESTATE_TITLESCREEN
+	jp setGameState
 @noDeath:
 	jr @damageDone
 
