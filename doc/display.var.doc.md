@@ -13,13 +13,16 @@
 
 | Label  | Size/Struct | Description |
 | ------ | ----------- | ----------- |
-| address | 38 bytes   | Contains the address of the dynamically updated op code stored in RAM and called during HBlank interrupt. The address is actually 2 bytes but we need to allocate the bytes for the opcode. [See more](display.init.doc.md). |
+| OAM_CACHE_START | 2 bytes | Cache of the OAM for DMA |
+| HRAM_DMA_PROCEDURE | 2 bytes | Place in HRAM where DMA procedure will be copied |
+| HRAM_DMA_PROCEDURE_SIZE | 1 byte | Size of the DAM procedure opcodes in bytes |
 
 # Display vars
 
 | Label          | Size/Struct | Description                  |
 | -------------- | ----------- | ---------------------------- |
-| display_.isaac | isaac       | Isaac's animation properties |
+| OAM_pointer    | 1 byte      | Current position in shadow OAM for filling sprites |
+| display_.isaac | isaac       | Isaac's animation properties | 
 
 # Display Constants
 | Label          | Size        | Description |
@@ -30,3 +33,5 @@
 | OAM_ISAAC_BULLETS_SIZE | 1 byte | Number of sprites for the ennemies bullets in the OAM |
 | OAM_ENNEMY_BULLETS | 2 bytes | Address of Isaac's bullets pool in the OAM |
 | OAM_ENNEMY_BULLETS_SIZE | 1 byte | Number of sprites for the ennemis bullets in the OAM |
+
+

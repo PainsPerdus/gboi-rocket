@@ -2,6 +2,7 @@ SpriteTiles:
 .INCLUDE "sprites/isaac_spritesheet.sprite"
 .INCLUDE "sprites/tear.sprite"
 .INCLUDE "sprites/fly_spritesheet.sprite"
+.INCLUDE "sprites/wasp_spritesheet.sprite"
 BackgroundTiles:
 .INCLUDE "sprites/background.sprite"
 .INCLUDE "sprites/walls_spritesheet.sprite"

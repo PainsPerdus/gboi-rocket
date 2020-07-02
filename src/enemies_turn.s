@@ -6,6 +6,9 @@ enemys_turn:
 ; //// IA \\\\
 	ld h,d
 	ld l,e
+	ld a,(hl)	
+	bit ALIVE_FLAG,a ;Jump if ennemy is dead
+	jp z, @@no_move
 	call AI
 ; \\\\ IA ////
 
@@ -33,7 +36,6 @@ enemys_turn:
 	ld a,b
 	and MASK_4_MSB
 	jr z,@@no_diag_move
-	//ld b,b
 
 	ld hl,$0007
 	add hl,de

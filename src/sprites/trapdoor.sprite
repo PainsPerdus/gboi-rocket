@@ -1,0 +1,4 @@
+.DB $00,$FF,$5F,$A0,$1F,$EF,$BF,$60,$BF,$6F,$B8,$67,$BF,$6F,$B0,$7F
+.DB $00,$FF,$FA,$05,$F8,$F7,$FD,$06,$FD,$F6,$1D,$E6,$FD,$F6,$0D,$FE
+.DB $B7,$7F,$BF,$7F,$BF,$7F,$BF,$7F,$BF,$7F,$1F,$FF,$40,$BF,$1F,$E0
+.DB $ED,$FE,$FD,$FE,$FD,$FE,$FD,$FE,$FD,$FE,$F8,$FF,$02,$FD,$F8,$07
