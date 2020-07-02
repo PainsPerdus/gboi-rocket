@@ -41,6 +41,9 @@ load_map:
     ld a, l
     ld (load_map_.next_to_load + 1), a
     ; \\ next enemy to load //
+
+    xor a
+    ld (load_map_.mobs), a
     ; \\\ init cursor positions ///
 
 .INCLUDE "lib/load_complete_with_void.lib.s"
@@ -110,7 +113,14 @@ load_map:
     ; / case enemy \
     ld a, d
     cp $0F
-    jr nz, @@not_enemy
+    jp nz, @@not_enemy
+    ld a, (current_floor_.current_room)
+    ld h, a
+    ld a, (current_floor_.current_room + 1)
+    ld l, a
+    ld a, (hl)
+    bit 3, a
+    jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
 @@not_enemy:
@@ -168,7 +178,14 @@ load_map:
     ; / case enemy \
     ld a, d
     cp $0F
-    jr nz, @@not_enemy
+    jp nz, @@not_enemy
+    ld a, (current_floor_.current_room)
+    ld h, a
+    ld a, (current_floor_.current_room + 1)
+    ld l, a
+    ld a, (hl)
+    bit 3, a
+    jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
 @@not_enemy:
