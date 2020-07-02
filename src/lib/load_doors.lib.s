@@ -11,8 +11,16 @@
     jr z, @noTopDoor
     ld a, VDOOR_INFO
     ldi (hl), a
+
+    bit 3, b
+    jr nz, @@closeDoors
     ld a, $00+$13
+    jr @@openDoors
+@@closeDoors:
+    ld a, $00
+@@openDoors:
     ldi (hl), a
+
     ld a, $54
     ldi (hl), a
     ld de, top_door_fun
@@ -27,8 +35,16 @@
     jr z, @noBottomDoor
     ld a, VDOOR_INFO
     ldi (hl), a
+
+    bit 3, b
+    jr nz, @@closeDoors
     ld a, $A0-$13
+    jr @@openDoors
+@@closeDoors:
+    ld a, $A0
+@@openDoors:
     ldi (hl), a
+
     ld a, $54
     ldi (hl), a
     ld de, bot_door_fun
@@ -45,8 +61,16 @@
     ldi (hl), a
     ld a, $54
     ldi (hl), a
+
+    bit 3, b
+    jr nz, @@closeDoors
     ld a, $00+$0B
+    jr @@openDoors
+@@closeDoors:
+    ld a, $00
+@@openDoors:
     ldi (hl), a
+
     ld de, left_door_fun
     ld a, d
     ldi (hl), a
@@ -61,8 +85,16 @@
     ldi (hl), a
     ld a, $54
     ldi (hl), a
+
+    bit 3, b
+    jr nz, @@closeDoors
     ld a, $A0-$0B
+    jr @@openDoors
+@@closeDoors:
+    ld a, $A0
+@@openDoors:
     ldi (hl), a
+    
     ld de, right_door_fun
     ld a, d
     ldi (hl), a
