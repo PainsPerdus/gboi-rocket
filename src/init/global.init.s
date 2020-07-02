@@ -87,7 +87,7 @@ global_init:
 	ldi (hl),a; bombs=0
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
-  ld a,3
+  ld a,2
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
   ld a,ISAAC_COOLDOWN

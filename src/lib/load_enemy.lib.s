@@ -84,11 +84,6 @@
     ld a, l
     ld (load_map_.next_enemy + 1), a
 
-	; If there is an ennemy, close doors
-    ld a, (load_map_.doors)
-    or %00001000
-    ld (load_map_.doors), a
-
     ld hl, load_map_.mobs
     inc (hl)
 ; \\\ add an enemy ///

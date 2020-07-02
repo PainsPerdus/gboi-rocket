@@ -2,13 +2,14 @@
 load_map:
     push bc
     push de
-
-	; by default, open doors
-    ld a, (load_map_.doors)
-    and %11110111
-    ld (load_map_.doors), a
 	
     ; /// init cursor positions \\\
+
+    ld a, (load_map_.map_address)
+    ld (load_map_.current_address), a
+    ld a, (load_map_.map_address + 1)
+    ld (load_map_.current_address + 1), a
+
     ; // element cursors \\
     ld de, global_.blockings
     ld a, d
@@ -30,9 +31,9 @@ load_map:
     ; \\ element cursors //
 
     ; // next enemy to load \\
-    ld a, (load_map_.map_address)
+    ld a, (load_map_.current_address)
     ld h , a
-    ld a, (load_map_.map_address + 1)
+    ld a, (load_map_.current_address + 1)
     ld l, a
     ld de, $1F
     add hl, de
@@ -47,20 +48,19 @@ load_map:
     ; \\\ init cursor positions ///
 
 .INCLUDE "lib/load_complete_with_void.lib.s"
-.INCLUDE "lib/load_doors.lib.s"
 
     ; /// start y loop \\\
-    ld a, (load_map_.map_address)
+    ld a, (load_map_.current_address)
     ld h, a
-    ld a, (load_map_.map_address + 1)
+    ld a, (load_map_.current_address + 1)
     ld l, a
     inc hl
     inc hl
     inc hl
     ld a, h
-    ld (load_map_.map_address), a
+    ld (load_map_.current_address), a
     ld a, l
-    ld (load_map_.map_address + 1), a
+    ld (load_map_.current_address + 1), a
     ld a, $20
     ld b, a
 @y_loop:
@@ -114,11 +114,7 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (current_floor_.current_room)
-    ld h, a
-    ld a, (current_floor_.current_room + 1)
-    ld l, a
-    ld a, (hl)
+    ld a, (load_map_.doors)
     bit 3, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
@@ -179,11 +175,7 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (current_floor_.current_room)
-    ld h, a
-    ld a, (current_floor_.current_room + 1)
-    ld l, a
-    ld a, (hl)
+    ld a, (load_map_.doors)
     bit 3, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
@@ -199,15 +191,15 @@ load_map:
 
 
     ; // end x loop \\
-    ld a, (load_map_.map_address)
+    ld a, (load_map_.current_address)
     ld h, a
-    ld a, (load_map_.map_address + 1)
+    ld a, (load_map_.current_address + 1)
     ld l, a
     inc hl
     ld a, h
-    ld (load_map_.map_address), a
+    ld (load_map_.current_address), a
     ld a, l
-    ld (load_map_.map_address + 1), a
+    ld (load_map_.current_address + 1), a
 
     ld a, c
     add $10
@@ -249,7 +241,25 @@ load_map:
     ldi (hl), a
     ld a, e
     ldi (hl), a
+    ld a, h
+    ld (load_map_.next_object), a
+    ld a, l
+    ld (load_map_.next_object + 1), a
 @noStairs:
+
+    ld a, (load_map_.mobs)
+    and a
+    jr z, @noEnemiesHere
+    ld a, (load_map_.doors)
+    set 3, a
+    jr @enemiesHere
+@noEnemiesHere:
+    ld a, (load_map_.doors)
+    res 3, a
+@enemiesHere:
+    ld (load_map_.doors), a
+
+.INCLUDE "lib/load_doors.lib.s"
 
     pop de
     pop bc

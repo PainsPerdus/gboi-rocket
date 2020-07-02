@@ -14,7 +14,7 @@
 
     bit 3, b
     jr nz, @@closeDoors
-    ld a, $00+$13
+    ld a, $00+$12
     jr @@openDoors
 @@closeDoors:
     ld a, $00
@@ -38,7 +38,7 @@
 
     bit 3, b
     jr nz, @@closeDoors
-    ld a, $A0-$13
+    ld a, $A0-$12
     jr @@openDoors
 @@closeDoors:
     ld a, $A0
@@ -64,7 +64,7 @@
 
     bit 3, b
     jr nz, @@closeDoors
-    ld a, $00+$0B
+    ld a, $00+$0A
     jr @@openDoors
 @@closeDoors:
     ld a, $00
@@ -88,7 +88,7 @@
 
     bit 3, b
     jr nz, @@closeDoors
-    ld a, $A0-$0B
+    ld a, $A0-$0A
     jr @@openDoors
 @@closeDoors:
     ld a, $A0
