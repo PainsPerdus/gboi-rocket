@@ -96,11 +96,6 @@ start:
 	ld sp,$E000     ; set the StackPointer in WRAM
 ; \\\\ Stack pointer ////
 
-; /////// TURN THE SOUND OFF \\\\\\\
-	xor a						; a=0
-	ldh ($26),a     ; ($FF26) = 0, turn the sound off
-; \\\\\\\ TURN THE SOUND OFF ///////
-
 ; //// SET INITIAL GAME STATE \\\\
     ;//We set the initial game state, this will first wait for vblank and turn off the screen.
 	;//It will then reti and enable interrupts.
@@ -228,11 +223,16 @@ init:
 	cp GAMESTATE_CHANGINGROOM
 	jp z, IstateChangingRoom
 IstateTitleScreen:
+; /////// TURN THE SOUND OFF \\\\\\\
+	xor a						; a=0
+	ldh ($26),a     ; ($FF26) = 0, turn the sound off
+; \\\\\\\ TURN THE SOUND OFF ///////
+
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 	ld a,%00001000
 	ldh ($41),a		; enable STAT HBlank interrupt
-	ld a,%00000111
+	ld a,%00000011
 	ldh ($FF),a		; enable VBlank interrupt and STAT interrupt (for HBlank)
 	.INCLUDE "init/title_screen.init.s"
 	jp Iend
