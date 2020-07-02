@@ -138,6 +138,9 @@
 |Si|D|-1|0b10111101110|
 |Ré #|E|3|0b11001011011|
 
+insert silence here @sacrificial_3_lo_melody at the end of second line (line 279)
+idem line 283
+
 ~~~ Python
 import math
 
