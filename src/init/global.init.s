@@ -64,10 +64,10 @@ global_init:
 
 @isaac_init:
 	ld hl, global_.isaac
-	ld a,$30
-	ldi (hl),a; x = 48
-	ld a,$50
-	ldi (hl),a; y = 80
+	ld a,160/2
+	ldi (hl),a; x = 160/2
+	ld a,144/2
+	ldi (hl),a; y = 144/2
 	ld a, ISAAC_MAX_HP
 	ldi (hl),a; hp = ISAAC_MAX_HP
 	ld a,1
@@ -86,7 +86,7 @@ global_init:
 	ldi (hl),a; bombs=0
 	ld a,%00000011
 	ldi (hl),a ; direction : smiling to the camera
-  ld a,2
+  ld a,3
   ldi (hl),a  ; lagCounter
   ldi (hl),a  ; speedFreq
   ld a,ISAAC_COOLDOWN
