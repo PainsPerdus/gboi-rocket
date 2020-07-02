@@ -10,5 +10,8 @@ music_init:
     ld a, %11111100 ; 
     ldh ($06), a ; set TIMA for 4096 hz
 
+    xor a
+    ld (music_state_.part), a
+
     ld hl, sacrificial_music
     call music_start

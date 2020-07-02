@@ -10,4 +10,6 @@
     max2 DW
 	scale2 DW
     timing2 DW
+
+    part DB
 .ENDST

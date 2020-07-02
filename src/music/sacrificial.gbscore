@@ -1,6 +1,21 @@
 sacrificial_music:
 .DW @sacrificial_1_hi_end+1,@sacrificial_1_hi_scale,@sacrificial_1_hi_timings,@sacrificial_1_hi_melody,
-.DW @sacrificial_1_lo_end+1,@sacrificial_1_lo_scale,@sacrificial_1_lo_timings,@sacrificial_1_lo_melody,$FFFF
+.DW @sacrificial_1_lo_end+1,@sacrificial_1_lo_scale,@sacrificial_1_lo_timings,@sacrificial_1_lo_melody,
+
+.DW @sacrificial_2_hi_end+1,@sacrificial_2_hi_scale,@sacrificial_2_hi_timings,@sacrificial_2_hi_melody,
+.DW @sacrificial_2_lo_end+1,@sacrificial_2_lo_scale,@sacrificial_2_lo_timings,@sacrificial_2_lo_melody,
+
+.DW @sacrificial_3_hi_end+1,@sacrificial_3_hi_scale,@sacrificial_3_hi_timings,@sacrificial_3_hi_melody,
+.DW @sacrificial_3_lo_end+1,@sacrificial_3_lo_scale,@sacrificial_3_lo_timings,@sacrificial_3_lo_melody,
+
+.DW @sacrificial_4_hi_end+1,@sacrificial_4_hi_scale,@sacrificial_4_hi_timings,@sacrificial_4_hi_melody,
+.DW @sacrificial_4_lo_end+1,@sacrificial_4_lo_scale,@sacrificial_4_lo_timings,@sacrificial_4_lo_melody,
+
+.DW @sacrificial_5_hi_end+1,@sacrificial_5_hi_scale,@sacrificial_5_hi_timings,@sacrificial_5_hi_melody,
+.DW @sacrificial_5_lo_end+1,@sacrificial_5_lo_scale,@sacrificial_5_lo_timings,@sacrificial_5_lo_melody,
+
+.DW @sacrificial_6_hi_end+1,@sacrificial_6_hi_scale,@sacrificial_6_hi_timings,@sacrificial_6_hi_melody,
+.DW @sacrificial_6_lo_end+1,@sacrificial_6_lo_scale,@sacrificial_6_lo_timings,@sacrificial_6_lo_melody,$FFFF
 
 @sacrificial_1_hi_scale:
 .DB %00000101,%11101110,
