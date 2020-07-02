@@ -4,3 +4,6 @@ IntroMap1:
 IntroMap2:
 .INCLUDE "map/introMap2.map"
 IntroMapEnd:
+GameOverMap:
+.INCLUDE "map/gameOver.map"
+GameOverMapEnd:
