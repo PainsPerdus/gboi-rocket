@@ -46,7 +46,6 @@ move_and_collide:
 	ld (collision_.hitbox1), a
 ;   \\\\ collision Y  init ////
 	call collision_obstacles
-	xor a ;TODO DISABLE COLLISIONS
 	; //// CANCEL MOUVEMENT \\\\
 	and a
 	jr z, @@noCollision
@@ -81,7 +80,6 @@ move_and_collide:
 	ld (collision_.p.1.x), a
 ;   \\\\ collision X  init ////
 	call collision_obstacles
-	xor a ; // TODO DISABLE COLLISIONS
 	; //// CANCEL MOUVEMENT \\\\
 	and a
 	jr z, @@noCollision
