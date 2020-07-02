@@ -328,10 +328,14 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "rooms/basic6.room"
 .INCLUDE "rooms/basic7.room"
 .INCLUDE "rooms/basic8.room"
+.INCLUDE "rooms/death.room"
+
 
 .INCLUDE "rooms/basic.room"
 first_floor:
 .INCLUDE "maps/map1.level1"
+second_floor:
+.INCLUDE "maps/map2.level1"
 room_index:
 .INCLUDE "rooms/correspondingIDAdress.room"
 
