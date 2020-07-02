@@ -35,11 +35,11 @@ Thanks to the wonderful work of Pascal and Virgile, we have working annimations 
 
 Isaac walking :
 
-![walking](../../assets/images/graphics1/gboi_walking.gif)
+![walking](../../assets/images/gboi_walking.gif)
 
 Flies :
 
-![flies](../../assets/images/graphics1/gboi_flies.gif)
+![flies](../../assets/images/gboi_flies.gif)
 
 ## Music
 Melissa did the wonderful and tiresome work of transcribing the score made by Noel, our piano teacher, of the "Sacrificial" music, to our own custom format. I designed the sound driver and programmed most of it though the core code is still Melissa's.
@@ -81,31 +81,31 @@ I also implemented the RNG for this feature, though it ended up being used mostl
 ### Rooms
 But what are levels if you cannot switch between rooms ? Thanks to Thomas's work for room loading and Melissa for writing the room files.
 
-![rooms](../../assets/images/graphics1/gboi_rooms2.gif)
+![rooms](../../assets/images/gboi_rooms2.gif)
 
 ## Ennemies
 Now, the game would be quite boring without something to do, some challenge to accomplish. Well, the ennemies (only flies for now) are here to help you out on that one. Thanks for Jean-Marie for his work on collisions and ennemy movement !
 
 Flies are actively trying to hug you, and as you don't like hugs, it hurts you.
 
-![hurt](../../assets/images/graphics1/gboi_hurt.gif)
+![hurt](../../assets/images/gboi_hurt.gif)
 
 ## Title screen
 Thanks to Virgile for his state machine and Pascal for his work on graphics, we have a title screen !
 
 See for yourself :
 
-![start](../../assets/images/graphics1/gboi_start.gif)
+![start](../../assets/images/gboi_start.gif)
 
 ### Game over screen
 Not happy with just a title screen, they implemented a "game over" screen ! Take a look :
 
-![death](../../assets/images/graphics1/gboi_death.gif)
+![death](../../assets/images/gboi_death.gif)
 
 ## Tears
 Last but not least : tears. What fun would be the game if the only thing you could do to prevent the mean flies from hugging you was to just stand there ? You can cry and shoot your tears to kill them !
 
-![tears](../../assets/images/graphics1/gboi_tears.gif)
+![tears](../../assets/images/gboi_tears.gif)
 
 ## And now ?
 For now, we rest. Those last few weeks have been really tiresome and we have other things to do and other things to worry about. But be assured this isn't the last time you'll hear about us. We do want to continue this game, at a slower pace, as it was an incredible experience, and we want to keep on messing with the gameboy.
