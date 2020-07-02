@@ -3,6 +3,9 @@ title_screen:
 ; ////// Init Variables \\\\\\
 	xor a
 	ld (title_screen_.animation_counter), a ;Reset animation counter
+	ld (title_screen_.pointer), a
+	ld (title_screen_.timer), a
+	ld (global_.isaac.tears), a
 
 ; \\\\\\ Init Variables //////
 
