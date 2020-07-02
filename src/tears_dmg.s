@@ -58,8 +58,15 @@ isaac_tears_dmg:
 	ld (load_map_.mobs), a
 	and a
 	jr nz, @@notDead
-	ld a, (load_map_.doors)
+	ld a, (current_floor_.current_room)
+	ld h, a
+	ld a, (current_floor_.current_room + 1)
+	ld l, a
+	inc hl
+	inc hl
+	ld a, (hl)
 	res 3, a
+	ld (hl), a
 	ld (load_map_.doors), a
 	ld a, GAMESTATE_CHANGINGROOM
 	jp setGameState
