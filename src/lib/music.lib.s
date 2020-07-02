@@ -22,9 +22,9 @@ timer_interrupt:
 
     ;switch off channel 1
     ldh a,($25)
-    and %00100000
+    and %11101110
     ldh ($25),a
-    ld a,%11110000
+    ld a,%10000000
   	ldh (SND_CHAN1_VOL_ENVEL_LOW),a
 
 
@@ -104,7 +104,7 @@ timer_interrupt:
 
     ;switch on channel 1
     ldh a,($25)
-    or %00000001
+    or %00010001
     ldh ($25),a
 
 @silence:
@@ -132,9 +132,9 @@ timer_interrupt:
 
     ;switch off channel 2
     ldh a,($25)
-    and %00000001
+    and %11011101
     ldh ($25),a
-    ld a,%11110000
+    ld a,%10000000
   	ldh (SND_CHAN2_VOL_ENVEL_LOW),a
 
 
@@ -214,7 +214,7 @@ timer_interrupt:
 
     ;switch on channel 2
     ldh a,($25)
-    or %00100000
+    or %00100010
     ldh ($25),a
 
 @silence2:

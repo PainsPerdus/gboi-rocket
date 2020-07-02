@@ -280,6 +280,7 @@ IstatePlaying:
 	.INCLUDE "init/check_inputs.init.s"
 	.INCLUDE "init/ai.init.s"
 	.INCLUDE "init/music.init.s"
+	call start_sfx
 	; /////// ENABLE SCREEN \\\\\\\
 	ld a,%10000011 	; screen on, bg on, tiles at $8000
 	ldh ($40),a
@@ -398,3 +399,4 @@ room_index:
 .INCLUDE "lib/music.lib.s"
 .INCLUDE "lib/maps.lib.s"
 .INCLUDE "lib/sprites.lib.s"
+.INCLUDE "lib/sfx.lib.s"
