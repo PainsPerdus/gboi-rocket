@@ -50,20 +50,21 @@ isaac_tears_dmg:
 	cp 1
 	jp nc, @@notDead
 	ld a, (de)
-	and %01111111
+	res 7, a
 	ld (de), a
 	; unlock room
 	ld a, (load_map_.mobs)
 	dec a
 	ld (load_map_.mobs), a
+	and a
 	jr nz, @@notDead
 	ld a, (load_map_.doors)
-	and %11110111
+	res 3, a
 	ld (load_map_.doors), a
 	ld a, GAMESTATE_CHANGINGROOM
 	jp setGameState
 ; \\\\ DEAL DMG ////
-@@notDead
+@@notDead:
 
 @ending_loop_ennemies:
 	ld hl,_sizeof_enemy
