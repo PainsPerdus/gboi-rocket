@@ -38,6 +38,7 @@ Isaac walking :
 ![walking](../../assets/images/graphics1/gboi_walking.gif)
 
 Flies :
+
 ![flies](../../assets/images/graphics1/gboi_flies.gif)
 
 ## Music
@@ -68,6 +69,8 @@ Now, the game would be quite boring without something to do, some challenge to a
 
 Flies are actively trying to hug you, and as you don't like hugs, it hurts you.
 
+![hurt](../../assets/images/graphics1/gboi_hurt.gif)
+
 ## Title screen
 Thanks to Virgile for his state machine and Pascal for his work on graphics, we have a title screen !
 
@@ -76,9 +79,13 @@ See for yourself :
 ### Game over screen
 Not happy with just a title screen, they implemented a "game over" screen ! Take a look :
 
+
+![death](../../assets/images/graphics1/gboi_death.gif)
+
 ## Tears
 Last but not least : tears. What fun would be the game if the only thing you could do to prevent the mean flies from hugging you was to just stand there ? You can cry and shoot your tears to kill them !
 
+![tears](../../assets/images/graphics1/gboi_tears.gif)
 
 ## And now ?
 For now, we rest. Those last few weeks have been really tiresome and we have other things to do and other things to worry about. But be assured this isn't the last time you'll hear about us. We do want to continue this game, at a slower pace, as it was an incredible experience, and we want to keep on messing with the gameboy.
