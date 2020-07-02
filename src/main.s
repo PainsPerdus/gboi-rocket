@@ -86,10 +86,6 @@ start:
 	ld (OldGameState), a
 ; \\\\ Game State ////
 
-; //// Stack pointer \\\\
-	ld sp,$E000     ; set the StackPointer in WRAM
-; \\\\ Stack pointer ////
-
 ; /////// TURN THE SOUND OFF \\\\\\\
 	xor a						; a=0
 	ldh ($26),a     ; ($FF26) = 0, turn the sound off
@@ -268,6 +264,12 @@ Iend:
 ; ///////// CHANGE STATE \\\\\\\\\\\
 setGameState:
 	di ;we don't want interrupts when we change up game states
+
+	;We reset the stack pointer here because setGameState never returns. 
+; //// Stack pointer \\\\
+	ld sp,$E000     ; set the StackPointer in WRAM
+; \\\\ Stack pointer ////
+
 	ld l, a ; Save new GameState
 	ld a, (GameState)
 	ld (OldGameState), a ; Save old GameState
