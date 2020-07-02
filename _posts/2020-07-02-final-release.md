@@ -10,7 +10,6 @@ tags:
  - milestone
  - release
 ---
-# Final release ?
 
 Hey everyone,
 
