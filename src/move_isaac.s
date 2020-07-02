@@ -129,7 +129,34 @@ move_and_collide:
 	ldi (hl),a
 	ld a,(global_.isaac.x)
 	add ISAAC_X_CENTER
-	ld (hl),a
+	ldi (hl),a
+	inc hl
+	ld a,(global_.isaac.direction)
+	and DIRECTION_MASK
+	cp ORIENTATION_LF
+	jr nz,@@not_left
+	ld (hl),DIRECTION_LF
+	jr @@no_fire
+@@not_left:
+	cp ORIENTATION_RG
+	jr nz,@@not_right
+	ld (hl),DIRECTION_RG
+	jr @@no_fire
+@@not_right:
+	cp ORIENTATION_UP
+	jr nz,@@not_up
+	ld (hl),DIRECTION_UP
+	jr @@no_fire
+@@not_up:
+	cp ORIENTATION_DW
+	jr nz,@@not_down
+	ld (hl),DIRECTION_DW
+	jr @@no_fire
+@@not_down:
+	cp ORIENTATION_LF
+	jr nz,@@not_left
+
+
 @@no_fire:
 
 ; \\\\\\\ FIRE BULLETS ///////
