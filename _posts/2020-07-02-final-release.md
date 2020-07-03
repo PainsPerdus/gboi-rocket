@@ -27,7 +27,7 @@ Now this deadline has passed and we wanted to share what we achieved. To sum up,
 
 Now, how does it look ? How does it sound ?
 
-Well, let's see ...
+Well, let's see ... (you can download the ![ROM](https://github.com/PainsPerdus/gboi-rocket/releases) )
 
 ## Annimations
 Thanks to the wonderful work of Pascal and Virgile, we have working annimations !
@@ -116,7 +116,7 @@ These are our goals for the future :
 - Make the level generation happen at run-time instead of preloading generated maps in the ROM.
 - ITEMS : isaac needs items to help him fight against his hug-loving foes !
 
-As you can see, we are far from finished ! These features will take time to implement, but we're still stoked about working on this game and we can say with absolute certainty this isn't the last blog post about this project.
+As you can see, we are far from finished ! These features will take time to implement, but we're still stoked about working on this game and we can say with absolute certainty this isn't the last blog post about this project. In the meantime you can try our game out by dowloading the ROM and run it with the emulator of your choice : ![ROM](https://github.com/PainsPerdus/gboi-rocket/releases) .
 
 A huge shout out to our friends at team kirby, check out their Pineapple of Doom there : https://github.com/PainsPerdus/gboi-kirby with their blog here : https://painsperdus.github.io/gboi-kirby/
 
