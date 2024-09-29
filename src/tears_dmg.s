@@ -4,6 +4,9 @@ isaac_tears_dmg:
 
 	ld c,n_isaac_tears
 @loop_tears:
+	push de  ; push tear ptr
+		 ; TODO: pushed even when not needed,
+		 ;       may be optimized
 	ld h,d  ; tear ptr to hl
 	ld l,e
 	ld a,(hl)  ; tear to a
@@ -19,7 +22,6 @@ isaac_tears_dmg:
 	ld (collision_.p.1.x), a
 	ld (collision_.p_RD.1.x), a
 
-	push de  ; push tear ptr
 	ld de,global_.enemies
 	ld b,n_enemies
 @loop_ennemies:
@@ -40,10 +42,11 @@ isaac_tears_dmg:
 
 ; //// DEAL DMG \\\\
 	; kill tear
-    ; TODO: this is needlessly complicated ?
+	; TODO: this is needlessly complicated ?
 	ld h, d  ; ennemy ptr to hl
 	ld l, e
-	pop de  ; pop tear ptr TODO: make sure of that
+	pop de  ; pop tear ptr
+	push de  ; don't remove tear from stack
 	push hl  ; push ennemy ptr
 	ld h,d  ; tear ptr to hl
 	ld l,e
@@ -63,8 +66,8 @@ isaac_tears_dmg:
 	ld hl,3  ; TODO: remove hardcoded value
 	add hl, de  ; ennemy hp ptr to hl
 	ld (hl), a  ; new hp to hp ptr
-	cp 1  ; TODO: check if that works
-	jp nc, @@notDead
+	cp 1  ; TODO: this probably only works when dmg=1
+	jp nc, @ending_loop_tears
 	ld a, (de)  ; ennemy info to a
 	res 7, a  ; reset isAlive bit TODO: remove hardcoded
 	ld (de), a  ; write new ennemy info
@@ -74,7 +77,7 @@ isaac_tears_dmg:
 	dec a
 	ld (load_map_.mobs), a
 	and a  ; check of mob number is 0
-	jr nz, @@notDead
+	jr nz, @ending_loop_tears
 	ld a, (current_floor_.current_room)  ; room ptr to hl
 	ld h, a
 	ld a, (current_floor_.current_room + 1)
@@ -86,10 +89,9 @@ isaac_tears_dmg:
 	ld (hl), a  ; write new room info
 	ld (load_map_.doors), a  ; also update in loaded representation
 	ld a, GAMESTATE_CHANGINGROOM  ; update room
+	pop de  ; free used stack slot (contains tear
 	jp setGameState
 ; \\\\ DEAL DMG ////
-@@notDead:
-	jr @ending_loop_tears
 
 @ending_loop_ennemies:
 	ld hl,_sizeof_enemy
@@ -99,8 +101,8 @@ isaac_tears_dmg:
 
 	dec b  ; check if some ennemies are left
 	jr nz,@loop_ennemies
-	pop de  ; leaving loop ennemies, restore tear ptr
 @ending_loop_tears:
+	pop de  ; pop tear ptr
 	ld hl,_sizeof_tear
 	add hl,de  ; next tear ptr to hl
 	ld d,h  ; new tear ptr to de
