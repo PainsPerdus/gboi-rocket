@@ -3,107 +3,109 @@ isaac_tears_dmg:
 	ld de,global_.isaac_tears
 
 	ld c,n_isaac_tears
-@loop_tears:
-	ld h,d
+@tear_loop:
+	ld h,d  ; tear ptr to hl
 	ld l,e
-	ld a,(hl)
-	and a
-	jp z,@ending_loop_tears
+	ld a,(hl)  ; tear to a
+	and a  ; tear is not none ?
+	jp z,@continue_tear_loop  ; if none continue
 
-	ldi a, (hl)
+	push de  ; save tear ptr for later
+
+	ldi a, (hl)  ; load y tear
 	add TEARS_OFFSET_Y
 	ld (collision_.p.1.y), a
 	ld (collision_.p_RD.1.y), a
-	ld a,(hl)
+	ld a,(hl)  ; load x tear
 	add TEARS_OFFSET_X
 	ld (collision_.p.1.x), a
 	ld (collision_.p_RD.1.x), a
 
-	push de
 	ld de,global_.enemies
 	ld b,n_enemies
-@loop_ennemies:
-	ld h,d
+@ennemy_loop:
+	ld h,d  ; ennemy ptr to hl
 	ld l,e
-	ldi a,(hl)
-	bit ALIVE_FLAG, a
-	jr z,@ending_loop_ennemies
-	and ENEMY_SIZE_MASK
+	ldi a,(hl) ; ennemy info to a
+	bit ALIVE_FLAG, a  ; is alive ?
+	jr z,@continue_ennemy_loop  ; if not continue
+	and ENEMY_SIZE_MASK  ; ennemy size to a
 	ld (collision_.hitbox2),a
-	ldi a,(hl)
+	ldi a,(hl)  ; load ennemy y
 	ld (collision_.p.2.y),a
-	ldi a,(hl)
+	ldi a,(hl)  ; load ennemy x
 	ld (collision_.p.2.x),a
 	call preloaded_collision
-	and a
-	jp z,@ending_loop_ennemies
+	and a  ; collison ?
+	jp z,@continue_ennemy_loop  ; if not continue
 
 ; //// DEAL DMG \\\\
-	; kill tear
-	ld h, d
-	ld l, e
-	pop de ; the hitting tear
-	push hl
-	ld h,d
-	ld l,e
+	; destroy tear
+	pop hl  ; pop tear ptr
+	push hl  ; don't remove tear from stack
 	xor a
-	ld (hl),a ; kill the tear
+	ld (hl),a  ; tear becomes none
 
-	; hurt
+	; apply damage
 	call tear_hit_sfx
-	pop hl
-	ld d, h
-	ld e, l
-	ld hl,3
-	add hl,de
-	ld a, (hl)
-	ld hl, global_.isaac.dmg
-	sub (hl)
-	ld hl,3
-	add hl, de
-	ld (hl), a
-	cp 1
-	jp nc, @@notDead
-	ld a, (de)
-	res 7, a
-	ld (de), a
+	ld hl,3  ; TODO: remove hardcoded value
+	add hl,de  ; ennemy hp ptr to hl
+	ld a, (hl)  ; ennemy hp to a
+	dec a  ; we want to check hp <=? 0
+	       ; so we check hp-1 <? 0
+	       ; we might consider storing hp-1 directly
+	ld hl, global_.isaac.dmg  ; load dmg
+	sub (hl)  ; inflict dmg
+	jr c, @kill_ennemy
+	; ennemy was just hurt
+	ld hl,3  ; TODO: remove hardcoded value
+	add hl, de  ; ennemy hp ptr to hl
+	inc a  ; hp-1 to hp
+	ld (hl), a  ; set new hp
+	jr @continue_ennemy_loop
 
-	; unlock room
-	ld a, (load_map_.mobs)
+@kill_ennemy:
+	; kill ennemy
+	ld a, (de)  ; ennemy info to a
+	res 7, a  ; reset isAlive bit TODO: remove hardcoded
+	ld (de), a  ; write new ennemy info
+
+	; unlock room if needed
+	ld a, (load_map_.mobs)  ; reduce mob number
 	dec a
 	ld (load_map_.mobs), a
-	and a
-	jr nz, @@notDead
-	ld a, (current_floor_.current_room)
+	and a  ; check of mob number is 0
+	jr nz, @break_ennemy_loop
+	ld a, (current_floor_.current_room)  ; room ptr to hl
 	ld h, a
 	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	inc hl  ; room info ptr to hl
 	inc hl
-	inc hl
-	ld a, (hl)
-	res 3, a
-	ld (hl), a
-	ld (load_map_.doors), a
-	ld a, GAMESTATE_CHANGINGROOM
+	ld a, (hl)  ; room info to a
+	res 3, a  ; open room ? TODO: remove hardcoded
+	ld (hl), a  ; write new room info
+	ld (load_map_.doors), a  ; also update in loaded representation
+	ld a, GAMESTATE_CHANGINGROOM  ; update room
+	pop de  ; free used stack slot (contains tear
 	jp setGameState
 ; \\\\ DEAL DMG ////
-@@notDead:
-	jr @ending_loop_tears
 
-@ending_loop_ennemies:
+@continue_ennemy_loop:
 	ld hl,_sizeof_enemy
-	add hl,de
-	ld d,h
+	add hl,de  ; next ennemy ptr to hl
+	ld d,h  ; new ennemy ptr to de
 	ld e,l
 
-	dec b
-	jr nz,@loop_ennemies
-	pop de
-@ending_loop_tears:
+	dec b  ; check if some ennemies are left
+	jr nz,@ennemy_loop
+@break_ennemy_loop:
+	pop de  ; pop tear ptr
+@continue_tear_loop:
 	ld hl,_sizeof_tear
-	add hl,de
-	ld d,h
+	add hl,de  ; next tear ptr to hl
+	ld d,h  ; new tear ptr to de
 	ld e,l
 
-	dec c
-	jp nz,@loop_tears
+	dec c  ; check if some tears are left
+	jp nz,@tear_loop

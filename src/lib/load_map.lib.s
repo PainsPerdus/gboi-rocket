@@ -32,7 +32,7 @@ load_map:
 
     ; // next enemy to load \\
     ld a, (load_map_.current_address)
-    ld h , a
+    ld h, a
     ld a, (load_map_.current_address + 1)
     ld l, a
     ld de, $1F
