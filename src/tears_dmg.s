@@ -3,15 +3,14 @@ isaac_tears_dmg:
 	ld de,global_.isaac_tears
 
 	ld c,n_isaac_tears
-@loop_tears:
-	push de  ; push tear ptr
-		 ; TODO: pushed even when not needed,
-		 ;       may be optimized
+@tear_loop:
 	ld h,d  ; tear ptr to hl
 	ld l,e
 	ld a,(hl)  ; tear to a
 	and a  ; tear is not none ?
-	jp z,@ending_loop_tears  ; if none continue
+	jp z,@continue_tear_loop  ; if none continue
+
+	push de  ; save tear ptr for later
 
 	ldi a, (hl)  ; load y tear
 	add TEARS_OFFSET_Y
@@ -24,12 +23,12 @@ isaac_tears_dmg:
 
 	ld de,global_.enemies
 	ld b,n_enemies
-@loop_ennemies:
+@ennemy_loop:
 	ld h,d  ; ennemy ptr to hl
 	ld l,e
 	ldi a,(hl) ; ennemy info to a
 	bit ALIVE_FLAG, a  ; is alive ?
-	jr z,@ending_loop_ennemies  ; if not continue
+	jr z,@continue_ennemy_loop  ; if not continue
 	and ENEMY_SIZE_MASK  ; ennemy size to a
 	ld (collision_.hitbox2),a
 	ldi a,(hl)  ; load ennemy y
@@ -38,26 +37,17 @@ isaac_tears_dmg:
 	ld (collision_.p.2.x),a
 	call preloaded_collision
 	and a  ; collison ?
-	jp z,@ending_loop_ennemies  ; if not continue
+	jp z,@continue_ennemy_loop  ; if not continue
 
 ; //// DEAL DMG \\\\
 	; kill tear
-	; TODO: this is needlessly complicated ?
-	ld h, d  ; ennemy ptr to hl
-	ld l, e
-	pop de  ; pop tear ptr
-	push de  ; don't remove tear from stack
-	push hl  ; push ennemy ptr
-	ld h,d  ; tear ptr to hl
-	ld l,e
+	pop hl  ; pop tear ptr
+	push hl  ; don't remove tear from stack
 	xor a
 	ld (hl),a  ; tear becomes none
 
 	; hurt
 	call tear_hit_sfx
-	pop hl  ; pop ennemy ptr
-	ld d, h  ; ennemy ptr to de
-	ld e, l
 	ld hl,3  ; TODO: remove hardcoded value
 	add hl,de  ; ennemy hp ptr to hl
 	ld a, (hl)  ; ennemy hp to a
@@ -67,7 +57,7 @@ isaac_tears_dmg:
 	add hl, de  ; ennemy hp ptr to hl
 	ld (hl), a  ; new hp to hp ptr
 	cp 1  ; TODO: this probably only works when dmg=1
-	jp nc, @ending_loop_tears
+	jp nc, @break_ennemy_loop
 	ld a, (de)  ; ennemy info to a
 	res 7, a  ; reset isAlive bit TODO: remove hardcoded
 	ld (de), a  ; write new ennemy info
@@ -77,7 +67,7 @@ isaac_tears_dmg:
 	dec a
 	ld (load_map_.mobs), a
 	and a  ; check of mob number is 0
-	jr nz, @ending_loop_tears
+	jr nz, @break_ennemy_loop
 	ld a, (current_floor_.current_room)  ; room ptr to hl
 	ld h, a
 	ld a, (current_floor_.current_room + 1)
@@ -93,20 +83,21 @@ isaac_tears_dmg:
 	jp setGameState
 ; \\\\ DEAL DMG ////
 
-@ending_loop_ennemies:
+@continue_ennemy_loop:
 	ld hl,_sizeof_enemy
 	add hl,de  ; next ennemy ptr to hl
 	ld d,h  ; new ennemy ptr to de
 	ld e,l
 
 	dec b  ; check if some ennemies are left
-	jr nz,@loop_ennemies
-@ending_loop_tears:
+	jr nz,@ennemy_loop
+@break_ennemy_loop:
 	pop de  ; pop tear ptr
+@continue_tear_loop:
 	ld hl,_sizeof_tear
 	add hl,de  ; next tear ptr to hl
 	ld d,h  ; new tear ptr to de
 	ld e,l
 
 	dec c  ; check if some tears are left
-	jp nz,@loop_tears
+	jp nz,@tear_loop
