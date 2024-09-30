@@ -40,29 +40,37 @@ isaac_tears_dmg:
 	jp z,@continue_ennemy_loop  ; if not continue
 
 ; //// DEAL DMG \\\\
-	; kill tear
+	; destroy tear
 	pop hl  ; pop tear ptr
 	push hl  ; don't remove tear from stack
 	xor a
 	ld (hl),a  ; tear becomes none
 
-	; hurt
+	; apply damage
 	call tear_hit_sfx
 	ld hl,3  ; TODO: remove hardcoded value
 	add hl,de  ; ennemy hp ptr to hl
 	ld a, (hl)  ; ennemy hp to a
+	dec a  ; we want to check hp <=? 0
+	       ; so we check hp-1 <? 0
+	       ; we might consider storing hp-1 directly
 	ld hl, global_.isaac.dmg  ; load dmg
 	sub (hl)  ; inflict dmg
+	jr c, @kill_ennemy
+	; ennemy was just hurt
 	ld hl,3  ; TODO: remove hardcoded value
 	add hl, de  ; ennemy hp ptr to hl
-	ld (hl), a  ; new hp to hp ptr
-	cp 1  ; TODO: this probably only works when dmg=1
-	jp nc, @break_ennemy_loop
+	inc a  ; hp-1 to hp
+	ld (hl), a  ; set new hp
+	jr @continue_ennemy_loop
+
+@kill_ennemy:
+	; kill ennemy
 	ld a, (de)  ; ennemy info to a
 	res 7, a  ; reset isAlive bit TODO: remove hardcoded
 	ld (de), a  ; write new ennemy info
 
-	; unlock room
+	; unlock room if needed
 	ld a, (load_map_.mobs)  ; reduce mob number
 	dec a
 	ld (load_map_.mobs), a
