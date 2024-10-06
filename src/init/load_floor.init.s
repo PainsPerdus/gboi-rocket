@@ -166,7 +166,8 @@
 	inc a  ; room id between 1 and 8
 	ldi (hl), a  ; set random id
 	ld a, ROOM_TYPE_NORMAL
-	ldi (hl), a  ; set room type
+	set ROOM_INFO_ALIVE_FLAG, a
+	ldi (hl), a  ; set room info
 	ld a, $ff  ; masks with all bit set
 	ldi (hl), a
 	ldi (hl), a
