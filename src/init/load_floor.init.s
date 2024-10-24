@@ -133,12 +133,12 @@
 @@x_diff_no_carry:
 	add c  ; a is Manhattan distance
 	       ; no risk of overflow, max value is 16+16=32
+	pop bc  ; restore registers
 
 	; process result
-	pop bc  ; restore registers
-	cp 1
+	cp 1  ; is distance 1
 	jr nz, @@continue_check_other_rooms
-	inc e  ; rooms are nighboors
+	inc e  ; rooms are neighboors
 
 @@continue_check_other_rooms:
 	ld a, e  ; stash e because it is still needed
