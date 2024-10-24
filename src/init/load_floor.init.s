@@ -58,7 +58,6 @@
 
 	; create first room
 	call rng  ; clobbers h
-	and $33  ; TODO: remove
 	ld hl, current_floor_.rooms
 	ldi (hl), a  ; random coordinates
 	ld a, 0  ; first map always has id 0
@@ -88,7 +87,6 @@
 	; game loop)
 @@generate_new_room:
 	call rng  ; generate candidate coordinates
-	and $33  ; TODO: remove
 	ld b, a  ; b is candidate coordinates
 
 	; check that not already taken
@@ -96,52 +94,52 @@
 	ld hl, current_floor_.rooms
 	ld a, (current_floor_.number_rooms)
 	ld c, a  ; c is room counter
-	ld e, 0  ; boolean found neighboor
+	ld e, 0  ; number of found neighboors
 @@check_other_rooms_loop:
 	ld a, (hl)  ; load other room coordinates
 	cp b
 	jr z, @@generate_new_room  ; same coordinates: abort
-	ld a, e
-	cp 0  ; do we already know a neighboor
-	      ; if yes, no need to find a new one
+
+	; compute the Manhattan distance between both
+	; rooms, if distance is 1, the two are neighboors
+	; compute abs(diff(x))
+	push bc  ; we will need more free registers
+ 	ld a, (hl)  ; reload other room coordinates
+ 	and ROOM_Y_MASK
+ 	ld d, a  ; d is other room y
+ 	ld a, b
+ 	and ROOM_Y_MASK  ; a is candidate y
+ 	sub d  ; a is difference between coordinates
+	jr nc, @@y_diff_no_carry
+	ld d, a  ; perform a = -a using d
+	xor a
+	sub d
+@@y_diff_no_carry:
+	ld c, a  ; c is partial distance
+	
+	;compute abs(diff(y))
+ 	ld a, (hl)  ; reload other room coordinates
+ 	and ROOM_X_MASK
+ 	swap a
+ 	ld d, a  ; d is other room y
+ 	ld a, b
+ 	and ROOM_X_MASK
+ 	swap a  ; a is candidate x
+ 	sub d  ; a is difference between coordinates
+	jr nc, @@x_diff_no_carry
+	ld d, a  ; perform a = -a using d
+	xor a
+	sub d
+@@x_diff_no_carry:
+	add c  ; a is Manhattan distance
+	       ; no risk of overflow, max value is 16+16=32
+
+	; process result
+	pop bc  ; restore registers
+	cp 1
 	jr nz, @@continue_check_other_rooms
+	inc e  ; rooms are nighboors
 
-	; check if neighboor y-wise
-	ld a, (hl)  ; reload other room coordinates
-	and ROOM_Y_MASK
-	ld d, a  ; d is other room y
-	ld a, b
-	and ROOM_Y_MASK  ; a is candidate y
-	sub d  ; a is difference between coordinates
-	jr z, @@check_other_x
-	cp 1  ; check if diff = 1
-	jr z, @@other_y_is_neighboor
-	add 1  ; check if diff = -1
-	jr nc, @@continue_check_other_rooms
-@@other_y_is_neighboor:
-	ld e, 1  ; candidate and other are neighboors y-wise
-
-	; check if neighboor x-wise
-@@check_other_x:
-	ld a, (hl)  ; reload other room coordinates
-	and ROOM_X_MASK
-	swap a
-	ld d, a  ; d is other room y
-	ld a, b
-	and ROOM_X_MASK
-	swap a  ; a is candidate x
-	sub d  ; a is difference between coordinates
-	jr z, @@continue_check_other_rooms  ; e is already set if needed
-	cp 1  ; check if diff = 1
-	jr z, @@other_x_is_neighboor
-	add 1  ; check if diff = -1
-	jr nc, @@continue_check_other_rooms
-@@other_x_is_neighboor:
-	ld a, e
-	; this time we use a xor, because if other is a neighboor
-	; both y-wise and x-wise, it is not a real neighboor
-	xor 1
-	ld e, a
 @@continue_check_other_rooms:
 	ld a, e  ; stash e because it is still needed
 	ld de, _sizeof_room  ; get next room
@@ -154,6 +152,10 @@
 	ld a, e
 	cp 0
 	jr z, @@generate_new_room
+	; we don't want a too compact floor, so abort if
+	; too many neighboors
+	cp 3
+	jr nc, @@generate_new_room
 
 	;coordinates are ok
 	pop hl  ; pop room being built
@@ -184,6 +186,7 @@
 	jr nz, @@generate_new_room
 	
 	; make last room a boss room
+	pop hl  ; pop room after the last
 	ld de, _sizeof_room - 2  ; get previous room info
 	ld a, l  ; perform l - e
 	sub e
