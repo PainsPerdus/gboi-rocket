@@ -43,7 +43,7 @@ top_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.doors), a
+	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
 	ld h, a
@@ -121,7 +121,7 @@ bot_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.doors), a
+	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
 	ld h, a
@@ -202,7 +202,7 @@ left_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.doors), a
+	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
 	ld h, a
@@ -282,7 +282,7 @@ right_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.doors), a
+	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
 	ld h, a

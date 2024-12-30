@@ -379,7 +379,7 @@
 	inc hl
 	inc hl
 	ld a, (hl)  ; a is current room info
-	ld (load_map_.doors), a
+	ld (load_map_.map_info), a
 
 	dec hl
 	ld e, (hl)  ; e is current room id

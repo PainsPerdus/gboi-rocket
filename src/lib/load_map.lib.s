@@ -36,7 +36,7 @@ load_map:
     ld a, (load_map_.current_address + 1)
     ld l, a
     ld de, $1F
-    add hl, de
+    add hl, de  ; jump to the variable-size part of the room data
     ld a, h
     ld (load_map_.next_to_load), a
     ld a, l
@@ -44,7 +44,7 @@ load_map:
     ; \\ next enemy to load //
 
     xor a
-    ld (load_map_.mobs), a
+    ld (load_map_.mob_number), a
     ; \\\ init cursor positions ///
 
 .INCLUDE "lib/load_complete_with_void.lib.s"
@@ -114,8 +114,8 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (load_map_.doors)
-    bit 3, a
+    ld a, (load_map_.map_info)
+    bit ROOM_INFO_ALIVE_FLAG, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
@@ -175,8 +175,8 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (load_map_.doors)
-    bit 3, a
+    ld a, (load_map_.map_info)
+    bit ROOM_INFO_ALIVE_FLAG, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
@@ -247,17 +247,17 @@ load_map:
     ld (load_map_.next_object + 1), a
 @noStairs:
 
-    ld a, (load_map_.mobs)
+    ld a, (load_map_.mob_number)
     and a
     jr z, @noEnemiesHere
-    ld a, (load_map_.doors)
-    set 3, a
+    ld a, (load_map_.map_info)
+    set ROOM_INFO_ALIVE_FLAG, a
     jr @enemiesHere
 @noEnemiesHere:
-    ld a, (load_map_.doors)
-    res 3, a
+    ld a, (load_map_.map_info)
+    res ROOM_INFO_ALIVE_FLAG, a
 @enemiesHere:
-    ld (load_map_.doors), a
+    ld (load_map_.map_info), a
 
 .INCLUDE "lib/load_doors.lib.s"
 

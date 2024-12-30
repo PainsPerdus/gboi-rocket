@@ -1,5 +1,5 @@
 ; /// add the doors as activable items in a room \\\
-    ld hl, load_map_.doors
+    ld hl, load_map_.map_info
     ld b, (hl)
     ld a, (load_map_.next_object)
     ld h, a
@@ -7,12 +7,12 @@
     ld l, a
 
     ;top door
-    bit 7, b
+    bit ROOM_INFO_DOOR_UP_FLAG, b
     jr z, @noTopDoor
     ld a, VDOOR_INFO
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
     ld a, $00+$12
     jr @@openDoors
@@ -31,12 +31,12 @@
 @noTopDoor:
 
     ;bottom door
-    bit 6, b
+    bit ROOM_INFO_DOOR_DOWN_FLAG, b
     jr z, @noBottomDoor
     ld a, VDOOR_INFO
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
     ld a, $A0-$12
     jr @@openDoors
@@ -55,14 +55,14 @@
 @noBottomDoor:
 
     ;left door
-    bit 5, b
+    bit ROOM_INFO_DOOR_LEFT_FLAG, b
     jr z, @noLeftDoor
     ld a, HDOOR_INFO
     ldi (hl), a
     ld a, $54
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
     ld a, $00+$0A
     jr @@openDoors
@@ -79,14 +79,14 @@
 @noLeftDoor:
 
     ;right door
-    bit 4, b
+    bit ROOM_INFO_DOOR_RIGHT_FLAG, b
     jr z, @noRightDoor
     ld a, HDOOR_INFO
     ldi (hl), a
     ld a, $54
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
     ld a, $A0-$0A
     jr @@openDoors

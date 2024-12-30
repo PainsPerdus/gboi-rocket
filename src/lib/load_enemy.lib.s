@@ -85,6 +85,6 @@
     ld a, l
     ld (load_map_.next_enemy + 1), a
 
-    ld hl, load_map_.mobs
+    ld hl, load_map_.mob_number
     inc (hl)
 ; \\\ add an enemy ///
