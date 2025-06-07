@@ -30,7 +30,7 @@ Now, how does it look ? How does it sound ?
 Well, let's see ... (you can download the [ROM](https://github.com/PainsPerdus/gboi-rocket/releases/tag/v1.0) )
 
 ## Annimations
-Thanks to the wonderful work of Pascal and Virgile, we have working annimations !
+Thanks to the wonderful work of Pascal and Vi, we have working annimations !
 
 Isaac walking :
 
@@ -90,7 +90,7 @@ Flies are actively trying to hug you, and as you don't like hugs, it hurts you.
 ![hurt](../../assets/images/gboi_hurt.gif)
 
 ## Title screen
-Thanks to Virgile for his state machine and Pascal for his work on graphics, we have a title screen !
+Thanks to Vi for his state machine and Pascal for his work on graphics, we have a title screen !
 
 See for yourself :
 

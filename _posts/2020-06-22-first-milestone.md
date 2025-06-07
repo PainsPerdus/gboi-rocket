@@ -1,7 +1,7 @@
 ---
 title: "First Milestone"
 date: 2020-06-22
-author: Virgile
+author: Vi
 header:
   teaser: /assets/images/first-milestone_concept-art.png
 categories: 

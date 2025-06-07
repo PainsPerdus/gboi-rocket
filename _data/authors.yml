@@ -10,14 +10,14 @@ Jean Marie:
         icon: "fab fa-fw fa-github"
         url: "https://github.com/JeanMarieMineau/"
 
-Virgile:
-    name: "Virgile Retault"
+Vi:
+    name: "Vi Retault"
     bio: "'DROP TABLE Users;--"
-    avatar: /assets/images/profile_pics/Virgile.png
+    avatar: /assets/images/profile_pics/Vi.png
     links: 
       - label: "Email"
         icon: "fas fa-fw fa-envelope-square"
-        url: "mailto:virgile.retault@telecom-paris.fr"
+        url: "mailto:g33kex@pm.me"
       - label: "Github"
         icon: "fab fa-fw fa-github"
         url: "https://github.com/g33kex/"
