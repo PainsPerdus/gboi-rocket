@@ -13,7 +13,7 @@ Jean Marie:
 Vi:
     name: "Vi Retault"
     bio: "'DROP TABLE Users;--"
-    avatar: /assets/images/profile_pics/Vi.png
+    avatar: /assets/images/profile_pics/Vi.jpg
     links: 
       - label: "Email"
         icon: "fas fa-fw fa-envelope-square"
