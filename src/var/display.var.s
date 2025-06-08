@@ -35,11 +35,7 @@
 	isaac INSTANCEOF isaac_display
 	fly INSTANCEOF fly_display
 	Heart_shadow DSB ISAAC_MAX_HP/2
-	fps_frame_counter DB
 	fps_skip_counter DB
-	fps_display_value DB
-	fps_update_timer DB
-	fps_digit_buffer DSB 2
 .ENDST
 
 
