@@ -7,6 +7,18 @@ ld (display_.isaac.shoot_timer),a
 ld (display_.isaac.walk_timer),a
 ld (display_.fly.frame),a
 
+; /// FPS Counter Initialization \\\
+ld (display_.fps_frame_counter),a
+ld (display_.fps_skip_counter),a
+ld (display_.fps_update_timer),a
+ld a, 60  ; Initialize display value to 60 FPS
+ld (display_.fps_display_value),a
+ld a, NUMBERS_SPRITESHEET + 6  ; Number tile '6'
+ld (display_.fps_digit_buffer),a
+ld a, NUMBERS_SPRITESHEET + 0  ; Number tile '0'
+ld (display_.fps_digit_buffer+1),a
+; \\\ FPS Counter Initialization ///
+
 ; \\\\\\\ INITIALIZE VARIABLES ///////
 
 

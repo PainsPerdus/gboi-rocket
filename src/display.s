@@ -367,6 +367,10 @@ ld (global_.isaac.hp),a
 @EndHearts:
 ; \\\\\ Hearts /////
 
+; ///// FPS Counter \\\\\
+; FPS calculation moved to VBlank handler for proper timing
+; \\\\\ FPS Counter /////
+
 
 
 ; ////// UPDATE ANIMATION FRAMES AND TIMERS \\\\\\

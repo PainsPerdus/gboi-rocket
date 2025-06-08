@@ -41,6 +41,17 @@ jr nz, @display_hearts
 
 ; \\\\\ Hearts /////
 
+; ///// FPS Counter \\\\\
+ld hl, $9800 + 18                   ; top-right position (right side of screen)
+ld de, display_.fps_digit_buffer    ; FPS digits data
+ld a, (de)                          ; tens digit
+ld (hl), a
+inc hl
+inc de
+ld a, (de)                          ; ones digit  
+ld (hl), a
+; \\\\\ FPS Counter /////
+
 
 ; ////// Start DMA \\\\\\
 

@@ -3,13 +3,13 @@
 #################
 
 # Assembleur options
-ASSEMBLER=wla-gb
-LINKER=wlalink
+ASSEMBLER=./wla-dx/build/binaries/wla-gb
+LINKER=./wla-dx/build/binaries/wlalink
 AFLAGS=
 LFLAGS=-d -v -s
 
 #Emulator
-EMULATOR=sameboy#vbam#visualboyadvance-m
+EMULATOR=mgba-qt
 EFLAGS=#-f 17 
 
 # Folders

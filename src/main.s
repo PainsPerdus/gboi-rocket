@@ -187,8 +187,73 @@ VBlank:
 	and a
 	jr nz,noSkipFrame
 	;ld b,b ;Breakpoint to test if frame was skipped
+	; /// FPS Tracking - Skipped Frame \\\
+	ld hl, display_.fps_frame_counter
+	inc (hl)
+	ld hl, display_.fps_skip_counter  
+	inc (hl)
+	; \\\ FPS Tracking - Skipped Frame ///
 	jp endVBlank
 noSkipFrame:
+	; /// FPS Tracking - Normal Frame \\\
+	ld hl, display_.fps_frame_counter
+	inc (hl)
+	; \\\ FPS Tracking - Normal Frame ///
+	
+; /// FPS Update Timer (runs every VBlank) \\\
+	ld hl, display_.fps_update_timer
+	inc (hl)
+	ld a, (hl)
+	cp 60  ; Update every 60 VBlanks = 1 second
+	jr nz, @skipFPSCalc
+	
+	; Reset update timer
+	xor a
+	ld (hl), a
+	
+	; Calculate FPS = 60 - skip_counter with bounds checking
+	ld hl, display_.fps_skip_counter
+	ld a, (hl)
+	cp 60  ; Check if skip_counter > 60 (error condition)
+	jr c, @validSkipCount
+	; Skip counter is invalid, default to 0 FPS
+	xor a
+	jr @storeFPS
+@validSkipCount:
+	; Calculate FPS = 60 - skip_counter  
+	ld b, a  ; Save skip_counter in b
+	ld a, 60
+	sub b    ; a = 60 - skip_counter
+@storeFPS:
+	ld (display_.fps_display_value), a
+	
+	; Reset counters for next measurement
+	xor a
+	ld (display_.fps_frame_counter), a
+	ld (display_.fps_skip_counter), a
+	
+	; Convert FPS to digit tiles 
+	ld a, (display_.fps_display_value)
+	; Extract tens digit
+	ld b, 0
+@tensLoop:
+	cp 10
+	jr c, @tensDigitDone
+	sub 10
+	inc b
+	jr @tensLoop
+@tensDigitDone:
+	; b = tens, a = ones
+	ld c, a  ; Save ones digit
+	ld a, b
+	add NUMBERS_SPRITESHEET   ; Convert to number tile ID
+	ld (display_.fps_digit_buffer), a
+	ld a, c
+	add NUMBERS_SPRITESHEET   ; Convert to number tile ID
+	ld (display_.fps_digit_buffer+1), a
+	
+@skipFPSCalc:
+; \\\ FPS Update Timer ///
 ; \\\\ CHECK IF THE LOOP FINISHED ////
 
 	ld a, (GameState)
