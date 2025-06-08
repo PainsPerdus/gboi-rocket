@@ -186,16 +186,9 @@ VBlank:
 	and a
 	jr nz,noSkipFrame
 	;ld b,b ;Breakpoint to test if frame was skipped
-	; /// FPS Tracking - Skipped Frame \\\
-	ld a, (display_.fps_skip_counter)
-    inc a
-    ; Reset skip counter at 99
-    cp 100
-    jp c, @noReset
-    xor a
-    @noReset:
-        ld (display_.fps_skip_counter), a
-	; \\\ FPS Tracking - Skipped Frame ///
+	; /// Frame was skipped - no FPS increment \\\
+	; Do nothing, frame wasn't rendered
+	; \\\ Frame was skipped - no FPS increment ///
 	jp endVBlank
 noSkipFrame:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
@@ -229,10 +222,11 @@ VstateGameOver:
 	jp Vend
 Vend:
 
-; /// FPS Tracking - No Skipped Frame \\\
-xor a
-ld (display_.fps_skip_counter), a
-; \\\ FPS Tracking - No Skipped Frame ///
+; /// Frame completed - increment FPS counter \\\
+ld a, (display_.fps_frame_counter)
+inc a
+ld (display_.fps_frame_counter), a
+; \\\ Frame completed - increment FPS counter ///
 
 ; //// REALLOW THE LOOP \\\\
 	xor a
@@ -252,6 +246,31 @@ timer_interrupt:
     push BC
     push DE
     push HL
+    
+    ; /// FPS Timer Tracking (1/4096 Hz) \\\
+    ld hl, display_.fps_timer_counter
+    ld a, (hl)
+    inc a
+    ld (hl), a
+    cp 0
+    jr nz, @noOverflow
+    ; Low byte overflowed, increment high byte
+    inc hl
+    ld a, (hl)
+    inc a
+    ld (hl), a
+    ; Check if high byte reached 16 (4096 = 16 * 256)
+    cp 16
+    jr c, @noOverflow
+    ; 1 second elapsed - set flag and reset timer
+    ld a, 1
+    ld (display_.fps_update_flag), a
+    xor a
+    ld (display_.fps_timer_counter), a
+    ld (display_.fps_timer_counter+1), a
+    @noOverflow:
+    ; \\\ FPS Timer Tracking (1/4096 Hz) ///
+    
     call music
     pop HL
     pop DE

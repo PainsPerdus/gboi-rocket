@@ -1,9 +1,13 @@
 ; ########## FPS Counter Section ##########
-	
-; /// FPS Update Timer (runs every VBlank) \\\
-; Convert FPS skip counter to digit tiles 
-ld a, (display_.fps_skip_counter)
-; Extract tens digit
+
+; /// Check if FPS measurement is ready \\\
+ld a, (display_.fps_update_flag)
+cp 0
+jr z, @skipFPSUpdate
+
+; New measurement ready - update display and reset frame counter
+ld a, (display_.fps_frame_counter)
+; Extract tens digit  
 ld b, 0
 @tensLoop:
 	cp 10
@@ -25,4 +29,12 @@ ld a, NUMBERS_SPRITESHEET ; 0 sprite
 add a, c ; ones digit
 ld (hl), a
 ; \\\\\ Render FPS Counter /////
+
+; Clear flag and reset frame counter for next measurement
+xor a
+ld (display_.fps_update_flag), a
+ld (display_.fps_frame_counter), a
+
+@skipFPSUpdate:
+; \\\ Check if FPS measurement is ready ///
 
