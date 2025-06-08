@@ -186,9 +186,6 @@ VBlank:
 	and a
 	jr nz,noSkipFrame
 	;ld b,b ;Breakpoint to test if frame was skipped
-	; /// Frame was skipped - no FPS increment \\\
-	; Do nothing, frame wasn't rendered
-	; \\\ Frame was skipped - no FPS increment ///
 	jp endVBlank
 noSkipFrame:
 ; \\\\ CHECK IF THE LOOP FINISHED ////
@@ -223,9 +220,8 @@ VstateGameOver:
 Vend:
 
 ; /// Frame completed - increment FPS counter \\\
-ld a, (display_.fps_frame_counter)
-inc a
-ld (display_.fps_frame_counter), a
+ld hl, display_.fps_frame_counter
+inc (hl)
 ; \\\ Frame completed - increment FPS counter ///
 
 ; //// REALLOW THE LOOP \\\\
@@ -248,17 +244,15 @@ timer_interrupt:
     push HL
     
     ; /// FPS Timer Tracking (1/4096 Hz) \\\
-    ld hl, display_.fps_timer_counter
-    ld a, (hl)
-    inc a
-    ld (hl), a
-    cp 0
-    jr nz, @noOverflow
-    ; Low byte overflowed, increment high byte
+    ld a, (display_.fps_timer_counter)
+    ld l,a
+    ld a, (display_.fps_timer_counter+1)
+    ld h,a
     inc hl
-    ld a, (hl)
-    inc a
-    ld (hl), a
+    ld a,l
+    ld (display_.fps_timer_counter), a
+    ld a,h
+    ld (display_.fps_timer_counter+1), a
     ; Check if high byte reached 16 (4096 = 16 * 256)
     cp 16
     jr c, @noOverflow
