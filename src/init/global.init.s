@@ -149,20 +149,20 @@ global_init:
   ldi (hl),a
 	; \\\ void enemy ///
 
-@hurting_rock:
-	; /// hurting rock \\\
-	ld a, HURTING_ROCK_INFO
+@spikes:
+	; /// spikes \\\
+	ld a, SPIKES_INFO
 	ldi (hl), a
-	ld a, HURTING_ROCK_HP
+	ld a, SPIKES_HP
 	ldi (hl), a
-	ld a, HURTING_ROCK_DMG
+	ld a, SPIKES_DMG
 	ldi (hl), a
-  ld a,HURTING_ROCK_SPEED_FREQ
+  ld a,SPIKES_SPEED_FREQ
   ldi (hl),a
-	; \\\ hurting rock ///
+	; \\\ spikes ///
 
 @fly_init:
-	; /// hurting rock \\\
+	; /// fly \\\
 	ld a, FLY_INFO
 	ldi (hl), a
 	ld a, FLY_HP
@@ -171,7 +171,7 @@ global_init:
 	ldi (hl), a
   ld a,FLY_SPEED_FREQ
   ldi (hl),a
-	; \\\ hurting rock ///
+	; \\\ fly ///
 
 	ld hl, global_.enemies
 	ld b, n_enemies

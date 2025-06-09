@@ -1,66 +1,66 @@
 ; ////// function to load a room from its file \\\\\\
-load_map:
+load_room:
     push bc
     push de
 	
     ; /// init cursor positions \\\
 
-    ld a, (load_map_.map_address)
-    ld (load_map_.current_address), a
-    ld a, (load_map_.map_address + 1)
-    ld (load_map_.current_address + 1), a
+    ld a, (load_room_.room_address)
+    ld (load_room_.current_address), a
+    ld a, (load_room_.room_address + 1)
+    ld (load_room_.current_address + 1), a
 
     ; // element cursors \\
     ld de, global_.blockings
-    ld a, d
-    ld (load_map_.next_blocking), a
     ld a, e
-    ld (load_map_.next_blocking + 1), a
+    ld (load_room_.next_blocking), a
+    ld a, d
+    ld (load_room_.next_blocking + 1), a
 
     ld de, global_.enemies
-    ld a, d
-    ld (load_map_.next_enemy), a
     ld a, e
-    ld (load_map_.next_enemy + 1), a
+    ld (load_room_.next_enemy), a
+    ld a, d
+    ld (load_room_.next_enemy + 1), a
 
     ld de, global_.objects
-    ld a, d
-    ld (load_map_.next_object), a
     ld a, e
-    ld (load_map_.next_object + 1), a
+    ld (load_room_.next_object), a
+    ld a, d
+    ld (load_room_.next_object + 1), a
     ; \\ element cursors //
 
     ; // next enemy to load \\
-    ld a, (load_map_.current_address)
-    ld h, a
-    ld a, (load_map_.current_address + 1)
+    ld a, (load_room_.current_address)
     ld l, a
+    ld a, (load_room_.current_address + 1)
+    ld h, a
     ld de, $1F
-    add hl, de
-    ld a, h
-    ld (load_map_.next_to_load), a
+    add hl, de  ; jump to the variable-size part of the room data
     ld a, l
-    ld (load_map_.next_to_load + 1), a
+    ld (load_room_.next_to_load), a
+    ld a, h
+    ld (load_room_.next_to_load + 1), a
     ; \\ next enemy to load //
 
     xor a
-    ld (load_map_.mobs), a
+    ld (load_room_.mob_number), a
     ; \\\ init cursor positions ///
 
-.INCLUDE "lib/load_complete_with_void.lib.s"
+.INCLUDE "lib/load_clear_arrays.lib.s"
 
     ; /// start y loop \\\
-    ld a, (load_map_.current_address)
-    ld h, a
-    ld a, (load_map_.current_address + 1)
+    ld a, (load_room_.current_address)
     ld l, a
+    ld a, (load_room_.current_address + 1)
+    ld h, a
     inc hl
     inc hl
     inc hl
-    ld a, h
-    ld (load_map_.current_address), a
     ld a, l
-    ld (load_map_.current_address + 1), a
+    ld (load_room_.current_address), a
+    ld a, h
+    ld (load_room_.current_address + 1), a
     ld a, $20
     ld b, a
 @y_loop:
@@ -114,8 +114,8 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (load_map_.doors)
-    bit 3, a
+    ld a, (load_room_.room_info)
+    bit ROOM_INFO_ALIVE_FLAG, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
@@ -153,7 +153,7 @@ load_map:
 
     ; / case pit \
     ld a, d
-    cp $01
+    cp PIT_ID
     jr nz, @@not_pit
     ld e, PIT_INFO
 .INCLUDE "lib/load_blocking.lib.s"
@@ -163,7 +163,7 @@ load_map:
 
     ; / case rock \
     ld a, d
-    cp $02
+    cp ROCK_ID
     jr nz, @@not_rock
     ld e, ROCK_INFO
 .INCLUDE "lib/load_blocking.lib.s"
@@ -173,10 +173,10 @@ load_map:
 
     ; / case enemy \
     ld a, d
-    cp $0F
+    cp ENNEMY_ID
     jp nz, @@not_enemy
-    ld a, (load_map_.doors)
-    bit 3, a
+    ld a, (load_room_.room_info)
+    bit ROOM_INFO_ALIVE_FLAG, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
     ; \ case enemy /
@@ -191,15 +191,15 @@ load_map:
 
 
     ; // end x loop \\
-    ld a, (load_map_.current_address)
-    ld h, a
-    ld a, (load_map_.current_address + 1)
+    ld a, (load_room_.current_address)
     ld l, a
+    ld a, (load_room_.current_address + 1)
+    ld h, a
     inc hl
-    ld a, h
-    ld (load_map_.current_address), a
     ld a, l
-    ld (load_map_.current_address + 1), a
+    ld (load_room_.current_address), a
+    ld a, h
+    ld (load_room_.current_address + 1), a
 
     ld a, c
     add $10
@@ -218,22 +218,22 @@ load_map:
 
     ; /// add stairs if boss room \\\
     ld a, (current_floor_.current_room)
-    ld h, a
-    ld a, (current_floor_.current_room + 1)
     ld l, a
+    ld a, (current_floor_.current_room + 1)
+    ld h, a
     inc hl
     inc hl
     ld a, (hl)
     and %00000111
-    cp 2
-    jp nz, @noStairs
-    ld a, (load_map_.next_object)
-    ld h, a
-    ld a, (load_map_.next_object + 1)
+    cp 2  ; is room type == 2 ?
+    jp nz, @no_stairs
+    ld a, (load_room_.next_object)
     ld l, a
+    ld a, (load_room_.next_object + 1)
+    ld h, a
     ld a, STAIRS_INFO
     ldi (hl), a
-    ld a, $50
+    ld a, $50  ; middle of the room
     ldi (hl), a
     ldi (hl), a
     ld de, stairs_function
@@ -241,23 +241,23 @@ load_map:
     ldi (hl), a
     ld a, e
     ldi (hl), a
-    ld a, h
-    ld (load_map_.next_object), a
     ld a, l
-    ld (load_map_.next_object + 1), a
-@noStairs:
+    ld (load_room_.next_object), a
+    ld a, h
+    ld (load_room_.next_object + 1), a
+@no_stairs:
 
-    ld a, (load_map_.mobs)
+    ld a, (load_room_.mob_number)
     and a
-    jr z, @noEnemiesHere
-    ld a, (load_map_.doors)
-    set 3, a
-    jr @enemiesHere
-@noEnemiesHere:
-    ld a, (load_map_.doors)
-    res 3, a
-@enemiesHere:
-    ld (load_map_.doors), a
+    jr z, @no_enemies_here
+    ld a, (load_room_.room_info)
+    set ROOM_INFO_ALIVE_FLAG, a
+    jr @enemies_here
+@no_enemies_here:
+    ld a, (load_room_.room_info)
+    res ROOM_INFO_ALIVE_FLAG, a
+@enemies_here:
+    ld (load_room_.room_info), a
 
 .INCLUDE "lib/load_doors.lib.s"
 

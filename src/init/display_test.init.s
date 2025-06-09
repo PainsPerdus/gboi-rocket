@@ -39,14 +39,14 @@ display_test_init:
 	dec c
 	jr nz, @looptodisplayrocks
 
-; ; // Add hurting rock
+; ; // Add skpikes
 ; 	ld de, global_.enemies
 ; 	ld c, n_enemies
-; @looptodisplayhurtingrocks:
+; @looptodisplayspikes:
 
 ; 	ld a,(de)
-; 	cp HURTING_ROCK_INFO		; test if the element is a living hurting rock
-; 	jp nz, @ending_of_looptodisplayhurtingrocks
+; 	cp SPIKES_INFO		; test if the element is a living spikes
+; 	jp nz, @ending_of_looptodisplayspikes
 
 ; 	ld h,d
 ; 	ld l,e
@@ -56,13 +56,13 @@ display_test_init:
 ; 	ld a, (hl) ;x position in pixels (must be a multiple of 8)
 ; 	ld l,ROCKS_SPRITESHEET ;start tile id
 ; 	call displayBackgroundTile
-; @ending_of_looptodisplayhurtingrocks:
+; @ending_of_looptodisplayspikes:
 ; 	ld hl, 6
 ; 	add hl, de
 ; 	ld d, h
 ; 	ld e, l
 ; 	dec c
-; 	jr nz, @looptodisplayhurtingrocks
+; 	jr nz, @looptodisplayspikes
 
 ; ld l,ROCKS_SPRITESHEET+8 ;start tile id
 ; ld a, 7*8 ;X position in pixels (must be a multiple of 8)

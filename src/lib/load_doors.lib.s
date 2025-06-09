@@ -1,27 +1,27 @@
 ; /// add the doors as activable items in a room \\\
-    ld hl, load_map_.doors
+    ld hl, load_room_.room_info
     ld b, (hl)
-    ld a, (load_map_.next_object)
-    ld h, a
-    ld a, (load_map_.next_object + 1)
+    ld a, (load_room_.next_object)
     ld l, a
+    ld a, (load_room_.next_object + 1)
+    ld h, a
 
     ;top door
-    bit 7, b
+    bit ROOM_INFO_DOOR_UP_FLAG, b
     jr z, @noTopDoor
     ld a, VDOOR_INFO
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, $00+$12
+    ld a, $00+OPEN_TOP_BOTTOM_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
     ld a, $00
 @@openDoors:
     ldi (hl), a
 
-    ld a, $54
+    ld a, TOP_BOTTOM_DOOR_Y
     ldi (hl), a
     ld de, top_door_fun
     ld a, d
@@ -31,21 +31,21 @@
 @noTopDoor:
 
     ;bottom door
-    bit 6, b
+    bit ROOM_INFO_DOOR_DOWN_FLAG, b
     jr z, @noBottomDoor
     ld a, VDOOR_INFO
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, $A0-$12
+    ld a, ROOM_PIXEL_SIZE-OPEN_TOP_BOTTOM_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
-    ld a, $A0
+    ld a, ROOM_PIXEL_SIZE
 @@openDoors:
     ldi (hl), a
 
-    ld a, $54
+    ld a, TOP_BOTTOM_DOOR_Y
     ldi (hl), a
     ld de, bot_door_fun
     ld a, d
@@ -55,16 +55,16 @@
 @noBottomDoor:
 
     ;left door
-    bit 5, b
+    bit ROOM_INFO_DOOR_LEFT_FLAG, b
     jr z, @noLeftDoor
     ld a, HDOOR_INFO
     ldi (hl), a
-    ld a, $54
+    ld a, LEFT_RIGHT_DOOR_X
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, $00+$0A
+    ld a, $00+OPEN_LEFT_RIGHT_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
     ld a, $00
@@ -79,19 +79,19 @@
 @noLeftDoor:
 
     ;right door
-    bit 4, b
+    bit ROOM_INFO_DOOR_RIGHT_FLAG, b
     jr z, @noRightDoor
     ld a, HDOOR_INFO
     ldi (hl), a
-    ld a, $54
+    ld a, LEFT_RIGHT_DOOR_X
     ldi (hl), a
 
-    bit 3, b
+    bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, $A0-$0A
+    ld a, ROOM_PIXEL_SIZE-OPEN_LEFT_RIGHT_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
-    ld a, $A0
+    ld a, ROOM_PIXEL_SIZE
 @@openDoors:
     ldi (hl), a
     
@@ -102,9 +102,9 @@
     ldi (hl), a
 @noRightDoor:
 
-    ld a, h
-    ld (load_map_.next_object), a
     ld a, l
-    ld (load_map_.next_object + 1), a
+    ld (load_room_.next_object), a
+    ld a, h
+    ld (load_room_.next_object + 1), a
     
 ; \\\ add the doors as activable items in a room ///

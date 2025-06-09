@@ -71,23 +71,23 @@ isaac_tears_dmg:
 	ld (de), a  ; write new ennemy info
 
 	; unlock room if needed
-	ld a, (load_map_.mobs)  ; reduce mob number
+	ld a, (load_room_.mob_number)  ; reduce mob number
 	dec a
-	ld (load_map_.mobs), a
+	ld (load_room_.mob_number), a
 	and a  ; check of mob number is 0
 	jr nz, @break_ennemy_loop
 	ld a, (current_floor_.current_room)  ; room ptr to hl
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl  ; room info ptr to hl
 	inc hl
 	ld a, (hl)  ; room info to a
-	res 3, a  ; open room ? TODO: remove hardcoded
+	res ROOM_INFO_ALIVE_FLAG, a  ; unset room alive flag
 	ld (hl), a  ; write new room info
-	ld (load_map_.doors), a  ; also update in loaded representation
+	ld (load_room_.room_info), a  ; also update in loaded representation
 	ld a, GAMESTATE_CHANGINGROOM  ; update room
-	pop de  ; free used stack slot (contains tear
+	pop de  ; free used stack slot (contains tear)
 	jp setGameState
 ; \\\\ DEAL DMG ////
 

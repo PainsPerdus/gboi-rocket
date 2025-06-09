@@ -198,7 +198,7 @@ displayRoom:
 	dec c
 	jr nz, @looptodisplayrocks
 
-	ld a, (load_map_.doors)
+	ld a, (load_room_.room_info)
 	bit 3, a
 	jr nz, @closed
 	xor a
@@ -207,7 +207,7 @@ displayRoom:
 	ld a, 1
 @endDoors
 	ld b, a
-	ld a, (load_map_.doors)
+	ld a, (load_room_.room_info)
 	and %11110000
 	call displayDoors
 

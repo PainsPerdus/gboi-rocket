@@ -1,8 +1,8 @@
-# IA
+# AI
 
-## IA function
+## AI function
 
-A simple IA that follow Isaac.
+A simple AI that follow Isaac.
 
 ### Label:
 

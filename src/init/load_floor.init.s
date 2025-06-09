@@ -40,9 +40,9 @@
 	dec b
 	jr nz, @@findStartLoop
 @@startFound:
-	ld a, d
-	ld (current_floor_.current_room), a
 	ld a, e
+	ld (current_floor_.current_room), a
+	ld a, d
 	ld (current_floor_.current_room + 1), a
 	jp @floorReady
 ; \\\ load first floor ///
@@ -51,16 +51,16 @@
 @not_first_floor:
 	; generate the first room
 	ld hl, current_floor_.rooms
-	ld a, h  ; set it as the current room
+	ld a, l  ; set it as the current room
 	ld (current_floor_.current_room), a
-	ld a, l
+	ld a, h
 	ld (current_floor_.current_room + 1), a
 
 	; create first room
 	call rng  ; clobbers h
 	ld hl, current_floor_.rooms
 	ldi (hl), a  ; random coordinates
-	ld a, 0  ; first map always has id 0
+	ld a, 0  ; first room always has id 0
 	ldi (hl), a
 	ld a, ROOM_TYPE_START
 	ldi (hl), a
@@ -371,15 +371,15 @@
 
 ; /// load first room \\\
 @floorReady:
-	; set first map doors
+	; set first room doors
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	inc hl
 	ld a, (hl)  ; a is current room info
-	ld (load_map_.doors), a
+	ld (load_room_.room_info), a
 
 	dec hl
 	ld e, (hl)  ; e is current room id
@@ -391,11 +391,11 @@
 	ld de, room_index
 	add hl, de  ; hl is current room id index
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
+	ld (load_room_.room_address), a
 	ldi a, (hl)
-	ld (load_map_.map_address), a
+	ld (load_room_.room_address + 1), a
 
-	call load_map
+	call load_room
 
 	call displayRoom
 ; \\\ load first room ///

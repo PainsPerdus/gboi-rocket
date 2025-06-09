@@ -1,24 +1,24 @@
 ; /// add an enemy \\\
-    ld a, (load_map_.next_to_load)
-    ld h, a
-    ld a, (load_map_.next_to_load + 1)
+    ld a, (load_room_.next_to_load)
     ld l, a
+    ld a, (load_room_.next_to_load + 1)
+    ld h, a
     ldi a, (hl)
     ld e, a
-    ld a, h
-    ld (load_map_.next_to_load), a
     ld a, l
-    ld (load_map_.next_to_load + 1), a
+    ld (load_room_.next_to_load), a
+    ld a, h
+    ld (load_room_.next_to_load + 1), a
 
-    ld a, (load_map_.next_enemy)
-    ld h, a
-    ld a, (load_map_.next_enemy + 1)
+    ld a, (load_room_.next_enemy)
     ld l, a
+    ld a, (load_room_.next_enemy + 1)
+    ld h, a
 
     ; void enemy
     ld a, e
     cp 0
-    jr nz, @@notVoid
+    jr nz, @@not_void
     ld a, VOID_ENEMY_INFO
     ldi (hl), a
     ld a, b
@@ -35,32 +35,32 @@
     ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
-@@notVoid:
+@@not_void:
 
-    ; hurting rock
-    cp 1
-    jr nz, @@notHurtingRock
-    ld a, HURTING_ROCK_INFO
+    ; spikes
+    cp SPIKES_ID
+    jr nz, @@not_spikes
+    ld a, SPIKES_INFO
     ldi (hl), a
     ld a, b
     ldi (hl), a
     ld a, c
     ldi (hl), a
-    ld a, HURTING_ROCK_HP
+    ld a, SPIKES_HP
     ldi (hl), a
 	xor a
 	ldi (hl), a
-    ld a, HURTING_ROCK_DMG
+    ld a, SPIKES_DMG
     ldi (hl), a
-    ld a, HURTING_ROCK_SPEED_FREQ
+    ld a, SPIKES_SPEED_FREQ
     ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
-@@notHurtingRock:
+@@not_spikes:
 
     ; fly
-    cp 2
-    jr nz, @@notFly
+    cp FLY_ID
+    jr nz, @@not_fly
     ld a, FLY_INFO
     ldi (hl), a
     ld a, b
@@ -77,14 +77,14 @@
     ldi (hl), a
     ldi (hl), a
     jp @@end_enemy
-@@notFly:
+@@not_fly:
 
 @@end_enemy:
-    ld a, h
-    ld (load_map_.next_enemy), a
     ld a, l
-    ld (load_map_.next_enemy + 1), a
+    ld (load_room_.next_enemy), a
+    ld a, h
+    ld (load_room_.next_enemy + 1), a
 
-    ld hl, load_map_.mobs
+    ld hl, load_room_.mob_number
     inc (hl)
 ; \\\ add an enemy ///
