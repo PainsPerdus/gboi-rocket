@@ -12,34 +12,34 @@ load_map:
 
     ; // element cursors \\
     ld de, global_.blockings
-    ld a, d
-    ld (load_map_.next_blocking), a
     ld a, e
+    ld (load_map_.next_blocking), a
+    ld a, d
     ld (load_map_.next_blocking + 1), a
 
     ld de, global_.enemies
-    ld a, d
-    ld (load_map_.next_enemy), a
     ld a, e
+    ld (load_map_.next_enemy), a
+    ld a, d
     ld (load_map_.next_enemy + 1), a
 
     ld de, global_.objects
-    ld a, d
-    ld (load_map_.next_object), a
     ld a, e
+    ld (load_map_.next_object), a
+    ld a, d
     ld (load_map_.next_object + 1), a
     ; \\ element cursors //
 
     ; // next enemy to load \\
     ld a, (load_map_.current_address)
-    ld h, a
-    ld a, (load_map_.current_address + 1)
     ld l, a
+    ld a, (load_map_.current_address + 1)
+    ld h, a
     ld de, $1F
     add hl, de  ; jump to the variable-size part of the room data
-    ld a, h
-    ld (load_map_.next_to_load), a
     ld a, l
+    ld (load_map_.next_to_load), a
+    ld a, h
     ld (load_map_.next_to_load + 1), a
     ; \\ next enemy to load //
 
@@ -51,15 +51,15 @@ load_map:
 
     ; /// start y loop \\\
     ld a, (load_map_.current_address)
-    ld h, a
-    ld a, (load_map_.current_address + 1)
     ld l, a
+    ld a, (load_map_.current_address + 1)
+    ld h, a
     inc hl
     inc hl
     inc hl
-    ld a, h
-    ld (load_map_.current_address), a
     ld a, l
+    ld (load_map_.current_address), a
+    ld a, h
     ld (load_map_.current_address + 1), a
     ld a, $20
     ld b, a
@@ -192,13 +192,13 @@ load_map:
 
     ; // end x loop \\
     ld a, (load_map_.current_address)
-    ld h, a
-    ld a, (load_map_.current_address + 1)
     ld l, a
+    ld a, (load_map_.current_address + 1)
+    ld h, a
     inc hl
-    ld a, h
-    ld (load_map_.current_address), a
     ld a, l
+    ld (load_map_.current_address), a
+    ld a, h
     ld (load_map_.current_address + 1), a
 
     ld a, c
@@ -218,9 +218,9 @@ load_map:
 
     ; /// add stairs if boss room \\\
     ld a, (current_floor_.current_room)
-    ld h, a
-    ld a, (current_floor_.current_room + 1)
     ld l, a
+    ld a, (current_floor_.current_room + 1)
+    ld h, a
     inc hl
     inc hl
     ld a, (hl)
@@ -228,9 +228,9 @@ load_map:
     cp 2
     jp nz, @noStairs
     ld a, (load_map_.next_object)
-    ld h, a
-    ld a, (load_map_.next_object + 1)
     ld l, a
+    ld a, (load_map_.next_object + 1)
+    ld h, a
     ld a, STAIRS_INFO
     ldi (hl), a
     ld a, $50
@@ -241,9 +241,9 @@ load_map:
     ldi (hl), a
     ld a, e
     ldi (hl), a
-    ld a, h
-    ld (load_map_.next_object), a
     ld a, l
+    ld (load_map_.next_object), a
+    ld a, h
     ld (load_map_.next_object + 1), a
 @noStairs:
 

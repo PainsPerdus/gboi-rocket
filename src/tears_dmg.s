@@ -77,9 +77,9 @@ isaac_tears_dmg:
 	and a  ; check of mob number is 0
 	jr nz, @break_ennemy_loop
 	ld a, (current_floor_.current_room)  ; room ptr to hl
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl  ; room info ptr to hl
 	inc hl
 	ld a, (hl)  ; room info to a

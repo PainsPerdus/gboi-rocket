@@ -40,9 +40,9 @@
 	dec b
 	jr nz, @@findStartLoop
 @@startFound:
-	ld a, d
-	ld (current_floor_.current_room), a
 	ld a, e
+	ld (current_floor_.current_room), a
+	ld a, d
 	ld (current_floor_.current_room + 1), a
 	jp @floorReady
 ; \\\ load first floor ///
@@ -51,9 +51,9 @@
 @not_first_floor:
 	; generate the first room
 	ld hl, current_floor_.rooms
-	ld a, h  ; set it as the current room
+	ld a, l  ; set it as the current room
 	ld (current_floor_.current_room), a
-	ld a, l
+	ld a, h
 	ld (current_floor_.current_room + 1), a
 
 	; create first room
@@ -373,9 +373,9 @@
 @floorReady:
 	; set first map doors
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	inc hl
 	ld a, (hl)  ; a is current room info
@@ -391,9 +391,9 @@
 	ld de, room_index
 	add hl, de  ; hl is current room id index
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
-	ldi a, (hl)
 	ld (load_map_.map_address), a
+	ldi a, (hl)
+	ld (load_map_.map_address + 1), a
 
 	call load_map
 

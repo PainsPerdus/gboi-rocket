@@ -9,9 +9,9 @@ top_door_fun:
 
 	; load x, y
 	ld a, (current_floor_.current_room)
-	ld d, a
-	ld a, (current_floor_.current_room + 1)
 	ld e, a
+	ld a, (current_floor_.current_room + 1)
+	ld d, a
 	ld a, (de)
 	dec a
 	ld c, a
@@ -30,25 +30,25 @@ top_door_fun:
 	dec b
 	jr nz, @findRoomLoop
 @roomFound:
-	ld a, d
-	ld (current_floor_.current_room), a
 	ld a, e
+	ld (current_floor_.current_room), a
+	ld a, d
 	ld (current_floor_.current_room + 1), a
 
 	; load room
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	inc hl
 	ldi a, (hl)
 	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	ld e, (hl)
 	xor a
@@ -59,9 +59,9 @@ top_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
-	ldi a, (hl)
 	ld (load_map_.map_address), a
+	ldi a, (hl)
+	ld (load_map_.map_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
@@ -87,9 +87,9 @@ bot_door_fun:
 
 	; load x, y
 	ld a, (current_floor_.current_room)
-	ld d, a
-	ld a, (current_floor_.current_room + 1)
 	ld e, a
+	ld a, (current_floor_.current_room + 1)
+	ld d, a
 	ld a, (de)
 	inc a
 	ld c, a
@@ -108,25 +108,25 @@ bot_door_fun:
 	dec b
 	jr nz, @findRoomLoop
 @roomFound:
-	ld a, d
-	ld (current_floor_.current_room), a
 	ld a, e
+	ld (current_floor_.current_room), a
+	ld a, d
 	ld (current_floor_.current_room + 1), a
 
 	; load room
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	inc hl
 	ldi a, (hl)
 	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	ld e, (hl)
 	xor a
@@ -137,9 +137,9 @@ bot_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
-	ldi a, (hl)
 	ld (load_map_.map_address), a
+	ldi a, (hl)
+	ld (load_map_.map_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
@@ -166,9 +166,9 @@ left_door_fun:
 
 	; load x, y
 	ld a, (current_floor_.current_room)
-	ld d, a
-	ld a, (current_floor_.current_room + 1)
 	ld e, a
+	ld a, (current_floor_.current_room + 1)
+	ld d, a
 	ld a, (de)
 	swap a
 	dec a
@@ -189,25 +189,25 @@ left_door_fun:
 	dec b
 	jr nz, @findRoomLoop
 @roomFound:
-	ld a, d
-	ld (current_floor_.current_room), a
 	ld a, e
+	ld (current_floor_.current_room), a
+	ld a, d
 	ld (current_floor_.current_room + 1), a
 
 	; load room
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	inc hl
 	ldi a, (hl)
 	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	ld e, (hl)
 	xor a
@@ -218,9 +218,9 @@ left_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
-	ldi a, (hl)
 	ld (load_map_.map_address), a
+	ldi a, (hl)
+	ld (load_map_.map_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
@@ -246,9 +246,9 @@ right_door_fun:
 
 	; load x, y
 	ld a, (current_floor_.current_room)
-	ld d, a
-	ld a, (current_floor_.current_room + 1)
 	ld e, a
+	ld a, (current_floor_.current_room + 1)
+	ld d, a
 	ld a, (de)
 	swap a
 	inc a
@@ -269,25 +269,25 @@ right_door_fun:
 	dec b
 	jr nz, @findRoomLoop
 @roomFound:
-	ld a, d
-	ld (current_floor_.current_room), a
 	ld a, e
+	ld (current_floor_.current_room), a
+	ld a, d
 	ld (current_floor_.current_room + 1), a
 
 	; load room
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	inc hl
 	ldi a, (hl)
 	ld (load_map_.map_info), a
 
 	ld a, (current_floor_.current_room)
-	ld h, a
-	ld a, (current_floor_.current_room + 1)
 	ld l, a
+	ld a, (current_floor_.current_room + 1)
+	ld h, a
 	inc hl
 	ld e, (hl)
 	xor a
@@ -298,9 +298,9 @@ right_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
-	ldi a, (hl)
 	ld (load_map_.map_address), a
+	ldi a, (hl)
+	ld (load_map_.map_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM

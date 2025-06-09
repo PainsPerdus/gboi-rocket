@@ -1,19 +1,19 @@
 ; /// add an enemy \\\
     ld a, (load_map_.next_to_load)
-    ld h, a
-    ld a, (load_map_.next_to_load + 1)
     ld l, a
+    ld a, (load_map_.next_to_load + 1)
+    ld h, a
     ldi a, (hl)
     ld e, a
-    ld a, h
-    ld (load_map_.next_to_load), a
     ld a, l
+    ld (load_map_.next_to_load), a
+    ld a, h
     ld (load_map_.next_to_load + 1), a
 
     ld a, (load_map_.next_enemy)
-    ld h, a
-    ld a, (load_map_.next_enemy + 1)
     ld l, a
+    ld a, (load_map_.next_enemy + 1)
+    ld h, a
 
     ; void enemy
     ld a, e
@@ -80,9 +80,9 @@
 @@notFly:
 
 @@end_enemy:
-    ld a, h
-    ld (load_map_.next_enemy), a
     ld a, l
+    ld (load_map_.next_enemy), a
+    ld a, h
     ld (load_map_.next_enemy + 1), a
 
     ld hl, load_map_.mob_number
