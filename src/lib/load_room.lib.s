@@ -47,7 +47,7 @@ load_room:
     ld (load_room_.mob_number), a
     ; \\\ init cursor positions ///
 
-.INCLUDE "lib/load_complete_with_void.lib.s"
+.INCLUDE "lib/load_clear_arrays.lib.s"
 
     ; /// start y loop \\\
     ld a, (load_room_.current_address)
@@ -153,7 +153,7 @@ load_room:
 
     ; / case pit \
     ld a, d
-    cp $01
+    cp PIT_ID
     jr nz, @@not_pit
     ld e, PIT_INFO
 .INCLUDE "lib/load_blocking.lib.s"
@@ -163,7 +163,7 @@ load_room:
 
     ; / case rock \
     ld a, d
-    cp $02
+    cp ROCK_ID
     jr nz, @@not_rock
     ld e, ROCK_INFO
 .INCLUDE "lib/load_blocking.lib.s"
@@ -173,7 +173,7 @@ load_room:
 
     ; / case enemy \
     ld a, d
-    cp $0F
+    cp ENNEMY_ID
     jp nz, @@not_enemy
     ld a, (load_room_.room_info)
     bit ROOM_INFO_ALIVE_FLAG, a
@@ -225,15 +225,15 @@ load_room:
     inc hl
     ld a, (hl)
     and %00000111
-    cp 2
-    jp nz, @noStairs
+    cp 2  ; is room type == 2 ?
+    jp nz, @no_stairs
     ld a, (load_room_.next_object)
     ld l, a
     ld a, (load_room_.next_object + 1)
     ld h, a
     ld a, STAIRS_INFO
     ldi (hl), a
-    ld a, $50
+    ld a, $50  ; middle of the room
     ldi (hl), a
     ldi (hl), a
     ld de, stairs_function
@@ -245,18 +245,18 @@ load_room:
     ld (load_room_.next_object), a
     ld a, h
     ld (load_room_.next_object + 1), a
-@noStairs:
+@no_stairs:
 
     ld a, (load_room_.mob_number)
     and a
-    jr z, @noEnemiesHere
+    jr z, @no_enemies_here
     ld a, (load_room_.room_info)
     set ROOM_INFO_ALIVE_FLAG, a
-    jr @enemiesHere
-@noEnemiesHere:
+    jr @enemies_here
+@no_enemies_here:
     ld a, (load_room_.room_info)
     res ROOM_INFO_ALIVE_FLAG, a
-@enemiesHere:
+@enemies_here:
     ld (load_room_.room_info), a
 
 .INCLUDE "lib/load_doors.lib.s"

@@ -122,7 +122,7 @@ SHOOT_FLAG, DMG_MASK
 
 | Label | Size/Struct |  Description  |
 | ------------- | ---------- | ----------- |
-| global_.blockings[n_blockings] | blocking * n_blockings | Blocking elements in the room |
+| global_.blockings[n_blockings] | blocking * n_blockings | Blocking elements in the room (last 4 are the walls) |
 | gobal_.isaac | isaac | Isaac, the main caracter. |
 | global_.enemies[n_enemies]    | enemy * n_enemies | Enemies in the room |
 | global_.issac_tear_pointer | 1 byte | Index of next tear to generate |

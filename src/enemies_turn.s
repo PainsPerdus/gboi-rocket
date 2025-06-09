@@ -9,7 +9,14 @@ enemys_turn:
 	ld a,(hl)	
 	bit ALIVE_FLAG,a ;Jump if ennemy is dead
 	jp z, @@no_move
-	cp HURTING_ROCK_INFO ;Jump if ennemy is a spike
+	inc hl
+	inc hl
+	inc hl
+	ld a,(hl) ;Get speed
+	dec hl
+	dec hl
+	dec hl
+	cp 0 ;Ennemy doesn't move
 	jp z, @@no_move
 	call AI
 ; \\\\ IA ////
