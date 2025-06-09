@@ -1,9 +1,9 @@
 ; /// add the doors as activable items in a room \\\
-    ld hl, load_map_.map_info
+    ld hl, load_room_.room_info
     ld b, (hl)
-    ld a, (load_map_.next_object)
+    ld a, (load_room_.next_object)
     ld l, a
-    ld a, (load_map_.next_object + 1)
+    ld a, (load_room_.next_object + 1)
     ld h, a
 
     ;top door
@@ -38,10 +38,10 @@
 
     bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, MAP_PIXEL_SIZE-OPEN_DOOR_OFFSET
+    ld a, ROOM_PIXEL_SIZE-OPEN_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
-    ld a, MAP_PIXEL_SIZE
+    ld a, ROOM_PIXEL_SIZE
 @@openDoors:
     ldi (hl), a
 
@@ -88,10 +88,10 @@
 
     bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, MAP_PIXEL_SIZE-OPEN_DOOR_OFFSET
+    ld a, ROOM_PIXEL_SIZE-OPEN_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
-    ld a, MAP_PIXEL_SIZE
+    ld a, ROOM_PIXEL_SIZE
 @@openDoors:
     ldi (hl), a
     
@@ -103,8 +103,8 @@
 @noRightDoor:
 
     ld a, l
-    ld (load_map_.next_object), a
+    ld (load_room_.next_object), a
     ld a, h
-    ld (load_map_.next_object + 1), a
+    ld (load_room_.next_object + 1), a
     
 ; \\\ add the doors as activable items in a room ///

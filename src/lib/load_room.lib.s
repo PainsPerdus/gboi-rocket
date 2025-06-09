@@ -1,66 +1,66 @@
 ; ////// function to load a room from its file \\\\\\
-load_map:
+load_room:
     push bc
     push de
 	
     ; /// init cursor positions \\\
 
-    ld a, (load_map_.map_address)
-    ld (load_map_.current_address), a
-    ld a, (load_map_.map_address + 1)
-    ld (load_map_.current_address + 1), a
+    ld a, (load_room_.room_address)
+    ld (load_room_.current_address), a
+    ld a, (load_room_.room_address + 1)
+    ld (load_room_.current_address + 1), a
 
     ; // element cursors \\
     ld de, global_.blockings
     ld a, e
-    ld (load_map_.next_blocking), a
+    ld (load_room_.next_blocking), a
     ld a, d
-    ld (load_map_.next_blocking + 1), a
+    ld (load_room_.next_blocking + 1), a
 
     ld de, global_.enemies
     ld a, e
-    ld (load_map_.next_enemy), a
+    ld (load_room_.next_enemy), a
     ld a, d
-    ld (load_map_.next_enemy + 1), a
+    ld (load_room_.next_enemy + 1), a
 
     ld de, global_.objects
     ld a, e
-    ld (load_map_.next_object), a
+    ld (load_room_.next_object), a
     ld a, d
-    ld (load_map_.next_object + 1), a
+    ld (load_room_.next_object + 1), a
     ; \\ element cursors //
 
     ; // next enemy to load \\
-    ld a, (load_map_.current_address)
+    ld a, (load_room_.current_address)
     ld l, a
-    ld a, (load_map_.current_address + 1)
+    ld a, (load_room_.current_address + 1)
     ld h, a
     ld de, $1F
     add hl, de  ; jump to the variable-size part of the room data
     ld a, l
-    ld (load_map_.next_to_load), a
+    ld (load_room_.next_to_load), a
     ld a, h
-    ld (load_map_.next_to_load + 1), a
+    ld (load_room_.next_to_load + 1), a
     ; \\ next enemy to load //
 
     xor a
-    ld (load_map_.mob_number), a
+    ld (load_room_.mob_number), a
     ; \\\ init cursor positions ///
 
 .INCLUDE "lib/load_complete_with_void.lib.s"
 
     ; /// start y loop \\\
-    ld a, (load_map_.current_address)
+    ld a, (load_room_.current_address)
     ld l, a
-    ld a, (load_map_.current_address + 1)
+    ld a, (load_room_.current_address + 1)
     ld h, a
     inc hl
     inc hl
     inc hl
     ld a, l
-    ld (load_map_.current_address), a
+    ld (load_room_.current_address), a
     ld a, h
-    ld (load_map_.current_address + 1), a
+    ld (load_room_.current_address + 1), a
     ld a, $20
     ld b, a
 @y_loop:
@@ -114,7 +114,7 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (load_map_.map_info)
+    ld a, (load_room_.room_info)
     bit ROOM_INFO_ALIVE_FLAG, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
@@ -175,7 +175,7 @@ load_map:
     ld a, d
     cp $0F
     jp nz, @@not_enemy
-    ld a, (load_map_.map_info)
+    ld a, (load_room_.room_info)
     bit ROOM_INFO_ALIVE_FLAG, a
     jp z, @@not_enemy
 .INCLUDE "lib/load_enemy.lib.s"
@@ -191,15 +191,15 @@ load_map:
 
 
     ; // end x loop \\
-    ld a, (load_map_.current_address)
+    ld a, (load_room_.current_address)
     ld l, a
-    ld a, (load_map_.current_address + 1)
+    ld a, (load_room_.current_address + 1)
     ld h, a
     inc hl
     ld a, l
-    ld (load_map_.current_address), a
+    ld (load_room_.current_address), a
     ld a, h
-    ld (load_map_.current_address + 1), a
+    ld (load_room_.current_address + 1), a
 
     ld a, c
     add $10
@@ -227,9 +227,9 @@ load_map:
     and %00000111
     cp 2
     jp nz, @noStairs
-    ld a, (load_map_.next_object)
+    ld a, (load_room_.next_object)
     ld l, a
-    ld a, (load_map_.next_object + 1)
+    ld a, (load_room_.next_object + 1)
     ld h, a
     ld a, STAIRS_INFO
     ldi (hl), a
@@ -242,22 +242,22 @@ load_map:
     ld a, e
     ldi (hl), a
     ld a, l
-    ld (load_map_.next_object), a
+    ld (load_room_.next_object), a
     ld a, h
-    ld (load_map_.next_object + 1), a
+    ld (load_room_.next_object + 1), a
 @noStairs:
 
-    ld a, (load_map_.mob_number)
+    ld a, (load_room_.mob_number)
     and a
     jr z, @noEnemiesHere
-    ld a, (load_map_.map_info)
+    ld a, (load_room_.room_info)
     set ROOM_INFO_ALIVE_FLAG, a
     jr @enemiesHere
 @noEnemiesHere:
-    ld a, (load_map_.map_info)
+    ld a, (load_room_.room_info)
     res ROOM_INFO_ALIVE_FLAG, a
 @enemiesHere:
-    ld (load_map_.map_info), a
+    ld (load_room_.room_info), a
 
 .INCLUDE "lib/load_doors.lib.s"
 

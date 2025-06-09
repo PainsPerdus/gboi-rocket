@@ -18,7 +18,7 @@
 .INCLUDE "var/rng.var.s"
 .INCLUDE "var/check_inputs.var.s"
 .INCLUDE "var/music.var.s"
-.INCLUDE "var/load_map.var.s"
+.INCLUDE "var/load_room.var.s"
 .INCLUDE "var/ai.var.s"
 .INCLUDE "var/title_screen.var.s"
 .INCLUDE "var/current_floor.var.s"
@@ -36,7 +36,7 @@
 	music_state_ INSTANCEOF music_state_var
 	ai_ INSTANCEOF ai_var
 	title_screen_ INSTANCEOF title_screen_var
-	load_map_ INSTANCEOF load_map_var
+	load_room_ INSTANCEOF load_room_var
 	current_floor_ INSTANCEOF current_floor_var
 	tears_ INSTANCEOF tears_var
 	GameState DB
@@ -291,7 +291,7 @@ IstateChangingRoom:
 	xor a
 	ldh ($40), a    ; ($FF40) = 0, turn the screen off
 	; \\\\\\\ DISABLE SCREEN ///////
-	.INCLUDE "init/changeRoom.init.s"
+	.INCLUDE "init/change_room.init.s"
 	; /////// ENABLE SCREEN \\\\\\\
 	ld a,%10000011 	; screen on, bg on, tiles at $8000
 	ldh ($40),a
@@ -363,7 +363,7 @@ waitvlb: 					; wait for the line 144 to be refreshed:
 .INCLUDE "lib/ai.lib.s"
 
 .INCLUDE "lib/knockback.lib.s"
-.INCLUDE "lib/load_map.lib.s"
+.INCLUDE "lib/load_room.lib.s"
 .INCLUDE "lib/door_functions.lib.s"
 .INCLUDE "lib/display_room.lib.s" 
 .INCLUDE "lib/stairs_function.lib.s"

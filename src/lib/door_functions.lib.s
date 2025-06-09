@@ -43,7 +43,7 @@ top_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.map_info), a
+	ld (load_room_.room_info), a
 
 	ld a, (current_floor_.current_room)
 	ld l, a
@@ -59,9 +59,9 @@ top_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address), a
+	ld (load_room_.room_address), a
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
+	ld (load_room_.room_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
@@ -121,7 +121,7 @@ bot_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.map_info), a
+	ld (load_room_.room_info), a
 
 	ld a, (current_floor_.current_room)
 	ld l, a
@@ -137,9 +137,9 @@ bot_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address), a
+	ld (load_room_.room_address), a
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
+	ld (load_room_.room_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
@@ -202,7 +202,7 @@ left_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.map_info), a
+	ld (load_room_.room_info), a
 
 	ld a, (current_floor_.current_room)
 	ld l, a
@@ -218,9 +218,9 @@ left_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address), a
+	ld (load_room_.room_address), a
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
+	ld (load_room_.room_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
@@ -282,7 +282,7 @@ right_door_fun:
 	inc hl
 	inc hl
 	ldi a, (hl)
-	ld (load_map_.map_info), a
+	ld (load_room_.room_info), a
 
 	ld a, (current_floor_.current_room)
 	ld l, a
@@ -298,9 +298,9 @@ right_door_fun:
 	ld de, room_index
 	add hl, de
 	ldi a, (hl)
-	ld (load_map_.map_address), a
+	ld (load_room_.room_address), a
 	ldi a, (hl)
-	ld (load_map_.map_address + 1), a
+	ld (load_room_.room_address + 1), a
 	
 	pop bc ;don't return so we pop something instead
 	ld a, GAMESTATE_CHANGINGROOM
