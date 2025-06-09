@@ -235,7 +235,11 @@ timer_interrupt:
     pop hl
     pop de
     pop af
-    ld hl, sacrificial_music
+    ld a, (music_state_.track)
+    ld l, a
+    ld a, (music_state_.track+1)
+    ld h, a
+    ;ld hl, sacrificial_music
     ;jr @gothrough
     ld a, (music_state_.part)
     ld e, a
@@ -256,11 +260,15 @@ timer_interrupt:
     ldd a, (hl)
     xor $FF
     jp nz, @gothrough
-    ld hl, sacrificial_music
+    ld a, (music_state_.track) ; we are at the end, let's loop
+    ld l, a
+    ld a, (music_state_.track+1)
+    ld h, a
+    ;ld hl, sacrificial_music 
     xor a
     ld (music_state_.part), a
 @gothrough
-    call music_start
+    call music_init_part
     pop HL
     pop DE
     pop BC
@@ -268,9 +276,17 @@ timer_interrupt:
     ret
 
 music_start: ; HL -> pointer to music
-    push BC
     push DE
-
+    ld de, music_state_.track
+    ld a, l
+    ld (de), a
+    ld a, h
+    inc de
+    ld (de), a
+    pop DE
+music_init_part:
+    push BC
+    push DE   
     ld c, (hl)
     inc hl
     ld b, (hl) ; load max pointer in bc
@@ -413,3 +429,4 @@ music_start: ; HL -> pointer to music
 
 
 .INCLUDE "music/sacrificial.gbscore"
+.INCLUDE "music/test.gbscore"
