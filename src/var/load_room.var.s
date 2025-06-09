@@ -3,7 +3,11 @@
 .DEFINE LEFT_RIGHT_DOOR_X $54
 .DEFINE TOP_BOTTOM_DOOR_Y $54
 
-.DEFINE OPEN_DOOR_OFFSET $12
+; doors are objects, so Issac must overlap their hitboxes
+; to enter them, which is why they must protrude out of the
+; wall, thus the offset
+.DEFINE OPEN_LEFT_RIGHT_DOOR_OFFSET $0A
+.DEFINE OPEN_TOP_BOTTOM_DOOR_OFFSET $12
 
 .STRUCT load_room_var
     room_address DW

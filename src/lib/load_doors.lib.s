@@ -14,7 +14,7 @@
 
     bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, $00+OPEN_DOOR_OFFSET
+    ld a, $00+OPEN_TOP_BOTTOM_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
     ld a, $00
@@ -38,7 +38,7 @@
 
     bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, ROOM_PIXEL_SIZE-OPEN_DOOR_OFFSET
+    ld a, ROOM_PIXEL_SIZE-OPEN_TOP_BOTTOM_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
     ld a, ROOM_PIXEL_SIZE
@@ -64,7 +64,7 @@
 
     bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, $00+OPEN_DOOR_OFFSET
+    ld a, $00+OPEN_LEFT_RIGHT_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
     ld a, $00
@@ -88,7 +88,7 @@
 
     bit ROOM_INFO_ALIVE_FLAG, b
     jr nz, @@closeDoors
-    ld a, ROOM_PIXEL_SIZE-OPEN_DOOR_OFFSET
+    ld a, ROOM_PIXEL_SIZE-OPEN_LEFT_RIGHT_DOOR_OFFSET
     jr @@openDoors
 @@closeDoors:
     ld a, ROOM_PIXEL_SIZE
