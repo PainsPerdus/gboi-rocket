@@ -239,8 +239,6 @@ timer_interrupt:
     ld l, a
     ld a, (music_state_.track+1)
     ld h, a
-    ;ld hl, sacrificial_music
-    ;jr @gothrough
     ld a, (music_state_.part)
     ld e, a
     inc a
@@ -264,7 +262,6 @@ timer_interrupt:
     ld l, a
     ld a, (music_state_.track+1)
     ld h, a
-    ;ld hl, sacrificial_music 
     xor a
     ld (music_state_.part), a
 @gothrough
@@ -429,4 +426,3 @@ music_init_part:
 
 
 .INCLUDE "music/sacrificial.gbscore"
-.INCLUDE "music/test.gbscore"
