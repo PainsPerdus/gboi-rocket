@@ -24,3 +24,13 @@ Uses : A, B, C, D, E, H, L
 Clobber : A, F, H, L
 
 Loads music file info in the state.
+
+## Music part init
+
+Arguments : HL : music pointer
+
+Uses : A, B, C, D, E, H, L
+
+Clobber : A, F, H, L
+
+Part of music start that doesn't set the track pointer, which allows the end of part manager to initialise the music driver for a single part.
