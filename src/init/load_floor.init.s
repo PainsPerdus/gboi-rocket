@@ -329,10 +329,9 @@
 	push hl  ; push current room info ptr
 
 @@loop_candidates:
-	call rng  ; b and h are clobbered
-	and %111  ; TODO: this is a dirty way of selecting
-	          ; the right range
-	inc a
+    ld a, 1
+    ld b, NB_ROOMS
+    call random_range ; b, h and l are clobbered
 	ld b, a  ; b is the new candidate id
 	; perform room_data_ptr_ptr=room_index+2*(candidate)
 	; room index is an array of ptr pointing to the

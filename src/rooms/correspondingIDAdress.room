@@ -7,5 +7,6 @@
 .DW basic6_room_file
 .DW basic7_room_file
 .DW basic8_room_file
+.DW basic9_room_file
 .DW basic_room
 .DW death_room

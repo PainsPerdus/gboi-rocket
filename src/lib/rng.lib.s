@@ -22,3 +22,16 @@ rng:
     ld (rng_state.a), a; a = z ^ (z >> 1) ^ t ^ (t << 1)
     ret
 
+random_range:
+    push de
+    ld e, a    ; e = min
+    ld a, b    ; a = max
+    sub e      ; a = max - min (range size)
+    ld d, a    ; d = range size
+    @loop:
+        call rng
+        cp d
+        jr nc, @loop    ; retry if >= range size
+    add a, e        ; add min offset
+    pop de
+    ret

@@ -21,3 +21,22 @@ void rng() {
     return a
 }
 ~~~
+
+## `random_range`
+
+Modifies: A, B, H
+
+Returns: A
+
+Arguments: A (min), B (max)
+
+Returns a random number between min (inclusive) and max (non inclusive)
+
+```C
+void random_range(a, b) {
+   range_size = b - a
+   do {
+       a = rng()
+   } while (a >= range_size)
+   return a + min
+}
