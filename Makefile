@@ -16,7 +16,7 @@ EFLAGS=#-f 17
 SRC=src
 BIN=bin
 INCLUDE=src ##TODO : separate include from SRC (read wla doc)
-INSTALL="/media/B009-9376/1 Game Boy/5 Team Rocket"
+INSTALL="${HOME}/mnt/0043-D7F0/Game Boy/rocket.gb"
 
 # Files
 TARGET=rocket
