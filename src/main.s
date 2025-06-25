@@ -64,8 +64,7 @@
 	jp HBlank
 
 .ORG $0050
-	call timer_interrupt
-	reti
+	jp timer_interrupt
 
 .ORG $0100 				; Write at the address $0100 (starting point of the prog)
 	nop							; adviced from nintendo. nop just skip the line.
@@ -208,6 +207,9 @@ VstateTitleScreen:
 VstatePlaying:
 	.INCLUDE "vblank/display.vbl.s"
 	.INCLUDE "vblank/check_inputs.vbl.s"
+    ; //// Show FPS counter (skipped frames) \\\\
+    .INCLUDE "vblank/fps.vbl.s"
+    ; //// Show FPS counter (skipped frames) \\\\
 	jp Vend
 VstateChangingRoom:
 	jp Vend
@@ -216,6 +218,11 @@ VstateChangingFloor:
 VstateGameOver:
 	jp Vend
 Vend:
+
+; /// Frame completed - increment FPS counter \\\
+ld hl, display_.fps_frame_counter
+inc (hl)
+; \\\ Frame completed - increment FPS counter ///
 
 ; //// REALLOW THE LOOP \\\\
 	xor a
@@ -229,7 +236,43 @@ endVBlank:
 	ret
 ; \\\\\\\\\ VBlank Interuption /////////
 
+; ///////// Timer Interuption \\\\\\\\\
+timer_interrupt:
+    push AF
+    push BC
+    push DE
+    push HL
+    
+    ; /// FPS Timer Tracking (1/4096 Hz) \\\
+    ld a, (display_.fps_timer_counter)
+    ld l,a
+    ld a, (display_.fps_timer_counter+1)
+    ld h,a
+    inc hl
+    ld a,l
+    ld (display_.fps_timer_counter), a
+    ld a,h
+    ld (display_.fps_timer_counter+1), a
+    ; Check if high byte reached 16 (4096 = 16 * 256)
+    cp 16
+    jr c, @noOverflow
+    ; 1 second elapsed - set flag and reset timer
+    ld a, 1
+    ld (display_.fps_update_flag), a
+    xor a
+    ld (display_.fps_timer_counter), a
+    ld (display_.fps_timer_counter+1), a
+    @noOverflow:
+    ; \\\ FPS Timer Tracking (1/4096 Hz) ///
+    
+    call music
+    pop HL
+    pop DE
+    pop BC
+    pop AF
+    reti
 
+; \\\\\\\\\ Timer Interuption /////////
 ; ////////// Init Handler \\\\\\\\\\
 init:
 	push bc

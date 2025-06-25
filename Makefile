@@ -3,20 +3,20 @@
 #################
 
 # Assembleur options
-ASSEMBLER=wla-gb
-LINKER=wlalink
+ASSEMBLER=./wla-dx/build/binaries/wla-gb
+LINKER=./wla-dx/build/binaries/wlalink
 AFLAGS=
 LFLAGS=-d -v -s
 
 #Emulator
-EMULATOR=sameboy#vbam#visualboyadvance-m
+EMULATOR=mgba-qt
 EFLAGS=#-f 17 
 
 # Folders
 SRC=src
 BIN=bin
 INCLUDE=src ##TODO : separate include from SRC (read wla doc)
-INSTALL="/media/B009-9376/1 Game Boy/5 Team Rocket"
+INSTALL="${HOME}/mnt/0043-D7F0/Game Boy/rocket.gb"
 
 # Files
 TARGET=rocket

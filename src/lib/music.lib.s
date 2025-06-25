@@ -1,4 +1,4 @@
-timer_interrupt:
+music:
     push AF
     push BC
     push DE

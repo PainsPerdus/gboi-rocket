@@ -7,6 +7,13 @@ ld (display_.isaac.shoot_timer),a
 ld (display_.isaac.walk_timer),a
 ld (display_.fly.frame),a
 
+; /// FPS Counter Initialization \\\
+ld (display_.fps_frame_counter),a
+ld (display_.fps_timer_counter),a
+ld (display_.fps_timer_counter+1),a
+ld (display_.fps_update_flag),a
+; \\\ FPS Counter Initialization ///
+
 ; \\\\\\\ INITIALIZE VARIABLES ///////
 
 
