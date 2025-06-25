@@ -11,7 +11,7 @@ ld (display_.fly.frame),a
 ld (display_.fps_frame_counter),a
 ld (display_.fps_timer_counter),a
 ld (display_.fps_timer_counter+1),a
-ld (display_.fps_update_flag),a
+ld (display_.counter),a
 ; \\\ FPS Counter Initialization ///
 
 ; \\\\\\\ INITIALIZE VARIABLES ///////
