@@ -28,10 +28,11 @@ random_range:
     ld a, b    ; a = max
     sub e      ; a = max - min (range size)
     ld d, a    ; d = range size
+    call rng   ; a = random(0, 255)
     @loop:
-        call rng
+        sub d  ; a = a - d
         cp d
-        jr nc, @loop    ; retry if >= range size
+        jr nc, @loop    ; retry if a >= d
     add a, e        ; add min offset
     pop de
     ret
