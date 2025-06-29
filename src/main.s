@@ -215,6 +215,7 @@ VstateChangingRoom:
 VstateChangingFloor:
 	jp Vend
 VstateGameOver:
+	.INCLUDE "vblank/game_over.vbl.s"
 	jp Vend
 Vend:
 
