@@ -416,3 +416,12 @@ ld (display_.fly.frame), a
 ; \\\\ Not Moving ////
 ; \\\\\ Isaac /////
 ; \\\\\\ UPDATE ANIMATION FRAMES AND TIMERS //////
+
+; ///// Counter \\\\\
+; Set counter to floor counter if debug fps flag is not set
+ld a, (global_.debug)
+bit DEBUG_FPS_FLAG, a
+jr nz, @noFloorCounter
+    ld a, (current_floor_.i_floor)
+    ld (display_.counter), a
+@noFloorCounter

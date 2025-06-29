@@ -256,5 +256,7 @@ global_init:
 
 xor a
 	ld (current_floor_.i_floor), a
+; // init debug flag
+    ld (global_.debug), a
 
 .INCLUDE "init/load_floor.init.s"

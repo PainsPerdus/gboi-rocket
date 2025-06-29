@@ -134,6 +134,7 @@ SHOOT_FLAG, DMG_MASK
 | global_.enemy_inits[16] | enemy_init * 16 | Initial values of enemies |
 | global_.object_inits[32] | object_init * 32 | Initial values of objects |
 | global_.speeds[n_enemies] | n_enemies | max speed of the enemies |
+| global_.debug | 1 byte | LSB for enable FPS counter, rest reserved for other debugging functions | 
 
 # Note
 

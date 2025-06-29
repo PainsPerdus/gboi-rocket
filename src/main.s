@@ -133,6 +133,7 @@ MLstateTitleScreen:
 MLstatePlaying:
 	.INCLUDE "body.s"
 	.INCLUDE "display.s"
+    .INCLUDE "debug.s"
 	jp MLend
 MLstateChangingRoom:
 	ld a, GAMESTATE_PLAYING
@@ -242,6 +243,10 @@ timer_interrupt:
     push HL
     
     ; /// FPS Timer Tracking (1/4096 Hz) \\\
+    ; skip FPS computation if debug fps flag not set
+    ld a, (global_.debug)
+    bit DEBUG_FPS_FLAG, a
+    jr z, @endFPS
     ld a, (display_.fps_timer_counter)
     ld l,a
     ld a, (display_.fps_timer_counter+1)
@@ -253,7 +258,7 @@ timer_interrupt:
     ld (display_.fps_timer_counter+1), a
     ; Check if high byte reached 16 (4096 = 16 * 256)
     cp 16
-    jr c, @noOverflow
+    jr c, @endFPS
     ; 1 second elapsed - update counter and reset timer
     ld a, (display_.fps_frame_counter) 
     ld (display_.counter), a
@@ -261,7 +266,7 @@ timer_interrupt:
     ld (display_.fps_frame_counter), a
     ld (display_.fps_timer_counter), a
     ld (display_.fps_timer_counter+1), a
-    @noOverflow:
+    @endFPS:
     ; \\\ FPS Timer Tracking (1/4096 Hz) ///
     
     call music

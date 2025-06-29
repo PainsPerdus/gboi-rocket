@@ -102,6 +102,9 @@
 .DEFINE TEARS_OFFSET_X 4
 .DEFINE TEARS_TTL $50
 
+.DEFINE DEBUG_FPS_FLAG 0
+.DEFINE DEBUG_SEL_KEY 1
+
 .STRUCT isaac
 	x DB
 	y DB
@@ -181,4 +184,5 @@
 	isaac INSTANCEOF isaac
 	issac_tear_pointer DB
 	ennemy_tear_pointer DB
+    debug DB
 .ENDST
